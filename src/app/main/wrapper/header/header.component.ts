@@ -1,7 +1,7 @@
 import {animate, style, transition, trigger} from "@angular/animations"
 import {CdkMenuTrigger} from "@angular/cdk/menu"
 import {ChangeDetectionStrategy, Component, QueryList, ViewChildren} from "@angular/core"
-import {LifeHooksFactory, ToastrService} from "@fixAR496/ngx-elly-lib"
+import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {
 	BehaviorSubject,
 	filter,
@@ -136,7 +136,7 @@ export class HeaderComponent extends LifeHooksFactory {
 					title: "Рекомендації",
 					href: "organic-recommendations",
 					icon: "three-squares"
-				},
+				}
 			]
 		}
 
@@ -151,12 +151,9 @@ export class HeaderComponent extends LifeHooksFactory {
 	@ViewChildren(CdkMenuTrigger) menus!: QueryList<CdkMenuTrigger>
 
 	constructor(
-		private _wrapperService: WrapperService,
-		private _toastrService: ToastrService
+		private _wrapperService: WrapperService
 	) {
 		super()
-
-		this._toastrService.onInitMessage("Дані успішно збережено!")
 	}
 
 	override ngOnInit(): void {
@@ -164,7 +161,7 @@ export class HeaderComponent extends LifeHooksFactory {
 
 		this._wrapperService.onListenScrollableEvents()
 			.pipe(
-				switchMap((el) => this.activeLink$),
+				switchMap(() => this.activeLink$),
 				filter(el => !!el),
 				tap(() => {
 					this.onCloseAllMenus()
@@ -178,23 +175,19 @@ export class HeaderComponent extends LifeHooksFactory {
 
 		this.menusCloseHandler$
 			.pipe(
-				tap(el => {
-					this.menus.map(el => el.close())
-				}),
+				tap(() => this.menus.map(el => el.close())),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 
 		this.menus.map(el => {
-			const a$ = el.opened.pipe(map(el => true))
-			const b$ = el.closed.pipe(map(el => false))
+			const a$ = el.opened.pipe(map(() => true))
+			const b$ = el.closed.pipe(map(() => false))
 
 			const menuData = el.menuData as any
 			const elRef = menuData.elRef
 
 			merge(fromEvent(elRef, "mouseenter")).pipe(
-				map(el2 => {
-					el.open()
-				}),
+				tap(() => el.open()),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 
@@ -246,15 +239,6 @@ export class HeaderComponent extends LifeHooksFactory {
 
 		if (menuTrigger.isOpen())
 			return
-
-		const menuData = menuTrigger.menuData as any
-		const link = menuData.link
-
-		let obj: ISelectedLink = {
-			linkRawData: link,
-			menuTrigger: menuTrigger
-		}
-
 
 		menuTrigger.open()
 	}

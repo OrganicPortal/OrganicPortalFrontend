@@ -51,7 +51,7 @@ export const routes: Routes = [
 	imports: [
 		CommonModule,
 		WrapperModule,
-		RouterModule.forChild(routes)
+		RouterModule.forChild(routes),
 	]
 })
 export class MainModule {

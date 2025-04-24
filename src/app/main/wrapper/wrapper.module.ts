@@ -25,9 +25,7 @@ import {WrapperComponent} from "./wrapper.component"
 		NgxIconsModule.forChild(["test"]),
 		CdkMenuModule,
 		RouterModule,
-
 		CdkMenuTrigger,
-
 		NgOptimizedImage
 	]
 })
