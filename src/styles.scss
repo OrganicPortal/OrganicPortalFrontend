@@ -1,1 +1,85 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root,
+.roboto-condensed-condensed {
+	
+	*,
+	& {
+		font-family: "Roboto", sans-serif;
+	}
+}
+
+html, body {
+	display: flex;
+	padding: 0;
+	
+	margin: 0;
+	flex: 1 1;
+	
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: var(--text-color);
+	
+	--text-color: #333;
+	--gray: #f4f4f4;
+	--white: white;
+	
+	--header-height: 70px;
+	--footer-color: #303030;
+	--link-color: #269bd1;
+	--content-viewport-width: 1200px;
+	
+	--color-palette-1: #5e6d8a51;
+	--dots-loadbar-color: #609870;
+	
+	--ngx-default-icon-color: var(--text-color);
+	
+	/* #region ngx-ngx-toastr */
+	--ngx-toastr-animated-border-override: #fff;
+	--ngx-toastr-bg-override: #404040;
+	--ngx-toastr-shadow-override: #000;
+	--ngx-toastr-text-override: #fff;
+	/* #endregion ngx-ngx-toastr */
+	
+	.solar-outline {
+		--ngx-icon-override-color-1: var(--ngx-default-icon-color);
+	}
+	
+	.solar-bold {
+		--ngx-icon-override-color-1: var(--ngx-default-icon-color);
+		--ngx-icon-override-color-2: #fff;
+	}
+	
+	.fx-row {
+		display: flex;
+		flex-direction: row;
+	}
+	
+	.fx-col {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.fx-gap {
+		gap: 1rem;
+	}
+	
+	.section-title {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-block: 1rem;
+		
+		.title {
+			margin: 0;;
+			font-size: 1.7em;
+			font-weight: 500;
+		}
+	}
+	
+}
+

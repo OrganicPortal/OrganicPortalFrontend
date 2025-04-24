@@ -1,0 +1,25 @@
+@let loaderState = loaderState$ | async;
+
+<section class="section-title"
+         [@textFramesSlideIn]>
+	<h1 class="title">
+		Органічна карта
+	</h1>
+</section>
+
+<div class="d-none" [ngClass]="loaderState?.isLoaded ? 'content-loaded' : ''">
+	<iframe
+					(load)="onLoadFrame()"
+					allowfullscreen=""
+					frameborder="0"
+					src="http://api.organicportal.in.ua/Home/Map_int"
+					style="width:100%;height:750px;">
+		<p> Ваш браузер не підтримує фрейми </p>
+	</iframe>
+</div>
+
+@if(!loaderState?.isLoaded && !loaderState?.isError){
+		<div class="loader" [@frameSlideOut]>
+			<dots-loadbar class="disable-bg"></dots-loadbar>
+		</div>
+}

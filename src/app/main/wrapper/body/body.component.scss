@@ -1,0 +1,14 @@
+:host {
+	display: flex;
+	padding: 10px;
+	flex: 1 1;
+	justify-content: center;
+	
+	main {
+		display: flex;
+		flex: 1 1 auto;
+		min-height: 60vh;
+		
+		max-width: var(--content-viewport-width);
+	}
+}

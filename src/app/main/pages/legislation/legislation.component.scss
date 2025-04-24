@@ -1,0 +1,12 @@
+:host{
+	li{
+		text-align: justify;
+		line-height: 1.5em;
+		color: color-mix(in srgb, var(--text-color) 80% , transparent);
+	}
+	
+	.entry-content a {
+		color: var(--link-color);
+		text-decoration: none;
+	}
+}
