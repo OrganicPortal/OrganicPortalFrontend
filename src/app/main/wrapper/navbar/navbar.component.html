@@ -1,0 +1,100 @@
+@let activeLink = activeLink$ | async;
+
+<nav class="navigation fx-row">
+	<ng-container [ngTemplateOutletContext]="
+					              {links: navLinks, isTopLevel: true}"
+	              [ngTemplateOutlet]="navItems">
+	</ng-container>
+	
+	<!-- 	@for (item of navLinks; track item) { -->
+	<!-- 		<a [href]="item.href" -->
+	<!-- 		   [routerLinkActive]="'active'" -->
+	<!-- 		   [routerLink]="item.href" -->
+	<!-- 		   [routerLinkActiveOptions]="{exact: item.href == ''}" -->
+	<!-- 		   customBasicLink -->
+	<!-- 		   matRipple> -->
+	<!-- 			<ngx-icon [name]="item.icon"></ngx-icon> -->
+	<!-- 			{{ item.title }} -->
+	<!-- 			 -->
+	<!-- 			@if(item.children.length > 0){ -->
+	<!-- 				<ngx-icon [name]="'alt-arrow-left'"></ngx-icon> -->
+	<!-- 			} -->
+	<!-- 		</a> -->
+	<!-- 	} -->
+</nav>
+
+<ng-template #navItems
+             let-isChild="isChild"
+             let-isTopLevel="isTopLevel"
+             let-links="links">
+	<ul class="fx-row">
+		@for (item of links; track item) {
+			<li [ngClass]="isTopLevel ? 'top-level-items' : ''">
+				@if (item.children && item.children!.length > 0) {
+					<a class="header-link"
+					   aria-haspopup="true"
+					   aria-expanded="false"
+					   customBasicLink
+					   matRipple
+					   (click)="onClickToMenu(menuTrigger, activeLink!)"
+					   [ngClass]="activeLink?.linkRawData == item ? 'active' : ''"
+					   [cdkMenuTriggerFor]="childNavigation"
+					   [cdkMenuTriggerData]="{links: item.children, link: item, elRef: elRef}"
+					   #menuTrigger="cdkMenuTriggerFor"
+					   #elRef>
+						<ngx-icon [name]="item.icon"></ngx-icon>
+						
+						<span>{{ item.title }}</span>
+						
+						@if (item.children && item.children!.length > 0) {
+							<ngx-icon [name]="'alt-arrow-left'"></ngx-icon>
+						}
+					</a>
+				} @else {
+					<a class="header-link"
+					   [ngClass]="isChild ? 'header-child-link' : ''"
+					   [routerLink]="onGetLinkHref(item)"
+					   [routerLinkActive]="'active'"
+					   customBasicLink
+					   matRipple
+					   [routerLinkActiveOptions]="{exact: (onGetLinkHref(item) == '')}">
+						<ngx-icon [name]="item.icon"></ngx-icon>
+						<span>{{ item.title }}</span>
+					</a>
+				}
+				
+				@if (item.children && item.children!.length > 0) {
+					<ng-container [ngTemplateOutlet]="navItems"
+					              [ngTemplateOutletContext]="
+					              {links: item.children, isChild: true}">
+					</ng-container>
+				}
+			</li>
+		}
+	</ul>
+</ng-template>
+
+<ng-template #childNavigation
+             let-links="links">
+	<div class="menu-container"
+	     [@childMenuSlideIn]
+	     cdkMenu>
+		@for (item of links; track item) {
+			<a class="header-child-link"
+			   cdkMenuItem
+			   customBasicLink
+			   matRipple
+			   [routerLinkActive]="'active'"
+			   [routerLinkActiveOptions]="{exact: (onGetLinkHref(item) == '')}"
+			   [routerLink]="item.href">
+				
+				<ngx-icon [name]="item.icon"></ngx-icon>
+				<span>{{ item.title }}</span>
+				
+				@if (item.children && item.children!.length > 0) {
+					<ngx-icon [name]="'alt-arrow-left'"></ngx-icon>
+				}
+			</a>
+		}
+	</div>
+</ng-template>

@@ -20,11 +20,13 @@
 	
 	.container {
 		display: grid;
+		justify-content: center;
+		align-items: center;
 		
 		flex-wrap: wrap;
 		width: 100%;
 		
-		grid-template-columns: repeat(auto-fill, minmax(min(50vw, calc(300px - 20px)), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(50vw, calc(370px - 20px)), 1fr));
 		gap: 20px;
 		
 		

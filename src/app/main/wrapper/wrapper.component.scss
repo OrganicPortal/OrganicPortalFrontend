@@ -5,4 +5,22 @@
 	
 	overflow-y: auto;
 	overflow-x: hidden;
+	
+	app-header{
+		z-index: 5;
+		
+	}
+	
+	app-navbar{
+		z-index: 4;
+	}
+	
+	app-body{
+		z-index: 3;
+		
+	}
+	
+	app-footer{
+		z-index: 4;
+	}
 }
