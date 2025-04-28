@@ -1,4 +1,4 @@
-import {animate, animateChild, group, query, sequence, stagger, style, transition, trigger} from "@angular/animations"
+import {animate, animateChild, query, sequence, stagger, style, transition, trigger} from "@angular/animations"
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {textFramesSideIn} from "../../../../addons/animations/shared.animations"
@@ -46,7 +46,7 @@ import {textFramesSideIn} from "../../../../addons/animations/shared.animations"
 		trigger("itemsSlideIn", [
 			transition(":enter", [
 				sequence([
-					query("@textFramesSideIn",stagger(200, animateChild()), {optional: true}),
+					query("@textFramesSideIn", stagger(200, animateChild()), {optional: true}),
 					query("@sectionCardsSlideIn", animateChild(), {optional: true})
 				])
 			])

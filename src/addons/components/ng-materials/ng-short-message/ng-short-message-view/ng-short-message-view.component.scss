@@ -9,12 +9,12 @@
 	max-width: min(400px, calc(90vw - var(--max-items) * 25px));
 	margin-bottom: 15px;
 	transition: transform .3s ease;
-	box-shadow: rgba(0, 0, 0, 0.299) 0px 5px 10px;
+	border-radius: 3px;
 	
+	box-shadow: rgba(0, 0, 0, 0.299) 0 5px 10px;
 	--short-message-bg: var(--ng-actions-bg);
 	--short-message-text: var(--white);
 	--short-message-border: color-mix(in srgb, var(--ng-actions-border) 20%, transparent);
-	border-radius: 3px;
 	
 	--close-btn-bg: color-mix(in srgb, var(--short-message-bg) 30%, transparent);
 	--close-btn-hover-bg: color-mix(in srgb, var(--short-message-bg) 50%, transparent);
@@ -53,10 +53,18 @@
 			width: 0;
 			padding-inline: 10px;
 			
+			ngx-icon{
+				min-width: max-content;
+			}
+			
 			.text-container {
+				font-size: .9em;
 				overflow: hidden;
-				white-space: nowrap;
 				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				line-height: 1.1em;
 			}
 		}
 		

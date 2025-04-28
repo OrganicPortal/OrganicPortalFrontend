@@ -8,7 +8,6 @@ import {
 	RxVirtualViewPlaceholder
 } from "@rx-angular/template/virtual-view"
 import {MainComponent} from "./main.component"
-import {AuthComponent} from "./pages/auth/auth.component"
 import {WrapperModule} from "./wrapper/wrapper.module"
 
 export const routes: Routes = [
@@ -40,10 +39,9 @@ export const routes: Routes = [
 			{
 				path: "organic-recommendations",
 				loadChildren: () => import("./pages/organic-recommendations/organic-recommendations.module").then(m => m.OrganicRecommendationsModule)
-			},
+			}
 		]
-	},
-
+	}
 
 
 	// {

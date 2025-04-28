@@ -135,7 +135,7 @@ body {
 	
 	border-radius: 3px;
 	outline: none;
-	box-shadow: rgba(94, 122, 177, 0.3) 0px 2px 5px;
+	box-shadow: rgba(94, 122, 177, 0.3) 0 2px 5px;
 	gap: .3rem;
 }
 
@@ -381,6 +381,13 @@ custom-input-field {
 		.label {
 			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
 			border: 1px solid var(--default-input-border-state);
+			background-color: var(--color-palette-4);
+		}
+	}
+	
+	&:has(.custom-input:-webkit-autofill){
+		.label {
+			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
 			background-color: var(--color-palette-4);
 		}
 	}

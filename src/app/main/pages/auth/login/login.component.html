@@ -1,3 +1,5 @@
+@let loaderState = loaderState$ | async;
+
 <form class="form-data"
       (ngSubmit)="onSubmit()"
       [formGroup]="loginFg">
@@ -28,11 +30,18 @@
 			
 			<div customInputSuffix>
 				<div class="input-suffix"
+				     (click)="onHandlerPassword(password)"
 				     [matRippleColor]="'var(--mat-ripple-suffix-color)'"
 				     customInputSuffix
 				     matRipple>
-					<ngx-icon [name]="'eye'"
-					          [ratio]="'1em'"></ngx-icon>
+					
+					@if (password.type != 'password') {
+						<ngx-icon [name]="'eye'"
+						          [ratio]="'1em'"></ngx-icon>
+					} @else {
+						<ngx-icon [name]="'eye-closed'"
+						          [ratio]="'1em'"></ngx-icon>
+					}
 				</div>
 			</div>
 			
@@ -40,7 +49,8 @@
 			       [formControlName]="'password'"
 			       autocomplete="off"
 			       customInput
-			       type="text">
+			       #password
+			       type="password">
 		</custom-input-field>
 		
 		<div class="info">
@@ -79,4 +89,6 @@
 	<span>Зареєструватися</span>
 </a>
 
-<!-- <dots-loadbar class="loader disabled-bg"></dots-loadbar> -->
+@if(!loaderState?.isLoaded){
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+}
