@@ -1,0 +1,43 @@
+<div class="card"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()"
+     [ngFxAlign]="'space-between center'"
+     [ngFxLayout]="'row'"
+     [ngFx]="'1 1'">
+	<div class="text"
+	     [ngFxAlign]="'start center'"
+	     [ngFxGap]="5"
+	     [ngFxLayout]="'row'">
+		@if (message.icon) {
+			<ngx-icon
+							[name]="message.icon"
+							[ratio]="'1.4em'"></ngx-icon>
+		}
+		
+		<ng-title class="subtitle"
+		          [titleLevel]="'span'">
+			<span class="text-container">{{ message.message }}</span>
+		</ng-title>
+	</div>
+	
+	@if (!message.destroyer$) {
+		<ng-button class="short disable-border-radius custom-style-btn"
+		           [isDisabled]="true"
+		           (click)="onCloseMessageByBtn()"
+		           [ngFx]="'1 1'">
+			<ngx-icon
+							[collection]="'custom-collection'"
+							[name]="'close'"
+							[ratio]="'1.1em'"></ngx-icon>
+		</ng-button>
+		
+		<div class="progressbar"
+		     #progressbar
+		     (@progressBar.done)="onAutoCloseMessage()"
+		     [@progressBar]="
+    {value: message.isDoneParentAnimation ? 'enable' : undefined, params: {delay: message.delay}}"
+		     (@progressBar.start)="onStartAnimation($event)"
+		     [ngClass]="message.isDoneParentAnimation ? 'progressbar-done-parent-animation' : ''">
+		</div>
+	}
+</div>

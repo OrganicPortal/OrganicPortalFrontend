@@ -1,0 +1,54 @@
+:host {
+    display: flex;
+    flex-direction: row;
+
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+}
+
+:host.bottom-right {
+    bottom: 0;
+    right: -10px;
+
+    ng-short-message-view {
+        bottom: 0;
+        right: 0;
+        margin-bottom: 15px;
+        margin-top: 0;
+    }
+}
+
+:host.bottom-left {
+    bottom: 0;
+    left: 0;
+
+    ng-short-message-view {
+        bottom: 0;
+        left: -10px;
+        margin-bottom: 15px;
+    }
+}
+
+:host.top-left {
+    top: 0;
+    left: 0;
+
+    ng-short-message-view {
+        top: 0;
+        left: -10px;
+        margin-top: 15px;
+    }
+}
+
+:host.top-right {
+    top: 0;
+    right: -10px;
+
+    ng-short-message-view {
+        top: 0;
+        right: 0;
+        margin-bottom: 0;
+        margin-top: 15px;
+    }
+}

@@ -1,0 +1,6 @@
+@for(item of (activeMessages$ | async); track item.messageId){
+<ng-short-message-view (@shortMessage.done)="onDoneAnimation(item)"
+    [@shortMessage]="{value: true, params: {value: (isReflectToLeft ? '' : '-') + (((activeMessages$ | async)?.length! - $index - 1) * 15) + 'px'}}"
+    [message]="item"
+    [ngStyle]="{'transform': 'translateX(' + (isReflectToLeft ? '' : '-') + ((((activeMessages$ | async)?.length! - $index) * 25)) + 'px)'}"></ng-short-message-view>
+}

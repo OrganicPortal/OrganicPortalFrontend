@@ -1,0 +1,62 @@
+:host {
+  --title-text-color: var(--dark-gray);
+  --trigger-text-color: var(--title-text-color);
+
+  min-width: 50px;
+
+  * {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	color: var(--trigger-text-color);
+	margin: 0;
+	font-weight: 500 !important;
+  }
+
+  .title-frame {
+	padding: 5px 0;
+
+	*,
+	& {
+	  overflow: hidden;
+	}
+  }
+
+  h1 {
+	font-size: 1.3em;
+	font-weight: bold;
+  }
+
+  h2 {
+	font-size: 1.2em;
+	font-weight: bold;
+  }
+
+  h3 {
+	font-size: 1.1em;
+  }
+
+  h4,
+  h5,
+  h6,
+  span {
+	font-size: 1em;
+  }
+}
+
+:host.disable-padding {
+  .title-frame {
+	padding: 0 !important;
+  }
+}
+
+:host.font-normal {
+  * {
+	font-weight: 400 !important;
+  }
+}
+
+:host.subtitle {
+  --trigger-text-color: color-mix(in srgb, var(--title-text-color) 50%, transparent) !important;
+}

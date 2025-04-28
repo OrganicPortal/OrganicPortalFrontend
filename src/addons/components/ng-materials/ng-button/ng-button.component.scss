@@ -1,0 +1,125 @@
+:host {
+    --button-bg-color: var(--color-palette-3);
+    --button-hover-bg-color: color-mix(in srgb, var(--color-palette-3) 80%, transparent);
+    --button-disabled: var(--dark-gray);
+    --button-text-color: var(--white);
+
+    display: flex;
+    overflow: hidden;
+    height: max-content;
+    justify-content: center;
+    width: 170px;
+    max-width: max-content;
+
+    background-color: var(--button-bg-color);
+    border-radius: 5px;
+    font-size: .9em;
+
+    transition: background-color .2s ease;
+
+    @mixin disable-btn-styles {
+        box-sizing: border-box;
+        background: unset;
+        outline: none;
+        border: none;
+        padding: 0;
+    }
+
+    *,
+    & {
+        .text:empty {
+            display: none !important
+        }
+    }
+
+    button {
+        @include disable-btn-styles;
+
+        font-size: .95em;
+        padding: .6em 1em;
+        flex: 1 1;
+        width: 100%;
+        cursor: pointer;
+        min-width: 0;
+
+        .text {
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        *,
+        & {
+            color: var(--button-text-color);
+        }
+    }
+
+    &:hover {
+        background-color: var(--button-hover-bg-color) !important;
+    }
+}
+
+:host.large {
+    button {
+        padding: 12px 1em !important;
+    }
+}
+
+:host.rounded {
+    border-radius: 1000px !important;
+}
+
+:host.short {
+    button {
+        padding: 9px !important;
+    }
+}
+
+:host.disabled {
+    background-color: var(--button-disabled) !important;
+}
+
+:host.disable-border-radius {
+    border-radius: 0 !important;
+}
+
+:host.opacity-bg {
+    background-color: color-mix(in srgb, var(--button-bg-color) 40%, transparent)
+}
+
+:host.high-opacity-bg {
+    background-color: color-mix(in srgb, var(--button-bg-color) 5%, transparent) !important;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--button-bg-color) 15%, transparent) !important;
+    }
+}
+
+:host.medium-opacity-bg {
+    background-color: color-mix(in srgb, var(--button-bg-color) 15%, transparent) !important;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--button-bg-color) 30%, transparent) !important;
+    }
+}
+
+:host.active {
+    background-color: var(--button-bg-color) !important;
+
+    button {
+        background-color: var(--button-hover-bg-color) !important;
+    }
+}
+
+// @media screen and (max-width: 600px) {
+//     :host {
+//         min-width: calc(50% - 5px);
+//     }
+// }
+
+// @media screen and (max-width: 300px) {
+//     :host {
+//         min-width: calc(100%);
+//     }
+// }
