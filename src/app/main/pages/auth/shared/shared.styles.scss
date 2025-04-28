@@ -56,6 +56,11 @@
 		
 	}
 	
+	.loader{
+		z-index: 100;
+		background-color: transparent !important;
+	}
+	
 	.page-title {
 		display: flex;
 		position: relative;

@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component, ContentChild, ElementRef, ViewEncapsulation} from "@angular/core"
+import {ChangeDetectionStrategy, Component, ContentChild, ElementRef, Renderer2, ViewEncapsulation} from "@angular/core"
+import {FormControl, FormGroupDirective, NgControl} from "@angular/forms"
+import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
+import {fromEvent, map, takeUntil, tap} from "rxjs"
 import {CustomInputDirective} from "../../directives/inputs/custom-input/custom-input.directive"
 
 @Component({
@@ -7,16 +10,76 @@ import {CustomInputDirective} from "../../directives/inputs/custom-input/custom-
 	styleUrl: "./custom-input-field.component.scss",
 	standalone: false,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	encapsulation: ViewEncapsulation.Emulated
+	encapsulation: ViewEncapsulation.Emulated,
+	providers: [FormGroupDirective]
 })
-export class CustomInputFieldComponent {
+export class CustomInputFieldComponent extends LifeHooksFactory {
 	@ContentChild(CustomInputDirective, {read: ElementRef}) customInput!: ElementRef<HTMLInputElement>
+	@ContentChild(CustomInputDirective, {read: NgControl}) customInputControl!: NgControl
 
-	constructor() {
+	// public isRequired$ = new BehaviorSubject<boolean>(false)
+	// public isDirty$ = new BehaviorSubject<boolean>(false)
+	// public isInvalid$ = new BehaviorSubject<boolean>(false)
+
+	constructor(
+		private _formGroupDirective: FormGroupDirective,
+		private _renderer2: Renderer2
+	) {
+		super()
 	}
 
-	onFocusInput(){
-		if(!this.customInput)
+	override ngAfterViewInit() {
+		super.ngAfterViewInit()
+
+		const control = this.customInputControl.control as FormControl
+		const elem = this.customInput.nativeElement
+
+		if (control?.hasError("required")!)
+			this._renderer2.addClass(elem, "field-required")
+
+		fromEvent(elem, "blur")
+			.pipe(
+				tap(el => {
+					this._renderer2.addClass(elem, "has-focused")
+				}),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
+
+		if (elem.form)
+			fromEvent(elem.form, "submit")
+				.pipe(
+					tap(el => {
+						control.updateValueAndValidity()
+						this._renderer2.addClass(elem, "submitted")
+						this._renderer2.addClass(elem, "has-focused")
+					}),
+					takeUntil(this.componentDestroy$)
+				).subscribe()
+
+		control?.statusChanges
+			.pipe(
+				map(el => {
+					if (control.hasError("required")) {
+						this._renderer2.addClass(elem, "field-required")
+					}
+
+					if (control.valid) {
+						this._renderer2.addClass(elem, "valid")
+						this._renderer2.removeClass(elem, "invalid")
+						return
+					}
+
+					this._renderer2.addClass(elem, "invalid")
+					this._renderer2.removeClass(elem, "valid")
+				}),
+				takeUntil(this.componentDestroy$)
+			)?.subscribe()
+
+		control.updateValueAndValidity()
+	}
+
+	onFocusInput() {
+		if (!this.customInput)
 			return
 
 		this.customInput.nativeElement.focus()

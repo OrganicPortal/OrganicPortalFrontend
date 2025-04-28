@@ -13,7 +13,7 @@
 	
 	--short-message-bg: var(--ng-actions-bg);
 	--short-message-text: var(--white);
-	--short-message-border: color-mix(in srgb, var(--ng-actions-border) 50%, transparent);
+	--short-message-border: color-mix(in srgb, var(--ng-actions-border) 20%, transparent);
 	border-radius: 3px;
 	
 	--close-btn-bg: color-mix(in srgb, var(--short-message-bg) 30%, transparent);
@@ -91,7 +91,7 @@
 			content: "";
 			
 			transform: translateY(-50%);
-			border-left: 1px solid var(--short-message-border) !important;
+			border-left: 1px solid var(--white) !important;
 		}
 	}
 	

@@ -40,11 +40,13 @@ body {
 	--color-palette-4: #f8fff8;
 	--color-palette-5: #d8e1d8;
 	
+	--little-red: #f4695f;
+	
 	--dots-loadbar-color: #609870;
 	
 	--ngx-default-icon-color: var(--text-color);
 	
-	--ng-actions-bg: #58b285;
+	--ng-actions-bg: #454545;
 	--ng-actions-border: #9d9d9d;
 	
 	
@@ -285,6 +287,10 @@ custom-input-field {
 		transform: translateY(-50%);
 	}
 	
+	.suffix:empty {
+		display: none;
+	}
+	
 	&:has(.suffix:not(:empty)) {
 		.custom-input {
 			padding-right: 2.5rem !important;
@@ -336,12 +342,31 @@ custom-input-field {
 		padding-inline: var(--input-padding-inline);
 	}
 	
+	
+	&:has(
+	.custom-input.has-focused.field-required.invalid:not(:focus)
+	) {
+		border: 1px solid var(--little-red) !important;
+		
+		&:has(.custom-input:not(.empty-field)){
+			.label {
+				border: 1px solid var(--little-red) !important;
+			}
+		}
+	}
+	
+	&:has(.custom-input.field-required){
+		.required-checkmark{
+			color: var(--little-red) !important;
+		}
+	}
+	
 	&:has(.custom-input:hover) {
 		background-color: var(--input-hover-bg);
 	}
 	
 	&:has(.custom-input:focus) {
-		border: 1px solid var(--input-focus-border-color);
+		border: 1px solid var(--input-focus-border-color) !important;
 		background-color: var(--input-hover-bg);
 		
 		.label {
@@ -359,4 +384,8 @@ custom-input-field {
 			background-color: var(--color-palette-4);
 		}
 	}
+}
+
+.disabled-bg {
+	background-color: unset !important;
 }

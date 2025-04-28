@@ -1,5 +1,6 @@
 <form class="form-data"
-      (ngSubmit)="onSubmit()">
+      (ngSubmit)="onSubmit()"
+      [formGroup]="registrationForm">
 	<div class="page-title">
 		<app-auth-logo></app-auth-logo>
 		<h2>
@@ -14,6 +15,7 @@
 			<label for="name">Ім'я</label>
 			
 			<input id="name"
+			       [formControlName]="'name'"
 			       autocomplete="on"
 			       customInput
 			       type="text">
@@ -25,6 +27,7 @@
 			<label for="lastname">Прізвище</label>
 			
 			<input id="lastname"
+			       [formControlName]="'lastName'"
 			       autocomplete="on"
 			       customInput
 			       type="text">
@@ -36,6 +39,7 @@
 			<label for="secondname">По батькові</label>
 			
 			<input id="secondname"
+			       [formControlName]="'secondName'"
 			       autocomplete="on"
 			       customInput
 			       type="text">
@@ -46,9 +50,10 @@
 			          [ratio]="'1em'"></ngx-icon>
 			<label for="phone">Номер телефону</label>
 			
-			<input customInput
+			<input id="phone"
+			       [formControlName]="'phone'"
 			       autocomplete="on"
-			       id="phone"
+			       customInput
 			       type="text">
 		</custom-input-field>
 		
@@ -67,9 +72,10 @@
 				</div>
 			</div>
 			
-			<input customInput
+			<input id="password"
+			       [formControlName]="'password'"
 			       autocomplete="off"
-			       id="password"
+			       customInput
 			       type="text">
 		</custom-input-field>
 		
@@ -100,11 +106,15 @@
 </span>
 
 <a class="btn submit-btn link"
+   [queryParamsHandling]="'merge'"
    [routerLink]="'/auth/login'"
    [type]="'submit'"
+   
    customRaisedButton
    matRipple>
 	<ngx-icon [name]="'login-3'"
 	          [ratio]="'1.3em'"></ngx-icon>
 	<span>Увійти</span>
 </a>
+
+<!-- <dots-loadbar class="loader disabled-bg"></dots-loadbar> -->

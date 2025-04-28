@@ -19,8 +19,8 @@ import {AuthService} from "../auth.service"
 })
 export class LoginComponent extends LifeHooksFactory {
 	public loginFg = new FormGroup({
-		phone: new FormControl("", [Validators.required]),
-		password: new FormControl("", [Validators.required])
+		phone: new FormControl("", [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]),
+		password: new FormControl("", [Validators.required, Validators.pattern("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")])
 	})
 
 	constructor(

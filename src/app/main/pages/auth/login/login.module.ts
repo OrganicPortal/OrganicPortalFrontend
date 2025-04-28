@@ -5,6 +5,7 @@ import {MatRippleModule} from "@angular/material/core"
 import {RouterModule, Routes} from "@angular/router"
 import {NgxIconsModule} from "@fixAR496/ngx-elly-lib"
 import {CustomInputFieldModule} from "../../../../../addons/components/custom-input-field/custom-input-field.module"
+import {DotsLoaderModule} from "../../../../../addons/components/dots-loader/dots-loader.module"
 import {
 	CustomBasicButtonModule
 } from "../../../../../addons/directives/buttons/custom-basic-button/custom-button.module"
@@ -39,7 +40,8 @@ export const routes: Routes = [
 		FormsModule,
 		ReactiveFormsModule,
 		CustomInputFieldModule,
-		CustomInputModule
+		CustomInputModule,
+		DotsLoaderModule
 	]
 })
 export class LoginModule {

@@ -70,6 +70,7 @@
 
 <a class="btn submit-btn link"
    [routerLink]="'/auth/registration'"
+   [queryParamsHandling]="'merge'"
    [type]="'submit'"
    customRaisedButton
    matRipple>
@@ -77,3 +78,5 @@
 	          [ratio]="'1.3em'"></ngx-icon>
 	<span>Зареєструватися</span>
 </a>
+
+<!-- <dots-loadbar class="loader disabled-bg"></dots-loadbar> -->
