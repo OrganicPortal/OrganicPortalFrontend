@@ -1,7 +1,7 @@
 import {animate, AnimationBuilder, AnimationPlayer, style, transition, trigger} from "@angular/animations"
 import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {map, takeUntil} from "rxjs"
+import {takeUntil, tap} from "rxjs"
 import {NgShortMessageService, ShortMessageModel} from "../ng-short-message.service"
 
 @Component({
@@ -38,7 +38,7 @@ export class NgShortMessageViewComponent extends LifeHooksFactory {
 		super.ngOnInit()
 
 		this.message.destroyer$?.pipe(
-			map(el => this.onCloseMessageByBtn()),
+			tap(() => this.onCloseMessageByBtn()),
 			takeUntil(this.componentDestroy$)
 		).subscribe()
 	}
@@ -82,7 +82,6 @@ export class NgShortMessageViewComponent extends LifeHooksFactory {
 
 		const animationRenderer: any = (this._animationBuilder as any)._renderer
 		const animationPlayers = animationRenderer.engine.players
-		const player = animationPlayers.find((p: any) => p.element === event.element)
-		this.animationPlayer = player
+		this.animationPlayer = animationPlayers.find((p: any) => p.element === event.element)
 	}
 }

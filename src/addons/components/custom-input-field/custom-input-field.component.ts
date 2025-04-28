@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ContentChild, ElementRef, Renderer2, ViewEncapsulation} from "@angular/core"
 import {FormControl, FormGroupDirective, NgControl} from "@angular/forms"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {fromEvent, map, takeUntil, tap} from "rxjs"
+import {fromEvent, takeUntil, tap} from "rxjs"
 import {CustomInputDirective} from "../../directives/inputs/custom-input/custom-input.directive"
 
 @Component({
@@ -39,7 +39,7 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 
 		fromEvent(elem, "blur")
 			.pipe(
-				tap(el => {
+				tap(() => {
 					this._renderer2.addClass(elem, "has-focused")
 				}),
 				takeUntil(this.componentDestroy$)
@@ -48,7 +48,7 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 		if (elem.form)
 			fromEvent(elem.form, "submit")
 				.pipe(
-					tap(el => {
+					tap(() => {
 						control.updateValueAndValidity()
 						this._renderer2.addClass(elem, "submitted")
 						this._renderer2.addClass(elem, "has-focused")
@@ -58,7 +58,7 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 
 		control?.statusChanges
 			.pipe(
-				map(el => {
+				tap(() => {
 					if (control.hasError("required")) {
 						this._renderer2.addClass(elem, "field-required")
 					}

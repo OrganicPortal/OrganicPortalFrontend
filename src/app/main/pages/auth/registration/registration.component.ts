@@ -73,7 +73,7 @@ export class RegistrationComponent extends LifeHooksFactory {
 		this.loaderState$.next(new LoaderModel(false, false))
 		this._authService.onRegister(user)
 			.pipe(
-				tap(el => {
+				tap(() => {
 					this.loaderState$.next(new LoaderModel(true, false))
 				}),
 

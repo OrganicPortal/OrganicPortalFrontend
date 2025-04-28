@@ -172,8 +172,4 @@ export class NavbarComponent extends LifeHooksFactory {
 
 		return null
 	}
-
-	private onCloseMenus() {
-		this.menusCloseHandler$.next()
-	}
 }
