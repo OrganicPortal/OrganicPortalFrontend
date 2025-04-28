@@ -1,0 +1,110 @@
+<form class="form-data"
+      (ngSubmit)="onSubmit()">
+	<div class="page-title">
+		<app-auth-logo></app-auth-logo>
+		<h2>
+			Створити акаунт
+		</h2>
+	</div>
+	
+	<div class="fields">
+		<custom-input-field>
+			<ngx-icon [name]="'text-square-2'"
+			          [ratio]="'1em'"></ngx-icon>
+			<label for="name">Ім'я</label>
+			
+			<input id="name"
+			       autocomplete="on"
+			       customInput
+			       type="text">
+		</custom-input-field>
+		
+		<custom-input-field>
+			<ngx-icon [name]="'text-square-2'"
+			          [ratio]="'1em'"></ngx-icon>
+			<label for="lastname">Прізвище</label>
+			
+			<input id="lastname"
+			       autocomplete="on"
+			       customInput
+			       type="text">
+		</custom-input-field>
+		
+		<custom-input-field>
+			<ngx-icon [name]="'text-square-2'"
+			          [ratio]="'1em'"></ngx-icon>
+			<label for="secondname">По батькові</label>
+			
+			<input id="secondname"
+			       autocomplete="on"
+			       customInput
+			       type="text">
+		</custom-input-field>
+		
+		<custom-input-field>
+			<ngx-icon [name]="'phone-calling-rounded'"
+			          [ratio]="'1em'"></ngx-icon>
+			<label for="phone">Номер телефону</label>
+			
+			<input customInput
+			       autocomplete="on"
+			       id="phone"
+			       type="text">
+		</custom-input-field>
+		
+		<custom-input-field>
+			<ngx-icon [name]="'lock-password-unlocked'"
+			          [ratio]="'1em'"></ngx-icon>
+			<label for="password">Пароль</label>
+			
+			<div customInputSuffix>
+				<div class="input-suffix"
+				     [matRippleColor]="'var(--mat-ripple-suffix-color)'"
+				     customInputSuffix
+				     matRipple>
+					<ngx-icon [name]="'eye'"
+					          [ratio]="'1em'"></ngx-icon>
+				</div>
+			</div>
+			
+			<input customInput
+			       autocomplete="off"
+			       id="password"
+			       type="text">
+		</custom-input-field>
+		
+		<div class="info">
+			<a customBasicLink
+			   href="">
+				<ngx-icon [name]="'paperclip-2'"
+				          [ratio]="'1em'"></ngx-icon>
+				
+				Не вдається створити акаунт?
+			</a>
+		</div>
+	</div>
+	
+	<button class="btn submit-btn"
+	        [type]="'submit'"
+	        customBasicButton
+	        matRipple>
+		<ngx-icon [name]="'passport-minimalistic'"
+		          [ratio]="'1.3em'"></ngx-icon>
+		
+		<span>Зареєструватися</span>
+	</button>
+</form>
+
+<span class="mark">
+	або
+</span>
+
+<a class="btn submit-btn link"
+   [routerLink]="'/auth/login'"
+   [type]="'submit'"
+   customRaisedButton
+   matRipple>
+	<ngx-icon [name]="'login-3'"
+	          [ratio]="'1.3em'"></ngx-icon>
+	<span>Увійти</span>
+</a>

@@ -23,7 +23,11 @@
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.8",
     "@fixAR496/ngx-elly-lib": "^0.0.10",
+    "@rx-angular/cdk": "^19.1.0",
+    "@rx-angular/template": "^19.2.1",
     "express": "^4.18.2",
+    "intersection-observer": "^0.12.2",
+    "resize-observer-polyfill": "^1.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

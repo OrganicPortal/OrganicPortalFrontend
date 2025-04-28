@@ -1,0 +1,17 @@
+@let queryParams = onGetRouteQueryParams() | async;
+
+<div class="viewport-container">
+	<div class="auth-header">
+		<button class="close-btn"
+		        [isRounded]="true"
+		        [routerLink]="queryParams?.[onGetRedirectKey()] ?? ''"
+		        customRaisedButton
+		        matRipple>
+			<ngx-icon [collection]="'custom-collection'"
+			          [name]="'close'"
+			          [ratio]="'1.4em'"></ngx-icon>
+		</button>
+	</div>
+	
+	<router-outlet></router-outlet>
+</div>

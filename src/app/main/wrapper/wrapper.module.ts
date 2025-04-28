@@ -3,7 +3,8 @@ import {CommonModule, NgOptimizedImage} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
 import {RouterModule} from "@angular/router"
-import {NgxIconsModule} from "@fixAR496/ngx-elly-lib"
+import {NgxIconsModule, NgxToastrModule} from "@fixAR496/ngx-elly-lib"
+import {ViewportOverlayModule} from "../../../addons/components/viewport-overlay/viewport-overlay.module"
 import {CustomBasicButtonModule} from "../../../addons/directives/buttons/custom-basic-button/custom-button.module"
 import {
 	CustomRaisedButtonModule
@@ -13,7 +14,9 @@ import {BodyComponent} from "./body/body.component"
 import {FooterComponent} from "./footer/footer.component"
 import {HeaderComponent} from "./header/header.component"
 import {NavbarComponent} from "./navbar/navbar.component"
+import {LoginButtonComponent} from "./shared/login-button/login-button.component"
 import {WrapperComponent} from "./wrapper.component"
+
 
 @NgModule({
 	declarations: [
@@ -21,7 +24,8 @@ import {WrapperComponent} from "./wrapper.component"
 		HeaderComponent,
 		BodyComponent,
 		FooterComponent,
-		NavbarComponent
+		NavbarComponent,
+		LoginButtonComponent
 	],
 
 	exports: [
@@ -30,7 +34,7 @@ import {WrapperComponent} from "./wrapper.component"
 
 	imports: [
 		CommonModule,
-		NgxIconsModule.forChild(["test"]),
+		NgxIconsModule.forChild(),
 		CdkMenuModule,
 		RouterModule,
 		CdkMenuTrigger,
@@ -38,7 +42,9 @@ import {WrapperComponent} from "./wrapper.component"
 		CustomBasicButtonModule,
 		CustomRaisedButtonModule,
 		CustomBasicLinkModule,
-		MatRippleModule
+		MatRippleModule,
+		NgxToastrModule,
+		ViewportOverlayModule
 	]
 })
 export class WrapperModule {

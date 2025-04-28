@@ -72,9 +72,13 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "src/environments/proxy.dev.config.json"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "organic-portal:build:production"
+              "buildTarget": "organic-portal:build:production",
+              "proxyConfig": "src/environments/proxy.prod.config.json"
             },
             "development": {
               "buildTarget": "organic-portal:build:development"

@@ -4,15 +4,15 @@ import { DotsLoadbarAnimation } from './animations';
 
 @Component({
   selector: 'dots-loadbar',
-  templateUrl: './dots-loadbars.component.html',
-  styleUrl: './dots-loadbars.component.scss',
+  templateUrl: './dots-loader.component.html',
+  styleUrls: ['./dots-loader.component.scss'],
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     DotsLoadbarAnimation
   ]
 })
-export class DotsLoadbarsComponent extends LifeHooksFactory {
+export class DotsLoaderComponent extends LifeHooksFactory {
   constructor(){
     super()
   }

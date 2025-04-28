@@ -1,4 +1,6 @@
 :host{
 	display: flex;
+	overflow: hidden;
 	flex: 1 1;
+	background-color: var(--color-palette-4);
 }

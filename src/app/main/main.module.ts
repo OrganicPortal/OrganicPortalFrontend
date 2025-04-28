@@ -1,7 +1,14 @@
 import {CommonModule} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {RouterModule, Routes} from "@angular/router"
+import {
+	RxVirtualView,
+	RxVirtualViewContent,
+	RxVirtualViewObserver,
+	RxVirtualViewPlaceholder
+} from "@rx-angular/template/virtual-view"
 import {MainComponent} from "./main.component"
+import {AuthComponent} from "./pages/auth/auth.component"
 import {WrapperModule} from "./wrapper/wrapper.module"
 
 export const routes: Routes = [
@@ -33,15 +40,17 @@ export const routes: Routes = [
 			{
 				path: "organic-recommendations",
 				loadChildren: () => import("./pages/organic-recommendations/organic-recommendations.module").then(m => m.OrganicRecommendationsModule)
-			}
+			},
 		]
 	},
 
-	{
-		path: "**",
-		redirectTo: "",
-		pathMatch: "full"
-	}
+
+
+	// {
+	// 	path: "**",
+	// 	redirectTo: "",
+	// 	pathMatch: "full"
+	// }
 ]
 
 @NgModule({
@@ -52,6 +61,11 @@ export const routes: Routes = [
 		CommonModule,
 		WrapperModule,
 		RouterModule.forChild(routes),
+
+		RxVirtualView,
+		RxVirtualViewContent,
+		RxVirtualViewObserver,
+		RxVirtualViewPlaceholder
 	]
 })
 export class MainModule {

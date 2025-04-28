@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
 		provideAnimations(),
 		provideHttpClient(withFetch()),
 
-		importProvidersFrom(NgxIconsModule.forRoot()),
+		importProvidersFrom(NgxIconsModule.forRoot(["custom-collection"])),
 		importProvidersFrom(BrowserAnimationsModule),
 	]
 }

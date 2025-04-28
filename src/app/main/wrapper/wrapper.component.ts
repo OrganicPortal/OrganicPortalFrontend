@@ -1,5 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef} from "@angular/core"
+import {NavigationEnd} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
+import {filter, takeUntil, tap} from "rxjs"
+import {ListenersService} from "../../../addons/services/listeners.service"
 import {WrapperService} from "./wrapper.service"
 
 @Component({
@@ -12,6 +15,7 @@ import {WrapperService} from "./wrapper.service"
 export class WrapperComponent extends LifeHooksFactory {
 	constructor(
 		private _wrapperService: WrapperService,
+		private _listenersService: ListenersService,
 		private _elem: ElementRef<HTMLElement>
 	) {
 		super()
@@ -20,5 +24,12 @@ export class WrapperComponent extends LifeHooksFactory {
 	override ngOnInit() {
 		super.ngOnInit()
 		this._wrapperService._wrapperScrollFrame = this._elem.nativeElement
+
+		this._listenersService.onListenRouterNavigation()
+			.pipe(
+				filter(el => el instanceof NavigationEnd),
+				tap(() => this._elem.nativeElement.scroll({behavior: "smooth", top: 0})),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 }

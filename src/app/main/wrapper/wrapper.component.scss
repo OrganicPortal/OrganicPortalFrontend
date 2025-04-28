@@ -8,7 +8,6 @@
 	
 	app-header{
 		z-index: 5;
-		
 	}
 	
 	app-navbar{
@@ -22,5 +21,9 @@
 	
 	app-footer{
 		z-index: 4;
+	}
+	
+	ngx-toastr{
+		z-index: 10;
 	}
 }

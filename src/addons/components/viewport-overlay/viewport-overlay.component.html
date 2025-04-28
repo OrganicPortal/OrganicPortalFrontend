@@ -1,0 +1,8 @@
+@let overlayState = overlayState$ | async;
+
+@if(overlayState){
+	<div class="overlay-container" [@frameSideInOut2]>
+		<ng-container [ngTemplateOutlet]="overlayState"></ng-container>
+	</div>
+}
+

@@ -1,27 +1,19 @@
 @let activeLink = activeLink$ | async;
+@let loginBtnHandler = loginBtnHandler$ | async;
 
-<nav class="navigation fx-row">
-	<ng-container [ngTemplateOutletContext]="
+<div class="nav-container fx-row">
+	<nav class="navigation fx-row">
+		<ng-container [ngTemplateOutletContext]="
 					              {links: navLinks, isTopLevel: true}"
-	              [ngTemplateOutlet]="navItems">
-	</ng-container>
+		              [ngTemplateOutlet]="navItems">
+		</ng-container>
+	</nav>
 	
-	<!-- 	@for (item of navLinks; track item) { -->
-	<!-- 		<a [href]="item.href" -->
-	<!-- 		   [routerLinkActive]="'active'" -->
-	<!-- 		   [routerLink]="item.href" -->
-	<!-- 		   [routerLinkActiveOptions]="{exact: item.href == ''}" -->
-	<!-- 		   customBasicLink -->
-	<!-- 		   matRipple> -->
-	<!-- 			<ngx-icon [name]="item.icon"></ngx-icon> -->
-	<!-- 			{{ item.title }} -->
-	<!-- 			 -->
-	<!-- 			@if(item.children.length > 0){ -->
-	<!-- 				<ngx-icon [name]="'alt-arrow-left'"></ngx-icon> -->
-	<!-- 			} -->
-	<!-- 		</a> -->
-	<!-- 	} -->
-</nav>
+	@if (loginBtnHandler) {
+		<login-button [viewOn]="'navbar'"
+		              [@frameSideInOut3]></login-button>
+	}
+</div>
 
 <ng-template #navItems
              let-isChild="isChild"
@@ -31,25 +23,26 @@
 		@for (item of links; track item) {
 			<li [ngClass]="isTopLevel ? 'top-level-items' : ''">
 				@if (item.children && item.children!.length > 0) {
-					<a class="header-link"
-					   aria-haspopup="true"
-					   aria-expanded="false"
-					   customBasicLink
-					   matRipple
-					   (click)="onClickToMenu(menuTrigger, activeLink!)"
-					   [ngClass]="activeLink?.linkRawData == item ? 'active' : ''"
-					   [cdkMenuTriggerFor]="childNavigation"
-					   [cdkMenuTriggerData]="{links: item.children, link: item, elRef: elRef}"
-					   #menuTrigger="cdkMenuTriggerFor"
-					   #elRef>
+					<button class="header-link"
+					        aria-haspopup="true"
+					        aria-expanded="false"
+					        customBasicLink
+					        matRipple
+					        [ngClass]="activeLink?.linkRawData == item ? 'active' : ''"
+					        [cdkMenuTriggerFor]="childNavigation"
+					        [cdkMenuTriggerData]="{links: item.children, link: item, elRef: elRef}"
+					        #elRef>
 						<ngx-icon [name]="item.icon"></ngx-icon>
 						
 						<span>{{ item.title }}</span>
 						
 						@if (item.children && item.children!.length > 0) {
-							<ngx-icon [name]="'alt-arrow-left'"></ngx-icon>
+							<ngx-icon class="arrow-list"
+							          [name]="'alt-arrow-left'"
+							          [ngClass]="activeLink?.linkRawData == item ?  'icon-menu-opened' : ''"
+							></ngx-icon>
 						}
-					</a>
+					</button>
 				} @else {
 					<a class="header-link"
 					   [ngClass]="isChild ? 'header-child-link' : ''"
@@ -77,7 +70,7 @@
 <ng-template #childNavigation
              let-links="links">
 	<div class="menu-container"
-	     [@childMenuSlideIn]
+	     [@childMenuSideIn]
 	     cdkMenu>
 		@for (item of links; track item) {
 			<a class="header-child-link"

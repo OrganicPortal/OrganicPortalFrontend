@@ -1,0 +1,90 @@
+:host {
+	--mat-ripple-suffix-color: color-mix(in srgb, transparent 90%, var(--dark));
+	
+	.form-data {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
+		
+		border-radius: 3px;
+		gap: 3rem;
+	}
+	
+	.mark {
+		font-size: .9em;
+		font-weight: 500;
+		color: color-mix(in srgb, transparent 70%, var(--text-color));
+		margin-block: .5rem;
+	}
+	
+	.fields {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 1.2rem;
+	}
+	
+	.input-field {
+		padding: .8rem 10px;
+		box-sizing: border-box;
+		width: 100%;
+		border: 1px solid color-mix(in srgb, transparent 80%, var(--text-color));
+		
+		border-radius: 5px;
+	}
+	
+	.info {
+		display: flex;
+		justify-content: flex-start;
+		width: 100%;
+		
+		a {
+			font-size: .8em;
+			text-decoration: underline;
+			
+			
+			&:not(:hover) {
+				color: var(--color-palette-3);
+				
+				.solar-outline {
+					--ngx-icon-override-color-1: var(--color-palette-3);
+				}
+			}
+		}
+		
+	}
+	
+	.page-title {
+		display: flex;
+		position: relative;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		gap: 1rem;
+		
+		h2 {
+			margin: 0;
+			font-size: 1.3em;
+			color: var(--text-color);
+		}
+	}
+	
+	.input-suffix{
+		border-radius: 1000px;
+		padding: 5px;
+		box-sizing: border-box;
+		overflow: hidden;
+		transition: background-color .2s ease;
+		
+		&:hover{
+			background-color: color-mix(in srgb, transparent 50%, var(--mat-ripple-suffix-color));
+		}
+	}
+	
+	.btn {
+		padding: .8rem;
+		width: 100%;
+	}
+}

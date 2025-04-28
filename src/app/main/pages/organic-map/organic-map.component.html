@@ -1,7 +1,7 @@
 @let loaderState = loaderState$ | async;
 
 <section class="section-title"
-         [@textFramesSlideIn]>
+         [@textFramesSideIn]>
 	<h1 class="title">
 		Органічна карта
 	</h1>
@@ -19,7 +19,7 @@
 </div>
 
 @if(!loaderState?.isLoaded && !loaderState?.isError){
-		<div class="loader" [@frameSlideOut]>
+		<div class="loader" [@frameSideOut]>
 			<dots-loadbar class="disable-bg"></dots-loadbar>
 		</div>
 }

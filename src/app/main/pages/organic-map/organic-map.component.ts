@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {BehaviorSubject} from "rxjs"
-import {frameSlideOut, textFramesSlideIn} from "../../../../addons/animations/shared.animations"
+import {frameSideOut, textFramesSideIn} from "../../../../addons/animations/shared.animations"
 
 @Component({
 	selector: "app-organic-map",
@@ -9,8 +9,8 @@ import {frameSlideOut, textFramesSlideIn} from "../../../../addons/animations/sh
 	styleUrl: "./organic-map.component.scss",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [
-		textFramesSlideIn,
-		frameSlideOut
+		textFramesSideIn,
+		frameSideOut
 	]
 })
 export class OrganicMapComponent {

@@ -2,8 +2,10 @@ import {animate, style, transition, trigger} from "@angular/animations"
 import {CdkMenuTrigger} from "@angular/cdk/menu"
 import {Component, QueryList, ViewChildren} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {BehaviorSubject, map, merge, pairwise, startWith, Subject, takeUntil, tap} from "rxjs"
+import {BehaviorSubject, filter, map, merge, pairwise, startWith, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {frameSideInOut2, frameSideInOut3} from "../../../../addons/animations/shared.animations"
 import {IHeaderLink, ISelectedLink} from "../header/header.component"
+import {WrapperService} from "../wrapper.service"
 
 @Component({
 	selector: "app-navbar",
@@ -11,7 +13,7 @@ import {IHeaderLink, ISelectedLink} from "../header/header.component"
 	templateUrl: "./navbar.component.html",
 	styleUrl: "./navbar.component.scss",
 	animations: [
-		trigger("childMenuSlideIn", [
+		trigger("childMenuSideIn", [
 			transition(":enter", [
 				style({
 					opacity: 0,
@@ -29,14 +31,16 @@ import {IHeaderLink, ISelectedLink} from "../header/header.component"
 					transform: "translateX(-10px) scale(.9)"
 				}))
 			])
-		])
+		]),
+
+		frameSideInOut3
 	]
 })
 export class NavbarComponent extends LifeHooksFactory {
 	public readonly selectedLink$ = new BehaviorSubject<ISelectedLink | undefined>(undefined)
 	public readonly activeLink$ = new BehaviorSubject<ISelectedLink | undefined>(undefined)
 	public readonly menusCloseHandler$ = new Subject<void>()
-
+	public readonly loginBtnHandler$ = new BehaviorSubject<boolean>(false)
 	public readonly navLinks: any[] = [
 		{
 			title: "Головна",
@@ -78,12 +82,38 @@ export class NavbarComponent extends LifeHooksFactory {
 
 	@ViewChildren(CdkMenuTrigger) menus!: QueryList<CdkMenuTrigger>
 
-	constructor() {
+	constructor(
+		private _wrapperService: WrapperService
+	) {
 		super()
 	}
 
 	override ngOnInit() {
 		super.ngOnInit()
+
+		this._wrapperService.onListenScrollableEvents()
+			.pipe(
+				switchMap((el) => this.loginBtnHandler$.pipe(
+					map(el2 => ({
+						evt: el,
+						isViewLoginBtn: el2
+					}))
+				)),
+
+				tap(el => {
+					let a = el.evt.target as HTMLElement
+
+					if (a.scrollTop >= 70 && !el.isViewLoginBtn) {
+						this.loginBtnHandler$.next(true)
+						return
+					}
+
+					if (a.scrollTop < 70 && el.isViewLoginBtn)
+						this.loginBtnHandler$.next(false)
+
+				}),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	override ngAfterViewInit() {
@@ -136,24 +166,14 @@ export class NavbarComponent extends LifeHooksFactory {
 		})
 	}
 
-	public onClickToMenu(menuTrigger: CdkMenuTrigger, activeLink?: ISelectedLink) {
-		const prevState = this.selectedLink$.getValue()
-
-		if (prevState === activeLink && !!prevState) {
-			menuTrigger.close()
-			return
-		}
-
-		if (menuTrigger.isOpen())
-			return
-
-		menuTrigger.open()
-	}
-
 	public onGetLinkHref(link: IHeaderLink) {
 		if (!link.children || link.children.length == 0)
 			return link.href
 
 		return null
+	}
+
+	private onCloseMenus() {
+		this.menusCloseHandler$.next()
 	}
 }

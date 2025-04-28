@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
-import {textFramesSlideIn} from "../../../../addons/animations/shared.animations"
+import {textFramesSideIn} from "../../../../addons/animations/shared.animations"
 
 @Component({
   selector: 'app-history-of-development',
@@ -8,7 +8,7 @@ import {textFramesSlideIn} from "../../../../addons/animations/shared.animations
   styleUrl: './history-of-development.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-      textFramesSlideIn
+      textFramesSideIn
   ]
 })
 export class HistoryOfDevelopmentComponent {

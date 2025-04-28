@@ -1,0 +1,25 @@
+@if (viewOnState == "navbar") {
+	<a customRaisedButton
+	   (click)="onNavigateToLogin()"
+	   matRipple>
+		<ng-container [ngTemplateOutlet]="btnBody"></ng-container>
+	</a>
+} @else {
+	<a customBasicButton
+	   (click)="onNavigateToLogin()"
+	   matRipple>
+		<ng-container [ngTemplateOutlet]="btnBody"></ng-container>
+	</a>
+}
+
+<ng-template #btnBody>
+	<ngx-icon [name]="'key'"
+	          [ratio]="'1.3em'"></ngx-icon>
+	<span>
+				Увійти
+			</span>
+</ng-template>
+
+<ng-template>
+
+</ng-template>
