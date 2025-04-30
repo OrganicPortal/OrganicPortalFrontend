@@ -117,9 +117,8 @@
 
 <a class="btn submit-btn link"
    [queryParamsHandling]="'merge'"
-   [routerLink]="'/auth/login'"
+   [routerLink]="RoutesRedirects.login"
    [type]="'submit'"
-   
    customRaisedButton
    matRipple>
 	<ngx-icon [name]="'login-3'"
@@ -127,6 +126,6 @@
 	<span>Увійти</span>
 </a>
 
-@if(!loaderState?.isLoaded){
+@if (!loaderState?.isLoaded) {
 	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
 }

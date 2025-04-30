@@ -17,9 +17,18 @@ export const routes: Routes = [
 				path: "login",
 				loadChildren: () => import("./login/login.module").then(x => x.LoginModule)
 			},
+
 			{
 				path: "registration",
-				loadChildren: () => import("./registration/registration.module").then((m) => m.RegistrationModule)
+				loadChildren: () => import("./registration/registration.module").then((m) => m.RegistrationModule),
+			},
+
+			{
+				path: "code-confirmation",
+				loadChildren: () => import("./code-confirmation/code-confirmation.module").then(x => x.CodeConfirmationModule),
+				data: {
+					allowToGoBack: true
+				}
 			},
 
 			{

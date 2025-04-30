@@ -7,7 +7,7 @@ import {
 	HttpRequest
 } from "@angular/common/http"
 import {Injectable} from "@angular/core"
-import {catchError, Observable, of, throwError} from "rxjs"
+import {catchError, Observable, of, tap, throwError} from "rxjs"
 import {NgShortMessageService} from "../components/ng-materials/ng-short-message/ng-short-message.service"
 
 @Injectable({providedIn: "root"})
@@ -19,11 +19,19 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		return next.handle(req).pipe(
+			tap((el) => {
+				const evt = el as any
+				const message = evt?.body?.Message
+
+				if (message) {
+					this._ngShortMessageService.onInitMessage(message, "check-circle")
+				}
+			}),
 			catchError((err: HttpErrorResponse) => {
 				if (!req.url.includes("api"))
 					return of()
 
-				const message = err?.error.Message ?? "Виникла невідома помилка під час відправки запиту"
+				const message = err?.error?.Message ?? "Виникла невідома помилка під час відправки запиту"
 				this._ngShortMessageService.onInitMessage(message, "info-circle")
 
 				return throwError(() => err)
@@ -51,8 +59,6 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 		return settings
 	}
-
-
 }
 
 

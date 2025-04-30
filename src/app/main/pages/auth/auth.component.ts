@@ -1,8 +1,14 @@
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
-import {ActivatedRoute} from "@angular/router"
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {shareReplay} from "rxjs"
-import {frameSideIn2, frameSideOut2} from "../../../../addons/animations/shared.animations"
+import {BehaviorSubject, filter, map, merge, shareReplay, startWith, switchMap, take, takeUntil, tap} from "rxjs"
+import {
+	frameSideIn2,
+	frameSideInOut2,
+	frameSideInOut4,
+	frameSideOut2
+} from "../../../../addons/animations/shared.animations"
+import {ListenersService} from "../../../../addons/services/listeners.service"
 import {RoutesReservedQueryParams} from "../../../../addons/states/routes-redirects.service"
 
 @Component({
@@ -13,20 +19,51 @@ import {RoutesReservedQueryParams} from "../../../../addons/states/routes-redire
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [
 		frameSideIn2,
-		frameSideOut2
+		frameSideOut2,
+		frameSideInOut2,
+		frameSideInOut4
 	]
 })
 export class AuthComponent extends LifeHooksFactory {
+	public readonly isVisibleLocationBack$ = new BehaviorSubject<boolean>(false)
+
 	constructor(
-		private _activatedRoute: ActivatedRoute
+		private _activatedRoute: ActivatedRoute,
+		private _router: Router,
+		private _listenersService: ListenersService
 	) {
 		super()
+
+
+		// .pipe(
+		// 	tap((el) => {
+		// 		console.log(el)
+		// 	}),
+		// 	takeUntil(this.componentDestroy$)
+		// ).subscribe()
 	}
 
 	@HostBinding("@frameSideIn2")
 	@HostBinding("@frameSideOut2")
 	override ngOnInit() {
 		super.ngOnInit()
+
+		/**
+		 * Відображає кнопку для повернення на стейдж назад
+		 * в залежності від налаштувань маршруту
+		 */
+		this._listenersService.onListenRouterNavigation()
+			.pipe(
+				startWith("init"),
+				filter(el => el instanceof NavigationEnd || el === "init"),
+				map(() => this._activatedRoute.children.map(el => el.data)),
+				switchMap((el) => merge(...el).pipe(take(1))),
+				tap((el) => {
+					const data = el as any
+					this.isVisibleLocationBack$.next(!!data?.allowToGoBack)
+				}),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	override ngAfterViewInit() {
@@ -44,5 +81,9 @@ export class AuthComponent extends LifeHooksFactory {
 	public onGetRouteQueryParams() {
 		return this._activatedRoute.queryParams
 			.pipe(shareReplay())
+	}
+
+	public onLocationBack() {
+		window.history.back()
 	}
 }

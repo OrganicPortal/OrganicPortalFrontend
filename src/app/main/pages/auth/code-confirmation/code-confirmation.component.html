@@ -1,0 +1,78 @@
+@let allowedRenewCode = allowedRenewCode$ | async;
+@let timerToRenew = timerToRenew$ | async;
+@let loaderState = loaderState$ | async;
+
+<form class="form-data"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="confirmationFg"
+      action="">
+	<div class="page-title">
+		<ngx-icon [name]="'key'"
+		          [ratio]="'3em'"></ngx-icon>
+		
+		<h2>
+			Підтвердіть номер телефону
+		</h2>
+		
+		<span class="title-desc">Для завершення реєстрації,
+		      будь ласка, введіть код підтвердження, надісланий на ваш номер телефону.
+		</span>
+	</div>
+	
+	<div class="code-content">
+		<span class="title-desc">Код з SMS:</span>
+		<div class="code-container"
+		     [formArrayName]="'code'">
+			@for (item of inputControls; track item; let idx = $index) {
+				<custom-input-field [isDisableLabel]="true">
+					<input class="input-field"
+					       #codeInput
+					       (keyup)="onKeyupInput($event, codeInput, idx)"
+					       (keydown)="onKeydownInput($event)"
+					       (input)="onInputValue($event, idx)"
+					       (focus)="onFocusInput(codeInput, idx)"
+					       (click)="codeInput.select()"
+					       (paste)="onPasteToInput($event, idx)"
+					       [formControlName]="idx"
+					       autocomplete="off"
+					       customInput
+					       type="number">
+				</custom-input-field>
+			}
+		</div>
+		
+		<div class="info">
+			<a (click)="onSendCode(allowedRenewCode)"
+			   [ngClass]="allowedRenewCode ? '' : 'disallowed-link'"
+			   customBasicLink>
+				<ngx-icon [name]="'letter'"
+				          [ratio]="'1em'"></ngx-icon>
+				
+				Надіслати повторно
+			</a>
+			
+			@if (!allowedRenewCode && !timerToRenew?.isView) {
+				<div class="renew"
+				     [@frameSideIn4]>
+					<span>{{ timerToRenew?.state | date: 'mm:ss' }}</span>
+				</div>
+			}
+		</div>
+	</div>
+	
+	<button class="btn submit-btn"
+	        [disabled]="!confirmationFg.valid"
+	        [type]="'submit'"
+	        customBasicButton
+	        matRipple>
+		<ngx-icon [name]="'check-read'"
+		          [ratio]="'1.3em'"></ngx-icon>
+		
+		<span>Підтвердити</span>
+	</button>
+</form>
+
+@if (!loaderState?.isLoaded) {
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+}
+

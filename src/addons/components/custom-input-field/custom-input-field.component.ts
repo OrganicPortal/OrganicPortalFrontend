@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, ContentChild, ElementRef, Renderer2, ViewEncapsulation} from "@angular/core"
+import {
+	ChangeDetectionStrategy,
+	Component,
+	ContentChild,
+	ElementRef,
+	Input,
+	Renderer2,
+	ViewEncapsulation
+} from "@angular/core"
 import {FormControl, FormGroupDirective, NgControl} from "@angular/forms"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {fromEvent, takeUntil, tap} from "rxjs"
@@ -17,10 +25,6 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 	@ContentChild(CustomInputDirective, {read: ElementRef}) customInput!: ElementRef<HTMLInputElement>
 	@ContentChild(CustomInputDirective, {read: NgControl}) customInputControl!: NgControl
 
-	// public isRequired$ = new BehaviorSubject<boolean>(false)
-	// public isDirty$ = new BehaviorSubject<boolean>(false)
-	// public isInvalid$ = new BehaviorSubject<boolean>(false)
-
 	constructor(
 		private _formGroupDirective: FormGroupDirective,
 		private _renderer2: Renderer2
@@ -28,11 +32,22 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 		super()
 	}
 
+	public _isDisableLabel: boolean = false
+
+	// public isRequired$ = new BehaviorSubject<boolean>(false)
+	// public isDirty$ = new BehaviorSubject<boolean>(false)
+	// public isInvalid$ = new BehaviorSubject<boolean>(false)
+
+	@Input() public set isDisableLabel(value: boolean) {
+		this._isDisableLabel = value
+	}
+
 	override ngAfterViewInit() {
 		super.ngAfterViewInit()
 
-		const control = this.customInputControl.control as FormControl
+		const control = this.customInputControl?.control as FormControl
 		const elem = this.customInput.nativeElement
+		this._renderer2.addClass(elem, "empty-field")
 
 		if (control?.hasError("required")!)
 			this._renderer2.addClass(elem, "field-required")
@@ -49,7 +64,7 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 			fromEvent(elem.form, "submit")
 				.pipe(
 					tap(() => {
-						control.updateValueAndValidity()
+						control?.updateValueAndValidity()
 						this._renderer2.addClass(elem, "submitted")
 						this._renderer2.addClass(elem, "has-focused")
 					}),
@@ -59,6 +74,16 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 		control?.statusChanges
 			.pipe(
 				tap(() => {
+					if (!control.value) {
+						this._renderer2.addClass(elem, "empty-field")
+					} else {
+						this._renderer2.removeClass(elem, "empty-field")
+					}
+
+					if (control.value) {
+						this._renderer2.addClass(elem, "has-focused")
+					}
+
 					if (control.hasError("required")) {
 						this._renderer2.addClass(elem, "field-required")
 					}
@@ -75,7 +100,7 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 				takeUntil(this.componentDestroy$)
 			)?.subscribe()
 
-		control.updateValueAndValidity()
+		control?.updateValueAndValidity()
 	}
 
 	onFocusInput() {

@@ -1,0 +1,43 @@
+:host {
+	.code-content {
+		display: flex;
+		flex-direction: column;
+		gap: .5rem;
+	}
+	
+	.input-field {
+		border: none !important;
+	}
+	
+	input[type=number]::-webkit-outer-spin-button,
+	input[type=number]::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	
+	.code-container {
+		display: flex;
+		flex-direction: row;
+		max-width: 100%;
+		gap: .5rem;
+		
+		custom-input-field {
+			flex: 1 1;
+		}
+		
+		.input-field {
+			padding: .5rem;
+			text-align: center;
+		}
+	}
+	
+	.disallowed-link {
+		&:not(:hover) {
+			color: color-mix(in srgb, transparent 60%, var(--text-color)) !important;
+			
+			.solar-outline {
+				--ngx-icon-override-color-1: color-mix(in srgb, transparent 60%, var(--text-color)) !important;
+			}
+		}
+	}
+}

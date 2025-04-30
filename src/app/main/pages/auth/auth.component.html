@@ -1,8 +1,23 @@
 @let queryParams = onGetRouteQueryParams() | async;
+@let isVisibleLocationBackData = isVisibleLocationBack$ | async;
 
 <div class="viewport-container">
 	<div class="auth-header">
-		<button class="close-btn"
+		@if (isVisibleLocationBackData) {
+			<button class="back-btn btn"
+			        [@frameSideInOut4]
+			        (click)="onLocationBack()"
+			        [isRounded]="true"
+			        customRaisedButton
+			        matRipple>
+				<ngx-icon [name]="'arrow-left'"
+				          [ratio]="'1.4em'"></ngx-icon>
+				
+				<span>Назад</span>
+			</button>
+		}
+		
+		<button class="close-btn btn"
 		        [isRounded]="true"
 		        [routerLink]="queryParams?.[onGetRedirectKey()] ?? ''"
 		        customRaisedButton

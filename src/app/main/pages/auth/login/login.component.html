@@ -47,9 +47,9 @@
 			
 			<input id="password"
 			       [formControlName]="'password'"
+			       #password
 			       autocomplete="off"
 			       customInput
-			       #password
 			       type="password">
 		</custom-input-field>
 		
@@ -79,8 +79,8 @@
 </span>
 
 <a class="btn submit-btn link"
-   [routerLink]="'/auth/registration'"
    [queryParamsHandling]="'merge'"
+   [routerLink]="RoutesRedirects.registration"
    [type]="'submit'"
    customRaisedButton
    matRipple>
@@ -89,6 +89,6 @@
 	<span>Зареєструватися</span>
 </a>
 
-@if(!loaderState?.isLoaded){
+@if (!loaderState?.isLoaded) {
 	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
 }

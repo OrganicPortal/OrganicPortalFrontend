@@ -58,6 +58,7 @@ body {
 	/* #endregion ngx-ngx-toastr */
 	
 	--basic-button-color: #64b55c;
+	--basic-button-disabled-color: #cdcdcd;
 	--basic-button-active-color: #559e52;
 	--basic-button-ripple-color: rgba(255, 255, 255, 0.16);
 	--basic-button-raised-ripple-color: rgba(161, 161, 161, 0.16);
@@ -157,6 +158,11 @@ body {
 	
 	&:hover {
 		background-color: var(--basic-button-active-color);
+	}
+	
+	
+	&[disabled] {
+		background-color: var(--basic-button-disabled-color) !important;
 	}
 }
 
@@ -259,7 +265,6 @@ custom-input-field {
 	transition: background-color .2s ease, border .2s ease;
 	border: 1px solid var(--default-input-border-state);
 	border-radius: 3px;
-	
 	background-color: var(--color-palette-4);
 	
 	--default-input-border-state: var(--color-palette-5);
@@ -338,10 +343,12 @@ custom-input-field {
 		flex: 1 1;
 		border: none;
 		outline: none;
+		min-width: unset;
+		border-radius: 3px !important;
+		width: 0;
 		background-color: unset;
 		padding-inline: var(--input-padding-inline);
 	}
-	
 	
 	&:has(
 	.custom-input.has-focused.field-required.invalid:not(:focus)

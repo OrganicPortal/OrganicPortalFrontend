@@ -1,13 +1,17 @@
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {FormControl, FormGroup, Validators} from "@angular/forms"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {catchError, of, Subject, takeUntil, tap} from "rxjs"
+import {Store} from "@ngrx/store"
+import {Subject, takeUntil, tap} from "rxjs"
 import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
 } from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
-import {AuthService, RegistrationModel} from "../auth.service"
+import {RoutesRedirects} from "../../../../../addons/states/routes-redirects.service"
+import * as AuthActions from "../../../../store/actions/auth.actions"
+import {AuthListeners} from "../../../../store/listeners/auth.listeners"
+import {RegistrationModel} from "../../../../store/models/auth.registration.models"
 
 @Component({
 	selector: "app-registration",
@@ -25,18 +29,20 @@ import {AuthService, RegistrationModel} from "../auth.service"
 export class RegistrationComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader(true, false)
 	public registrationForm = new FormGroup({
-		name: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-		lastName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-		secondName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-		phone: new FormControl("", [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]),
-		password: new FormControl("", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
+		name: new FormControl("test", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+		lastName: new FormControl("test", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+		secondName: new FormControl("test", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+		phone: new FormControl("+380683259984", [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]),
+		password: new FormControl("Qwerty123$", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
 	})
 
 	private readonly requestHandler$ = new Subject<void>()
+	protected readonly RoutesRedirects = RoutesRedirects
 
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,
-		private _authService: AuthService
+		private _authListeners: AuthListeners,
+		private _store: Store<AuthActions.StoreAuthType>
 	) {
 		super()
 	}
@@ -44,6 +50,25 @@ export class RegistrationComponent extends LifeHooksFactory {
 	@HostBinding("@frameSideIn4")
 	override ngOnInit() {
 		super.ngOnInit()
+
+		this._authListeners
+			.storeRegistrationState$
+			.pipe(
+				tap((el) => {
+					if (!el.isFetchSuccess && !el.isRequestComplete) {
+						this.loaderState$.next(new LoaderModel(false, false))
+						return
+					}
+
+					if (el.isFetchSuccess && el.isRequestComplete) {
+						this.loaderState$.next(new LoaderModel(true, false))
+						return
+					}
+
+					this.loaderState$.next(new LoaderModel(true, true))
+				}),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	public onHandlerPassword(input: HTMLInputElement) {
@@ -66,23 +91,13 @@ export class RegistrationComponent extends LifeHooksFactory {
 			this.registrationForm.get("name")!.value!,
 			this.registrationForm.get("lastName")!.value!,
 			this.registrationForm.get("secondName")!.value!,
-			this.registrationForm.get("phone")!.value!.replace("+", ""),
+			this.registrationForm.get("phone")!.value!,
 			this.registrationForm.get("password")!.value!
 		)
 
-		this.loaderState$.next(new LoaderModel(false, false))
-		this._authService.onRegister(user)
-			.pipe(
-				tap(() => {
-					this.loaderState$.next(new LoaderModel(true, false))
-				}),
-
-				catchError((err) => {
-					this.loaderState$.next(new LoaderModel(true, true))
-					return of(err)
-				}),
-				takeUntil(this.componentDestroy$),
-				takeUntil(this.requestHandler$)
-			).subscribe()
+		this._store.dispatch({
+			type: AuthActions.Actions.RegistrationInit,
+			payload: user
+		})
 	}
 }
