@@ -39,6 +39,11 @@ export const routes: Routes = [
 			{
 				path: "organic-recommendations",
 				loadChildren: () => import("./pages/organic-recommendations/organic-recommendations.module").then(m => m.OrganicRecommendationsModule)
+			},
+
+			{
+				path: "interface",
+				loadChildren: () => import("./pages/interface/interface.module").then(m => m.InterfaceModule)
 			}
 		]
 	}

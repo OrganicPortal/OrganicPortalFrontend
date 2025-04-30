@@ -7,13 +7,15 @@ import {catchError, exhaustMap, filter, map, Observable, switchMap, take, tap} f
 import {NgShortMessageService} from "../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {RoutesRedirects} from "../../../addons/states/routes-redirects.service"
 import * as AuthActions from "../actions/auth.actions"
+import * as LocalStorageActions from "../actions/localstorage.actions"
 import {AuthListeners} from "../listeners/auth.listeners"
-import {LoginEffectData} from "../models/auth.login.models"
+import {ILoginDTO, LoginEffectData} from "../models/auth/auth.login.models"
 import {
 	PhoneConfirmationEffectData,
 	PhoneConfirmationRegDataSetterModel
-} from "../models/auth.phone-confirmation.models"
-import {IRegistrationDTO, IRegistrationEffectData, RegistrationReducerModel} from "../models/auth.registration.models"
+} from "../models/auth/auth.phone-confirmation.models"
+import {IRegistrationDTO, IRegistrationEffectData, RegistrationReducerModel} from "../models/auth/auth.registration.models"
+import {LOCAL_STORAGE_TOKEN_KEY, UpdateOrSaveDataToStorageModel} from "../models/localstorage/models"
 
 @Injectable()
 export class AuthEffects {
@@ -52,20 +54,20 @@ export class AuthEffects {
 		private _router: Router,
 		private _store: Store
 	) {
-		this._authListeners
-			.storeRegistrationState$
-			.subscribe(res => {
-				console.log(res)
-			})
 	}
 
 	private onLogin(payload: LoginEffectData) {
 		const apiUrl = "api/auth/sign-in"
-		return this._http.post(apiUrl, payload.payload)
+		return this._http.post<ILoginDTO>(apiUrl, payload.payload)
 			.pipe(
 				map(res => {
+					const storageData = new UpdateOrSaveDataToStorageModel(LOCAL_STORAGE_TOKEN_KEY, res.Data.Token)
+					this._store.dispatch(LocalStorageActions.UpdateOrSaveDataToStorage(storageData))
+
+					this._router.navigate(["/interface"])
+
 					return AuthActions.LoginSuccess({
-						...res,
+						Data: (res.Data as any),
 						isFetchSuccess: true,
 						isRequestComplete: true
 					})

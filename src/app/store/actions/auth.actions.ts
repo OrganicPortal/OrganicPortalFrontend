@@ -1,12 +1,12 @@
 import {createAction, props} from "@ngrx/store"
-import {LoginEffectData, LoginReducerModel} from "../models/auth.login.models"
+import {LoginEffectData, LoginReducerModel} from "../models/auth/auth.login.models"
 import {
 	PhoneConfirmationEffectData,
 	PhoneConfirmationReducerModel,
 	PhoneConfirmationRegDataSetterModel
-} from "../models/auth.phone-confirmation.models"
-import {RegistrationReducerModel} from "../models/auth.registration.models"
-import {ResendPhoneCodeReducerModel} from "../models/auth.resend-phone-code.models"
+} from "../models/auth/auth.phone-confirmation.models"
+import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
+import {ResendPhoneCodeReducerModel} from "../models/auth/auth.resend-phone-code.models"
 
 export enum Actions {
 	LoginReducerName = "login",

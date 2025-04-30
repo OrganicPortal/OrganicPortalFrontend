@@ -11,7 +11,7 @@ import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
 import {RoutesRedirects} from "../../../../../addons/states/routes-redirects.service"
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
-import {RegistrationModel} from "../../../../store/models/auth.registration.models"
+import {RegistrationModel} from "../../../../store/models/auth/auth.registration.models"
 
 @Component({
 	selector: "app-registration",

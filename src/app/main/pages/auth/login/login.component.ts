@@ -12,7 +12,7 @@ import {RoutesRedirects} from "../../../../../addons/states/routes-redirects.ser
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {StoreAuthType} from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
-import {LoginDataModel, LoginEffectData} from "../../../../store/models/auth.login.models"
+import {LoginDataModel, LoginEffectData} from "../../../../store/models/auth/auth.login.models"
 import {AuthService} from "../auth.service"
 
 @Component({

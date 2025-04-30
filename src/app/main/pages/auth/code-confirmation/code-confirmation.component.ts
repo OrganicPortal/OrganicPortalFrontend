@@ -12,7 +12,7 @@ import * as AuthActions from "../../../../store/actions/auth.actions"
 import {
 	PhoneConfirmationEffectData,
 	PhoneConfirmationModel
-} from "../../../../store/models/auth.phone-confirmation.models"
+} from "../../../../store/models/auth/auth.phone-confirmation.models"
 import {CodeConfirmationService} from "./code-confirmation.service"
 
 const codeLen = 8
@@ -38,7 +38,7 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 		Validators.minLength(1)
 	]
 	public readonly inputControls = Array.from(Array(codeLen).keys())
-		.map(el => new FormControl({value: "", disabled: false}, this.controlValidators))
+		.map(() => new FormControl({value: "", disabled: false}, this.controlValidators))
 
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,

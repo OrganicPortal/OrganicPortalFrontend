@@ -61,7 +61,6 @@ export class HttpInterceptorService implements HttpInterceptor {
 	}
 }
 
-
 export const AllowedHttpContextTokens: Map<AllowedRequestTokensKeys, IRequestToken> = new Map()
 	.set("DisableValidateStatusCode", {
 		token: new HttpContextToken<string>(() => "is-disable-validate-status-code"),

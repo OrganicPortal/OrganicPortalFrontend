@@ -1,9 +1,9 @@
 import {createReducer, on} from "@ngrx/store"
 import * as AuthActions from "../actions/auth.actions"
-import {LoginReducerModel} from "../models/auth.login.models"
-import {PhoneConfirmationReducerModel} from "../models/auth.phone-confirmation.models"
-import {RegistrationReducerModel} from "../models/auth.registration.models"
-import {ResendPhoneCodeReducerModel} from "../models/auth.resend-phone-code.models"
+import {LoginReducerModel} from "../models/auth/auth.login.models"
+import {PhoneConfirmationReducerModel} from "../models/auth/auth.phone-confirmation.models"
+import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
+import {ResendPhoneCodeReducerModel} from "../models/auth/auth.resend-phone-code.models"
 
 //#region Registration Reducer
 export const RegistrationReducer = createReducer(
