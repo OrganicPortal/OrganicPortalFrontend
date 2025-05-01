@@ -1,9 +1,9 @@
 import {createAction, props} from "@ngrx/store"
 import {
-	LocalStorageModel,
 	RemoveFromStorageModel,
 	StorageOperationsReducerModel,
 	StorageOperationStatusModel,
+	StorageStateReducerModel,
 	SyncStorageModel,
 	UpdateOrSaveDataToStorageModel
 } from "../models/localstorage/models"
@@ -19,7 +19,7 @@ export enum Actions {
 	StorageOperationFailure = "[LOCAL STORAGE] Storage operation failure",
 
 	StorageStateReducerName = "storageStateReducer",
-	StorageStateInit = "[LOCAL STORAGE] Init to fetch storage state",
+	StorageStateInitFetch = "[LOCAL STORAGE] Init to fetch storage state",
 	StorageState = "[LOCAL STORAGE] Storage state",
 }
 
@@ -36,10 +36,14 @@ export const StorageOperationFailure = createAction(Actions.StorageOperationFail
 //#endregion Storage Operations
 
 //#region Storage States
-export const StorageStateInit = createAction(Actions.StorageStateInit)
-export const StorageState = createAction(Actions.StorageState, props<LocalStorageModel>())
+export const StorageStateFetchInit = createAction(Actions.StorageStateInitFetch)
+export const StorageStateAggregator = createAction(Actions.StorageState, props<StorageStateReducerModel>())
 //#endregion Storage States
 
 export type LocalStorageOperations = {
 	[Actions.LocalStorageOperationsReducerName]: StorageOperationsReducerModel,
+}
+
+export type LocalStorageState = {
+	[Actions.StorageStateReducerName]: StorageStateReducerModel
 }

@@ -7,6 +7,7 @@ import {
 	RxVirtualViewObserver,
 	RxVirtualViewPlaceholder
 } from "@rx-angular/template/virtual-view"
+import {FullScreenLoaderModule} from "../../addons/components/full-screen-loader/full-screen-loader.module"
 import {MainComponent} from "./main.component"
 import {WrapperModule} from "./wrapper/wrapper.module"
 
@@ -68,7 +69,8 @@ export const routes: Routes = [
 		RxVirtualView,
 		RxVirtualViewContent,
 		RxVirtualViewObserver,
-		RxVirtualViewPlaceholder
+		RxVirtualViewPlaceholder,
+		FullScreenLoaderModule
 	]
 })
 export class MainModule {

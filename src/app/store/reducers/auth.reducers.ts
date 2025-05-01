@@ -1,5 +1,6 @@
 import {createReducer, on} from "@ngrx/store"
 import * as AuthActions from "../actions/auth.actions"
+import {AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
 import {LoginReducerModel} from "../models/auth/auth.login.models"
 import {PhoneConfirmationReducerModel} from "../models/auth/auth.phone-confirmation.models"
 import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
@@ -164,3 +165,40 @@ export const ResendPhoneCodeReducer = createReducer(
 	)
 )
 //#endregion Resend Phone Code Reducer
+
+//#region Auth Auditor Reducer
+export const AuthAuditorReducer = createReducer(
+	new AuthAuditorReducerModel(),
+	on(AuthActions.AuthAuditorInit,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: false,
+				isRequestComplete: false
+			})
+	),
+
+	on(AuthActions.AuthAuditorSuccess,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isRequestComplete: true
+			})
+	),
+
+	on(AuthActions.AuthAuditorFailure,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isRequestComplete: false
+			})
+	),
+
+	on(AuthActions.AuthAuditorReset,
+		(state, action) =>
+			new AuthAuditorReducerModel()
+	)
+)
+//#endregion Auth Auditor Reducer

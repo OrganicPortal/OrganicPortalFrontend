@@ -33,14 +33,6 @@ export class AuthComponent extends LifeHooksFactory {
 		private _listenersService: ListenersService
 	) {
 		super()
-
-
-		// .pipe(
-		// 	tap((el) => {
-		// 		console.log(el)
-		// 	}),
-		// 	takeUntil(this.componentDestroy$)
-		// ).subscribe()
 	}
 
 	@HostBinding("@frameSideIn2")

@@ -42,7 +42,10 @@ export const appConfig: ApplicationConfig = {
 			[AuthActions.Actions.PhoneCodeConfirmationReducerName]: AuthReducers.PhoneConfirmationReducer,
 			[AuthActions.Actions.ResendPhoneCodeReducerName]: AuthReducers.ResendPhoneCodeReducer,
 			[AuthActions.Actions.LoginReducerName]: AuthReducers.LoginReducer,
-			[LocalStorageActions.Actions.LocalStorageOperationsReducerName]: LocalStorageReducers.StorageOperations
+			[AuthActions.Actions.AuthAuditorReducerName]: AuthReducers.AuthAuditorReducer,
+
+			[LocalStorageActions.Actions.LocalStorageOperationsReducerName]: LocalStorageReducers.StorageOperations,
+			[LocalStorageActions.Actions.StorageStateReducerName]: LocalStorageReducers.StorageStates
 		})),
 
 		importProvidersFrom(

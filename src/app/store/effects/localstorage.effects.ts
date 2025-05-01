@@ -1,7 +1,9 @@
 import {inject, Injectable} from "@angular/core"
 import {Actions, createEffect, ofType} from "@ngrx/effects"
-import {exhaustMap, filter, fromEvent, map} from "rxjs"
+import {Store} from "@ngrx/store"
+import {exhaustMap, filter, fromEvent, map, tap} from "rxjs"
 import {
+	LocalStorageModel,
 	RemoveFromStorageModel,
 	StorageOperationsStatuses,
 	SyncStorageModel,
@@ -29,6 +31,13 @@ export class LocalStorageEffects {
 		)
 	)
 
+	private readonly storageStateEffect$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(LocalStorageActions.Actions.StorageStateInitFetch),
+			map(() => this.onFetchStorageState())
+		)
+	)
+
 	private readonly removeFromStorageEffect$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(LocalStorageActions.Actions.RemoveFromStorage),
@@ -43,7 +52,9 @@ export class LocalStorageEffects {
 		)
 	)
 
-	constructor() {
+	constructor(
+		private _store: Store<LocalStorageActions.LocalStorageOperations>
+	) {
 	}
 
 	private onClearStorage() {
@@ -53,6 +64,28 @@ export class LocalStorageEffects {
 		} catch (e) {
 			return LocalStorageActions.StorageOperationFailure({status: StorageOperationsStatuses.failure})
 		}
+	}
+
+	private onFetchStorageState() {
+		const items = new LocalStorageModel()
+
+		Object.keys(items)
+			.map(el => {
+				try {
+					const keyState = localStorage.getItem(el)
+					const key = el as any
+					const _items = items as any
+					_items[key] = keyState ? JSON.parse(keyState) : keyState
+				} catch {
+					this._store.dispatch(LocalStorageActions
+						.RemoveFromStorage(new RemoveFromStorageModel(el)))
+				}
+			})
+
+		return LocalStorageActions.StorageStateAggregator({
+			...items,
+			isSuccessParse: true
+		})
 	}
 
 	private onRemoveFromStorage(payload: RemoveFromStorageModel) {
@@ -67,6 +100,11 @@ export class LocalStorageEffects {
 	private onSyncStorageChanges(payload: SyncStorageModel) {
 		return fromEvent<StorageEvent>(window, "storage")
 			.pipe(
+				tap(() => {
+					console.log(payload)
+
+				}),
+
 				filter(ev => ev.storageArea == localStorage),
 				filter(ev => payload.keys.includes(ev.key ?? "")),
 				filter(el => el.oldValue != el.newValue),

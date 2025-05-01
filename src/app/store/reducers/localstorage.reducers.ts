@@ -1,6 +1,10 @@
 import {createReducer, on} from "@ngrx/store"
 import * as LocalStorageActions from "../actions/localstorage.actions"
-import {StorageOperationsReducerModel, StorageOperationsStatuses} from "../models/localstorage/models"
+import {
+	StorageOperationsReducerModel,
+	StorageOperationsStatuses,
+	StorageStateReducerModel
+} from "../models/localstorage/models"
 
 //#region Storage Operations Reducer
 export const StorageOperations = createReducer(
@@ -42,3 +46,17 @@ export const StorageOperations = createReducer(
 	)
 )
 //#endregion Storage Operations Reducer
+
+export const StorageStates = createReducer(
+	new StorageStateReducerModel(),
+
+	on(LocalStorageActions.StorageStateFetchInit,
+		(state, action) =>
+			({...state, isSuccessParse: false})
+	),
+
+	on(LocalStorageActions.StorageStateAggregator,
+		(state, action) =>
+			({...state, ...action})
+	)
+)

@@ -1,6 +1,8 @@
 export const LOCAL_STORAGE_TOKEN_KEY = "organic-portal-token"
 export const LOCAL_STORAGE_COMPONENTS_SETTINGS = "organic-portal-components"
 
+export type ReservedLocalStorageKeys = typeof LOCAL_STORAGE_TOKEN_KEY | typeof LOCAL_STORAGE_COMPONENTS_SETTINGS
+
 export class LocalStorageModel {
 	[LOCAL_STORAGE_TOKEN_KEY]: string | undefined
 	[LOCAL_STORAGE_COMPONENTS_SETTINGS]: string | undefined
@@ -16,6 +18,10 @@ export class StorageOperationsReducerModel {
 	value?: any
 	keys?: string[]
 	status?: StorageOperationsStatuses
+}
+
+export class StorageStateReducerModel extends LocalStorageModel {
+	isSuccessParse: boolean = false
 }
 
 export class UpdateOrSaveDataToStorageModel {
