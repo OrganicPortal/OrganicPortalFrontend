@@ -29,11 +29,11 @@ import {RegistrationModel} from "../../../../store/models/auth/auth.registration
 export class RegistrationComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader(true, false)
 	public registrationForm = new FormGroup({
-		name: new FormControl("test", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-		lastName: new FormControl("test", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-		secondName: new FormControl("test", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-		phone: new FormControl("+380683259984", [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]),
-		password: new FormControl("Qwerty123$", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
+		name: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+		lastName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+		secondName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+		phone: new FormControl("", [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]),
+		password: new FormControl("", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
 	})
 
 	private readonly requestHandler$ = new Subject<void>()
