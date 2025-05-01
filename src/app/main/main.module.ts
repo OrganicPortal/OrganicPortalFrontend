@@ -48,13 +48,6 @@ export const routes: Routes = [
 			}
 		]
 	}
-
-
-	// {
-	// 	path: "**",
-	// 	redirectTo: "",
-	// 	pathMatch: "full"
-	// }
 ]
 
 @NgModule({
@@ -71,6 +64,8 @@ export const routes: Routes = [
 		RxVirtualViewObserver,
 		RxVirtualViewPlaceholder,
 		FullScreenLoaderModule
+
+
 	]
 })
 export class MainModule {

@@ -93,8 +93,6 @@ export class AuthEffects {
 					isRequestComplete: true
 				}))
 
-				this._router.navigate(["/interface"])
-
 				return AuthActions.LoginSuccess({
 					Data: (res.Data as any), isFetchSuccess: true, isRequestComplete: true
 				})

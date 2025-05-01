@@ -1,7 +1,7 @@
 import {inject, Injectable} from "@angular/core"
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import {Store} from "@ngrx/store"
-import {exhaustMap, filter, fromEvent, map, tap} from "rxjs"
+import {exhaustMap, filter, fromEvent, map} from "rxjs"
 import {
 	LocalStorageModel,
 	RemoveFromStorageModel,
@@ -100,11 +100,6 @@ export class LocalStorageEffects {
 	private onSyncStorageChanges(payload: SyncStorageModel) {
 		return fromEvent<StorageEvent>(window, "storage")
 			.pipe(
-				tap(() => {
-					console.log(payload)
-
-				}),
-
 				filter(ev => ev.storageArea == localStorage),
 				filter(ev => payload.keys.includes(ev.key ?? "")),
 				filter(el => el.oldValue != el.newValue),

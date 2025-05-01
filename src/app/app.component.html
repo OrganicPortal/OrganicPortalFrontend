@@ -1,5 +1,25 @@
+@let isLoadingChunks = isLoadingChunks$ | async;
+@let isLoadingInterface = isLoadingInterface$ | async;
+@let authAuditorState = authAuditorState$ | async;
+
+@if (isLoadingChunks) {
+	<mat-progress-bar mode="indeterminate"
+	                  [@frameSideInOut2]></mat-progress-bar>
+}
+
 <router-outlet></router-outlet>
 <router-outlet name="auth-overlay"></router-outlet>
 <ngx-toastr></ngx-toastr>
 <viewport-overlay></viewport-overlay>
 <ng-short-messages></ng-short-messages>
+
+
+@if(((isLoadingInterface && isLoadingChunks)) || !authAuditorState?.isFetchSuccess){
+	<full-screen-loader [@fullScreenLoaderAnimation]></full-screen-loader>
+}
+
+
+<!-- <div class="content"> -->
+<!-- 	{{isLoadingInterface}} -->
+<!-- 	{{authAuditorState?.isFetchSuccess}} -->
+<!-- </div> -->

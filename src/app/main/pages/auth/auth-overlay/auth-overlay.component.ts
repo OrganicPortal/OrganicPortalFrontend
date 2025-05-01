@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener} from "@angular/core"
+import {ChangeDetectionStrategy, Component, HostBinding, HostListener} from "@angular/core"
 import {ActivatedRoute, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Subject, switchMap, take, takeUntil, tap} from "rxjs"
@@ -22,14 +22,13 @@ export class AuthOverlayComponent extends LifeHooksFactory {
 
 	constructor(
 		private _router: Router,
-		private _elem: ElementRef<HTMLElement>,
 		private _activatedRoute: ActivatedRoute
 	) {
 		super()
 	}
 
 	@HostBinding("@frameSideIn2")
-	override ngOnInit() {
+	override async ngOnInit() {
 		super.ngOnInit()
 
 		this.animationHandler$

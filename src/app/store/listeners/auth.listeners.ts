@@ -26,4 +26,9 @@ export class AuthListeners {
 		return this._store.select(AuthActions.Actions.LoginReducerName)
 			.pipe(shareReplay())
 	}
+
+	public get authAuditorState$(){
+		return this._store.select(AuthActions.Actions.AuthAuditorReducerName)
+			.pipe(shareReplay())
+	}
 }

@@ -1,3 +1,4 @@
+import {animate, style, transition, trigger} from "@angular/animations"
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
@@ -19,9 +20,15 @@ import {RoutesReservedQueryParams} from "../../../../addons/states/routes-redire
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [
 		frameSideIn2,
-		frameSideOut2,
 		frameSideInOut2,
-		frameSideInOut4
+		frameSideInOut4,
+
+		trigger("frameSideOut2", [
+			transition(":leave", [
+				style("*"),
+				animate(".4s ease", style({opacity: 0}))
+			])
+		])
 	]
 })
 export class AuthComponent extends LifeHooksFactory {

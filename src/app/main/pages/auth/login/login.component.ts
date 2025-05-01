@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {FormControl, FormGroup, Validators} from "@angular/forms"
+import {Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {takeUntil, tap} from "rxjs"
+import {delay, filter, iif, map, of, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
@@ -13,7 +14,6 @@ import * as AuthActions from "../../../../store/actions/auth.actions"
 import {StoreAuthType} from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
 import {LoginDataModel, LoginEffectData} from "../../../../store/models/auth/auth.login.models"
-import {AuthService} from "../auth.service"
 
 @Component({
 	selector: "app-login",
@@ -37,7 +37,7 @@ export class LoginComponent extends LifeHooksFactory {
 	protected readonly RoutesRedirects = RoutesRedirects
 
 	constructor(
-		private _authService: AuthService,
+		private _router: Router,
 		private _authListeners: AuthListeners,
 		private _ngShortMessageService: NgShortMessageService,
 		private _store: Store<StoreAuthType>
@@ -51,17 +51,30 @@ export class LoginComponent extends LifeHooksFactory {
 
 		this._authListeners.storeLoginState$
 			.pipe(
-				tap((el) => {
+				map((el) => {
 					if (!!(el.isFetchSuccess && el.Data && el.isRequestComplete)) {
 						this.loaderState$.next(new LoaderModel(true, false))
-						return
+						return true
 					}
 
 					if (el.isFetchSuccess && !el.isRequestComplete) {
 						this.loaderState$.next(new LoaderModel(true, true))
-						return
+						return undefined
 					}
+
+					return undefined
 				}),
+				switchMap((el) =>
+					iif(() => el == undefined, of(undefined),
+						of(undefined).pipe(delay(150), map(() => true))
+					)
+				),
+				filter(el => !!el),
+				tap(() => {
+					this._router.navigate(["/interface"])
+					this._store.dispatch(AuthActions.LoginReset())
+				}),
+
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
