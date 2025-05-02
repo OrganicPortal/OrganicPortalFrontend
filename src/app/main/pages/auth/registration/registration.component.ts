@@ -8,7 +8,7 @@ import {
 	NgShortMessageService
 } from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
-import {RoutesRedirects} from "../../../../../addons/states/routes-redirects.service"
+import {RouterRedirects} from "../../../../../addons/states/states"
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
 import {RegistrationModel} from "../../../../store/models/auth/auth.registration.models"
@@ -37,7 +37,7 @@ export class RegistrationComponent extends LifeHooksFactory {
 	})
 
 	private readonly requestHandler$ = new Subject<void>()
-	protected readonly RoutesRedirects = RoutesRedirects
+	protected readonly RoutesRedirects = RouterRedirects
 
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,

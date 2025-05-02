@@ -56,10 +56,6 @@ export class AppComponent extends LifeHooksFactory {
 	public override ngOnInit() {
 		super.ngOnInit()
 
-		this.authAuditorState$.subscribe(res => {
-			console.log(res)
-		})
-
 		this._listenersService.onListenRouterNavigation()
 			.pipe(
 				filter(el =>

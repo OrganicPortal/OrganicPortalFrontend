@@ -5,7 +5,6 @@ export class PhoneConfirmationReducerModel {
 	Data?: any
 	Message?: string
 	Error?: HttpErrorResponse | any
-	RegistrationData?: IRegistrationDTO
 
 	type?: string
 	isFetchSuccess: boolean = true

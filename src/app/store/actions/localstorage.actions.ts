@@ -28,11 +28,8 @@ export const UpdateOrSaveDataToStorage = createAction(Actions.UpdateOrSaveDataTo
 export const RemoveFromStorage = createAction(Actions.RemoveFromStorage, props<RemoveFromStorageModel>())
 export const ClearStorage = createAction(Actions.ClearStorage, props<any>())
 export const SyncStorageByKeys = createAction(Actions.SyncStorageByKeys, props<SyncStorageModel>())
-
 export const StorageOperationSuccessfully = createAction(Actions.StorageOperationSuccessfully, props<StorageOperationStatusModel>())
 export const StorageOperationFailure = createAction(Actions.StorageOperationFailure, props<StorageOperationStatusModel>())
-
-
 //#endregion Storage Operations
 
 //#region Storage States

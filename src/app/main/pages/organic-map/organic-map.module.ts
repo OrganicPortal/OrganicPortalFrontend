@@ -1,24 +1,27 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from "@angular/router"
+import {CommonModule} from "@angular/common"
+import {NgModule} from "@angular/core"
+import {RouterModule} from "@angular/router"
 import {DotsLoaderModule} from "../../../../addons/components/dots-loader/dots-loader.module"
-import { OrganicMapComponent } from './organic-map.component';
+import {RoutesExtended} from "../../../../addons/states/states"
+import {OrganicMapComponent} from "./organic-map.component"
 
 
-export const routes: Routes = [
-  {
-    path: "",
-    component: OrganicMapComponent,
-  }
+export const routes: RoutesExtended = [
+	{
+		path: "",
+		component: OrganicMapComponent
+	}
 ]
+
 @NgModule({
-  declarations: [
-    OrganicMapComponent
-  ],
-  imports: [
-    CommonModule,
-    DotsLoaderModule,
-    RouterModule.forChild(routes)
-  ]
+	declarations: [
+		OrganicMapComponent
+	],
+	imports: [
+		CommonModule,
+		DotsLoaderModule,
+		RouterModule.forChild(routes)
+	]
 })
-export class OrganicMapModule { }
+export class OrganicMapModule {
+}

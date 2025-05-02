@@ -1,11 +1,13 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http"
+import {HttpClient, HttpContext, HttpHeaders} from "@angular/common/http"
 import {inject, Injectable} from "@angular/core"
 import {ActivatedRoute, Router} from "@angular/router"
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import {Action, Store} from "@ngrx/store"
 import {catchError, exhaustMap, filter, map, Observable, of, switchMap, take, tap} from "rxjs"
 import {NgShortMessageService} from "../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
-import {RoutesRedirects} from "../../../addons/states/routes-redirects.service"
+import {AllowedHttpContextTokens} from "../../../addons/services/http-interceptor.service"
+import {RouterRedirects} from "../../../addons/states/states"
+import {CodeConfirmation} from "../../main/pages/auth/auth.module"
 import * as AuthActions from "../actions/auth.actions"
 import * as LocalStorageActions from "../actions/localstorage.actions"
 import {AuthListeners} from "../listeners/auth.listeners"
@@ -50,11 +52,23 @@ export class AuthEffects {
 		this.actions$.pipe(ofType(AuthActions.Actions.AuthAuditorInit),
 			exhaustMap(() => this.onAuditToken())))
 
-	constructor(private _ngShortMessageService: NgShortMessageService, private _localStorageListeners: LocalStorageListeners, private _activatedRoute: ActivatedRoute, private _authListeners: AuthListeners, private _http: HttpClient, private _router: Router, private _store: Store) {
+	constructor(
+		private _ngShortMessageService: NgShortMessageService,
+		private _localStorageListeners: LocalStorageListeners,
+		private _activatedRoute: ActivatedRoute,
+		private _authListeners: AuthListeners,
+		private _http: HttpClient,
+		private _router: Router,
+		private _store: Store
+	) {
 	}
 
 	private onAuditToken() {
-		const apiUrl = "api/auth/refresh"
+		const apiUrl = "api/auth/get-roles"
+
+		const context = new HttpContext()
+		const disableStatusCodeValidation = AllowedHttpContextTokens.get("DisableValidateStatusCode")!
+		context.set(disableStatusCodeValidation.token, "")
 
 		return this._localStorageListeners.localStorageState$
 			.pipe(
@@ -66,15 +80,18 @@ export class AuthEffects {
 						}))
 					}
 
-					return this._http.get(apiUrl).pipe(map(el => {
-						return AuthActions.AuthAuditorSuccess({
-							isAuthUser: true, isRequestComplete: true, isFetchSuccess: true
+					return this._http.get(apiUrl, {context: context}).pipe(
+						map((el) => {
+							return AuthActions.AuthAuditorSuccess({
+								isAuthUser: true, isRequestComplete: true, isFetchSuccess: true
+							})
+						}),
+						catchError(async () => {
+							return AuthActions.AuthAuditorFailure({
+								isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
+							})
 						})
-					}), catchError(async (err) => {
-						return AuthActions.AuthAuditorFailure({
-							isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
-						})
-					}))
+					)
 				}))
 	}
 
@@ -93,6 +110,8 @@ export class AuthEffects {
 					isRequestComplete: true
 				}))
 
+				this.onResetBasicAuthAuditors()
+
 				return AuthActions.LoginSuccess({
 					Data: (res.Data as any), isFetchSuccess: true, isRequestComplete: true
 				})
@@ -110,10 +129,11 @@ export class AuthEffects {
 			.pipe(
 				tap((el) => {
 					const state = !!(el.isRequestComplete && el.isFetchSuccess && el.Data)
-					if (!state) {
+
+					if (!state && el.isRequestComplete) {
 						const message = "Заповніть реєстраційні дані на сторінці реєстрації."
 						this._ngShortMessageService.onInitMessage(message, "info-circle")
-						this._router.navigate([RoutesRedirects.registration], {queryParamsHandling: "merge"})
+						this._router.navigate([RouterRedirects.registration], {queryParamsHandling: "merge"})
 					}
 				}),
 				filter(el => !!(el.isRequestComplete && el.isFetchSuccess && el.Data)),
@@ -125,7 +145,8 @@ export class AuthEffects {
 					return this._http.post(apiUrl, payload.payload, {headers: headers})
 						.pipe(
 							map(res => {
-								this._router.navigate([RoutesRedirects.login], {queryParamsHandling: "merge"})
+								this.onResetBasicAuthAuditors()
+								this._router.navigate([RouterRedirects.login], {queryParamsHandling: "merge"})
 								return AuthActions.PhoneCodeConfirmationSuccess({
 									...res, isFetchSuccess: true, isRequestComplete: true
 								})
@@ -136,7 +157,9 @@ export class AuthEffects {
 									Error: err, isFetchSuccess: false, isRequestComplete: true
 								})
 							}))
-				}), take(1))
+				}),
+				take(1)
+			)
 	}
 
 	private onRegister(payload: IRegistrationEffectData): Observable<(RegistrationReducerModel & Action)> {
@@ -148,20 +171,24 @@ export class AuthEffects {
 					this._store.dispatch(AuthActions.PhoneCodeConfirmationRegDataSetter(new PhoneConfirmationRegDataSetterModel(res)))
 
 					return AuthActions.RegistrationSuccess({
-						...res, isFetchSuccess: true, isRequestComplete: true, isAccConfirmed: false
+						...res, isFetchSuccess: true, isRequestComplete: true
 					})
 				}),
 				catchError(async (err) => {
 					return AuthActions.RegistrationFailure({
-						Error: err, isFetchSuccess: false, isRequestComplete: true, isAccConfirmed: false
+						Error: err, isFetchSuccess: false, isRequestComplete: true
 					})
 				}))
 	}
 
 	private onRegisterSuccessTap(data: IRegistrationDTO) {
 		return this._activatedRoute.queryParams
-			.pipe(map(el => {
-				this._router.navigate([RoutesRedirects.phoneCodeConfirmation], {skipLocationChange: true})
+			.pipe(map(() => {
+				this._router.navigate([RouterRedirects.phoneCodeConfirmation], {
+					state: {[CodeConfirmation.isRegSuccessful]: CodeConfirmation.isRegSuccessful},
+					skipLocationChange: true,
+					queryParamsHandling: "merge"
+				})
 				return data
 			}), take(1))
 	}
@@ -174,5 +201,11 @@ export class AuthEffects {
 				map(() => AuthActions.ResendPhoneCodeSuccess()),
 				catchError(async (err) => AuthActions.ResendPhoneCodeFailure())
 			)
+	}
+
+	private onResetBasicAuthAuditors() {
+		this._store.dispatch(AuthActions.LoginReset())
+		this._store.dispatch(AuthActions.RegistrationReset())
+		this._store.dispatch(AuthActions.PhoneCodeConfirmationReset())
 	}
 }

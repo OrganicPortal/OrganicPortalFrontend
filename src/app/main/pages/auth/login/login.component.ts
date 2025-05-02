@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {FormControl, FormGroup, Validators} from "@angular/forms"
 import {Router} from "@angular/router"
-import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
+import {LifeHooksFactory, ToastrService} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {delay, filter, iif, map, of, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
@@ -9,7 +9,7 @@ import {
 	NgShortMessageService
 } from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
-import {RoutesRedirects} from "../../../../../addons/states/routes-redirects.service"
+import {RouterRedirects} from "../../../../../addons/states/states"
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {StoreAuthType} from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
@@ -34,13 +34,14 @@ export class LoginComponent extends LifeHooksFactory {
 		password: new FormControl("", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
 	})
 	public readonly loaderState$ = onInitLoader(true, false)
-	protected readonly RoutesRedirects = RoutesRedirects
+	protected readonly RoutesRedirects = RouterRedirects
 
 	constructor(
 		private _router: Router,
 		private _authListeners: AuthListeners,
 		private _ngShortMessageService: NgShortMessageService,
-		private _store: Store<StoreAuthType>
+		private _store: Store<StoreAuthType>,
+		private _toastrService: ToastrService
 	) {
 		super()
 	}
@@ -62,6 +63,7 @@ export class LoginComponent extends LifeHooksFactory {
 						return undefined
 					}
 
+
 					return undefined
 				}),
 				switchMap((el) =>
@@ -71,10 +73,12 @@ export class LoginComponent extends LifeHooksFactory {
 				),
 				filter(el => !!el),
 				tap(() => {
+					const message = "Вхід успішно виконано"
+					this._toastrService.onInitMessage(message)
+
 					this._router.navigate(["/interface"])
 					this._store.dispatch(AuthActions.LoginReset())
 				}),
-
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}

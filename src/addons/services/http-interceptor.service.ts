@@ -28,6 +28,11 @@ export class HttpInterceptorService implements HttpInterceptor {
 				}
 			}),
 			catchError((err: HttpErrorResponse) => {
+				const deserializedTokens = this.onDeserializeTokens(req)
+
+				if (deserializedTokens.isDisableValidateStatusCode)
+					return throwError(() => err)
+
 				if (!req.url.includes("api"))
 					return of()
 
@@ -42,11 +47,9 @@ export class HttpInterceptorService implements HttpInterceptor {
 	onDeserializeTokens(request: HttpRequest<any>): InterceptorSettingsModel {
 		let _context = request.context as unknown as any
 		let context = _context.map as Map<any, any>
-
 		let contextData = Array.from(context).map(([name, value]) => ({name: name?.defaultValue(), value}))
 
 		let settings = new InterceptorSettingsModel(false)
-
 		contextData.map(el => {
 			switch (el.name) {
 				case "is-disable-validate-status-code":
@@ -61,24 +64,24 @@ export class HttpInterceptorService implements HttpInterceptor {
 	}
 }
 
-export const AllowedHttpContextTokens: Map<AllowedRequestTokensKeys, IRequestToken> = new Map()
+export const AllowedHttpContextTokens = new Map<AllowedRequestTokensKeys, IRequestToken>()
 	.set("DisableValidateStatusCode", {
 		token: new HttpContextToken<string>(() => "is-disable-validate-status-code"),
-		value: true
 	})
-
 
 interface IRequestToken {
 	token: HttpContextToken<string>
-	value: any
+	customMessage?: string
 }
 
-type AllowedRequestTokensKeys = "DisableValidateStatusCode"
+type AllowedRequestTokensKeys = "DisableValidateStatusCode" | "SendMessageIfError"
 
 class InterceptorSettingsModel {
 	isDisableValidateStatusCode: boolean
+	validateStatusCodeMessage?: string
 
-	constructor(isDisableValidateStatusCode: boolean) {
+	constructor(isDisableValidateStatusCode: boolean, validateStatusCodeMessage?: string) {
 		this.isDisableValidateStatusCode = isDisableValidateStatusCode
+		this.validateStatusCodeMessage = validateStatusCodeMessage
 	}
 }

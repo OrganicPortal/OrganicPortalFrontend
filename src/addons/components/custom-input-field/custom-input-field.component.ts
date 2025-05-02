@@ -26,17 +26,12 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 	@ContentChild(CustomInputDirective, {read: NgControl}) customInputControl!: NgControl
 
 	constructor(
-		private _formGroupDirective: FormGroupDirective,
 		private _renderer2: Renderer2
 	) {
 		super()
 	}
 
 	public _isDisableLabel: boolean = false
-
-	// public isRequired$ = new BehaviorSubject<boolean>(false)
-	// public isDirty$ = new BehaviorSubject<boolean>(false)
-	// public isInvalid$ = new BehaviorSubject<boolean>(false)
 
 	@Input() public set isDisableLabel(value: boolean) {
 		this._isDisableLabel = value

@@ -1,22 +1,24 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from "@angular/router"
-import { LegislationComponent } from './legislation.component';
+import {CommonModule} from "@angular/common"
+import {NgModule} from "@angular/core"
+import {RouterModule} from "@angular/router"
+import {RoutesExtended} from "../../../../addons/states/states"
+import {LegislationComponent} from "./legislation.component"
 
-export const routes: Routes = [
-  {
-    path: "",
-    component: LegislationComponent,
-  }
+export const routes: RoutesExtended = [
+	{
+		path: "",
+		component: LegislationComponent
+	}
 ]
 
 @NgModule({
-  declarations: [
-    LegislationComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
+	declarations: [
+		LegislationComponent
+	],
+	imports: [
+		CommonModule,
+		RouterModule.forChild(routes)
+	]
 })
-export class LegislationModule { }
+export class LegislationModule {
+}

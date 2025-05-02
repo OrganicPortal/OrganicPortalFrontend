@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostBinding, QueryList, ViewChildren} from "@angular/core"
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
+import {ActivatedRoute} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {delay, filter, fromEvent, map, takeUntil, tap} from "rxjs"
@@ -43,7 +44,8 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,
 		private _codeConfirmationService: CodeConfirmationService,
-		private _store: Store<AuthActions.StoreAuthType>
+		private _store: Store<AuthActions.StoreAuthType>,
+		private _activatedRoute: ActivatedRoute
 	) {
 		super()
 		this.confirmationFg = new FormGroup({code: new FormArray(this.inputControls)})

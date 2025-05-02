@@ -1,9 +1,10 @@
 import {CommonModule} from "@angular/common"
 import {NgModule} from "@angular/core"
-import {RouterModule, Routes} from "@angular/router"
+import {RouterModule} from "@angular/router"
+import {RoutesExtended} from "../../../../addons/states/states"
 import {OrganicRecommendationsComponent} from "./organic-recommendations.component"
 
-export const routes: Routes = [
+export const routes: RoutesExtended = [
 	{
 		path: "",
 		component: OrganicRecommendationsComponent

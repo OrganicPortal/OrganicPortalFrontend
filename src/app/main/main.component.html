@@ -1,3 +1,7 @@
-<app-wrapper rxVirtualViewObserver>
-	<router-outlet></router-outlet>
-</app-wrapper>
+@let isAuthFetchSuccess = isAuthFetchSuccess$ | async;
+
+@if(isAuthFetchSuccess){
+	<app-wrapper rxVirtualViewObserver>
+		<router-outlet></router-outlet>
+	</app-wrapper>
+}

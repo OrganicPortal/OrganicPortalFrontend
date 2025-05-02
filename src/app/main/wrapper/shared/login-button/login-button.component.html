@@ -1,25 +1,43 @@
+@let isAuthUser = isAuthUser$ | async;
+
 @if (viewOnState == "navbar") {
-	<a customRaisedButton
-	   (click)="onNavigateToLogin()"
-	   matRipple>
-		<ng-container [ngTemplateOutlet]="btnBody"></ng-container>
-	</a>
+	@if (!isAuthUser) {
+		<a customRaisedButton
+		   (click)="onNavigateToLogin()"
+		   matRipple>
+			<ng-container [ngTemplateOutlet]="notAuthUser"></ng-container>
+		</a>
+	} @else {
+		<a customRaisedButton
+		   matRipple>
+			<ng-container [ngTemplateOutlet]="authUser"></ng-container>
+		</a>
+	}
+	
 } @else {
-	<a customBasicButton
-	   (click)="onNavigateToLogin()"
-	   matRipple>
-		<ng-container [ngTemplateOutlet]="btnBody"></ng-container>
-	</a>
+	@if (!isAuthUser) {
+		<a customBasicButton
+		   (click)="onNavigateToLogin()"
+		   matRipple>
+			<ng-container [ngTemplateOutlet]="notAuthUser"></ng-container>
+		</a>
+	} @else {
+		<a customBasicButton
+		   matRipple>
+			<ng-container [ngTemplateOutlet]="authUser"></ng-container>
+		</a>
+	}
 }
 
-<ng-template #btnBody>
+<ng-template #notAuthUser>
 	<ngx-icon [name]="'key'"
 	          [ratio]="'1.3em'"></ngx-icon>
-	<span>
-				Увійти
-			</span>
+	<span>Увійти</span>
 </ng-template>
 
-<ng-template>
-
+<ng-template #authUser>
+	<ngx-icon [name]="'document-1'"
+	          [ratio]="'1.3em'"></ngx-icon>
+	<span>Кабінет</span>
+	<ngx-icon [name]="'alt-arrow-left'"></ngx-icon>
 </ng-template>

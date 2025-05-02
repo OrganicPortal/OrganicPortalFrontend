@@ -4,7 +4,7 @@ import {Component, QueryList, ViewChildren} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {BehaviorSubject, map, merge, pairwise, startWith, Subject, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideInOut3} from "../../../../addons/animations/shared.animations"
-import {IHeaderLink, ISelectedLink} from "../header/header.component"
+import {AuthListeners} from "../../../store/listeners/auth.listeners"
 import {WrapperService} from "../wrapper.service"
 
 @Component({
@@ -41,55 +41,78 @@ export class NavbarComponent extends LifeHooksFactory {
 	public readonly activeLink$ = new BehaviorSubject<ISelectedLink | undefined>(undefined)
 	public readonly menusCloseHandler$ = new Subject<void>()
 	public readonly loginBtnHandler$ = new BehaviorSubject<boolean>(false)
-	public readonly navLinks: any[] = [
+	public readonly navLinks: IHeaderLink[] = [
 		{
 			title: "Головна",
 			href: "",
 			icon: "home-1",
-			children: []
+			children: [],
+			isAuthRequired: false
 		},
 		{
 			title: "Органічна карта",
 			href: "organic-map",
 			icon: "map-point-rotate",
-			children: []
+			children: [],
+			isAuthRequired: false
 		},
 		{
 			title: "Органічні технології",
 			href: "organic-recommendations",
 			icon: "shield-star",
-			children: []
+			children: [],
+			isAuthRequired: false
 		},
 
 		{
 			title: "Про органіку",
 			href: "",
 			icon: "book-bookmark",
+			isAuthRequired: false,
 			children: [
 				{
 					title: "Історія розвитку",
 					href: "history-of-development",
-					icon: "history-2"
+					icon: "history-2",
+					isAuthRequired: false
 				},
 				{
 					title: "Законодавство",
 					href: "legislation",
-					icon: "medal-star-circle"
+					icon: "medal-star-circle",
+					isAuthRequired: false
 				}
 			]
-		}
+		},
+		//
+		// {
+		// 	title: "Кабінет",
+		// 	href: "/interface",
+		// 	icon: "book-bookmark",
+		// 	isAuthRequired: true,
+		// 	children: []
+		// }
 	]
 
+	public readonly isAuthUser$ = new BehaviorSubject<boolean>(false)
 	@ViewChildren(CdkMenuTrigger) menus!: QueryList<CdkMenuTrigger>
 
 	constructor(
-		private _wrapperService: WrapperService
+		private _wrapperService: WrapperService,
+		private _authListeners: AuthListeners
 	) {
 		super()
 	}
 
 	override ngOnInit() {
 		super.ngOnInit()
+
+		this._authListeners
+			.authAuditorState$
+			.pipe(
+				tap((el) => this.isAuthUser$.next(el.isAuthUser)),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 
 		this._wrapperService.onListenScrollableEvents()
 			.pipe(
@@ -172,4 +195,17 @@ export class NavbarComponent extends LifeHooksFactory {
 
 		return null
 	}
+}
+
+export interface IHeaderLink {
+	title: string
+	href: string
+	icon: string
+	children?: IHeaderLink[]
+	isAuthRequired: boolean
+}
+
+export interface ISelectedLink {
+	linkRawData: IHeaderLink
+	menuTrigger: CdkMenuTrigger
 }

@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Subject, switchMap, take, takeUntil, tap} from "rxjs"
 import {frameSideIn2} from "../../../../../addons/animations/shared.animations"
-import {RoutesRedirects} from "../../../../../addons/states/routes-redirects.service"
+import {RouterRedirects} from "../../../../../addons/states/states"
 
 @Component({
 	selector: "app-auth-overlay",
@@ -37,7 +37,7 @@ export class AuthOverlayComponent extends LifeHooksFactory {
 				tap((el) => {
 					const params = new URLSearchParams(el).toString()
 
-					this._router.navigateByUrl(`${RoutesRedirects.login}?${params}`)
+					this._router.navigateByUrl(`${RouterRedirects.login}?${params}`)
 				}),
 				takeUntil(this.componentDestroy$),
 				take(1)

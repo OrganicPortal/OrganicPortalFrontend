@@ -182,8 +182,7 @@ export const AuthAuditorReducer = createReducer(
 		(state, action) =>
 			({
 				...state, ...action,
-				isFetchSuccess: true,
-				isRequestComplete: true
+				isFetchSuccess: true
 			})
 	),
 

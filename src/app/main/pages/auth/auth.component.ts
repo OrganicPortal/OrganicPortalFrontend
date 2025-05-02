@@ -2,7 +2,19 @@ import {animate, style, transition, trigger} from "@angular/animations"
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {BehaviorSubject, filter, map, merge, shareReplay, startWith, switchMap, take, takeUntil, tap} from "rxjs"
+import {
+	BehaviorSubject,
+	filter,
+	map,
+	merge,
+	shareReplay,
+	startWith,
+	Subject,
+	switchMap,
+	take,
+	takeUntil,
+	tap
+} from "rxjs"
 import {
 	frameSideIn2,
 	frameSideInOut2,
@@ -10,7 +22,7 @@ import {
 	frameSideOut2
 } from "../../../../addons/animations/shared.animations"
 import {ListenersService} from "../../../../addons/services/listeners.service"
-import {RoutesReservedQueryParams} from "../../../../addons/states/routes-redirects.service"
+import {RoutesReservedQueryParams} from "../../../../addons/states/states"
 
 @Component({
 	selector: "app-auth",
@@ -33,6 +45,7 @@ import {RoutesReservedQueryParams} from "../../../../addons/states/routes-redire
 })
 export class AuthComponent extends LifeHooksFactory {
 	public readonly isVisibleLocationBack$ = new BehaviorSubject<boolean>(false)
+	private readonly onGoToBack$ = new Subject<void>()
 
 	constructor(
 		private _activatedRoute: ActivatedRoute,
@@ -61,6 +74,17 @@ export class AuthComponent extends LifeHooksFactory {
 					const data = el as any
 					this.isVisibleLocationBack$.next(!!data?.allowToGoBack)
 				}),
+				switchMap((el) => this.onGoToBack$.pipe(map(() => el))),
+				tap((el) => {
+					const isExistBackUrl = el["backUrl"]
+
+					if (isExistBackUrl) {
+						this._router.navigate([el["backUrl"]], {queryParamsHandling: "merge"})
+						return
+					}
+
+					window.history.back()
+				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
@@ -83,6 +107,6 @@ export class AuthComponent extends LifeHooksFactory {
 	}
 
 	public onLocationBack() {
-		window.history.back()
+		this.onGoToBack$.next()
 	}
 }

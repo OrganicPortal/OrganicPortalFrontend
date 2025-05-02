@@ -8,7 +8,6 @@ export class RegistrationReducerModel {
 	type?: string
 	isFetchSuccess: boolean = true
 	isRequestComplete: boolean = false
-	isAccConfirmed: boolean = false
 }
 
 export interface IRegistrationDTO {

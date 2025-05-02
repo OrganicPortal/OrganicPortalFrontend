@@ -13,13 +13,6 @@
 <viewport-overlay></viewport-overlay>
 <ng-short-messages></ng-short-messages>
 
-
 @if(((isLoadingInterface && isLoadingChunks)) || !authAuditorState?.isFetchSuccess){
 	<full-screen-loader [@fullScreenLoaderAnimation]></full-screen-loader>
 }
-
-
-<!-- <div class="content"> -->
-<!-- 	{{isLoadingInterface}} -->
-<!-- 	{{authAuditorState?.isFetchSuccess}} -->
-<!-- </div> -->

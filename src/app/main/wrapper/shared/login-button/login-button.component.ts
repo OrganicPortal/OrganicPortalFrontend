@@ -1,7 +1,9 @@
 import {Component, Input} from "@angular/core"
-import {ActivatedRoute, Router} from "@angular/router"
-import {ListenersService} from "../../../../../addons/services/listeners.service"
-import {RoutesReservedQueryParams} from "../../../../../addons/states/routes-redirects.service"
+import {Router} from "@angular/router"
+import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
+import {BehaviorSubject, takeUntil, tap} from "rxjs"
+import {RoutesReservedQueryParams} from "../../../../../addons/states/states"
+import {AuthListeners} from "../../../../store/listeners/auth.listeners"
 
 @Component({
 	selector: "login-button",
@@ -10,21 +12,31 @@ import {RoutesReservedQueryParams} from "../../../../../addons/states/routes-red
 	styleUrl: "./login-button.component.scss",
 	standalone: false
 })
-export class LoginButtonComponent {
+export class LoginButtonComponent extends LifeHooksFactory {
 	public viewOnState: "navbar" | "header" = "header"
+	public readonly isAuthUser$ = new BehaviorSubject<boolean>(false)
 
 	constructor(
 		private _router: Router,
-		private _activatedRoute: ActivatedRoute,
-		private _listenersService: ListenersService
+		private _authListeners: AuthListeners
 	) {
+		super()
 	}
 
 	@Input() public set viewOn(value: "navbar" | "header") {
 		this.viewOnState = value
 	}
 
-	ngOnInit() {
+	public override ngOnInit() {
+		super.ngOnInit()
+
+		this._authListeners.authAuditorState$
+			.pipe(
+				tap((el) => {
+					this.isAuthUser$.next(el.isAuthUser)
+				}),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	public onNavigateToLogin() {
