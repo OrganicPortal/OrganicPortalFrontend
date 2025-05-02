@@ -167,9 +167,10 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 
 	public onKeydownInput(evt: KeyboardEvent) {
 		const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Tab", "Delete"]
+		const isV = evt.code === 'KeyV'
 
 		if (allowedKeys.includes(evt.key) ||
-			(evt.ctrlKey && (evt.key === "v" || evt.key === "V"))
+			(evt.ctrlKey && isV)
 		) return
 
 		if (!/^\d$/.test(evt.key))

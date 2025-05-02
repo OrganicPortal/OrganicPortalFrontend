@@ -1,7 +1,14 @@
 import {AsyncPipe} from "@angular/common"
 import {Component} from "@angular/core"
 import {MatProgressBarModule} from "@angular/material/progress-bar"
-import {NavigationEnd, NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, RouterOutlet} from "@angular/router"
+import {
+	NavigationCancel,
+	NavigationEnd,
+	NavigationStart,
+	RouteConfigLoadEnd,
+	RouteConfigLoadStart,
+	RouterOutlet
+} from "@angular/router"
 import {LifeHooksFactory, NgxToastrModule} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {BehaviorSubject, filter, takeUntil, tap} from "rxjs"
@@ -58,11 +65,16 @@ export class AppComponent extends LifeHooksFactory {
 
 		this._listenersService.onListenRouterNavigation()
 			.pipe(
+				tap((el) => {
+					console.log(el)
+
+				}),
 				filter(el =>
 					el instanceof RouteConfigLoadStart ||
 					el instanceof RouteConfigLoadEnd ||
 					el instanceof NavigationStart ||
-					el instanceof NavigationEnd
+					el instanceof NavigationEnd ||
+					el instanceof NavigationCancel
 				),
 				tap(el => {
 					if (el instanceof RouteConfigLoadStart || el instanceof RouteConfigLoadEnd) {
@@ -75,7 +87,7 @@ export class AppComponent extends LifeHooksFactory {
 						this.isLoadingInterface$.next(true)
 					}
 
-					if (el instanceof NavigationEnd && regexp.test(el.url)) {
+					if (el instanceof NavigationEnd || el instanceof NavigationCancel && regexp.test(el.url)) {
 						this.isLoadingInterface$.next(false)
 					}
 				}),

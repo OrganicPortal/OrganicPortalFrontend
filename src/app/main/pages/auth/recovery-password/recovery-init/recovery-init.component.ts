@@ -63,7 +63,8 @@ export class RecoveryInitComponent extends LifeHooksFactory {
 							queryParamsHandling: "merge",
 							skipLocationChange: true,
 							state: {
-								recoveryToken: el.recoveryToken
+								recoveryToken: el.recoveryToken,
+								phone: this.recoveryInitFg.get("phone")?.value
 							}
 						})
 				}),
