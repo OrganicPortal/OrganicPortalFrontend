@@ -12,14 +12,14 @@ export enum RoutesReservedQueryParams {
 
 //#region UserRoles
 export enum AllowedRoles {
-	Visitor = "Visitor",
-	User = "User",
+	Visitor = 0,
+	User = 1,
 
-	Owner = "Owner",
-	Manager = "Manager",
+	Owner = 10,
+	Manager = 11,
 
-	SysAdmin = "SysAdmin",
-	SysManager = "SysManager",
+	SysAdmin = 99,
+	SysManager = 100,
 }
 
 //#endregion UserRoles
@@ -33,21 +33,24 @@ export enum AllowedGroupsOfUsers {
 }
 //#endregion GroupsOfUser
 
-type AllowedRoleOrGroup = AllowedRoles | AllowedGroupsOfUsers
-
 export type RedirectRuleItem = {
 	redirectTo: any[],
 	extras?: NavigationExtras
 }
 
-export type RedirectsValidationType = {
-	[key in AllowedRoleOrGroup]?: RedirectRuleItem
+export type RedirectsValidationForGroupsType = {
+	[key in AllowedGroupsOfUsers]?: RedirectRuleItem
+}
+
+export type RedirectsValidationForRolesType = {
+	[key in AllowedRoles]?: RedirectRuleItem
 }
 
 export enum EnumRouteExtended {
 	canActivateRoles = "canActivateRoles",
 	canActivateGroups = "canActivateGroups",
-	canActivateRedirectsIfValidationError = "canActivateRedirectsIfValidationError",
+	canActivateGroupsRedirectsIfValidationError = "canActivateGroupsRedirectsIfValidationError",
+	canActivateRolesRedirectsIfValidationError = "canActivateRolesRedirectsIfValidationError",
 }
 
 
@@ -60,8 +63,10 @@ export type RouteExtended = {
 		[EnumRouteExtended.canActivateRoles]?: AllowedRoles[]
 		// Перелік груп користувачів, яким дозволено доступ до маршруту
 		[EnumRouteExtended.canActivateGroups]?: AllowedGroupsOfUsers[],
-		// Правила редіректів у разі неотримання доступу до маршруту
-		[EnumRouteExtended.canActivateRedirectsIfValidationError]?: RedirectsValidationType
+		// Правила редіректів для груп користувачів у разі неотримання доступу до маршруту
+		[EnumRouteExtended.canActivateGroupsRedirectsIfValidationError]?: RedirectsValidationForGroupsType,
+		// Правила редіректів для ролей у разі неотримання доступу до маршруту
+		[EnumRouteExtended.canActivateRolesRedirectsIfValidationError]?: RedirectsValidationForRolesType
 	}
 
 	children?: RouteExtended[]

@@ -1,42 +1,41 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostBinding, QueryList, ViewChildren} from "@angular/core"
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
-import {ActivatedRoute, Data, Router} from "@angular/router"
+import {ActivatedRoute, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {delay, filter, fromEvent, map, Observable, takeUntil, tap} from "rxjs"
-import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
+import {delay, filter, fromEvent, map, takeUntil, tap} from "rxjs"
+import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
-} from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
-import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
-import * as AuthActions from "../../../../store/actions/auth.actions"
+} from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
+import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
+import * as AuthActions from "../../../../../store/actions/auth.actions"
+import {AuthListeners} from "../../../../../store/listeners/auth.listeners"
 import {
-	PhoneConfirmationEffectData,
-	PhoneConfirmationModel
-} from "../../../../store/models/auth/auth.phone-confirmation.models"
-import {RecoveryPasswordGetTokenEffectData} from "../../../../store/models/auth/auth.recovery-password"
-import {CodeConfirmationService} from "./code-confirmation.service"
+	RecoveryPasswordGetTokenEffectData,
+	SaveRecoveredPasswordEffectData
+} from "../../../../../store/models/auth/auth.recovery-password"
+import {CodeConfirmationService} from "../../code-confirmation/code-confirmation.service"
 
 const codeLen = 8
 
 @Component({
-	selector: "app-code-confirmation",
-	templateUrl: "./code-confirmation.component.html",
-	styleUrls: [
-		"./code-confirmation.component.scss", "../shared/shared.styles.scss"
-	],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: "app-recovery-in-progress",
 	standalone: false,
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	styleUrls: [
+		"./recovery-in-progress.component.scss", "../../shared/shared.styles.scss"
+	],
+	templateUrl: "./recovery-in-progress.component.html",
 	animations: [
 		frameSideIn4
 	]
 })
-export class CodeConfirmationComponent extends LifeHooksFactory {
-	public readonly loaderState$ = onInitLoader()
+export class RecoveryInProgressComponent extends LifeHooksFactory {
+	public readonly loaderState$ = onInitLoader(true, false)
 	public currFocusInputIdx: number = -1
 	@ViewChildren("codeInput", {read: ElementRef}) codeInputs!: QueryList<ElementRef<HTMLInputElement>>
 	public readonly confirmationFg!: FormGroup
-	public activatedRouteData$: Observable<Data>
 	public routerExtras: any
 	private controlValidators = [
 		Validators.min(0),
@@ -54,11 +53,16 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 		private _codeConfirmationService: CodeConfirmationService,
 		private _store: Store<AuthActions.StoreAuthType>,
 		private _router: Router,
+		private _authListeners: AuthListeners,
 		private _activatedRoute: ActivatedRoute
 	) {
 		super()
-		this.confirmationFg = new FormGroup({code: new FormArray(this.inputControls)})
-		this.activatedRouteData$ = this._activatedRoute.data
+		this.confirmationFg = new FormGroup(
+			{
+				code: new FormArray(this.inputControls),
+				newPassword: new FormControl("", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
+			}
+		)
 		this.routerExtras = this._router.getCurrentNavigation()?.extras
 	}
 
@@ -78,7 +82,7 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 		super.ngOnInit()
 		this.timerInitializer$.next()
 
-		this._activatedRoute.data
+
 		/**
 		 * Переміщення між інпутами за допомогою клавіш "ArrowRight" & "ArrowLeft"
 		 */
@@ -101,21 +105,11 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 
-		this._codeConfirmationService
-			.onListenCodeConfirmation()
+		this._authListeners.authPasswordRecoveryState$
 			.pipe(
+				filter(el => el.isFetchSuccess),
 				tap((el) => {
-					if (!el.isFetchSuccess && !el.isRequestComplete) {
-						this.loaderState$.next(new LoaderModel(false, false))
-						return
-					}
-
-					if (el.isFetchSuccess && el.isRequestComplete) {
-						this.loaderState$.next(new LoaderModel(true, false))
-						return
-					}
-
-					this.loaderState$.next(new LoaderModel(true, true))
+					this.loaderState$.next(new LoaderModel(true, el.isSuccessSavePassword))
 				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
@@ -138,6 +132,15 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 	public onFocusInput(input: HTMLInputElement, idx: number) {
 		this.currFocusInputIdx = idx
 		input.select()
+	}
+
+	public onHandlerPassword(input: HTMLInputElement) {
+		if (input.type === "password") {
+			input.type = "text"
+			return
+		}
+
+		input.type = "password"
 	}
 
 	/**
@@ -209,10 +212,9 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 
 	/**
 	 * @description Resend SMS-code
-	 * @param confirmationType
 	 * @param isAllowedToRenew
 	 */
-	public onSendCode(confirmationType: "recovery-password" | "registration", isAllowedToRenew: boolean | null) {
+	public onSendCode(isAllowedToRenew: boolean | null) {
 		if (!isAllowedToRenew) {
 			let message = `Спробуйте пізніше`
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
@@ -220,11 +222,6 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 		}
 
 		this.onResetDate()
-
-		if (confirmationType == "registration") {
-			this._store.dispatch(AuthActions.ResendPhoneCodeInit())
-			return
-		}
 
 		const phone = this.routerExtras?.["state"]?.["phone"] ?? ""
 		const model = new RecoveryPasswordGetTokenEffectData(phone)
@@ -235,7 +232,7 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 	/**
 	 * @description ngSubmit form
 	 */
-	public onSubmit(confirmationType: "recovery-password" | "registration") {
+	public onSubmit() {
 		if (!this.confirmationFg.valid) {
 			let message = `Форму заповнено не коректно`
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
@@ -243,24 +240,18 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 		}
 
 		const code = this.inputControls.map(el => el.value?.toString()).join("")
-		const payload = new PhoneConfirmationModel(code)
+		const token = this.routerExtras?.state?.["recoveryToken"]
 
-		if (confirmationType == "registration") {
-			this._store.dispatch(AuthActions.PhoneCodeConfirmationInit(new PhoneConfirmationEffectData(payload)))
-			return
-		}
-
-		this._store.dispatch(AuthActions.RecoveryPasswordFetchTokenSuccess({
-			phoneCode: code,
-			isSuccessFetchToken: true,
-			isFetchSuccess: true,
-			isSuccessSavePassword: false
-		}))
-
-		this._router.navigate(["/auth/recovery/recovery-in-progress"], {
-			queryParamsHandling: "merge",
-			skipLocationChange: true
-		})
+		this.loaderState$.next(new LoaderModel(false, false))
+		this._store.dispatch(AuthActions
+			.RecoveryPasswordSaveInit(
+				new SaveRecoveredPasswordEffectData(
+					code,
+					this.confirmationFg.get("newPassword")?.value ?? "",
+					token
+				)
+			)
+		)
 	}
 
 

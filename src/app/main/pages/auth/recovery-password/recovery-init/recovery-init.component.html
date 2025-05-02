@@ -1,0 +1,47 @@
+@let loaderState = loaderState$ | async;
+
+<form class="form-data"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="recoveryInitFg">
+	<div class="page-title">
+		<ngx-icon [name]="'lock-keyhole-unlocked'"
+		          [ratio]="'3em'"></ngx-icon>
+		
+		<h2>
+			Відновлення пароля
+		</h2>
+		
+		<span class="title-desc">
+			Введіть номер телефону, пов'язаний з вашим обліковим записом, і ми надішлемо інструкції для
+		  відновлення доступу.
+		</span>
+	</div>
+	
+	<div class="fields">
+		<custom-input-field>
+			<ngx-icon [name]="'phone-calling-rounded'"
+			          [ratio]="'1em'"></ngx-icon>
+			<label for="phone">Номер телефону</label>
+			
+			<input id="phone"
+			       [formControlName]="'phone'"
+			       #phoneInput
+			       autocomplete="on"
+			       customInput
+			       type="text">
+		</custom-input-field>
+	</div>
+	
+	<button class="btn submit-btn"
+	        [type]="'submit'"
+	        customBasicButton
+	        matRipple>
+		<ngx-icon [name]="'login-3'"
+		          [ratio]="'1.3em'"></ngx-icon>
+		<span>Надіслати код</span>
+	</button>
+</form>
+
+@if (!loaderState?.isLoaded) {
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+}

@@ -1,7 +1,7 @@
 import {HttpErrorResponse} from "@angular/common/http"
 
 export class LoginReducerModel {
-	Data?: ILoginDTO
+	Data?: { Token: string }
 	Message?: string
 	Error?: HttpErrorResponse | any
 

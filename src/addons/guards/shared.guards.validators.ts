@@ -4,7 +4,7 @@ import {combineLatest, filter, map, Observable, of, take, tap} from "rxjs"
 import {AuthListeners} from "../../app/store/listeners/auth.listeners"
 import {LocalStorageListeners} from "../../app/store/listeners/localstorage.listeners"
 import {LOCAL_STORAGE_TOKEN_KEY} from "../../app/store/models/localstorage/models"
-import {AllowedGroupsOfUsers, RedirectRuleItem, RedirectsValidationType} from "../states/states"
+import {AllowedGroupsOfUsers, AllowedRoles, RedirectRuleItem, RedirectsValidationForGroupsType} from "../states/states"
 
 @Injectable({
 	providedIn: "root"
@@ -22,14 +22,36 @@ export class SharedGuardsValidatorsService {
 		this.authState$ = this._authListeners.authAuditorState$
 		this.registrationState$ = this._authListeners.storeRegistrationState$
 		this.localStorageState$ = this._localStorageListeners.localStorageState$
+
 	}
 
+	public AccessByRoles(allowedAccessRoles: AllowedRoles[], redirectRules: RedirectsValidationForGroupsType) {
+		allowedAccessRoles
+			.reverse()
+			.map(el => {
+
+			})
+
+		const triggerRule = redirectRules[AllowedGroupsOfUsers.OnlyAuthorized]
+
+		return this.authState$.pipe(
+			filter(el => el.isFetchSuccess),
+			map(el => {
+				if (!el.isAuthUser) {
+					this.onRedirectTo(triggerRule)
+					return
+				}
+			})
+		)
+	}
+
+	//#redion Methods For Groups Guards
 	/**
 	 * @description Будь-які користувачі
 	 * @param redirectRules
 	 * @constructor
 	 */
-	public AccessForAny(redirectRules: RedirectsValidationType): Observable<boolean> {
+	public AccessForAny(redirectRules: RedirectsValidationForGroupsType): Observable<boolean> {
 		return of(true).pipe(take(1))
 	}
 
@@ -38,7 +60,7 @@ export class SharedGuardsValidatorsService {
 	 * @param redirectRules
 	 * @constructor
 	 */
-	public AccessForOnlyAuthorized(redirectRules: RedirectsValidationType): Observable<boolean> {
+	public AccessForOnlyAuthorized(redirectRules: RedirectsValidationForGroupsType): Observable<boolean> {
 		const triggerRule = redirectRules[AllowedGroupsOfUsers.OnlyAuthorized]
 
 		return combineLatest([
@@ -61,7 +83,7 @@ export class SharedGuardsValidatorsService {
 	 * @param redirectRules
 	 * @constructor
 	 */
-	public AccessForOnlyUnauthorized(redirectRules: RedirectsValidationType): Observable<boolean> {
+	public AccessForOnlyUnauthorized(redirectRules: RedirectsValidationForGroupsType): Observable<boolean> {
 		const triggerRule = redirectRules[AllowedGroupsOfUsers.OnlyUnauthorized]
 
 		return combineLatest([
@@ -84,6 +106,8 @@ export class SharedGuardsValidatorsService {
 		)
 	}
 
+	//#endregion Methods For Groups Guards
+
 	/**
 	 * @description Лише користувачі, які успішно заповнили та
 	 * надіслали форму реєстрації та очікують підтвердження
@@ -91,7 +115,7 @@ export class SharedGuardsValidatorsService {
 	 * @param redirectRules
 	 * @constructor
 	 */
-	public AccessForOnlyWithConfirmRegistrationStep(redirectRules: RedirectsValidationType): Observable<boolean> {
+	public AccessForOnlyWithConfirmRegistrationStep(redirectRules: RedirectsValidationForGroupsType): Observable<boolean> {
 		const triggerRule = redirectRules[AllowedGroupsOfUsers.OnlyWithConfirmRegistrationStep]
 
 		return combineLatest([
@@ -100,12 +124,12 @@ export class SharedGuardsValidatorsService {
 			this.localStorageState$
 		]).pipe(
 			tap(([el1, el2, el3]) => {
-				if (el2.isAuthUser){
+				if (el2.isAuthUser) {
 					this.onRedirectTo(triggerRule)
 					return
 				}
 
-				if(!el1.isRequestComplete){
+				if (!el1.isRequestComplete) {
 					this.onRedirectTo(triggerRule)
 					return
 				}

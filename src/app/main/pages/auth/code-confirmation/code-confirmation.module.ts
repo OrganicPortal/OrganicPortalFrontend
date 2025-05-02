@@ -31,6 +31,7 @@ export const routes: RoutesExtended = [
 	imports: [
 		CommonModule,
 		RouterModule.forChild(routes),
+		CommonModule,
 		NgxIconsModule,
 		MatRippleModule,
 		CustomBasicButtonModule,
@@ -49,4 +50,6 @@ export const routes: RoutesExtended = [
 	]
 })
 export class CodeConfirmationModule {
+	constructor() {
+	}
 }

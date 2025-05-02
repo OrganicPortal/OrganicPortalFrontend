@@ -34,7 +34,8 @@ export const appConfig: ApplicationConfig = {
 		importProvidersFrom(BrowserAnimationsModule),
 
 		importProvidersFrom(EffectsModule.forRoot([
-			AuthEffects, LocalStorageEffects
+			AuthEffects,
+			LocalStorageEffects
 		])),
 
 		importProvidersFrom(StoreModule.forRoot({
@@ -43,6 +44,7 @@ export const appConfig: ApplicationConfig = {
 			[AuthActions.Actions.ResendPhoneCodeReducerName]: AuthReducers.ResendPhoneCodeReducer,
 			[AuthActions.Actions.LoginReducerName]: AuthReducers.LoginReducer,
 			[AuthActions.Actions.AuthAuditorReducerName]: AuthReducers.AuthAuditorReducer,
+			[AuthActions.Actions.RecoveryPasswordReducerName]: AuthReducers.AuthRecoveryPasswordReducer,
 
 			[LocalStorageActions.Actions.LocalStorageOperationsReducerName]: LocalStorageReducers.StorageOperations,
 			[LocalStorageActions.Actions.StorageStateReducerName]: LocalStorageReducers.StorageStates

@@ -18,6 +18,7 @@
 			
 			<input id="phone"
 			       [formControlName]="'phone'"
+			       #phoneInput
 			       autocomplete="on"
 			       customInput
 			       type="text">
@@ -54,12 +55,14 @@
 		</custom-input-field>
 		
 		<div class="info">
-			<a customBasicLink
-			   href="">
+			<a (click)="onRestorePassword()"
+			   [queryParamsHandling]="'merge'"
+			   [routerLink]="['/auth/recovery']"
+			   customBasicLink>
 				<ngx-icon [name]="'paperclip-2'"
 				          [ratio]="'1em'"></ngx-icon>
 				
-				Не вдається увійти?
+				Забули пароль?
 			</a>
 		</div>
 	</div>

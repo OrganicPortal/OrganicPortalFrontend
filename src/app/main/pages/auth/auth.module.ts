@@ -9,6 +9,7 @@ import {
 import {UserGroupsGuardService} from "../../../../addons/guards/user-groups.guard.service"
 import {AllowedGroupsOfUsers, RouterRedirects, RoutesExtended} from "../../../../addons/states/states"
 import {AuthComponent} from "./auth.component"
+import {AuthService} from "./auth.service"
 
 export enum CodeConfirmation {
 	isRegSuccessful = "isRegSuccessful",
@@ -29,7 +30,7 @@ export const routes: RoutesExtended = [
 						AllowedGroupsOfUsers.OnlyUnauthorized
 					],
 
-					canActivateRedirectsIfValidationError: {
+					canActivateGroupsRedirectsIfValidationError: {
 						[AllowedGroupsOfUsers.OnlyUnauthorized]: {
 							redirectTo: ["/interface"]
 						}
@@ -47,7 +48,7 @@ export const routes: RoutesExtended = [
 						AllowedGroupsOfUsers.OnlyUnauthorized
 					],
 
-					canActivateRedirectsIfValidationError: {
+					canActivateGroupsRedirectsIfValidationError: {
 						[AllowedGroupsOfUsers.OnlyUnauthorized]: {
 							redirectTo: ["/interface"]
 						}
@@ -61,14 +62,37 @@ export const routes: RoutesExtended = [
 				canActivate: [UserGroupsGuardService],
 				data: {
 					allowToGoBack: true,
+					pageTitle: "Підтвердженя номера телефону",
+					confirmationType: "registration",
+					pageDesc: "Для завершення реєстрації, будь ласка, введіть код підтвердження, надісланий на ваш номер телефону.",
 					backUrl: RouterRedirects.registration,
 
 					canActivateGroups: [
 						AllowedGroupsOfUsers.OnlyWithConfirmRegistrationStep
 					],
 
-					canActivateRedirectsIfValidationError: {
+					canActivateGroupsRedirectsIfValidationError: {
 						[AllowedGroupsOfUsers.OnlyWithConfirmRegistrationStep]: {
+							redirectTo: [RouterRedirects.registration]
+						}
+					}
+				}
+			},
+
+			{
+				path: "recovery",
+				loadChildren: () => import("./recovery-password/recovery-password.module").then((m) => m.RecoveryPasswordModule),
+				canActivate: [UserGroupsGuardService],
+				data: {
+					allowToGoBack: true,
+					backUrl: RouterRedirects.login,
+
+					canActivateGroups: [
+						AllowedGroupsOfUsers.OnlyUnauthorized
+					],
+
+					canActivateGroupsRedirectsIfValidationError: {
+						[AllowedGroupsOfUsers.OnlyUnauthorized]: {
 							redirectTo: [RouterRedirects.registration]
 						}
 					}
@@ -101,7 +125,8 @@ export const routes: RoutesExtended = [
 		CustomRaisedButtonModule,
 		MatRippleModule,
 		NgOptimizedImage
-	]
+	],
+	providers: [AuthService]
 })
 export class AuthModule {
 }

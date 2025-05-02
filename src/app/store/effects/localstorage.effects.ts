@@ -117,6 +117,7 @@ export class LocalStorageEffects {
 		try {
 			const serializedValue = JSON.stringify(payload.value)
 			localStorage.setItem(payload.key, serializedValue)
+
 			return LocalStorageActions.StorageOperationSuccessfully({status: StorageOperationsStatuses.success})
 		} catch (e) {
 			return LocalStorageActions.StorageOperationFailure({status: StorageOperationsStatuses.failure})

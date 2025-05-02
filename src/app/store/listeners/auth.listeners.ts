@@ -12,23 +12,28 @@ export class AuthListeners {
 	) {
 	}
 
-	public get storeRegistrationState$(){
+	public get storeRegistrationState$() {
 		return this._store.select(AuthActions.Actions.RegistrationReducerName)
 			.pipe(shareReplay())
 	}
 
-	public get storePhoneConfirmationState$(){
+	public get storePhoneConfirmationState$() {
 		return this._store.select(AuthActions.Actions.PhoneCodeConfirmationReducerName)
 			.pipe(shareReplay())
 	}
 
-	public get storeLoginState$(){
+	public get storeLoginState$() {
 		return this._store.select(AuthActions.Actions.LoginReducerName)
 			.pipe(shareReplay())
 	}
 
-	public get authAuditorState$(){
+	public get authAuditorState$() {
 		return this._store.select(AuthActions.Actions.AuthAuditorReducerName)
+			.pipe()
+	}
+
+	public get authPasswordRecoveryState$() {
+		return this._store.select(AuthActions.Actions.RecoveryPasswordReducerName)
 			.pipe(shareReplay())
 	}
 }

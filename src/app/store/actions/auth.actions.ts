@@ -6,6 +6,10 @@ import {
 	PhoneConfirmationReducerModel,
 	PhoneConfirmationRegDataSetterModel
 } from "../models/auth/auth.phone-confirmation.models"
+import {
+	AuthRecoveryPasswordReducerModel,
+	RecoveryPasswordGetTokenEffectData, SaveRecoveredPasswordEffectData
+} from "../models/auth/auth.recovery-password"
 import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
 import {ResendPhoneCodeReducerModel} from "../models/auth/auth.resend-phone-code.models"
 
@@ -21,6 +25,15 @@ export enum Actions {
 	RegistrationSuccess = "[AUTH] Registration success",
 	RegistrationFailure = "[AUTH] Registration failure",
 	RegistrationReset = "[AUTH] Registration reset",
+
+	RecoveryPasswordReducerName = "recoveryPassword",
+	RecoveryPasswordFetchTokenInit = "[AUTH] Recovery password fetch token init",
+	RecoveryPasswordFetchTokenSuccess = "[AUTH] Recovery password fetch token success",
+	RecoveryPasswordFetchTokenFailure = "[AUTH] Recovery password fetch token failure",
+	RecoveryPasswordSaveInit = "[AUTH] Recovery password save init",
+	RecoveryPasswordSaveSuccess = "[AUTH] Recovery password save success",
+	RecoveryPasswordSaveFailure = "[AUTH] Recovery password save failure",
+	RecoveryPasswordReset = "[AUTH] Recovery password reset",
 
 	PhoneCodeConfirmationReducerName = "phoneCodeConfirmation",
 	PhoneCodeConfirmationInit = "[AUTH] Phone code confirmation init",
@@ -83,11 +96,29 @@ export const AuthAuditorFailure = createAction(Actions.AuthAuditorFailure, props
 export const AuthAuditorReset = createAction(Actions.AuthAuditorReset)
 //#endregion AuthAuditor Actions
 
+//#region Recovery Password
+export const RecoveryPasswordFetchTokenInit =
+	createAction(Actions.RecoveryPasswordFetchTokenInit, props<RecoveryPasswordGetTokenEffectData>())
+export const RecoveryPasswordSaveInit =
+	createAction(Actions.RecoveryPasswordSaveInit, props<SaveRecoveredPasswordEffectData>())
+export const RecoveryPasswordFetchTokenSuccess =
+	createAction(Actions.RecoveryPasswordFetchTokenSuccess, props<AuthRecoveryPasswordReducerModel>())
+export const RecoveryPasswordSaveSuccess =
+	createAction(Actions.RecoveryPasswordSaveSuccess, props<AuthRecoveryPasswordReducerModel>())
+export const RecoveryPasswordFetchTokenFailure =
+	createAction(Actions.RecoveryPasswordFetchTokenFailure, props<AuthRecoveryPasswordReducerModel>())
+export const RecoveryPasswordSaveFailure =
+	createAction(Actions.RecoveryPasswordSaveFailure, props<AuthRecoveryPasswordReducerModel>())
+
+export const RecoveryPasswordReset =
+	createAction(Actions.RecoveryPasswordReset)
+//#endregion Recovery Password
 
 export type StoreAuthType = {
 	[Actions.RegistrationReducerName]: RegistrationReducerModel,
 	[Actions.PhoneCodeConfirmationReducerName]: PhoneConfirmationReducerModel,
 	[Actions.ResendPhoneCodeReducerName]: ResendPhoneCodeReducerModel,
 	[Actions.LoginReducerName]: LoginReducerModel,
-	[Actions.AuthAuditorReducerName]: AuthAuditorReducerModel
+	[Actions.AuthAuditorReducerName]: AuthAuditorReducerModel,
+	[Actions.RecoveryPasswordReducerName]: AuthRecoveryPasswordReducerModel,
 }

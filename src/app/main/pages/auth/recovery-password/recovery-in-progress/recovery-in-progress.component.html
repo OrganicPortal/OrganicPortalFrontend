@@ -1,10 +1,9 @@
 @let allowedRenewCode = allowedRenewCode$ | async;
 @let timerToRenew = timerToRenew$ | async;
 @let loaderState = loaderState$ | async;
-@let activatedRouteData = activatedRouteData$ | async;
 
 <form class="form-data"
-      (ngSubmit)="onSubmit(activatedRouteData!['confirmationType'])"
+      (ngSubmit)="onSubmit()"
       [formGroup]="confirmationFg"
       action="">
 	<div class="page-title">
@@ -12,11 +11,11 @@
 		          [ratio]="'3em'"></ngx-icon>
 		
 		<h2>
-			{{ activatedRouteData?.["pageTitle"]! }}
+			Введіть код з SMS
 		</h2>
 		
 		<span class="title-desc">
-			{{ activatedRouteData?.["pageDesc"]! }}
+			Для завершення відновлення паролю, будь ласка, введіть код підтвердження, надісланий на ваш номер телефону.
 		</span>
 	</div>
 	
@@ -43,7 +42,7 @@
 		</div>
 		
 		<div class="info">
-			<a (click)="onSendCode(activatedRouteData!['confirmationType'],allowedRenewCode)"
+			<a (click)="onSendCode(allowedRenewCode)"
 			   [ngClass]="allowedRenewCode ? '' : 'disallowed-link'"
 			   customBasicLink>
 				<ngx-icon [name]="'letter'"
@@ -60,6 +59,36 @@
 			}
 		</div>
 	</div>
+	
+	<custom-input-field>
+		<ngx-icon [name]="'lock-password-unlocked'"
+		          [ratio]="'1em'"></ngx-icon>
+		<label for="password">Пароль</label>
+		
+		<div customInputSuffix>
+			<div class="input-suffix"
+			     (click)="onHandlerPassword(password)"
+			     [matRippleColor]="'var(--mat-ripple-suffix-color)'"
+			     customInputSuffix
+			     matRipple>
+				
+				@if (password.type != 'password') {
+					<ngx-icon [name]="'eye'"
+					          [ratio]="'1em'"></ngx-icon>
+				} @else {
+					<ngx-icon [name]="'eye-closed'"
+					          [ratio]="'1em'"></ngx-icon>
+				}
+			</div>
+		</div>
+		
+		<input id="password"
+		       [formControlName]="'newPassword'"
+		       #password
+		       autocomplete="new-password"
+		       customInput
+		       type="password">
+	</custom-input-field>
 	
 	<button class="btn submit-btn"
 	        [disabled]="!confirmationFg.valid"

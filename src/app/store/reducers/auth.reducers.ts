@@ -3,6 +3,7 @@ import * as AuthActions from "../actions/auth.actions"
 import {AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
 import {LoginReducerModel} from "../models/auth/auth.login.models"
 import {PhoneConfirmationReducerModel} from "../models/auth/auth.phone-confirmation.models"
+import {AuthRecoveryPasswordReducerModel} from "../models/auth/auth.recovery-password"
 import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
 import {ResendPhoneCodeReducerModel} from "../models/auth/auth.resend-phone-code.models"
 
@@ -174,7 +175,8 @@ export const AuthAuditorReducer = createReducer(
 			({
 				...state, ...action,
 				isFetchSuccess: false,
-				isRequestComplete: false
+				isRequestComplete: false,
+				userRoles: []
 			})
 	),
 
@@ -201,3 +203,65 @@ export const AuthAuditorReducer = createReducer(
 	)
 )
 //#endregion Auth Auditor Reducer
+
+
+export const AuthRecoveryPasswordReducer = createReducer(
+	new AuthRecoveryPasswordReducerModel(),
+	on(AuthActions.RecoveryPasswordFetchTokenInit,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: false
+			})
+	),
+
+	on(AuthActions.RecoveryPasswordFetchTokenSuccess,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isSuccessFetchToken: true
+			})
+	),
+
+	on(AuthActions.RecoveryPasswordFetchTokenFailure,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isSuccessFetchToken: false
+			})
+	),
+
+	on(AuthActions.RecoveryPasswordSaveInit,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: false,
+				isSuccessSavePassword: false
+			})
+	),
+
+	on(AuthActions.RecoveryPasswordSaveSuccess,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isSuccessSavePassword: true
+			})
+	),
+
+	on(AuthActions.RecoveryPasswordSaveFailure,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isSuccessSavePassword: false
+			})
+	),
+
+	on(AuthActions.RecoveryPasswordReset,
+		(state, action) =>
+			new AuthRecoveryPasswordReducerModel()
+	)
+)

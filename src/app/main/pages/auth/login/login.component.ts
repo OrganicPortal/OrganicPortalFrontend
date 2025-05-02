@@ -14,6 +14,7 @@ import * as AuthActions from "../../../../store/actions/auth.actions"
 import {StoreAuthType} from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
 import {LoginDataModel, LoginEffectData} from "../../../../store/models/auth/auth.login.models"
+import {AuthService} from "../auth.service"
 
 @Component({
 	selector: "app-login",
@@ -23,9 +24,7 @@ import {LoginDataModel, LoginEffectData} from "../../../../store/models/auth/aut
 		"./login.component.scss",
 		"../shared/shared.styles.scss"
 	],
-	animations: [
-		frameSideIn4
-	],
+	animations: [frameSideIn4],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent extends LifeHooksFactory {
@@ -39,6 +38,7 @@ export class LoginComponent extends LifeHooksFactory {
 	constructor(
 		private _router: Router,
 		private _authListeners: AuthListeners,
+		private _authService: AuthService,
 		private _ngShortMessageService: NgShortMessageService,
 		private _store: Store<StoreAuthType>,
 		private _toastrService: ToastrService
@@ -63,7 +63,6 @@ export class LoginComponent extends LifeHooksFactory {
 						return undefined
 					}
 
-
 					return undefined
 				}),
 				switchMap((el) =>
@@ -72,7 +71,8 @@ export class LoginComponent extends LifeHooksFactory {
 					)
 				),
 				filter(el => !!el),
-				tap(() => {
+				switchMap((el) => this._authListeners.authAuditorState$),
+				tap((el) => {
 					const message = "Вхід успішно виконано"
 					this._toastrService.onInitMessage(message)
 
@@ -94,6 +94,10 @@ export class LoginComponent extends LifeHooksFactory {
 		}
 
 		input.type = "password"
+	}
+
+	public onRestorePassword() {
+		this._authService.inputtedPhoneForRecovery = this.loginFg.get("phone")?.value ?? ""
 	}
 
 	public onSubmit() {

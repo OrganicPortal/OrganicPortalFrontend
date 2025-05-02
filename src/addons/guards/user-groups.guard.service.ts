@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core"
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from "@angular/router"
 import {merge, Observable, of} from "rxjs"
-import {AllowedGroupsOfUsers, EnumRouteExtended, RedirectsValidationType} from "../states/states"
+import {AllowedGroupsOfUsers, EnumRouteExtended, RedirectsValidationForGroupsType} from "../states/states"
 import {SharedGuardsValidatorsService} from "./shared.guards.validators"
 
 @Injectable({
@@ -14,8 +14,8 @@ export class UserGroupsGuardService implements CanActivate {
 	}
 
 	public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-		const canActivateGroups: AllowedGroupsOfUsers[] = route.data[EnumRouteExtended.canActivateGroups]
-		const redirectRules: RedirectsValidationType = route.data[EnumRouteExtended.canActivateRedirectsIfValidationError] ?? []
+		const canActivateGroups: AllowedGroupsOfUsers[] = route.data[EnumRouteExtended.canActivateGroups] ?? []
+		const redirectRules: RedirectsValidationForGroupsType = route.data[EnumRouteExtended.canActivateGroupsRedirectsIfValidationError] ?? []
 
 		const isAccessForOnlyAuthorized = canActivateGroups.includes(AllowedGroupsOfUsers.OnlyAuthorized)
 		const isAccessForOnlyUnauthorized = canActivateGroups.includes(AllowedGroupsOfUsers.OnlyUnauthorized)

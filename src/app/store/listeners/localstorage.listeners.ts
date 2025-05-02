@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core"
 import {Store} from "@ngrx/store"
-import {shareReplay} from "rxjs"
 import * as LocalStoreActions from "../actions/localstorage.actions"
 import {LocalStorageOperations, LocalStorageState} from "../actions/localstorage.actions"
 
@@ -15,11 +14,11 @@ export class LocalStorageListeners {
 
 	public get localStorageState$() {
 		return this._store.select(LocalStoreActions.Actions.StorageStateReducerName)
-			.pipe(shareReplay())
+			.pipe()
 	}
 
 	public get localStorageOperationsState$() {
 		return this._store.select(LocalStoreActions.Actions.LocalStorageOperationsReducerName)
-			.pipe(shareReplay())
+			.pipe()
 	}
 }
