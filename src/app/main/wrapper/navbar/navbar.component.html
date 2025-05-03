@@ -1,5 +1,4 @@
 @let activeLink = activeLink$ | async;
-@let loginBtnHandler = loginBtnHandler$ | async;
 @let isAuthUser = isAuthUser$ | async;
 
 <div class="nav-container fx-row">
@@ -9,11 +8,6 @@
 		              [ngTemplateOutlet]="navItems">
 		</ng-container>
 	</nav>
-	
-	@if (loginBtnHandler) {
-		<login-button [viewOn]="'navbar'"
-		              [@frameSideInOut3]></login-button>
-	}
 </div>
 
 <ng-template #navItems

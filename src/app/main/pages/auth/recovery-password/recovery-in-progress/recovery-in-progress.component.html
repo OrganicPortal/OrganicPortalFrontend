@@ -35,6 +35,7 @@
 					       (paste)="onPasteToInput($event, idx)"
 					       [formControlName]="idx"
 					       autocomplete="off"
+					       [name]="'code-' + idx"
 					       customInput
 					       type="number">
 				</custom-input-field>

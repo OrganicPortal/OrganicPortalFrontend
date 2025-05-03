@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core"
 import {Store} from "@ngrx/store"
-import {shareReplay} from "rxjs"
 import * as AuthActions from "../actions/auth.actions"
 
 @Injectable({
@@ -14,17 +13,22 @@ export class AuthListeners {
 
 	public get storeRegistrationState$() {
 		return this._store.select(AuthActions.Actions.RegistrationReducerName)
-			.pipe(shareReplay())
+			.pipe()
+	}
+
+	public get storeLogoutState$() {
+		return this._store.select(AuthActions.Actions.LogoutReducerName)
+			.pipe()
 	}
 
 	public get storePhoneConfirmationState$() {
 		return this._store.select(AuthActions.Actions.PhoneCodeConfirmationReducerName)
-			.pipe(shareReplay())
+			.pipe()
 	}
 
 	public get storeLoginState$() {
 		return this._store.select(AuthActions.Actions.LoginReducerName)
-			.pipe(shareReplay())
+			.pipe()
 	}
 
 	public get authAuditorState$() {
@@ -34,6 +38,6 @@ export class AuthListeners {
 
 	public get authPasswordRecoveryState$() {
 		return this._store.select(AuthActions.Actions.RecoveryPasswordReducerName)
-			.pipe(shareReplay())
+			.pipe()
 	}
 }

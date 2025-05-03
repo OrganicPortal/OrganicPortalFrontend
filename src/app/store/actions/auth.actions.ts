@@ -1,6 +1,7 @@
 import {createAction, props} from "@ngrx/store"
 import {AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
 import {LoginEffectData, LoginReducerModel} from "../models/auth/auth.login.models"
+import {LogoutReducerModel} from "../models/auth/auth.logout.models"
 import {
 	PhoneConfirmationEffectData,
 	PhoneConfirmationReducerModel,
@@ -19,6 +20,12 @@ export enum Actions {
 	LoginSuccess = "[AUTH] Login success",
 	LoginFailure = "[AUTH] Login failure",
 	LoginReset = "[AUTH] Login reset",
+
+	LogoutReducerName = "logout",
+	LogoutInit = "[AUTH] Logout init",
+	LogoutSuccess = "[AUTH] Logout success",
+	LogoutFailure = "[AUTH] Logout failure",
+	LogoutReset = "[AUTH] Logout reset",
 
 	RegistrationReducerName = "registration",
 	RegistrationInit = "[AUTH] Registration init",
@@ -72,6 +79,14 @@ export const LoginReset = createAction(Actions.LoginReset)
 //#endregion Login Actions
 
 
+//#region Logout Actions
+export const LogoutInit = createAction(Actions.LogoutInit)
+export const LogoutSuccess = createAction(Actions.LogoutSuccess, props<LogoutReducerModel>())
+export const LogoutFailure = createAction(Actions.LogoutFailure, props<LogoutReducerModel>())
+export const LogoutReset = createAction(Actions.LogoutReset)
+//#endregion Logout Actions
+
+
 //#region PhoneCodeConfirmation Actions
 export const PhoneCodeConfirmationInit = createAction(Actions.PhoneCodeConfirmationInit, props<PhoneConfirmationEffectData>())
 export const PhoneCodeConfirmationRegDataSetter = createAction(Actions.PhoneCodeConfirmationRegDataSetter, props<PhoneConfirmationRegDataSetterModel>())
@@ -96,6 +111,7 @@ export const AuthAuditorFailure = createAction(Actions.AuthAuditorFailure, props
 export const AuthAuditorReset = createAction(Actions.AuthAuditorReset)
 //#endregion AuthAuditor Actions
 
+
 //#region Recovery Password
 export const RecoveryPasswordFetchTokenInit =
 	createAction(Actions.RecoveryPasswordFetchTokenInit, props<RecoveryPasswordGetTokenEffectData>())
@@ -114,11 +130,13 @@ export const RecoveryPasswordReset =
 	createAction(Actions.RecoveryPasswordReset)
 //#endregion Recovery Password
 
+
 export type StoreAuthType = {
 	[Actions.RegistrationReducerName]: RegistrationReducerModel,
 	[Actions.PhoneCodeConfirmationReducerName]: PhoneConfirmationReducerModel,
 	[Actions.ResendPhoneCodeReducerName]: ResendPhoneCodeReducerModel,
 	[Actions.LoginReducerName]: LoginReducerModel,
+	[Actions.LogoutReducerName]: LogoutReducerModel,
 	[Actions.AuthAuditorReducerName]: AuthAuditorReducerModel,
 	[Actions.RecoveryPasswordReducerName]: AuthRecoveryPasswordReducerModel,
 }

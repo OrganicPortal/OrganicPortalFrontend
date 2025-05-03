@@ -16,7 +16,7 @@ import {HeaderComponent} from "./header/header.component"
 import {NavbarComponent} from "./navbar/navbar.component"
 import {LoginButtonComponent} from "./shared/login-button/login-button.component"
 import {WrapperComponent} from "./wrapper.component"
-
+import {OverlayModule} from '@angular/cdk/overlay';
 
 @NgModule({
 	declarations: [
@@ -44,7 +44,8 @@ import {WrapperComponent} from "./wrapper.component"
 		CustomBasicLinkModule,
 		MatRippleModule,
 		NgxToastrModule,
-		ViewportOverlayModule
+		ViewportOverlayModule,
+		OverlayModule
 	]
 })
 export class WrapperModule {

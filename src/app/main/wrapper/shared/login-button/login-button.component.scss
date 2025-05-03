@@ -1,5 +1,144 @@
-:host{
-	a{
+:host {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	
+	a, button {
+		font-size: .9em !important;
+		
+	}
+	
+	.dropdown-button {
+		display: flex;
+		padding: .3rem .5rem;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		white-space: wrap;
+		border: 1px solid color-mix(in srgb, var(--color-palette-3) 20%, transparent);
+		
+		box-shadow: unset !important;
+		
+		.solar-outline {
+			--ngx-icon-override-color-1: color-mix(in srgb, var(--text-color) 80%, transparent);
+		}
+		
+	}
+	
+	.arrow {
+		transition: transform .2s ease;
+		will-change: transform;
+	}
+	
+	.btn-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: .5rem;
+	}
+	
+	.desc {
+		display: flex;
+		align-items: flex-start;
+		justify-content: flex-start;
+		max-width: 120px;
+		gap: 2px;
+	}
+	
+	.avatar {
+		display: flex;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+		
+		min-width: 40px;
+		height: 100%;
+		
+		border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+		border-radius: 1000px;
+		aspect-ratio: 1/1;
+	}
+	
+	.user-name {
+		display: -webkit-box;
 		font-size: .9em;
+		
+		font-weight: 500;
+		overflow: hidden;
+		text-align: start;
+		text-overflow: ellipsis;
+		color: color-mix(in srgb, var(--text-color) 80%, transparent);
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+	}
+	
+	.company-name {
+		display: -webkit-box;
+		font-size: .7em;
+		font-weight: 400;
+		line-height: 1.2em;
+		
+		overflow: hidden;
+		text-align: start;
+		text-overflow: ellipsis;
+		color: color-mix(in srgb, var(--text-color) 60%, transparent);
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+	
+	.rotate-icon {
+		transform: rotate(-90deg) !important;
+	}
+}
+
+.menu-container {
+	display: flex;
+	position: absolute;
+	right: 0;
+	
+	flex-direction: column;
+	border-radius: 3px;
+	background-color: var(--white);
+	box-shadow: var(--box-shadow-items);
+	--box-shadow-items: rgba(94, 122, 177, 0.2) 0px 2px 5px;
+	
+	will-change: transform, opacity;
+	
+	.set-border-bottom {
+		border-bottom: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+	}
+	
+	a {
+		display: flex;
+		
+		padding: 1rem 3rem 1rem 1rem;
+		font-size: .9em;
+		
+		align-items: center;
+		flex-direction: row;
+		justify-content: flex-start;
+		transition: color .2s ease, background-color .2s ease;
+		
+		white-space: nowrap;
+		
+		text-decoration: none;
+		color: var(--text-color);
+		
+		outline: unset;
+		gap: 5px;
+		
+		&:hover {
+			color: var(--basic-link-active-color-2);
+			background-color: var(--gray);
+		}
+		
+		&.active {
+			color: var(--active-color);
+			--active-color: #65b65d;
+			
+			ngx-icon {
+				--ngx-icon-override-color-1: var(--active-color) !important;
+			}
+		}
 	}
 }

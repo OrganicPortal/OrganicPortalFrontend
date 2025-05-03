@@ -1,43 +1,81 @@
 @let isAuthUser = isAuthUser$ | async;
 
-@if (viewOnState == "navbar") {
-	@if (!isAuthUser) {
-		<a customRaisedButton
-		   (click)="onNavigateToLogin()"
-		   matRipple>
-			<ng-container [ngTemplateOutlet]="notAuthUser"></ng-container>
-		</a>
-	} @else {
-		<a customRaisedButton
-		   matRipple>
-			<ng-container [ngTemplateOutlet]="authUser"></ng-container>
-		</a>
-	}
-	
+@if (!isAuthUser) {
+	<a customBasicButton
+	   (click)="onNavigateToLogin()"
+	   class="link"
+	   matRipple>
+		<ng-container [ngTemplateOutlet]="loginNotAuthUser"></ng-container>
+	</a>
 } @else {
-	@if (!isAuthUser) {
-		<a customBasicButton
-		   (click)="onNavigateToLogin()"
-		   matRipple>
-			<ng-container [ngTemplateOutlet]="notAuthUser"></ng-container>
-		</a>
-	} @else {
-		<a customBasicButton
-		   matRipple>
-			<ng-container [ngTemplateOutlet]="authUser"></ng-container>
-		</a>
-	}
+	<ng-container [ngTemplateOutlet]="headerAuthUserButton"></ng-container>
 }
 
-<ng-template #notAuthUser>
+<ng-template #loginNotAuthUser>
 	<ngx-icon [name]="'key'"
-	          [ratio]="'1.3em'"></ngx-icon>
+	          [ratio]="'1.1em'"></ngx-icon>
 	<span>Увійти</span>
 </ng-template>
 
 <ng-template #authUser>
 	<ngx-icon [name]="'document-1'"
-	          [ratio]="'1.3em'"></ngx-icon>
+	          [ratio]="'1.1em'"></ngx-icon>
 	<span>Кабінет</span>
 	<ngx-icon [name]="'alt-arrow-left'"></ngx-icon>
+</ng-template>
+
+<ng-template #menuForAuthUser>
+	<div class="menu-container"
+	     [@childMenuSideIn]
+	     cdkMenu>
+		<a class="set-border-bottom"
+		   cdkMenuItem
+		   customBasicLink
+		   href=""
+		   matRipple>
+			<ngx-icon [name]="'flag-2'"></ngx-icon>
+			Мої компанії
+		</a>
+		
+		<a cdkMenuItem
+		   customBasicLink
+		   href=""
+		   matRipple>
+			<ngx-icon [name]="'settings'"></ngx-icon>
+			Налаштування
+		</a>
+		
+		<a cdkMenuItem
+		   customBasicLink
+		   (click)="onLogout()"
+		   matRipple>
+			<ngx-icon [name]="'logout'"></ngx-icon>
+			Вихід
+		</a>
+	</div>
+</ng-template>
+
+<ng-template #headerAuthUserButton>
+	<button class="custom-button dropdown-button"
+	        [cdkMenuPosition]="menuPosition"
+	        [cdkMenuTriggerFor]="menuForAuthUser"
+	        #menuTrigger="cdkMenuTriggerFor"
+	        customRaisedButton
+	        matRipple>
+		<div class="fx-row btn-container">
+			<div class="avatar">
+				<ngx-icon [name]="'user-rounded'"
+				          [ratio]="'1.5em'"></ngx-icon>
+			</div>
+			
+			<div class="fx-col desc">
+				<span class="user-name">Демчук Ю. М.</span>
+				<span class="company-name">Національна компанія органічних добриворганічних добриворганічних добриворганічних добрив</span>
+			</div>
+		</div>
+		<ngx-icon class="arrow"
+		          [name]="'alt-arrow-left'"
+		          [ngClass]="menuTrigger.isOpen() ? 'rotate-icon' : ''"
+		          [ratio]="'1.2em'"></ngx-icon>
+	</button>
 </ng-template>

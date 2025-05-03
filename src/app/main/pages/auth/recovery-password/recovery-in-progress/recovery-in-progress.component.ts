@@ -82,7 +82,6 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 		super.ngOnInit()
 		this.timerInitializer$.next()
 
-
 		/**
 		 * Переміщення між інпутами за допомогою клавіш "ArrowRight" & "ArrowLeft"
 		 */

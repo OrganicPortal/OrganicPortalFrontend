@@ -13,6 +13,7 @@ export class SharedGuardsValidatorsService {
 	private readonly authState$
 	private readonly registrationState$
 	private readonly localStorageState$
+	private readonly passwordRecoveryState$
 
 	constructor(
 		private _authListeners: AuthListeners,
@@ -22,7 +23,7 @@ export class SharedGuardsValidatorsService {
 		this.authState$ = this._authListeners.authAuditorState$
 		this.registrationState$ = this._authListeners.storeRegistrationState$
 		this.localStorageState$ = this._localStorageListeners.localStorageState$
-
+		this.passwordRecoveryState$ = this._authListeners.authPasswordRecoveryState$
 	}
 
 	public AccessByRoles(allowedAccessRoles: AllowedRoles[], redirectRules: RedirectsValidationForGroupsType) {
@@ -145,6 +146,22 @@ export class SharedGuardsValidatorsService {
 		)
 	}
 
+	public AccessForOnlyWithInitPassRecovery(redirectRules: RedirectsValidationForGroupsType) {
+		const triggerRule = redirectRules[AllowedGroupsOfUsers.OnlyWithInitPassRecovery]
+
+		return this.passwordRecoveryState$
+			.pipe(
+				filter(el => el.isFetchSuccess),
+				map(el => {
+					if (el.isFetchSuccess && el.isSuccessFetchToken)
+						return true
+
+					this.onRedirectTo(triggerRule)
+					return false
+				})
+			)
+	}
+
 	private onRedirectTo(rule: RedirectRuleItem | undefined): void {
 		if (!rule) {
 			this._router.navigate([""])
@@ -153,6 +170,5 @@ export class SharedGuardsValidatorsService {
 
 		this._router.navigate(rule.redirectTo, rule.extras)
 	}
-
 }
 

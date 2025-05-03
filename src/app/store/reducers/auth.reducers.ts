@@ -2,6 +2,7 @@ import {createReducer, on} from "@ngrx/store"
 import * as AuthActions from "../actions/auth.actions"
 import {AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
 import {LoginReducerModel} from "../models/auth/auth.login.models"
+import {LogoutReducerModel} from "../models/auth/auth.logout.models"
 import {PhoneConfirmationReducerModel} from "../models/auth/auth.phone-confirmation.models"
 import {AuthRecoveryPasswordReducerModel} from "../models/auth/auth.recovery-password"
 import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
@@ -80,6 +81,44 @@ export const LoginReducer = createReducer(
 	on(AuthActions.LoginReset,
 		(state, action) =>
 			new LoginReducerModel()
+	)
+)
+//#endregion Login Reducer
+
+//#region Logout Reducer
+export const LogoutReducer = createReducer(
+	new LogoutReducerModel(),
+
+	on(AuthActions.LogoutInit,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: false,
+				isRequestComplete: false
+			})
+	),
+
+	on(AuthActions.LogoutSuccess,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isRequestComplete: true
+			})
+	),
+
+	on(AuthActions.LogoutFailure,
+		(state, action) =>
+			({
+				...state, ...action,
+				isFetchSuccess: true,
+				isRequestComplete: false
+			})
+	),
+
+	on(AuthActions.LogoutReset,
+		(state, action) =>
+			new LogoutReducerModel()
 	)
 )
 //#endregion Login Reducer
@@ -204,7 +243,7 @@ export const AuthAuditorReducer = createReducer(
 )
 //#endregion Auth Auditor Reducer
 
-
+//#region Recovery Password Reducer
 export const AuthRecoveryPasswordReducer = createReducer(
 	new AuthRecoveryPasswordReducerModel(),
 	on(AuthActions.RecoveryPasswordFetchTokenInit,
@@ -265,3 +304,4 @@ export const AuthRecoveryPasswordReducer = createReducer(
 			new AuthRecoveryPasswordReducerModel()
 	)
 )
+//#endregion Recovery Password Reducer

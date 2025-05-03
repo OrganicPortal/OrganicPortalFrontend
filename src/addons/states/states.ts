@@ -29,8 +29,10 @@ export enum AllowedGroupsOfUsers {
 	Any = "Any",
 	OnlyAuthorized = "OnlyAuthorized",
 	OnlyUnauthorized = "OnlyUnauthorized",
+	OnlyWithInitPassRecovery = "OnlyWithInitPassRecovery",
 	OnlyWithConfirmRegistrationStep = "OnlyWithConfirmRegistrationStep",
 }
+
 //#endregion GroupsOfUser
 
 export type RedirectRuleItem = {

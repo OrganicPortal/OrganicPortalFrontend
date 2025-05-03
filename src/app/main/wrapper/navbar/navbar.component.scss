@@ -3,9 +3,9 @@
 	position: sticky;
 	top: -1px;
 	align-items: center;
+	flex: 1 1;
 	justify-content: center;
 	box-sizing: border-box;
-	flex: 1 1;
 	background-color: var(--color-palette-3);
 	
 	box-shadow: var(--box-shadow-items);
@@ -13,10 +13,16 @@
 	--header-trigger-link-color: #f3f3f3;
 	padding-inline: 10px;
 	
+	login-button {
+		position: absolute;
+		right: 0;
+	}
+	
 	.nav-container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		position: relative;
 		gap: 1rem;
 	}
 	
@@ -102,10 +108,10 @@
 		}
 	}
 	
-	.nav-container{
+	.nav-container {
 		display: flex;
-		justify-content: space-between;
 		flex: 1 1;
+		justify-content: space-between;
 		max-width: var(--content-viewport-width);
 		height: calc(var(--header-height) - 14px);
 	}
@@ -190,6 +196,7 @@
 		
 		&:hover {
 			background-color: var(--gray);
+			color: var(--basic-link-active-color-2);
 		}
 		
 		&.active {

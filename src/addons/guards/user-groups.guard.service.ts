@@ -20,7 +20,7 @@ export class UserGroupsGuardService implements CanActivate {
 		const isAccessForOnlyAuthorized = canActivateGroups.includes(AllowedGroupsOfUsers.OnlyAuthorized)
 		const isAccessForOnlyUnauthorized = canActivateGroups.includes(AllowedGroupsOfUsers.OnlyUnauthorized)
 		const isAccessForOnlyWithConfirmRegistrationStep = canActivateGroups.includes(AllowedGroupsOfUsers.OnlyWithConfirmRegistrationStep)
-
+		const isAccessForOnlyWithInitPassRecovery = canActivateGroups.includes(AllowedGroupsOfUsers.OnlyWithInitPassRecovery)
 		const isAccessForAny = canActivateGroups.includes(AllowedGroupsOfUsers.Any)
 
 		let validators: Observable<boolean>[] = []
@@ -34,9 +34,11 @@ export class UserGroupsGuardService implements CanActivate {
 		if (isAccessForAny)
 			validators.push(this._sharedGuardsValidatorsService.AccessForAny(redirectRules))
 
-		if(isAccessForOnlyWithConfirmRegistrationStep)
+		if (isAccessForOnlyWithConfirmRegistrationStep)
 			validators.push(this._sharedGuardsValidatorsService.AccessForOnlyWithConfirmRegistrationStep(redirectRules))
 
+		if(isAccessForOnlyWithInitPassRecovery)
+			validators.push(this._sharedGuardsValidatorsService.AccessForOnlyWithInitPassRecovery(redirectRules))
 
 		if (validators.length == 0)
 			return of(true)

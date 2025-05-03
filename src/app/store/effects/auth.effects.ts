@@ -1,9 +1,10 @@
-import {HttpClient, HttpContext, HttpHeaders} from "@angular/common/http"
+import {HttpClient, HttpContext, HttpErrorResponse, HttpHeaders} from "@angular/common/http"
 import {inject, Injectable} from "@angular/core"
 import {ActivatedRoute, Router} from "@angular/router"
+import {ToastrService} from "@fixAR496/ngx-elly-lib"
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import {Action, Store} from "@ngrx/store"
-import {catchError, exhaustMap, filter, map, Observable, of, switchMap, take, tap} from "rxjs"
+import {catchError, delay, exhaustMap, filter, map, Observable, of, switchMap, take, tap} from "rxjs"
 import {NgShortMessageService} from "../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {AllowedHttpContextTokens} from "../../../addons/services/http-interceptor.service"
 import {RouterRedirects} from "../../../addons/states/states"
@@ -67,6 +68,12 @@ export class AuthEffects {
 		)
 	)
 
+	private readonly logoutEffect$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(AuthActions.Actions.LogoutInit),
+			exhaustMap(() => this.onLogout())
+		))
+
 	private readonly passwordRecoverySetPasswordEffect$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(AuthActions.Actions.RecoveryPasswordSaveInit),
@@ -77,6 +84,7 @@ export class AuthEffects {
 
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,
+		private _toastrService: ToastrService,
 		private _localStorageListeners: LocalStorageListeners,
 		private _activatedRoute: ActivatedRoute,
 		private _authListeners: AuthListeners,
@@ -141,7 +149,13 @@ export class AuthEffects {
 					userRoles: el.Data
 				})
 			}),
-			catchError(async () => {
+			catchError(async (err: HttpErrorResponse) => {
+				if (err?.status === 401) {
+					const message = "Час дії сесії вичерпано. Будь ласка, виконайте повторний вхід."
+					this._ngShortMessageService.onInitMessage(message, "info-circle")
+					this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
+				}
+
 				return AuthActions.AuthAuditorFailure({
 					isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
 				})
@@ -182,6 +196,38 @@ export class AuthEffects {
 						Error: err, isFetchSuccess: false, isRequestComplete: true
 					})
 				}))
+	}
+
+	private onLogout() {
+		const apiUrl = "api/auth/sign-out"
+		const req = this._http.get(apiUrl).pipe(
+			map(() => {
+				this.onResetBasicAuthAuditors()
+
+				this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
+				this._store.dispatch(AuthActions.AuthAuditorReset())
+				this._router.navigate([""])
+
+				this._toastrService.onInitMessage("Вихід успішно виконано")
+
+				return AuthActions.LogoutSuccess({
+					isFetchSuccess: true,
+					isRequestComplete: true
+				})
+			}),
+
+			catchError(async (el) => {
+				return AuthActions.LogoutSuccess({
+					isFetchSuccess: true,
+					isRequestComplete: false
+				})
+			})
+		)
+
+		return of(true).pipe(
+			delay(500),
+			switchMap((el) => req)
+		)
 	}
 
 	private onPhoneConfirm(payload: PhoneConfirmationEffectData) {
@@ -299,27 +345,5 @@ export class AuthEffects {
 				})
 			})
 		)
-
-		// this._http.post(apiUrl, payload.payload).pipe(
-		// 	map((el) => {
-		// 		this._router.navigate([RouterRedirects.login], {queryParamsHandling: "merge"})
-		//
-		// 		return AuthActions.RecoveryPasswordSaveSuccess({
-		// 			isFetchSuccess: true,
-		// 			isSuccessFetchToken: true,
-		// 			isSuccessSavePassword: true,
-		// 			recoveryToken: undefined
-		// 		})
-		// 	}),
-		//
-		// 	catchError(async (err) => {
-		// 		return AuthActions.RecoveryPasswordSaveFailure({
-		// 			isFetchSuccess: true,
-		// 			isSuccessFetchToken: true,
-		// 			isSuccessSavePassword: false,
-		// 			recoveryToken: undefined
-		// 		})
-		// 	})
-		// )
 	}
 }

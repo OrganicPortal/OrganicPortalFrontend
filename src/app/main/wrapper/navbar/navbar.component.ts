@@ -2,8 +2,9 @@ import {animate, style, transition, trigger} from "@angular/animations"
 import {CdkMenuTrigger} from "@angular/cdk/menu"
 import {Component, QueryList, ViewChildren} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {BehaviorSubject, map, merge, pairwise, startWith, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {BehaviorSubject, map, merge, pairwise, startWith, Subject, takeUntil, tap} from "rxjs"
 import {frameSideInOut3} from "../../../../addons/animations/shared.animations"
+import {ListenersService} from "../../../../addons/services/listeners.service"
 import {AuthListeners} from "../../../store/listeners/auth.listeners"
 import {WrapperService} from "../wrapper.service"
 
@@ -40,7 +41,6 @@ export class NavbarComponent extends LifeHooksFactory {
 	public readonly selectedLink$ = new BehaviorSubject<ISelectedLink | undefined>(undefined)
 	public readonly activeLink$ = new BehaviorSubject<ISelectedLink | undefined>(undefined)
 	public readonly menusCloseHandler$ = new Subject<void>()
-	public readonly loginBtnHandler$ = new BehaviorSubject<boolean>(false)
 	public readonly navLinks: IHeaderLink[] = [
 		{
 			title: "Головна",
@@ -83,7 +83,7 @@ export class NavbarComponent extends LifeHooksFactory {
 					isAuthRequired: false
 				}
 			]
-		},
+		}
 		//
 		// {
 		// 	title: "Кабінет",
@@ -99,7 +99,8 @@ export class NavbarComponent extends LifeHooksFactory {
 
 	constructor(
 		private _wrapperService: WrapperService,
-		private _authListeners: AuthListeners
+		private _authListeners: AuthListeners,
+		private _listenersService: ListenersService
 	) {
 		super()
 	}
@@ -116,24 +117,11 @@ export class NavbarComponent extends LifeHooksFactory {
 
 		this._wrapperService.onListenScrollableEvents()
 			.pipe(
-				switchMap((el) => this.loginBtnHandler$.pipe(
-					map(el2 => ({
-						evt: el,
-						isViewLoginBtn: el2
-					}))
-				)),
+				tap((el) => {
+					const isOpenedMenus = this.menus.map(el => el.isOpen())
 
-				tap(el => {
-					let a = el.evt.target as HTMLElement
-
-					if (a.scrollTop >= 70 && !el.isViewLoginBtn) {
-						this.loginBtnHandler$.next(true)
-						return
-					}
-
-					if (a.scrollTop < 70 && el.isViewLoginBtn)
-						this.loginBtnHandler$.next(false)
-
+					if (isOpenedMenus)
+						this.menus.map(el => el.close())
 				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()

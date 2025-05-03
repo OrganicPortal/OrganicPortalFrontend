@@ -33,18 +33,21 @@ export const appConfig: ApplicationConfig = {
 		importProvidersFrom(NgxIconsModule.forRoot(["custom-collection"])),
 		importProvidersFrom(BrowserAnimationsModule),
 
-		importProvidersFrom(EffectsModule.forRoot([
-			AuthEffects,
-			LocalStorageEffects
-		])),
+		importProvidersFrom(
+			EffectsModule.forRoot([
+				AuthEffects,
+				LocalStorageEffects
+			])
+		),
 
 		importProvidersFrom(StoreModule.forRoot({
 			[AuthActions.Actions.RegistrationReducerName]: AuthReducers.RegistrationReducer,
 			[AuthActions.Actions.PhoneCodeConfirmationReducerName]: AuthReducers.PhoneConfirmationReducer,
 			[AuthActions.Actions.ResendPhoneCodeReducerName]: AuthReducers.ResendPhoneCodeReducer,
-			[AuthActions.Actions.LoginReducerName]: AuthReducers.LoginReducer,
-			[AuthActions.Actions.AuthAuditorReducerName]: AuthReducers.AuthAuditorReducer,
 			[AuthActions.Actions.RecoveryPasswordReducerName]: AuthReducers.AuthRecoveryPasswordReducer,
+			[AuthActions.Actions.LoginReducerName]: AuthReducers.LoginReducer,
+			[AuthActions.Actions.LogoutReducerName]: AuthReducers.LogoutReducer,
+			[AuthActions.Actions.AuthAuditorReducerName]: AuthReducers.AuthAuditorReducer,
 
 			[LocalStorageActions.Actions.LocalStorageOperationsReducerName]: LocalStorageReducers.StorageOperations,
 			[LocalStorageActions.Actions.StorageStateReducerName]: LocalStorageReducers.StorageStates
