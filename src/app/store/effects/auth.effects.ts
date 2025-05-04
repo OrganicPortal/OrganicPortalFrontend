@@ -152,6 +152,7 @@ export class AuthEffects {
 					isFetchSuccess: true,
 					isSuccessFetchToken: true,
 					isSuccessSavePassword: false,
+					isError: false,
 					recoveryToken: el.Data.Token
 				})
 			}),
@@ -161,6 +162,7 @@ export class AuthEffects {
 					isFetchSuccess: true,
 					isSuccessFetchToken: false,
 					isSuccessSavePassword: false,
+					isError: true,
 					recoveryToken: undefined
 				})
 			})
@@ -369,6 +371,7 @@ export class AuthEffects {
 					isFetchSuccess: true,
 					isSuccessFetchToken: true,
 					isSuccessSavePassword: true,
+					isError: false,
 					recoveryToken: undefined
 				})
 			}),
@@ -378,6 +381,7 @@ export class AuthEffects {
 					isFetchSuccess: true,
 					isSuccessFetchToken: true,
 					isSuccessSavePassword: false,
+					isError: true,
 					recoveryToken: undefined
 				})
 			})

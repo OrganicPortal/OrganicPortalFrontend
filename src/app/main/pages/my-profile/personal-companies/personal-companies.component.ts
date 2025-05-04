@@ -1,7 +1,8 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core"
+import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {ActivatedRoute, Data} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Observable} from "rxjs"
+import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
 import {MyProfileService} from "../my-profile.service"
 
 @Component({
@@ -12,7 +13,10 @@ import {MyProfileService} from "../my-profile.service"
 		"./personal-companies.component.scss",
 		"../shared/shared.styles.scss"
 	],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	animations: [
+		frameSideIn4
+	]
 })
 export class PersonalCompaniesComponent extends LifeHooksFactory {
 	public activatedRouteData$: Observable<Data>
@@ -25,6 +29,7 @@ export class PersonalCompaniesComponent extends LifeHooksFactory {
 		this._myProfileService.profileUpdater$.next()
 	}
 
+	@HostBinding("@frameSideIn4")
 	public override ngOnInit() {
 		super.ngOnInit()
 	}

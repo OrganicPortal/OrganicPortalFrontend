@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core"
+import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {FormControl, FormGroup, Validators} from "@angular/forms"
 import {ActivatedRoute, Data, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {BehaviorSubject, catchError, filter, map, Observable, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
 } from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -25,7 +26,8 @@ import {containerAnimation} from "../shared/shared.animation"
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [
-		containerAnimation
+		containerAnimation,
+		frameSideIn4
 	]
 })
 export class PersonalInfoComponent extends LifeHooksFactory {
@@ -56,6 +58,7 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 		return this._myProfileService.profileData$
 	}
 
+	@HostBinding("@frameSideIn4")
 	public override ngOnInit() {
 		super.ngOnInit()
 
@@ -70,7 +73,8 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 				),
 
 				tap((el) => {
-					this._myProfileService.loaderState$.next(new LoaderModel(true, el.isSuccessFetchToken))
+					if (el.isError)
+						this._myProfileService.loaderState$.next(new LoaderModel(true, el.isSuccessFetchToken))
 
 					if (el.isSuccessFetchToken) {
 						const navigationUrl = "/auth/recovery/recovery-in-progress"
@@ -125,8 +129,8 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 	public onRestorePassword(phone: string) {
 		const model = new RecoveryPasswordGetTokenEffectData(phone)
 		this._myProfileService.loaderState$.next(new LoaderModel(false, false))
-		this.onRestorePassword$.next(true)
 		this._store.dispatch(AuthActions.RecoveryPasswordFetchTokenInit(model))
+		this.onRestorePassword$.next(true)
 	}
 
 	public onSubmit(userId?: number) {

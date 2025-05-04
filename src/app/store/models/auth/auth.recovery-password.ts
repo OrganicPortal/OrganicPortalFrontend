@@ -5,6 +5,7 @@ export class AuthRecoveryPasswordReducerModel {
 	isFetchSuccess: boolean = true
 	isSuccessFetchToken: boolean = false
 	isSuccessSavePassword: boolean = false
+	isError: boolean = false
 }
 
 export class RecoveryPasswordGetTokenEffectData {

@@ -1,0 +1,17 @@
+<span class="clipboard-container disable-user-select"
+      (mousedown)="isMouseDown = true"
+      (mouseleave)="isMouseOver = false"
+      (mouseover)="isMouseOver = true"
+      (mouseup)="isMouseDown = false"
+      [cdkCopyToClipboard]="text"
+      [ngClass]="[
+    isMouseDown ? 'pressed-mouse': '',
+    isEnableBg ? 'enable-bg' : ''
+    ]"
+      #container>
+    <ng-content></ng-content>
+	
+	@if (isEnableCopyIcon) {
+		<ngx-icon [name]="'copy'" [ratio]="'.9em'"></ngx-icon>
+	}
+</span>

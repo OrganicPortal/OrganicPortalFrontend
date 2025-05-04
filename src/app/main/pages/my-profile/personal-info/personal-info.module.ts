@@ -1,18 +1,11 @@
 import {CommonModule} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
-import {MatRippleModule} from "@angular/material/core"
 import {RouterModule} from "@angular/router"
-import {NgxGridLayoutModule, NgxIconsModule, NgxPipesModule} from "@fixAR496/ngx-elly-lib"
-import {CustomInputFieldModule} from "../../../../../addons/components/custom-input-field/custom-input-field.module"
+import {NgxGridLayoutModule, NgxPipesModule} from "@fixAR496/ngx-elly-lib"
 import {
-	CustomBasicButtonModule
-} from "../../../../../addons/directives/buttons/custom-basic-button/custom-button.module"
-import {
-	CustomRaisedButtonModule
-} from "../../../../../addons/directives/buttons/custom-raised-button/custom-raised-button.module"
-import {CustomInputModule} from "../../../../../addons/directives/inputs/custom-input/custom-input.module"
-import {CustomBasicLinkModule} from "../../../../../addons/directives/links/custom-basic-link/custom-basic-link.module"
+	ClipboardTextContainerModule
+} from "../../../../../addons/components/clipboard-text-container/clipboard-text-container.module"
 import {RoutesExtended} from "../../../../../addons/states/states"
 import {SharedModule} from "../shared/shared.module"
 import {PersonalInfoComponent} from "./personal-info.component"
@@ -40,6 +33,7 @@ export const routes: RoutesExtended = [
 		FormsModule,
 		ReactiveFormsModule,
 		NgxGridLayoutModule,
+		ClipboardTextContainerModule,
 
 		NgxPipesModule
 	]

@@ -21,14 +21,30 @@
 			
 			<div class="desc-data">
 				<ngx-icon [name]="'clock-circle'"></ngx-icon>
-				<span>Обліковий запис створено:
-					{{ profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
+				<span class="clipboard-text-container fx-row allow-wrap">
+					<span>Обліковий запис створено:</span>
+					<clipboard-text-container [isEnableCopyIcon]="true"
+					                          class="enable-bg"
+					                          [text]="profileData?.Data?.CreatedDate  ?? ''">
+								<span>
+									{{profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm'}}
+								</span>
+					</clipboard-text-container>
+				</span>
 			</div>
 			
 			<div class="desc-data">
-				<ngx-icon [name]="'phone-calling-rounded'"></ngx-icon>
-				<span>Номер телефону:
-					{{ profileData?.Data?.Phone }}</span>
+				<ngx-icon [name]="'phone-calling'"></ngx-icon>
+				<span class="clipboard-text-container fx-row allow-wrap">
+					<span>Номер телефону:</span>
+					<clipboard-text-container [isEnableCopyIcon]="true"
+					                          class="enable-bg"
+					                          [text]="profileData?.Data?.Phone ?? ''">
+								<span>
+									{{ profileData?.Data?.Phone }}
+								</span>
+					</clipboard-text-container>
+				</span>
 			</div>
 			
 			<button (click)="onRestorePassword(profileData?.Data?.Phone ?? '')"

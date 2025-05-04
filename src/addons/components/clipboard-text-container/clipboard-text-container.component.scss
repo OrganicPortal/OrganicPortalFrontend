@@ -1,0 +1,79 @@
+:host {
+	display: flex;
+	position: relative;
+	
+	cursor: pointer;
+	opacity: 1;
+	white-space: nowrap;
+	border-radius: 5px;
+	margin-left: 2px;
+	padding: 2px 8px;
+	
+	.pressed-mouse {
+		opacity: .7 !important;
+	}
+	
+	.clipboard-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		line-height: 1.5em !important;
+		transition: background-color .2s ease, opacity .2s ease;
+		flex-direction: row;
+		gap: .5rem;
+		white-space: nowrap;
+		border-radius: 3px;
+	}
+	
+	&.enable-bg {
+		background-color: color-mix(in srgb, var(--clipboard-bg-selected-color) 50%, transparent);
+	}
+	
+	&:hover {
+		.clipboard-container {
+			background-color: var(--clipboard-bg-selected-color);
+		}
+	}
+}
+
+:host.font-small {
+	font-size: .8em;
+}
+
+:host.nowrap {
+	align-items: center;
+	width: max-content;
+	
+	white-space: nowrap;
+	
+	.clipboard-container {
+		align-items: center;
+		width: max-content;
+		white-space: nowrap;
+		gap: 2px;
+	}
+}
+
+:host.clipboard-on-input {
+	.clipboard-container {
+		padding: 0 !important;
+	}
+	
+	&:hover {
+		.clipboard-container {
+			background-color: unset !important;
+		}
+	}
+}
+
+:host.inline-gap {
+	margin-inline: 3px;
+}
+
+@media screen and (max-width: 600px) {
+	:host {
+		.frame-copy-icon {
+			display: none !important;
+		}
+	}
+}

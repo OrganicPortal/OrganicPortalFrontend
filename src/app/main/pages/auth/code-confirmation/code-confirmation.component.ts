@@ -256,7 +256,8 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 			phoneCode: code,
 			isSuccessFetchToken: true,
 			isFetchSuccess: true,
-			isSuccessSavePassword: false
+			isSuccessSavePassword: false,
+			isError: false
 		}))
 
 		this._router.navigate(["/auth/recovery/recovery-in-progress"], {
