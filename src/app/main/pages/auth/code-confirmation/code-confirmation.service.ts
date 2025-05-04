@@ -10,8 +10,8 @@ export class CodeConfirmationService extends LifeHooksFactory {
 	public readonly allowedRenewCode$ = new Subject<boolean>()
 	public readonly timerInitializer$ = new BehaviorSubject<void>(undefined)
 
-	private readonly renewCodeCollDown = 60 * 3 * 20
-	private date = new Date(0, 0, 0, 0, 0, 0, this.renewCodeCollDown)
+	public readonly renewCodeCollDown = 60 * 3 * 1000
+	public date = new Date(0, 0, 0, 0, 0, 0, this.renewCodeCollDown)
 	private readonly timerForDestroy$ = timer(this.renewCodeCollDown)
 		.pipe(tap(() => this.allowedRenewCode$.next(true)))
 
@@ -45,4 +45,5 @@ export class CodeConfirmationService extends LifeHooksFactory {
 		this.timerInitializer$.next()
 		this.allowedRenewCode$.next(false)
 	}
+
 }

@@ -1,0 +1,139 @@
+:host {
+	display: flex;
+	position: relative;
+	flex: 1 1;
+	flex-direction: column;
+	box-sizing: border-box;
+	
+	gap: 1rem;
+	--box-shadow-items: rgba(94, 122, 177, 0.11) 0px 2px 5px;
+	
+	.container {
+		display: flex;
+		align-items: flex-end;
+		
+		flex-direction: column;
+		justify-content: flex-start;
+		border-radius: 3px;
+		box-shadow: var(--box-shadow-items);
+	}
+	
+	.page-title {
+		display: flex;
+		position: absolute;
+		
+		padding: .5rem 1rem;
+		
+		margin: 0;
+		font-size: 1.3em;
+		z-index: 1;
+		top: 20px;
+		
+		left: 20px;
+		flex-direction: row;
+		color: var(--color);
+		font-weight: 500;
+		
+		gap: .5rem;
+		
+		--color: color-mix(in srgb, var(--text-color) 90%, transparent);
+		
+		.solar-outline {
+			--ngx-icon-override-color-1: var(--color);
+		}
+	}
+	
+	.content-container {
+		display: flex;
+		flex: 1 1;
+		flex-direction: column;
+		box-sizing: border-box;
+		width: 100%;
+		border-radius: 3px;
+		background-color: var(--white);
+		
+		box-shadow: var(--box-shadow-items);
+	}
+	
+	.navigation {
+		display: flex;
+		padding: 1.3rem 1rem 1.3rem 1rem;
+		align-items: center;
+		
+		flex-direction: row;
+		justify-content: flex-start;
+		
+		box-sizing: border-box;
+		
+		width: 100%;
+		border-top: 1px solid color-mix(in srgb, var(--text-color) 30%, transparent);
+		background-color: var(--white);
+		
+		.links {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			margin-left: calc(130px + 120px);
+			
+			gap: 1rem;
+			
+			a.active{
+				background-color: var(--basic-button-active-color);
+				color: var(--white);
+				
+				.solar-outline{
+					--ngx-icon-override-color-1: var(--white);
+				}
+			}
+		}
+	}
+	
+	.image-frame {
+		display: flex;
+		position: relative;
+		align-items: flex-end;
+		
+		justify-content: flex-start;
+		width: 100%;
+		
+		min-height: 200px;
+		
+		.card-bg {
+			z-index: -1;
+			border-radius: 2.5px 2.5px 0 0;
+			object-fit: cover;
+			filter: hue-rotate(25deg);
+		}
+		
+		.user-frame-image {
+			display: flex;
+			position: relative;
+			z-index: 5;
+			
+			overflow: hidden;
+			align-items: center;
+			justify-content: center;
+			
+			width: 120px;
+			margin-left: 120px;
+			transform: translateY(50%);
+			border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+			
+			border-radius: 1000px;
+			background-color: var(--white);
+			box-shadow: var(--box-shadow-items);
+			
+			aspect-ratio: 1/1;
+			
+			img {
+				width: 60%;
+				height: 60%;
+				object-fit: cover;
+			}
+			
+			.solar-outline {
+				--ngx-icon-override-color-1: color-mix(in srgb, var(--text-color) 80%, transparent);
+			}
+		}
+	}
+}

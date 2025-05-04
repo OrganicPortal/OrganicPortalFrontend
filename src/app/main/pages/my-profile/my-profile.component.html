@@ -1,0 +1,63 @@
+@let loaderState = loaderState$ | async;
+
+<div class="container">
+	<h2 class="page-title">
+		<ngx-icon [name]="'shield-user'"
+		          [ratio]="'1.2em'"></ngx-icon>
+		Профіль користувача
+	</h2>
+	
+	<div class="image-frame">
+		<img class="card-bg"
+		     [ngSrc]="'assets/my-profile/3.webp'"
+		     alt=""
+		     fill
+		     priority>
+		
+		<div class="user-frame-image">
+			<img [ngSrc]="'assets/logos/logo-min.png'"
+			     [priority]="false"
+			     alt="logo"
+			     height="50"
+			     width="50"
+			>
+		</div>
+	</div>
+	
+	<nav class="navigation">
+		<div class="links">
+			<a [routerLinkActive]="'active'"
+			   [routerLink]="'/my-profile'"
+			   [routerLinkActiveOptions]="{exact: true}"
+			   customRaisedButton
+			   matRipple>
+				
+				<ngx-icon [name]="'user-rounded'"></ngx-icon>
+				Особисті дані
+			</a>
+			
+			<a [routerLinkActive]="'active'"
+			   [routerLink]="'/my-profile/personal-companies'"
+			   customRaisedButton
+			   matRipple>
+				<ngx-icon [name]="'flag-2'"></ngx-icon>
+				Мої компанії
+			</a>
+			
+			<a
+			   customRaisedButton
+			   matRipple>
+				<ngx-icon [name]="'logout'"></ngx-icon>
+				Вихід
+			</a>
+		</div>
+	</nav>
+</div>
+
+<div class="content-container">
+	<router-outlet></router-outlet>
+</div>
+
+@if (!loaderState?.isLoaded) {
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+}

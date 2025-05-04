@@ -1,0 +1,13 @@
+@let activatedRouteData = activatedRouteData$ | async;
+
+<div class="container-header">
+	<h2 class="component-title">
+		<ngx-icon [name]="activatedRouteData?.['icon'] ?? ''"></ngx-icon>
+		{{activatedRouteData?.['title']}}
+	</h2>
+</div>
+
+
+<div class="container-body">
+	123
+</div>

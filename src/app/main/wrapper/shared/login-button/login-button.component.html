@@ -1,4 +1,5 @@
 @let isAuthUser = isAuthUser$ | async;
+@let authAuditorState = authAuditorState$ | async;
 
 @if (!isAuthUser) {
 	<a customBasicButton
@@ -17,13 +18,6 @@
 	<span>Увійти</span>
 </ng-template>
 
-<ng-template #authUser>
-	<ngx-icon [name]="'document-1'"
-	          [ratio]="'1.1em'"></ngx-icon>
-	<span>Кабінет</span>
-	<ngx-icon [name]="'alt-arrow-left'"></ngx-icon>
-</ng-template>
-
 <ng-template #menuForAuthUser>
 	<div class="menu-container"
 	     [@childMenuSideIn]
@@ -37,17 +31,18 @@
 			Мої компанії
 		</a>
 		
-		<a cdkMenuItem
+		<a [routerLink]="'/my-profile'"
+		   [routerLinkActive]="'active'"
+		   cdkMenuItem
 		   customBasicLink
-		   href=""
 		   matRipple>
 			<ngx-icon [name]="'settings'"></ngx-icon>
 			Налаштування
 		</a>
 		
-		<a cdkMenuItem
+		<a (click)="onLogout()"
+		   cdkMenuItem
 		   customBasicLink
-		   (click)="onLogout()"
 		   matRipple>
 			<ngx-icon [name]="'logout'"></ngx-icon>
 			Вихід
@@ -69,8 +64,14 @@
 			</div>
 			
 			<div class="fx-col desc">
-				<span class="user-name">Демчук Ю. М.</span>
-				<span class="company-name">Національна компанія органічних добриворганічних добриворганічних добриворганічних добрив</span>
+				<span class="user-name">
+					{{
+						onGetUserShortName(authAuditorState!)
+					}}
+				</span>
+				<span class="company-name">
+					{{authAuditorState!.selectedCompany ?? 'Компанію не обрано'}}
+				</span>
 			</div>
 		</div>
 		<ngx-icon class="arrow"

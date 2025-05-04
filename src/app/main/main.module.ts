@@ -83,6 +83,17 @@ export const routes: RoutesExtended = [
 						AllowedGroupsOfUsers.OnlyAuthorized
 					]
 				}
+			},
+
+			{
+				path: "my-profile",
+				loadChildren: () => import("./pages/my-profile/my-profile.module").then(m => m.MyProfileModule),
+				canActivate: [UserGroupsGuardService],
+				data: {
+					canActivateGroups: [
+						AllowedGroupsOfUsers.OnlyAuthorized
+					]
+				}
 			}
 		]
 	}

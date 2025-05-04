@@ -10,6 +10,7 @@ import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 	animations: []
 })
 export class HeaderComponent extends LifeHooksFactory {
+
 	constructor() {
 		super()
 	}

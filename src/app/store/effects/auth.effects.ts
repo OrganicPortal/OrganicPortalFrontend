@@ -4,11 +4,12 @@ import {ActivatedRoute, Router} from "@angular/router"
 import {ToastrService} from "@fixAR496/ngx-elly-lib"
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import {Action, Store} from "@ngrx/store"
-import {catchError, delay, exhaustMap, filter, map, Observable, of, switchMap, take, tap} from "rxjs"
+import {catchError, combineLatest, delay, exhaustMap, filter, map, Observable, of, switchMap, take, tap} from "rxjs"
 import {NgShortMessageService} from "../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {AllowedHttpContextTokens} from "../../../addons/services/http-interceptor.service"
 import {RouterRedirects} from "../../../addons/states/states"
 import {CodeConfirmation} from "../../main/pages/auth/auth.module"
+import {MyProfileService} from "../../main/pages/my-profile/my-profile.service"
 import * as AuthActions from "../actions/auth.actions"
 import * as LocalStorageActions from "../actions/localstorage.actions"
 import {LocalStorageState} from "../actions/localstorage.actions"
@@ -84,10 +85,11 @@ export class AuthEffects {
 
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,
-		private _toastrService: ToastrService,
 		private _localStorageListeners: LocalStorageListeners,
+		private _myProfileService: MyProfileService,
 		private _activatedRoute: ActivatedRoute,
 		private _authListeners: AuthListeners,
+		private _toastrService: ToastrService,
 		private _http: HttpClient,
 		private _router: Router,
 		private _store: Store<LocalStorageState>
@@ -105,8 +107,40 @@ export class AuthEffects {
 						}))
 					}
 
-					return this.onGetRoles()
+					return this.onGetAuditTokenObservable().pipe(
+						map(([el1, el2]) => {
+							return AuthActions.AuthAuditorSuccess({
+								isAuthUser: true,
+								isRequestComplete: true,
+								isFetchSuccess: true,
+								userRoles: el1.Data,
+								userInfo: el2.Data
+							})
+						}),
+						catchError(async (err: HttpErrorResponse) => {
+							if (err?.status === 401) {
+								const message = "Час дії сесії вичерпано. Будь ласка, виконайте повторний вхід."
+								this._ngShortMessageService.onInitMessage(message, "info-circle")
+								this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
+							}
+
+							return AuthActions.AuthAuditorFailure({
+								isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
+							})
+						})
+					)
 				}))
+	}
+
+	private onGetAuditTokenObservable() {
+		return combineLatest([
+			this.onGetRoles(),
+			this.onGetProfileInfo()
+		])
+	}
+
+	private onGetProfileInfo() {
+		return this._myProfileService.onGetProfileInfo()
 	}
 
 	private onGetRecoveryPasswordToken(payload: RecoveryPasswordGetTokenEffectData) {
@@ -140,27 +174,7 @@ export class AuthEffects {
 		const disableStatusCodeValidation = AllowedHttpContextTokens.get("DisableValidateStatusCode")!
 		context.set(disableStatusCodeValidation.token, "")
 
-		return this._http.get<IAuthGetRolesDTO>(apiUrl, {context: context}).pipe(
-			map((el) => {
-				return AuthActions.AuthAuditorSuccess({
-					isAuthUser: true,
-					isRequestComplete: true,
-					isFetchSuccess: true,
-					userRoles: el.Data
-				})
-			}),
-			catchError(async (err: HttpErrorResponse) => {
-				if (err?.status === 401) {
-					const message = "Час дії сесії вичерпано. Будь ласка, виконайте повторний вхід."
-					this._ngShortMessageService.onInitMessage(message, "info-circle")
-					this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
-				}
-
-				return AuthActions.AuthAuditorFailure({
-					isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
-				})
-			})
-		)
+		return this._http.get<IAuthGetRolesDTO>(apiUrl, {context: context})
 	}
 
 	private onLogin(payload: LoginEffectData) {
@@ -175,27 +189,48 @@ export class AuthEffects {
 					return res
 				}),
 
-				switchMap((el) => this.onGetRoles().pipe(map(el1 => el))),
+				switchMap((el) => this.onGetAuditTokenObservable()
+					.pipe(
+						map(([el1, el2]) => ({
+							loginData: el,
+							userRoles: el1,
+							userInfo: el2
+						})),
 
-				map(el => {
-					this.onResetBasicAuthAuditors()
+						map(el => {
+							this.onResetBasicAuthAuditors()
 
-					this._store.dispatch(AuthActions.AuthAuditorSuccess({
-						isAuthUser: true,
-						isFetchSuccess: true,
-						isRequestComplete: true
-					}))
+							this._store.dispatch(AuthActions.AuthAuditorSuccess({
+								isFetchSuccess: true,
+								isRequestComplete: true,
+								isAuthUser: true,
 
-					return AuthActions.LoginSuccess({
-						Data: el.Data, isFetchSuccess: true, isRequestComplete: true
-					})
-				}),
+								userInfo: el.userInfo!.Data,
+								userRoles: el.userRoles!.Data
+							}))
+
+							return AuthActions.LoginSuccess({
+								Data: el.loginData.Data,
+								isFetchSuccess: true,
+								isRequestComplete: true
+							})
+						}),
+
+						catchError(async (err) => {
+							return AuthActions.LoginFailure({
+								Error: err, isFetchSuccess: false, isRequestComplete: true
+							})
+						})
+					)
+				),
+
 
 				catchError(async (err) => {
 					return AuthActions.LoginFailure({
 						Error: err, isFetchSuccess: false, isRequestComplete: true
 					})
-				}))
+				})
+			)
 	}
 
 	private onLogout() {

@@ -78,7 +78,8 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 		return this._codeConfirmationService.allowedRenewCode$
 	}
 
-	@HostBinding("@frameSideIn4") override ngOnInit() {
+	@HostBinding("@frameSideIn4")
+	public override ngOnInit() {
 		super.ngOnInit()
 		this.timerInitializer$.next()
 
@@ -121,6 +122,7 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 
 	override ngOnDestroy() {
 		super.ngOnDestroy()
+		this._codeConfirmationService.onResetDate()
 	}
 
 	/**
@@ -166,7 +168,7 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 
 	public onKeydownInput(evt: KeyboardEvent) {
 		const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Tab", "Delete"]
-		const isV = evt.code === 'KeyV'
+		const isV = evt.code === "KeyV"
 
 		if (allowedKeys.includes(evt.key) ||
 			(evt.ctrlKey && isV)

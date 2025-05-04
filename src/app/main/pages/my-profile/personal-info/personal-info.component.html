@@ -1,0 +1,84 @@
+@let activatedRouteData = activatedRouteData$ | async;
+@let profileData = profileData$ | async;
+
+<div class="container-header">
+	<h2 class="component-title">
+		<ngx-icon [name]="activatedRouteData?.['icon'] ?? ''"></ngx-icon>
+		{{ activatedRouteData?.['title'] }}
+	</h2>
+</div>
+
+
+@if (profileData?.Data) {
+	<div class="container-body"
+	     [@containerAnimation]>
+		
+		<div class="desc">
+			<div class="desc-data">
+				<ngx-icon [name]="'text-square-2'"></ngx-icon>
+				<span>Ідентифікатор кабінету: #{{ profileData?.Data?.Id }}</span>
+			</div>
+			
+			<div class="desc-data">
+				<ngx-icon [name]="'clock-circle'"></ngx-icon>
+				<span>Обліковий запис створено створено:
+					{{ profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm'}}</span>
+			</div>
+		</div>
+		
+		<form action=""
+		      [formGroup]="formGroup"
+		      class="form-data">
+			<ngx-grid>
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="name">Ім'я</label>
+					
+					<input id="name"
+					       [formControlName]="'FirstName'"
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="lastname">Прізвище</label>
+					
+					<input id="lastname"
+					       [formControlName]="'LastName'"
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="secondName">По батькові</label>
+					
+					<input id="secondName"
+					       [formControlName]="'MiddleName'"
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'phone-calling-rounded'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="phone">Номер телефону</label>
+					
+					<input id="phone"
+					       [formControlName]="'Phone'"
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+			</ngx-grid>
+		</form>
+	</div>
+}
+

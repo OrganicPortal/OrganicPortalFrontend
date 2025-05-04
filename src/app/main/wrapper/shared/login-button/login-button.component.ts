@@ -5,10 +5,11 @@ import {ChangeDetectionStrategy, Component, Input, ViewChild} from "@angular/cor
 import {Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {BehaviorSubject, takeUntil, tap} from "rxjs"
+import {BehaviorSubject, Observable, takeUntil, tap} from "rxjs"
 import {RoutesReservedQueryParams} from "../../../../../addons/states/states"
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
+import {AuthAuditorReducerModel} from "../../../../store/models/auth/auth.auditor.models"
 import {WrapperService} from "../../wrapper.service"
 
 
@@ -44,7 +45,7 @@ import {WrapperService} from "../../wrapper.service"
 export class LoginButtonComponent extends LifeHooksFactory {
 	public viewOnState: "navbar" | "header" = "header"
 	public readonly isAuthUser$ = new BehaviorSubject<boolean>(false)
-
+	public readonly authAuditorState$: Observable<AuthAuditorReducerModel>
 	public readonly menuPosition = [
 		new ConnectionPositionPair(
 			{originX: "end", originY: "bottom"},
@@ -63,6 +64,7 @@ export class LoginButtonComponent extends LifeHooksFactory {
 		private _store: Store<AuthActions.StoreAuthType>
 	) {
 		super()
+		this.authAuditorState$ = this._store.select(AuthActions.Actions.AuthAuditorReducerName)
 	}
 
 	@Input() public set viewOn(value: "navbar" | "header") {
@@ -88,6 +90,20 @@ export class LoginButtonComponent extends LifeHooksFactory {
 				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
+	}
+
+	public onGetUserShortName(authState: AuthAuditorReducerModel) {
+		let firstName= authState?.userInfo?.FirstName ?? ""
+		let lastName= authState?.userInfo?.LastName ?? ""
+		let surName= authState?.userInfo?.MiddleName ?? ""
+
+		if(firstName.length > 1)
+			firstName = firstName[0] + ". "
+
+		if(surName.length > 1)
+			surName = surName[0] + "."
+
+		return lastName + " " + firstName + surName
 	}
 
 	public onLogout() {

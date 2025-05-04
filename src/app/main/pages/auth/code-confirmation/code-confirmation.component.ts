@@ -74,11 +74,11 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 		return this._codeConfirmationService.allowedRenewCode$
 	}
 
-	@HostBinding("@frameSideIn4") override ngOnInit() {
+	@HostBinding("@frameSideIn4")
+	public override ngOnInit() {
 		super.ngOnInit()
 		this.timerInitializer$.next()
 
-		this._activatedRoute.data
 		/**
 		 * Переміщення між інпутами за допомогою клавіш "ArrowRight" & "ArrowLeft"
 		 */
@@ -128,6 +128,7 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 
 	override ngOnDestroy() {
 		super.ngOnDestroy()
+		this._codeConfirmationService.onResetDate()
 	}
 
 	/**
@@ -164,7 +165,7 @@ export class CodeConfirmationComponent extends LifeHooksFactory {
 
 	public onKeydownInput(evt: KeyboardEvent) {
 		const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Tab", "Delete"]
-		const isV = evt.code === 'KeyV'
+		const isV = evt.code === "KeyV"
 
 		if (allowedKeys.includes(evt.key) ||
 			(evt.ctrlKey && isV)
