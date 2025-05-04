@@ -12,7 +12,19 @@ export const routes: RoutesExtended = [
 		children: [
 			{
 				path: "",
-				loadChildren: () => import("./recovery-init/recovery-init.module").then(x => x.RecoveryInitModule)
+				loadChildren: () => import("./recovery-init/recovery-init.module").then(x => x.RecoveryInitModule),
+				canActivate: [UserGroupsGuardService],
+				data: {
+					canActivateGroups: [
+						AllowedGroupsOfUsers.OnlyUnauthorized
+					],
+
+					canActivateGroupsRedirectsIfValidationError: {
+						[AllowedGroupsOfUsers.OnlyUnauthorized]: {
+							redirectTo: ["/interface"]
+						}
+					}
+				}
 			},
 
 			{

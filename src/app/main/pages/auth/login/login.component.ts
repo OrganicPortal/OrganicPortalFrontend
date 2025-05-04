@@ -71,12 +71,12 @@ export class LoginComponent extends LifeHooksFactory {
 					)
 				),
 				filter(el => !!el),
-				switchMap((el) => this._authListeners.authAuditorState$),
-				tap((el) => {
+				switchMap(() => this._authListeners.authAuditorState$),
+				tap(() => {
 					const message = "Вхід успішно виконано"
 					this._toastrService.onInitMessage(message)
 
-					this._router.navigate(["/interface"])
+					this._router.navigate(["/my-profile"])
 					this._store.dispatch(AuthActions.LoginReset())
 				}),
 				takeUntil(this.componentDestroy$)

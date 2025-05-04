@@ -1,5 +1,5 @@
 import {createAction, props} from "@ngrx/store"
-import {AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
+import {AuthAuditorPatchInfoModel, AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
 import {LoginEffectData, LoginReducerModel} from "../models/auth/auth.login.models"
 import {LogoutReducerModel} from "../models/auth/auth.logout.models"
 import {
@@ -58,6 +58,7 @@ export enum Actions {
 	AuthAuditorReducerName = "auditor",
 	AuthAuditorInit = "[AUTH] Auditor init",
 	AuthAuditorSuccess = "[AUTH] Auditor success",
+	AuthAuditorPatch = "[AUTH] Auditor patch",
 	AuthAuditorFailure = "[AUTH] Auditor failure",
 	AuthAuditorReset = "[AUTH] Auditor reset",
 }
@@ -107,6 +108,7 @@ export const ResendPhoneCodeReset = createAction(Actions.ResendPhoneCodeReset)
 //#region AuthAuditor Actions
 export const AuthAuditorInit = createAction(Actions.AuthAuditorInit)
 export const AuthAuditorSuccess = createAction(Actions.AuthAuditorSuccess, props<AuthAuditorReducerModel>())
+export const AuthAuditorPatch = createAction(Actions.AuthAuditorPatch, props<AuthAuditorPatchInfoModel>())
 export const AuthAuditorFailure = createAction(Actions.AuthAuditorFailure, props<AuthAuditorReducerModel>())
 export const AuthAuditorReset = createAction(Actions.AuthAuditorReset)
 //#endregion AuthAuditor Actions

@@ -26,13 +26,13 @@
 		
 		margin: 0;
 		font-size: 1.3em;
+		font-weight: 500;
 		z-index: 1;
-		top: 20px;
 		
+		top: 20px;
 		left: 20px;
 		flex-direction: row;
 		color: var(--color);
-		font-weight: 500;
 		
 		gap: .5rem;
 		
@@ -57,7 +57,7 @@
 	
 	.navigation {
 		display: flex;
-		padding: 1.3rem 1rem 1.3rem 1rem;
+		padding: 0 1rem 0 1rem;
 		align-items: center;
 		
 		flex-direction: row;
@@ -75,15 +75,53 @@
 			justify-content: flex-start;
 			margin-left: calc(130px + 120px);
 			
-			gap: 1rem;
-			
-			a.active{
-				background-color: var(--basic-button-active-color);
+			a.active {
 				color: var(--white);
+				background-color: var(--basic-button-active-color);
 				
-				.solar-outline{
+				.solar-outline {
 					--ngx-icon-override-color-1: var(--white);
 				}
+			}
+		}
+	}
+	
+	.link-frame {
+		position: relative;
+
+		padding: 1.2rem 1.5rem;
+		color: var(--text-color) !important;
+		
+		border-radius: 0;
+		background-color: unset !important;
+		box-shadow: unset;
+		font-size: .9em;
+		
+		&:hover{
+			background-color: var(--gray) !important;
+		}
+		
+		&::after {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			content: "";
+			width: 100%;
+			border-bottom: 3px solid transparent;
+			
+			will-change: border-bottom;
+			transition: border-bottom .2s ease;
+		}
+		
+		.solar-outline {
+			--ngx-icon-override-color-1: var(--text-color) !important;
+		}
+		
+		&.active{
+			background-color: var(--gray) !important;
+			
+			&::after {
+				border-bottom: 3px solid var(--color-palette-3);
 			}
 		}
 	}
@@ -114,7 +152,7 @@
 			align-items: center;
 			justify-content: center;
 			
-			width: 120px;
+			width: 100px;
 			margin-left: 120px;
 			transform: translateY(50%);
 			border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);

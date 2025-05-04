@@ -1,11 +1,11 @@
 @let loaderState = loaderState$ | async;
 
-<div class="container">
-	<h2 class="page-title">
-		<ngx-icon [name]="'shield-user'"
-		          [ratio]="'1.2em'"></ngx-icon>
-		Профіль користувача
-	</h2>
+<div class="container" [@frameSideIn4]>
+	<!-- 	<h2 class="page-title"> -->
+	<!-- 		<ngx-icon [name]="'shield-user'" -->
+	<!-- 		          [ratio]="'1.2em'"></ngx-icon> -->
+	<!-- 		Профіль користувача -->
+	<!-- 	</h2> -->
 	
 	<div class="image-frame">
 		<img class="card-bg"
@@ -26,9 +26,10 @@
 	
 	<nav class="navigation">
 		<div class="links">
-			<a [routerLinkActive]="'active'"
-			   [routerLink]="'/my-profile'"
+			<a class="link-frame"
 			   [routerLinkActiveOptions]="{exact: true}"
+			   [routerLinkActive]="'active'"
+			   [routerLink]="'/my-profile'"
 			   customRaisedButton
 			   matRipple>
 				
@@ -36,7 +37,8 @@
 				Особисті дані
 			</a>
 			
-			<a [routerLinkActive]="'active'"
+			<a class="link-frame"
+			   [routerLinkActive]="'active'"
 			   [routerLink]="'/my-profile/personal-companies'"
 			   customRaisedButton
 			   matRipple>
@@ -44,7 +46,8 @@
 				Мої компанії
 			</a>
 			
-			<a
+			<a class="link-frame"
+			   (click)="onLogout()"
 			   customRaisedButton
 			   matRipple>
 				<ngx-icon [name]="'logout'"></ngx-icon>
@@ -54,10 +57,10 @@
 	</nav>
 </div>
 
-<div class="content-container">
+<div class="content-container" [@frameSideIn4]>
 	<router-outlet></router-outlet>
 </div>
 
 @if (!loaderState?.isLoaded) {
-	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+	<dots-loadbar class="loader disabled-bg" [@frameSideInOut2]></dots-loadbar>
 }

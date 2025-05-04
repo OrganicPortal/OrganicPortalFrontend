@@ -2,9 +2,11 @@
 	.form-data {
 		display: flex;
 		flex: 1 1;
-		
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: flex-end;
 		flex-wrap: wrap;
-		gap: .5rem;
+		gap: 1rem;
 		
 		.col {
 			display: flex;
@@ -20,17 +22,45 @@
 				flex: 1 1;
 			}
 		}
+	}
+	
+	.desc-link{
+		width: max-content;
+		align-items: flex-end;
+		justify-content: flex-end;
 		
+		text-decoration: underline;
 		
+		border: none;
+		box-shadow: unset;
+		background-color: unset;
+		color: var(--color-palette-3);
+		
+		.solar-outline{
+			--ngx-icon-override-color-1: var(--color-palette-3);
+		}
+		
+		&:hover{
+			color: var(--text-color);
+			
+			.solar-outline{
+				--ngx-icon-override-color-1: var(--text-color);
+			}
+		}
+	}
+	
+	ngx-grid {
+		flex: 0;
+		width: 100%;
 	}
 	
 	.desc {
 		display: flex;
-		flex-direction: column;
-		gap: .5rem;
-		
 		font-size: .9em;
-		padding-block: 1rem;
+		flex-direction: column;
+		
+		gap: 1rem;
+		padding-block: 1.5rem;
 		
 		.desc-data {
 			display: flex;

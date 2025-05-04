@@ -1,6 +1,5 @@
 import {HttpClient} from "@angular/common/http"
 import {Injectable} from "@angular/core"
-import {ActivatedRoute} from "@angular/router"
 import {BehaviorSubject, catchError, map, Observable, of, Subject, switchMap, tap} from "rxjs"
 import {LoaderModel, onInitLoader} from "../../../../addons/models/models"
 
@@ -8,7 +7,7 @@ import {LoaderModel, onInitLoader} from "../../../../addons/models/models"
 	providedIn: "root"
 })
 export class MyProfileService {
-	public readonly loaderState$ = onInitLoader()
+	public loaderState$ = onInitLoader()
 
 	public readonly profileData$ =
 		new BehaviorSubject<IMyProfileDTO | undefined>(undefined)
@@ -16,8 +15,7 @@ export class MyProfileService {
 	public readonly profileUpdater$ = new Subject<void>()
 
 	constructor(
-		private _http: HttpClient,
-		private _activatedRoute: ActivatedRoute
+		private _http: HttpClient
 	) {
 	}
 
@@ -46,6 +44,25 @@ export class MyProfileService {
 		return this._http.get<IMyProfileDTO>(apiUrl)
 	}
 
+	public onUpdateProfileInfo(payload: UpdateUserProfileDTO) {
+		const apiUrl = "/api/users/my-profiles/edits"
+		return this._http.patch(apiUrl, payload)
+	}
+}
+
+export class UpdateUserProfileDTO {
+	UserId: number
+	FirstName: string
+	LastName: string
+	MiddleName: string
+
+
+	constructor(UserId: number, FirstName: string, LastName: string, MiddleName: string) {
+		this.UserId = UserId
+		this.FirstName = FirstName
+		this.LastName = LastName
+		this.MiddleName = MiddleName
+	}
 }
 
 export interface IMyProfileDTO {

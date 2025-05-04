@@ -21,15 +21,29 @@
 			
 			<div class="desc-data">
 				<ngx-icon [name]="'clock-circle'"></ngx-icon>
-				<span>Обліковий запис створено створено:
-					{{ profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm'}}</span>
+				<span>Обліковий запис створено:
+					{{ profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
 			</div>
+			
+			<div class="desc-data">
+				<ngx-icon [name]="'phone-calling-rounded'"></ngx-icon>
+				<span>Номер телефону:
+					{{ profileData?.Data?.Phone }}</span>
+			</div>
+			
+			<button (click)="onRestorePassword(profileData?.Data?.Phone ?? '')"
+			        class="desc-data desc-link"
+			        customBasicLink>
+				<ngx-icon [name]="'key'"></ngx-icon>
+				Відновити пароль
+			</button>
 		</div>
 		
 		<form action=""
+		      (ngSubmit)="onSubmit(profileData?.Data?.Id)"
 		      [formGroup]="formGroup"
 		      class="form-data">
-			<ngx-grid>
+			<ngx-grid [cellSize]="400">
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
@@ -65,19 +79,17 @@
 					       customInput
 					       type="text">
 				</custom-input-field>
-				
-				<custom-input-field>
-					<ngx-icon [name]="'phone-calling-rounded'"
-					          [ratio]="'1em'"></ngx-icon>
-					<label for="phone">Номер телефону</label>
-					
-					<input id="phone"
-					       [formControlName]="'Phone'"
-					       autocomplete="on"
-					       customInput
-					       type="text">
-				</custom-input-field>
 			</ngx-grid>
+			
+			<button class="btn submit-btn"
+			        [type]="'submit'"
+			        [ngClass]="!formGroup.dirty || !formGroup.valid ? 'disabled' : ''"
+			        customBasicButton
+			        matRipple>
+				<ngx-icon [name]="'pen-new-square'"
+				          [ratio]="'1em'"></ngx-icon>
+				<span>Зберегти зміни</span>
+			</button>
 		</form>
 	</div>
 }

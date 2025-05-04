@@ -21,19 +21,21 @@ export class RecoveryPasswordGetTokenEffectData {
 
 export class SaveRecoveredPasswordEffectData {
 	recoveryToken: string
+	navigateAfterCompleteRequest?: string
 
 	payload: {
 		Code: string
 		Password: string
 	}
 
-	constructor(phoneCode: string, newPassword: string, recoveryToken: string) {
+	constructor(phoneCode: string, newPassword: string, recoveryToken: string, navigateAfterCompleteRequest?: string) {
 		this.payload = {
 			Code: phoneCode,
 			Password: newPassword
 		}
 
 		this.recoveryToken = recoveryToken
+		this.navigateAfterCompleteRequest = navigateAfterCompleteRequest
 	}
 }
 

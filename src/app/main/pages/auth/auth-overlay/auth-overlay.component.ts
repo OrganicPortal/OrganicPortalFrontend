@@ -31,11 +31,25 @@ export class AuthOverlayComponent extends LifeHooksFactory {
 	override async ngOnInit() {
 		super.ngOnInit()
 
+
 		this.animationHandler$
 			.pipe(
 				switchMap(() => this._activatedRoute.queryParams),
 				tap((el) => {
 					const params = new URLSearchParams(el).toString()
+					const navigationState = this._router.getCurrentNavigation() || this._router.lastSuccessfulNavigation
+					const extras = navigationState?.extras?.state
+
+
+					if (extras) {
+						this._router.navigate([extras?.["navigationUrl"]], extras?.["navigationParams"])
+							.then(() => {
+								this._router.navigate([
+									{outlets: { "auth-overlay": null }},
+								], extras?.["navigationParams"])
+							})
+						return
+					}
 
 					this._router.navigateByUrl(`${RouterRedirects.login}?${params}`)
 				}),

@@ -9,6 +9,12 @@ export class AuthAuditorReducerModel {
 	selectedCompany?: any
 }
 
+export class AuthAuditorPatchInfoModel {
+	userRoles?: IAuthGetRolesDTO["Data"] = []
+	userInfo?: IMyProfileDTO["Data"] = undefined
+	selectedCompany?: any
+}
+
 export interface IAuthGetRolesDTO {
 	Data: {
 		Role: number

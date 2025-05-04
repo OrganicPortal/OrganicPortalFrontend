@@ -15,12 +15,7 @@ import {
 	takeUntil,
 	tap
 } from "rxjs"
-import {
-	frameSideIn2,
-	frameSideInOut2,
-	frameSideInOut4,
-	frameSideOut2
-} from "../../../../addons/animations/shared.animations"
+import {frameSideIn2, frameSideInOut2, frameSideInOut4} from "../../../../addons/animations/shared.animations"
 import {ListenersService} from "../../../../addons/services/listeners.service"
 import {RoutesReservedQueryParams} from "../../../../addons/states/states"
 
@@ -70,6 +65,19 @@ export class AuthComponent extends LifeHooksFactory {
 				filter(el => el instanceof NavigationEnd || el === "init"),
 				map(() => this._activatedRoute.children.map(el => el.data)),
 				switchMap((el) => merge(...el).pipe(take(1))),
+				map((el) => ({
+					data: el,
+					paramsArr$: this._activatedRoute.children.map(el => el.queryParams)
+				})),
+				switchMap((el) => merge(...el.paramsArr$).pipe(
+					map((el2) => {
+						return {
+							backUrl: el2?.["backUrl"] ?? el.data?.["backUrl"],
+							allowToGoBack: !!(el2?.["backUrl"] ?? el.data?.["backUrl"])
+						}
+					}),
+					take(1)
+				)),
 				tap((el) => {
 					const data = el as any
 					this.isVisibleLocationBack$.next(!!data?.allowToGoBack)
@@ -79,7 +87,7 @@ export class AuthComponent extends LifeHooksFactory {
 					const isExistBackUrl = el["backUrl"]
 
 					if (isExistBackUrl) {
-						this._router.navigate([el["backUrl"]], {queryParamsHandling: "merge"})
+						this._router.navigate([el["backUrl"]], {queryParamsHandling: "replace"})
 						return
 					}
 

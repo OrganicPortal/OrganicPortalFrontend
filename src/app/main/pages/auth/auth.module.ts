@@ -86,16 +86,6 @@ export const routes: RoutesExtended = [
 				data: {
 					allowToGoBack: true,
 					backUrl: RouterRedirects.login,
-
-					canActivateGroups: [
-						AllowedGroupsOfUsers.OnlyUnauthorized
-					],
-
-					canActivateGroupsRedirectsIfValidationError: {
-						[AllowedGroupsOfUsers.OnlyUnauthorized]: {
-							redirectTo: [RouterRedirects.registration]
-						}
-					}
 				}
 			},
 

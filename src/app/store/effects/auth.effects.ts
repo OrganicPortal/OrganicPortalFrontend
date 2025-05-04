@@ -361,7 +361,9 @@ export class AuthEffects {
 
 		return this._http.post(apiUrl, payload.payload, {headers: headers}).pipe(
 			map((el) => {
-				this._router.navigate([RouterRedirects.login], {queryParamsHandling: "merge"})
+				const redirectUrl = payload.navigateAfterCompleteRequest ?? RouterRedirects.login
+
+				this._router.navigate([redirectUrl], {queryParamsHandling: "replace"})
 
 				return AuthActions.RecoveryPasswordSaveSuccess({
 					isFetchSuccess: true,

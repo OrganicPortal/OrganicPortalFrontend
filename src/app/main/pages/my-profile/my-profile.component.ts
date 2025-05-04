@@ -1,7 +1,10 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
+import {Store} from "@ngrx/store"
 import {takeUntil} from "rxjs"
+import {frameSideIn4, frameSideInOut2} from "../../../../addons/animations/shared.animations"
 import {LoaderModel} from "../../../../addons/models/models"
+import * as AuthActions from "../../../store/actions/auth.actions"
 import {MyProfileService} from "./my-profile.service"
 
 @Component({
@@ -12,11 +15,16 @@ import {MyProfileService} from "./my-profile.service"
 		"./my-profile.component.scss",
 		"./shared/shared.styles.scss"
 	],
+	animations: [
+		frameSideIn4,
+		frameSideInOut2
+	],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MyProfileComponent extends LifeHooksFactory {
 	constructor(
-		public _myProfileService: MyProfileService
+		public _myProfileService: MyProfileService,
+		private _store: Store<AuthActions.StoreAuthType>
 	) {
 		super()
 	}
@@ -37,5 +45,10 @@ export class MyProfileComponent extends LifeHooksFactory {
 	public override ngOnDestroy() {
 		super.ngOnDestroy()
 		this.loaderState$.next(new LoaderModel(false, false))
+		this._myProfileService.profileData$.next(undefined)
+	}
+
+	public onLogout() {
+		this._store.dispatch(AuthActions.LogoutInit())
 	}
 }

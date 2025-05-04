@@ -57,13 +57,14 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 		private _activatedRoute: ActivatedRoute
 	) {
 		super()
+
 		this.confirmationFg = new FormGroup(
 			{
 				code: new FormArray(this.inputControls),
 				newPassword: new FormControl("", [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)])
 			}
 		)
-		this.routerExtras = this._router.getCurrentNavigation()?.extras
+		this.routerExtras = (this._router.getCurrentNavigation() || this._router.lastSuccessfulNavigation)?.extras
 	}
 
 	public get timerInitializer$() {
@@ -243,6 +244,7 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 
 		const code = this.inputControls.map(el => el.value?.toString()).join("")
 		const token = this.routerExtras?.state?.["recoveryToken"]
+		const backUrl = this.routerExtras?.state?.["backUrl"]
 
 		this.loaderState$.next(new LoaderModel(false, false))
 		this._store.dispatch(AuthActions
@@ -250,7 +252,8 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 				new SaveRecoveredPasswordEffectData(
 					code,
 					this.confirmationFg.get("newPassword")?.value ?? "",
-					token
+					token,
+					backUrl
 				)
 			)
 		)
