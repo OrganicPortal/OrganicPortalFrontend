@@ -1,0 +1,21 @@
+@let selectedOptionRef = selectedOptionRef$ | async;
+
+<button class="option"
+        (focus)="onFocusElement(btnEl)"
+        [ngClass]="selectedOptionRef?.componentValue == value ? 'selected' : ''"
+        #btnEl>
+	<div class="content">
+		<div class="icon-frame">
+			<ng-content select="ngx-icon"></ng-content>
+		</div>
+		<span class="flexible-text">
+			<ng-content></ng-content>
+		</span>
+	</div>
+	
+	@if (selectedOptionRef?.componentValue == value) {
+		<div class="selected-icon">
+			<ngx-icon [name]="'check-circle'" [ratio]="'1.3em'"></ngx-icon>
+		</div>
+	}
+</button>

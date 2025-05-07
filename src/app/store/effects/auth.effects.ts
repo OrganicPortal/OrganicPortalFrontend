@@ -118,12 +118,6 @@ export class AuthEffects {
 							})
 						}),
 						catchError(async (err: HttpErrorResponse) => {
-							if (err?.status === 401) {
-								const message = "Час дії сесії вичерпано. Будь ласка, виконайте повторний вхід."
-								this._ngShortMessageService.onInitMessage(message, "info-circle")
-								this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
-							}
-
 							return AuthActions.AuthAuditorFailure({
 								isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
 							})

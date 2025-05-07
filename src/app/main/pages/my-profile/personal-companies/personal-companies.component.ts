@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {ActivatedRoute, Data} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {Observable} from "rxjs"
+import {Observable, takeUntil} from "rxjs"
 import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
+import {LoaderModel} from "../../../../../addons/models/models"
 import {MyProfileService} from "../my-profile.service"
 
 @Component({
@@ -19,14 +20,10 @@ import {MyProfileService} from "../my-profile.service"
 	]
 })
 export class PersonalCompaniesComponent extends LifeHooksFactory {
-	public activatedRouteData$: Observable<Data>
 	constructor(
-		private _activatedRoute: ActivatedRoute,
 		private _myProfileService: MyProfileService
 	) {
 		super()
-		this.activatedRouteData$ = this._activatedRoute.data
-		this._myProfileService.profileUpdater$.next()
 	}
 
 	@HostBinding("@frameSideIn4")
@@ -37,6 +34,7 @@ export class PersonalCompaniesComponent extends LifeHooksFactory {
 	public override ngOnDestroy() {
 		super.ngOnDestroy()
 		this._myProfileService.profileData$.next(undefined)
+		this._myProfileService.loaderState$.next(new LoaderModel(false, false))
 	}
 
 }

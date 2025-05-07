@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-@import '@angular/cdk/overlay-prebuilt.css';
+@import "@angular/cdk/overlay-prebuilt.css";
 
 :root,
 .roboto-condensed-condensed {
@@ -38,7 +38,7 @@ body {
 	--color-palette-1: #5e6d8a51;
 	--color-palette-2: #f6fdf6;
 	--color-palette-3: #63b45b;
-	--color-palette-4: #f8fff8;
+	--color-palette-4: #fbfffb;
 	--color-palette-5: #d8e1d8;
 	
 	--little-red: #f4695f;
@@ -129,7 +129,7 @@ body {
 	flex-direction: row;
 	justify-content: center;
 	box-sizing: border-box;
-	width: max-content;
+	min-width: max-content;
 	height: max-content;
 	cursor: pointer;
 	user-select: none;
@@ -140,6 +140,7 @@ body {
 	outline: none;
 	box-shadow: rgba(94, 122, 177, 0.3) 0 2px 5px;
 	gap: .3rem;
+	
 }
 
 .custom-basic-button {
@@ -184,7 +185,7 @@ body {
 		background-color: var(--gray);
 	}
 	
-	&.active{
+	&.active {
 		background-color: var(--gray);
 	}
 }
@@ -260,13 +261,12 @@ body {
 	border-radius: 2000px;
 }
 
-custom-input-field {
+custom-input-field, custom-dropdown-field {
 	display: flex;
 	position: relative;
 	
 	width: 100%;
 	min-height: var(--input-height);
-	max-height: var(--input-height);
 	
 	transition: background-color .2s ease, border .2s ease;
 	border: 1px solid var(--default-input-border-state);
@@ -296,16 +296,6 @@ custom-input-field {
 		width: calc(var(--input-padding-inline) * 2.5);
 		cursor: pointer;
 		transform: translateY(-50%);
-	}
-	
-	.suffix:empty {
-		display: none;
-	}
-	
-	&:has(.suffix:not(:empty)) {
-		.custom-input {
-			padding-right: 2.5rem !important;
-		}
 	}
 	
 	.label {
@@ -343,17 +333,47 @@ custom-input-field {
 			--ngx-icon-override-color-1: var(--label-text-color);
 		}
 	}
+}
+
+custom-input-field {
+	.suffix:empty {
+		display: none;
+	}
+	
+	&:has(.suffix:not(:empty)) {
+		.custom-input {
+			padding-right: 2.5rem !important;
+		}
+	}
+	
+	&:has(.custom-input:disabled){
+		background-color: var(--input-hover-bg) !important;
+	}
 	
 	.custom-input {
+		padding: var(--input-padding-inline) var(--input-padding-inline);
 		z-index: 3;
 		flex: 1 1;
-		border: none;
-		outline: none;
-		min-width: unset;
-		border-radius: 3px !important;
 		width: 0;
+		min-width: unset;
+		border: none;
+		border-radius: 3px !important;
+		outline: none;
 		background-color: unset;
-		padding-inline: var(--input-padding-inline);
+	}
+	
+	textarea {
+		height: auto;
+	}
+	
+	&:has(textarea) {
+		.label {
+			top: calc(var(--input-height) / 2) !important;
+		}
+	}
+	
+	&:has(input) {
+		max-height: var(--input-height);
 	}
 	
 	&:has(
@@ -361,15 +381,15 @@ custom-input-field {
 	) {
 		border: 1px solid var(--little-red) !important;
 		
-		&:has(.custom-input:not(.empty-field)){
+		&:has(.custom-input:not(.empty-field)) {
 			.label {
 				border: 1px solid var(--little-red) !important;
 			}
 		}
 	}
 	
-	&:has(.custom-input.field-required){
-		.required-checkmark{
+	&:has(.custom-input.field-required) {
+		.required-checkmark {
 			color: var(--little-red) !important;
 		}
 	}
@@ -398,10 +418,37 @@ custom-input-field {
 		}
 	}
 	
-	&:has(.custom-input:-webkit-autofill){
+	&:has(.custom-input:-webkit-autofill) {
 		.label {
 			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
 			background-color: var(--color-palette-4);
+		}
+	}
+}
+
+custom-dropdown-field {
+	overflow: visible !important;
+	
+	.label{
+		*, & {
+			cursor: inherit !important;
+		}
+		
+	}
+	
+	&:has(.printed-text:not(:empty)){
+		.label{
+			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
+			background-color: var(--color-palette-4);
+			border: 1px solid var(--default-input-border-state);
+		}
+	}
+	
+	&:has(.menu-trigger.focused){
+		.label{
+			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
+			background-color: var(--color-palette-4);
+			border: 1px solid var(--input-focus-border-color) !important;
 		}
 	}
 }

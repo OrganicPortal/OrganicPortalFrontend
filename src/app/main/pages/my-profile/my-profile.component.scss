@@ -45,9 +45,10 @@
 	
 	.content-container {
 		display: flex;
-		flex: 1 1;
+		position: relative;
 		flex-direction: column;
 		box-sizing: border-box;
+		flex: 1 1;
 		width: 100%;
 		border-radius: 3px;
 		background-color: var(--white);

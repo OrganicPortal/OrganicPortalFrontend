@@ -1,0 +1,65 @@
+<input class="input-checkbox" type="checkbox" [formControl]="control">
+
+<ng-container [ngSwitch]="viewStyle">
+    <ng-container *ngSwitchCase="'style-1'">
+        <button class="checkbox-frame-type-1" (click)="onChangeValue()" [ngClass]="
+(control.valueChanges | async) === true || control.value === true ? 'active' : 'disactive'" matRipple
+            [type]="'button'">
+            <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'"
+                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+                <div class="circle" ngFxLayout="row" ngFxAlign="center center">
+                </div>
+            </div>
+        </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'style-2'">
+        <button class="checkbox-frame-type-2" (click)="onChangeValue()" [ngFxLayout]="'row'"
+            [ngFxAlign]="'center center'" [ngClass]="
+(control.valueChanges | async) === true || control.value === true ? 'active' : 'disactive'" matRipple
+            [type]="'button'">
+            <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'" [ngFxAlign]="'center center'"
+                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+
+                @if((control.valueChanges | async) === true || control.value === true){
+                <svg width="80%" height="80%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-dashoffset="200" stroke-dasharray="200 30" d="M4 12.6111L8.92308 17.5L20 6.5"
+                        stroke="var(--white)" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                    </path>
+                </svg>
+                }
+            </div>
+        </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'style-3'">
+        <button class="checkbox-frame-type-3 rounded" (click)="onChangeValue()" [ngClass]="
+(control.valueChanges | async) === true || control.value === true ? 'active' : 'disactive'" matRipple
+            [type]="'button'">
+            <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'" [ngFxAlign]="'center center'"
+                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+
+                @if((control.valueChanges | async) === true || control.value === true){
+                <svg width="80%" height="80%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-dashoffset="200" stroke-dasharray="200 30" d="M4 12.6111L8.92308 17.5L20 6.5"
+                        stroke="var(--white)" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                    </path>
+                </svg>
+                }
+            </div>
+        </button>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+        <button class="checkbox-frame-type-1" (click)="onChangeValue()" [ngClass]="
+(control.valueChanges | async) === true ? 'active' : 'disactive'" matRipple [type]="'button'">
+            <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'"
+                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+                <div class="circle" ngFxLayout="row" ngFxAlign="center center">
+                </div>
+            </div>
+        </button>
+    </ng-container>
+</ng-container>

@@ -7,7 +7,7 @@ import {
 	Renderer2,
 	ViewEncapsulation
 } from "@angular/core"
-import {FormControl, FormGroupDirective, NgControl} from "@angular/forms"
+import {FormControl, FormGroupDirective, NgControl, Validators} from "@angular/forms"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {fromEvent, takeUntil, tap} from "rxjs"
 import {CustomInputDirective} from "../../directives/inputs/custom-input/custom-input.directive"
@@ -75,11 +75,11 @@ export class CustomInputFieldComponent extends LifeHooksFactory {
 						this._renderer2.removeClass(elem, "empty-field")
 					}
 
-					if (control.value) {
+					if (control.value && control.dirty) {
 						this._renderer2.addClass(elem, "has-focused")
 					}
 
-					if (control.hasError("required")) {
+					if (control.hasValidator(Validators.required)) {
 						this._renderer2.addClass(elem, "field-required")
 					}
 

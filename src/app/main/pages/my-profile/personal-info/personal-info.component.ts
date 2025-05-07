@@ -1,14 +1,14 @@
-import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
+import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {FormControl, FormGroup, Validators} from "@angular/forms"
-import {ActivatedRoute, Data, Router} from "@angular/router"
+import {Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {BehaviorSubject, catchError, filter, map, Observable, Subject, switchMap, takeUntil, tap} from "rxjs"
-import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
+import {BehaviorSubject, catchError, filter, map, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {frameSideIn4, frameSideInOut2} from "../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
 } from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
-import {LoaderModel} from "../../../../../addons/models/models"
+import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
 import {RoutesReservedQueryParams} from "../../../../../addons/states/states"
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
@@ -27,11 +27,11 @@ import {containerAnimation} from "../shared/shared.animation"
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [
 		containerAnimation,
-		frameSideIn4
+		frameSideIn4,
+		frameSideInOut2
 	]
 })
 export class PersonalInfoComponent extends LifeHooksFactory {
-	public activatedRouteData$: Observable<Data>
 	public formGroup = new FormGroup({
 		FirstName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
 		LastName: new FormControl("", [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
@@ -40,9 +40,9 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 	})
 	private readonly requestHandler$ = new Subject<void>()
 	private readonly onRestorePassword$ = new BehaviorSubject<boolean>(false)
+	public readonly loaderState$ = onInitLoader()
 
 	constructor(
-		private _activatedRoute: ActivatedRoute,
 		private _myProfileService: MyProfileService,
 		private _store: Store<AuthActions.StoreAuthType>,
 		private _router: Router,
@@ -50,17 +50,20 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 		private _ngShortMessageService: NgShortMessageService
 	) {
 		super()
-		this.activatedRouteData$ = this._activatedRoute.data
-		this._myProfileService.profileUpdater$.next()
 	}
 
 	public get profileData$() {
 		return this._myProfileService.profileData$
 	}
 
-	@HostBinding("@frameSideIn4")
+	public onReloadPage(){
+		this._myProfileService.profileUpdater$.next(this.loaderState$)
+	}
+
 	public override ngOnInit() {
 		super.ngOnInit()
+
+		this.onReloadPage()
 
 		this._authListeners.authPasswordRecoveryState$
 			.pipe(
@@ -100,7 +103,6 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 							}
 						})
 					}
-
 				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
@@ -124,6 +126,7 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 	public override ngOnDestroy() {
 		super.ngOnDestroy()
 		this._myProfileService.profileData$.next(undefined)
+		this._myProfileService.loaderState$.next(new LoaderModel(false, false))
 	}
 
 	public onRestorePassword(phone: string) {
@@ -167,13 +170,11 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 			.onUpdateProfileInfo(model)
 			.pipe(
 				tap(() => {
-					this._myProfileService.profileUpdater$.next()
-					this._myProfileService.loaderState$
-						.next(new LoaderModel(true, false))
+					this._myProfileService.profileUpdater$.next(this.loaderState$)
 				}),
 
 				catchError(async () => {
-					this._myProfileService.loaderState$
+					this.loaderState$
 						.next(new LoaderModel(true, false))
 				}),
 

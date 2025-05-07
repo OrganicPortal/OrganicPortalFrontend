@@ -1,0 +1,218 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    --checkbox-active-color: var(--color-palette-3);
+    --checkbox-active-internal-border-color: var(--text-color);
+    --checkbox-hover-color: var(--text-color);
+
+    @mixin disable-btn-styles {
+        box-sizing: border-box;
+        background: unset;
+        outline: none;
+        border: none;
+        padding: 0;
+    }
+
+    --checkbox-disactive-color: color-mix(in srgb, var(--text-color) 50%, transparent);
+
+
+    .input-checkbox {
+        display: none;
+    }
+
+    .checkbox-frame-type-1 {
+        @include disable-btn-styles;
+
+        position: relative;
+
+        border: 2px solid var(--trigger-color);
+        box-sizing: border-box;
+        border-radius: 100px;
+
+        min-height: 28px;
+        max-height: 28px;
+        height: 28px;
+
+        aspect-ratio: 1.6/1;
+
+        transition: border .2s ease;
+        cursor: pointer;
+
+        .checkbox-subframe {
+            height: 100%;
+            width: 100%;
+            border: 4px solid var(--checkbox-active-internal-border-color);
+            box-sizing: border-box;
+            border-radius: 100px;
+        }
+
+        .circle {
+            margin: auto 0;
+            overflow: hidden;
+            box-sizing: border-box;
+            content: "";
+
+            height: 90%;
+            aspect-ratio: 1/1;
+
+            border-radius: 100px;
+            transition: background-color .2s ease, transform .2s ease;
+
+            background-color: var(--trigger-color);
+        }
+
+        &:hover {
+            --trigger-color: var(--checkbox-hover-color);
+        }
+    }
+
+    .active {
+        --trigger-color: var(--checkbox-active-color);
+
+        .circle {
+            transform: translateX(calc(100% + 10% + 2px));
+        }
+    }
+
+    .disactive {
+        --trigger-color: color-mix(in srgb, var(--checkbox-disactive-color) 50%, transparent);
+    }
+
+    .checkbox-frame-type-2 {
+        @include disable-btn-styles;
+
+        display: flex;
+        box-sizing: border-box;
+        height: 1.8em;
+        
+        min-height: 20px;
+        max-height: 30px;
+
+        aspect-ratio: 1/1;
+        cursor: pointer;
+
+        border: 2px solid color-mix(in srgb, var(--trigger-color) 50%, transparent);
+        border-radius: 3px;
+
+        transition: background-color .2s ease, border .2s ease;
+
+        &:hover {
+            background-color: var(--gray);
+        }
+
+        svg path {
+            stroke-dasharray: 100 0;
+            animation: dasharray-animate 1s ease;
+        }
+
+        @keyframes dasharray-animate {
+            from {
+                stroke-dasharray: 0 100;
+            }
+
+            to {
+                stroke-dasharray: 100 0;
+            }
+        }
+    }
+
+    .checkbox-frame-type-3 {
+        @include disable-btn-styles;
+
+        display: flex;
+
+        min-height: 27px;
+        max-height: 27px;
+        height: 27px;
+        width: 27px;
+
+        cursor: pointer;
+        box-sizing: border-box;
+
+        border-radius: 20px;
+
+        transition: background-color .2s ease, border .2s ease;
+        border: 2px solid color-mix(in srgb, var(--trigger-color) 50%, transparent);
+
+        &:hover {
+            background-color: color-mix(in srgb, var(--trigger-color) 20%, transparent);
+        }
+
+        svg path {
+            stroke-dasharray: 100 0;
+            animation: dasharray-animate 1s ease;
+        }
+
+        @keyframes dasharray-animate {
+            from {
+                stroke-dasharray: 0 100;
+            }
+
+            to {
+                stroke-dasharray: 100 0;
+            }
+        }
+    }
+
+
+    .checkbox-frame-type-2.active,
+    .checkbox-frame-type-3.active {
+        background-color: var(--trigger-color);
+    }
+
+    .checkbox-subframe {
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .checkbox-frame-type-2,
+    .checkbox-frame-type-3 {
+        box-shadow: rgba(0, 0, 0, 0.03) 0 2px 5px;
+    }
+    
+    
+    // .checkbox-frame-type-1 {
+    //     min-height: 30px;
+    //     max-height: 30px;
+    // }
+}
+
+:host.small-size{
+    .checkbox-frame-type-2 {
+        min-height: 20px !important;
+        max-height: 20px !important;
+        height: 20px !important;
+        aspect-ratio: 1/1;
+    }
+}
+
+:host.small-view {
+    .checkbox-frame-type-2 {
+        min-height: 23px !important;
+        max-height: 23px !important;
+        height: 23px !important;
+    }
+}
+
+:host.relative-parent {
+    .checkbox-frame-type-1,
+    .checkbox-frame-type-2,
+    .checkbox-frame-type-3 {
+        min-height: 100% !important;
+        max-height: 100% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+}
+
+:host.disable-borders {
+    .checkbox-frame-type-1,
+    .checkbox-frame-type-2,
+    .checkbox-frame-type-3 {
+        border: 2px solid rgba(0, 0, 0, 0) !important;
+    }
+}

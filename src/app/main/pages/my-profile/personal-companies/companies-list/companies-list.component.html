@@ -1,0 +1,132 @@
+@let loaderState = loaderState$ | async;
+@let companies = companies$ | async;
+
+@if(!loaderState?.isLoaded && !loaderState?.isError){
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+} @else if (loaderState?.isLoaded && !loaderState?.isError) {
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+} @else if (loaderState?.isLoaded && loaderState?.isError) {
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+}
+
+<ng-template #loaded>
+	<div class="component-header">
+		<a class="btn"
+		   [routerLink]="'new'"
+		   customBasicButton
+		   matRipple>
+			<ngx-icon [name]="'add-circle'"
+			          [ratio]="'1em'"></ngx-icon>
+			<span>Додати компанію</span>
+		</a>
+	</div>
+	
+	<div class="component-content"
+	     [@containerAnimation]>
+		@if (companies?.length == 0 || !companies) {
+			<div class="empty-data">
+				<ngx-icon [name]="'pen-new-round'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				<h3>Записи відсутні. Створіть нову <br> компанію для перегляду більшого набору інформації</h3>
+			</div>
+		} @else {
+			<ngx-grid [cellSize]="300">
+				@for (item of companies; track item.CompanyId) {
+					<div class="card">
+						<div class="card-header">
+							<div class="icon-container">
+								<ngx-icon
+												[name]="'verified-check'"
+												[ratio]="'1.4em'"></ngx-icon>
+							</div>
+						</div>
+						
+						<div class="card-body">
+							<h4>{{ item.CompanyName }}</h4>
+							
+							<div class="desc">
+								<div class="fx-row desc-container">
+									<ngx-icon
+													[name]="'notes'"
+													[ratio]="'.9em'"></ngx-icon>
+									
+									<span>
+										Ідентифікатор – #{{ item?.CompanyId }}
+									</span>
+								</div>
+								
+								<div class="fx-row desc-container">
+									<ngx-icon
+													[name]="'document-add'"
+													[ratio]="'.9em'"></ngx-icon>
+									
+									<span>
+										Засновано – {{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}
+									</span>
+								</div>
+								
+								<div class="fx-row desc-container">
+									<ngx-icon
+													[name]="'winrar'"
+													[ratio]="'.9em'"></ngx-icon>
+									
+									<span>
+										Архівовано – {{ item?.CompanyArchivated ? 'Так' : 'Ні' }}
+									</span>
+								</div>
+								
+								<div class="fx-row desc-container">
+									<ngx-icon
+													[name]="'shield-star'"
+													[ratio]="'.9em'"></ngx-icon>
+									
+									<span>
+										Ваша роль – {{ AllowedRoles[item.Role] }}
+									</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="card-footer">
+							<a class="btn drop-btn"
+							   [routerLink]="'new'"
+							   customBasicButton
+							   matRipple>
+								<ngx-icon [name]="'winrar'"
+								          [ratio]="'1.1em'"></ngx-icon>
+							</a>
+							
+							<!-- 							<a class="btn" -->
+							<!-- 							   [routerLink]="'new'" -->
+							<!-- 							   customRaisedButton -->
+							<!-- 							   matRipple> -->
+							<!-- 								<ngx-icon [name]="'check-circle'" -->
+							<!-- 								          [ratio]="'1.1em'"></ngx-icon> -->
+							<!-- 							</a> -->
+							
+							<a class="btn"
+							   [routerLink]="'edit/' + item.CompanyId"
+							   customBasicButton
+							   matRipple>
+								<ngx-icon [name]="'pen'"
+								          [ratio]="'1.1em'"></ngx-icon>
+							</a>
+						</div>
+						<!-- 						{{ item.CompanyName }} -->
+					</div>
+				}
+			</ngx-grid>
+		}
+	
+	</div>
+</ng-template>
+
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onReloadPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg" [@frameSideInOut2]></dots-loadbar>
+</ng-template>

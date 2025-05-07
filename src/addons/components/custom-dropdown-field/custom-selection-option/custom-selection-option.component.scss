@@ -1,0 +1,81 @@
+:host {
+	display: flex;
+	
+	
+	box-sizing: border-box;
+	width: 100%;
+	
+	transition: background-color .2s ease;
+	
+	--hover-color: color-mix(in srgb, transparent, var(--text-color) 10%);
+	--ripple-color: color-mix(in srgb, transparent, var(--text-color) 5%);
+	will-change: transition;
+	
+	button {
+		display: flex;
+		padding: 1rem;
+		align-items: center;
+		
+		flex: 1 1;
+		flex-direction: row;
+		
+		justify-content: space-between;
+		width: 100%;
+		
+		cursor: pointer;
+		border: none;
+		
+		outline: none;
+		background: none;
+		gap: .5rem;
+		appearance: none;
+		will-change: background-color;
+	}
+	
+	.flexible-text{
+		width: 0;
+		flex: 1 1;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: start;
+		overflow: hidden;
+	}
+	
+	.content{
+		display: flex;
+		flex: 1 1;
+		flex-direction: row;
+		gap: .5rem;
+		justify-content: flex-start;
+		align-items: center;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		
+		text{
+		
+		}
+	}
+	
+	.selected-icon {
+		display: none;
+		padding: 0 .5rem;
+	}
+	
+	.selected {
+		background-color: var(--hover-color);
+		
+		.selected-icon{
+			display: inherit !important;
+			
+			.solar-outline{
+			}
+		}
+		
+		
+	}
+	
+	&:hover {
+		background-color: var(--hover-color);
+	}
+}

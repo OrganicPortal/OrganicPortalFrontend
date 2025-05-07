@@ -1,0 +1,114 @@
+:host {
+	--ripple-color: color-mix(in srgb, transparent, var(--text-color) 5%);
+	--focus-border-color: color-mix(in srgb, transparent, var(--color-palette-3) 60%);
+	--hover-color: color-mix(in srgb, transparent 97%, var(--dark));
+	
+	&.field-required{
+		.required-checkmark{
+			color: var(--little-red) !important;
+		}
+	}
+	
+	.overlay-container {
+		display: flex;
+		flex: 1 1;
+		border-radius: 3px;
+	}
+	
+	.ripple-container {
+		position: absolute;
+		
+		z-index: 2;
+		top: 0;
+		left: 0;
+		width: 100%;
+		
+		height: 100%;
+	}
+	
+	.arrow-list {
+		transition: transform .2s ease;
+		will-change: transform;
+	}
+	
+	.arrow-rotate {
+		transform: rotate(-90deg);
+	}
+	
+	.printed-text {
+		display: flex;
+		justify-content: flex-start;
+		font-size: .9em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		width: 0;
+		flex: 1 1;
+	}
+	
+	button {
+		display: flex;
+		position: relative;
+		padding: .5rem 0 .5rem 1rem;
+		font-size: 1em;
+		
+		z-index: 2;
+		align-items: center;
+		flex: 1 1;
+		justify-content: space-between;
+		box-sizing: border-box;
+		transition: background-color .2s ease, border-color .2s ease;
+		border: none;
+		outline: none;
+		background: none;
+		appearance: none;
+		will-change: background-color;
+		
+		&, * {
+			cursor: pointer !important;
+		}
+		
+		.selected-text {
+			font-size: .9em;
+		}
+		
+		.suffix {
+			display: flex;
+			position: relative;
+			align-items: center;
+			
+			justify-content: center;
+			height: 100%;
+		}
+		
+		&:hover {
+			background-color: var(--hover-color) !important;
+		}
+	}
+	
+	&.invalid:has(.menu-trigger.has-focused) {
+		border-color: var(--little-red);
+	}
+	
+	&.submitted.invalid{
+		border-color: var(--little-red);
+	}
+	
+	&:has(.menu-trigger.focused) {
+		border-color: var(--focus-border-color) !important;
+		background-color: var(--hover-color) !important;
+	}
+}
+
+.menu-container {
+	display: flex;
+	position: absolute;
+	flex-direction: column;
+	
+	width: 100%;
+	background-color: var(--white);
+	box-shadow: var(--box-shadow-items);
+	
+	gap: 5px;
+	--box-shadow-items: rgba(94, 122, 177, 0.2) 0px 2px 5px;
+}

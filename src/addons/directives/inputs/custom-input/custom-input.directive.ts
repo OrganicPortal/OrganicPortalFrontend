@@ -16,6 +16,13 @@ export class CustomInputDirective extends LifeHooksFactory {
 
 	override ngOnInit() {
 		super.ngOnInit()
+
+
+		// if(this._elem.nativeElement.type === "textarea"){
+		// 	this._renderer.addClass(this._elem.nativeElement, "custom-textarea")
+		// 	return
+		// }
+
 		this._renderer.addClass(this._elem.nativeElement, "custom-input")
 	}
 

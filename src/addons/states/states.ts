@@ -7,7 +7,8 @@ export enum RouterRedirects {
 }
 
 export enum RoutesReservedQueryParams {
-	redirectAfterClose = "redirectAfterClose"
+	redirectAfterClose = "redirectAfterClose",
+	redirectAfterSuccess = "redirectAfterSuccess"
 }
 
 //#region UserRoles

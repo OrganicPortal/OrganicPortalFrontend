@@ -1,4 +1,5 @@
 import {CdkMenuModule, CdkMenuTrigger} from "@angular/cdk/menu"
+import {ScrollingModule} from "@angular/cdk/scrolling"
 import {CommonModule, NgOptimizedImage} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
@@ -16,7 +17,6 @@ import {HeaderComponent} from "./header/header.component"
 import {NavbarComponent} from "./navbar/navbar.component"
 import {LoginButtonComponent} from "./shared/login-button/login-button.component"
 import {WrapperComponent} from "./wrapper.component"
-import {OverlayModule} from '@angular/cdk/overlay';
 
 @NgModule({
 	declarations: [
@@ -45,7 +45,6 @@ import {OverlayModule} from '@angular/cdk/overlay';
 		MatRippleModule,
 		NgxToastrModule,
 		ViewportOverlayModule,
-		OverlayModule
 	]
 })
 export class WrapperModule {

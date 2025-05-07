@@ -1,41 +1,42 @@
-@let activatedRouteData = activatedRouteData$ | async;
 @let profileData = profileData$ | async;
+@let loaderState = loaderState$ | async;
 
-<div class="container-header">
-	<h2 class="component-title">
-		<ngx-icon [name]="activatedRouteData?.['icon'] ?? ''"></ngx-icon>
-		{{ activatedRouteData?.['title'] }}
-	</h2>
-</div>
+@if (loaderState?.isLoaded && !loaderState?.isError) {
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+} @else if (loaderState?.isLoaded && loaderState?.isError) {
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+} @else if(!loaderState?.isLoaded && !loaderState?.isError){
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+}
 
-
-@if (profileData?.Data) {
-	<div class="container-body"
-	     [@containerAnimation]>
-		
-		<div class="desc">
-			<div class="desc-data">
-				<ngx-icon [name]="'text-square-2'"></ngx-icon>
-				<span>Ідентифікатор кабінету: #{{ profileData?.Data?.Id }}</span>
-			</div>
+<ng-template #loaded>
+	@if (profileData?.Data) {
+		<div class="container-body"
+		     [@containerAnimation]>
 			
-			<div class="desc-data">
-				<ngx-icon [name]="'clock-circle'"></ngx-icon>
-				<span class="clipboard-text-container fx-row allow-wrap">
+			<div class="desc">
+				<div class="desc-data">
+					<ngx-icon [name]="'text-square-2'"></ngx-icon>
+					<span>Ідентифікатор кабінету: #{{ profileData?.Data?.Id }}</span>
+				</div>
+				
+				<div class="desc-data">
+					<ngx-icon [name]="'clock-circle'"></ngx-icon>
+					<span class="clipboard-text-container fx-row allow-wrap">
 					<span>Обліковий запис створено:</span>
 					<clipboard-text-container [isEnableCopyIcon]="true"
 					                          class="enable-bg"
 					                          [text]="profileData?.Data?.CreatedDate  ?? ''">
 								<span>
-									{{profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm'}}
+									{{ profileData?.Data?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
 								</span>
 					</clipboard-text-container>
 				</span>
-			</div>
-			
-			<div class="desc-data">
-				<ngx-icon [name]="'phone-calling'"></ngx-icon>
-				<span class="clipboard-text-container fx-row allow-wrap">
+				</div>
+				
+				<div class="desc-data">
+					<ngx-icon [name]="'phone-calling'"></ngx-icon>
+					<span class="clipboard-text-container fx-row allow-wrap">
 					<span>Номер телефону:</span>
 					<clipboard-text-container [isEnableCopyIcon]="true"
 					                          class="enable-bg"
@@ -45,68 +46,78 @@
 								</span>
 					</clipboard-text-container>
 				</span>
+				</div>
+				
+				<button (click)="onRestorePassword(profileData?.Data?.Phone ?? '')"
+				        class="desc-data desc-link"
+				        customBasicLink>
+					<ngx-icon [name]="'key'"></ngx-icon>
+					Відновити пароль
+				</button>
 			</div>
 			
-			<button (click)="onRestorePassword(profileData?.Data?.Phone ?? '')"
-			        class="desc-data desc-link"
-			        customBasicLink>
-				<ngx-icon [name]="'key'"></ngx-icon>
-				Відновити пароль
-			</button>
+			<form action=""
+			      (ngSubmit)="onSubmit(profileData?.Data?.Id)"
+			      [formGroup]="formGroup"
+			      class="form-data">
+				<ngx-grid [cellSize]="400">
+					<custom-input-field>
+						<ngx-icon [name]="'text-square-2'"
+						          [ratio]="'1em'"></ngx-icon>
+						<label for="name">Ім'я</label>
+						
+						<input id="name"
+						       [formControlName]="'FirstName'"
+						       autocomplete="on"
+						       customInput
+						       type="text">
+					</custom-input-field>
+					
+					<custom-input-field>
+						<ngx-icon [name]="'text-square-2'"
+						          [ratio]="'1em'"></ngx-icon>
+						<label for="lastname">Прізвище</label>
+						
+						<input id="lastname"
+						       [formControlName]="'LastName'"
+						       autocomplete="on"
+						       customInput
+						       type="text">
+					</custom-input-field>
+					
+					<custom-input-field>
+						<ngx-icon [name]="'text-square-2'"
+						          [ratio]="'1em'"></ngx-icon>
+						<label for="secondName">По батькові</label>
+						
+						<input id="secondName"
+						       [formControlName]="'MiddleName'"
+						       autocomplete="on"
+						       customInput
+						       type="text">
+					</custom-input-field>
+				</ngx-grid>
+				
+				<button class="btn submit-btn"
+				        [type]="'submit'"
+				        [ngClass]="!formGroup.dirty || !formGroup.valid ? 'disabled' : ''"
+				        customBasicButton
+				        matRipple>
+					<ngx-icon [name]="'pen-new-square'"
+					          [ratio]="'1em'"></ngx-icon>
+					<span>Зберегти зміни</span>
+				</button>
+			</form>
 		</div>
-		
-		<form action=""
-		      (ngSubmit)="onSubmit(profileData?.Data?.Id)"
-		      [formGroup]="formGroup"
-		      class="form-data">
-			<ngx-grid [cellSize]="400">
-				<custom-input-field>
-					<ngx-icon [name]="'text-square-2'"
-					          [ratio]="'1em'"></ngx-icon>
-					<label for="name">Ім'я</label>
-					
-					<input id="name"
-					       [formControlName]="'FirstName'"
-					       autocomplete="on"
-					       customInput
-					       type="text">
-				</custom-input-field>
-				
-				<custom-input-field>
-					<ngx-icon [name]="'text-square-2'"
-					          [ratio]="'1em'"></ngx-icon>
-					<label for="lastname">Прізвище</label>
-					
-					<input id="lastname"
-					       [formControlName]="'LastName'"
-					       autocomplete="on"
-					       customInput
-					       type="text">
-				</custom-input-field>
-				
-				<custom-input-field>
-					<ngx-icon [name]="'text-square-2'"
-					          [ratio]="'1em'"></ngx-icon>
-					<label for="secondName">По батькові</label>
-					
-					<input id="secondName"
-					       [formControlName]="'MiddleName'"
-					       autocomplete="on"
-					       customInput
-					       type="text">
-				</custom-input-field>
-			</ngx-grid>
-			
-			<button class="btn submit-btn"
-			        [type]="'submit'"
-			        [ngClass]="!formGroup.dirty || !formGroup.valid ? 'disabled' : ''"
-			        customBasicButton
-			        matRipple>
-				<ngx-icon [name]="'pen-new-square'"
-				          [ratio]="'1em'"></ngx-icon>
-				<span>Зберегти зміни</span>
-			</button>
-		</form>
-	</div>
-}
+	}
+</ng-template>
 
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onReloadPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg" [@frameSideInOut2]></dots-loadbar>
+</ng-template>

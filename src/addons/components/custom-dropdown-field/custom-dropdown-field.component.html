@@ -1,0 +1,51 @@
+@let isOpenedMenu = isOpenedMenu$ | async;
+@let selectedOptionRef = selectedOptionRef$ | async;
+
+<div class="overlay-container"
+     #menuRef
+     #triggerOverlay="cdkOverlayOrigin"
+     cdkOverlayOrigin>
+	<button class="menu-trigger"
+	        (click)="onClickToMenu(btnMenu, isOpenedMenu!)"
+	        (focus)="onFocusMenu(btnMenu)"
+	        (focusout)="onFocusOutMenu(btnMenu)"
+	        [type]="'button'"
+	        #btnMenu>
+		<ng-container [ngTemplateOutlet]="labelContent"></ng-container>
+		<div class="printed-text" [innerHTML]="(selectedOptionRef?.innerText ?? '') | safehtml">
+		</div>
+		<span class="suffix">
+			<div class="arrow-list"
+			     [ngClass]="isOpenedMenu ? 'arrow-rotate' : ''">
+					<ngx-icon [name]="'alt-arrow-left'"
+					          [ratio]="'1em'"></ngx-icon>
+			</div>
+		</span>
+		
+		<div class="ripple-container"
+		     [matRippleColor]="'var(--ripple-color)'"
+		     matRipple></div>
+	</button>
+</div>
+
+<ng-template #labelContent>
+	<div class="label">
+		<ng-content select="ngx-icon"></ng-content>
+		<ng-content select="label"></ng-content>
+		
+		<span class="required-checkmark">*</span>
+	</div>
+</ng-template>
+
+<ng-template
+				[cdkConnectedOverlayOpen]="isOpenedMenu!"
+				[cdkConnectedOverlayOrigin]="triggerOverlay"
+				[cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+				[cdkConnectedOverlayWidth]="menuRef?.offsetWidth ?? 0"
+				cdkConnectedOverlay>
+	
+	<div class="menu-container"
+	     [@frameSideInOut4]>
+		<ng-content select="custom-selection-menu"></ng-content>
+	</div>
+</ng-template>

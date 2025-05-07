@@ -12,7 +12,7 @@ export class MyProfileService {
 	public readonly profileData$ =
 		new BehaviorSubject<IMyProfileDTO | undefined>(undefined)
 
-	public readonly profileUpdater$ = new Subject<void>()
+	public readonly profileUpdater$ = new Subject<BehaviorSubject<LoaderModel>>()
 
 	constructor(
 		private _http: HttpClient
@@ -21,18 +21,18 @@ export class MyProfileService {
 
 	public onGetProfileHandler() {
 		return this.profileUpdater$.pipe(
-			map(() => {
-				this.loaderState$.next(new LoaderModel(false, false))
+			tap((el) => {
+				el.next(new LoaderModel(false, false))
 			}),
 
-			switchMap(() => this.onGetProfileInfo().pipe(
+			switchMap((loader) => this.onGetProfileInfo().pipe(
 				tap((el) => {
-					this.loaderState$.next(new LoaderModel(true, false))
+					loader.next(new LoaderModel(true, false))
 					this.profileData$.next(el)
 				}),
 
 				catchError(async (el) => {
-					this.loaderState$.next(new LoaderModel(true, true))
+					loader.next(new LoaderModel(true, true))
 					return of(undefined)
 				})
 			))
@@ -69,7 +69,7 @@ export interface IMyProfileDTO {
 	Data: {
 		Id: number
 
-		CompanyList: any[]
+		CompanyList: ICompanyDTO[]
 		CreatedDate: string
 
 		FirstName: string
@@ -80,5 +80,11 @@ export interface IMyProfileDTO {
 	}
 }
 
-
+export interface ICompanyDTO {
+	CompanyArchivated: boolean
+	CompanyId: number
+	CompanyName: string
+	CreatedDate: string
+	Role: number
+}
 

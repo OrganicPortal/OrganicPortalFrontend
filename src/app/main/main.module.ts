@@ -1,3 +1,4 @@
+import {ScrollingModule} from "@angular/cdk/scrolling"
 import {CommonModule} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {RouterModule} from "@angular/router"
@@ -112,9 +113,9 @@ export const routes: RoutesExtended = [
 		RxVirtualViewContent,
 		RxVirtualViewObserver,
 		RxVirtualViewPlaceholder,
-		FullScreenLoaderModule
+		FullScreenLoaderModule,
 
-
+		ScrollingModule
 	]
 })
 export class MainModule {

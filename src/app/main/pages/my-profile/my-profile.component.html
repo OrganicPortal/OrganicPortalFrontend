@@ -1,12 +1,6 @@
 @let loaderState = loaderState$ | async;
 
 <div class="container" [@frameSideIn4]>
-	<!-- 	<h2 class="page-title"> -->
-	<!-- 		<ngx-icon [name]="'shield-user'" -->
-	<!-- 		          [ratio]="'1.2em'"></ngx-icon> -->
-	<!-- 		Профіль користувача -->
-	<!-- 	</h2> -->
-	
 	<div class="image-frame">
 		<img class="card-bg"
 		     [ngSrc]="'assets/my-profile/3.webp'"
@@ -61,6 +55,3 @@
 	<router-outlet></router-outlet>
 </div>
 
-@if (!loaderState?.isLoaded) {
-	<dots-loadbar class="loader disabled-bg" [@frameSideInOut2]></dots-loadbar>
-}

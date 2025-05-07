@@ -1,0 +1,19 @@
+<ngx-icon class="info" [name]="'link-broken'"
+          [ratio]="'2em'"></ngx-icon>
+<h3>
+	{{message ?? 'Здається, сервер взяв вихідний 😴 \n Спробуй ще раз за мить!'}}
+</h3>
+
+<div class="fx-row controls">
+	<a class="btn submit-btn"
+	   [routerLink]="''"
+	   customRaisedButton
+	   [isRounded]="true"
+	   matRipple>
+		<ngx-icon [name]="'home-1'"
+		          [ratio]="'1.1em'"></ngx-icon>
+		<span>На головну</span>
+	</a>
+	
+	<ng-content select="refresh-button"></ng-content>
+</div>

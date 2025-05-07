@@ -7,13 +7,20 @@ import {
 	HttpRequest
 } from "@angular/common/http"
 import {Injectable} from "@angular/core"
+import {Router} from "@angular/router"
+import {Store} from "@ngrx/store"
 import {catchError, Observable, of, tap, throwError} from "rxjs"
+import * as AuthActions from "../../app/store/actions/auth.actions"
+import * as LocalStorageActions from "../../app/store/actions/localstorage.actions"
+import {LOCAL_STORAGE_TOKEN_KEY} from "../../app/store/models/localstorage/models"
 import {NgShortMessageService} from "../components/ng-materials/ng-short-message/ng-short-message.service"
 
 @Injectable({providedIn: "root"})
 export class HttpInterceptorService implements HttpInterceptor {
 	constructor(
-		private _ngShortMessageService: NgShortMessageService
+		private _ngShortMessageService: NgShortMessageService,
+		private _store: Store<AuthActions.StoreAuthType>,
+		private _router: Router
 	) {
 	}
 
@@ -32,6 +39,17 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 				if (deserializedTokens.isDisableValidateStatusCode)
 					return throwError(() => err)
+
+				if (err?.status === 401) {
+					const message = "Час дії сесії вичерпано. Будь ласка, виконайте повторний вхід."
+					this._ngShortMessageService.onInitMessage(message, "info-circle")
+
+					this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
+					this._store.dispatch(AuthActions.AuthAuditorReset())
+					this._router.navigate([{outlets: {"auth-overlay": ["auth-overlay"]}}], {skipLocationChange: true})
+
+					return throwError(() => err)
+				}
 
 				if (!req.url.includes("api"))
 					return of()
@@ -66,7 +84,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 export const AllowedHttpContextTokens = new Map<AllowedRequestTokensKeys, IRequestToken>()
 	.set("DisableValidateStatusCode", {
-		token: new HttpContextToken<string>(() => "is-disable-validate-status-code"),
+		token: new HttpContextToken<string>(() => "is-disable-validate-status-code")
 	})
 
 interface IRequestToken {

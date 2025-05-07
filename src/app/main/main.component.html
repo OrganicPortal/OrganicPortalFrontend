@@ -1,7 +1,7 @@
 @let isAuthFetchSuccess = isAuthFetchSuccess$ | async;
 
 @if(isAuthFetchSuccess){
-	<app-wrapper rxVirtualViewObserver>
+	<app-wrapper rxVirtualViewObserver cdkScrollable>
 		<router-outlet></router-outlet>
 	</app-wrapper>
 }
