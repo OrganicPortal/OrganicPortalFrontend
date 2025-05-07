@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
+import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {map} from "rxjs"
+import {catchError, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideIn4, frameSideInOut2} from "../../../../../../addons/animations/shared.animations"
 import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
 import {AllowedRoles} from "../../../../../../addons/states/states"
+import {MyCompaniesService} from "../../../my-companies/my-companies.service"
 import {MyProfileService} from "../../my-profile.service"
 import {containerAnimation} from "../../shared/shared.animation"
 
@@ -21,9 +22,12 @@ import {containerAnimation} from "../../shared/shared.animation"
 })
 export class CompaniesListComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader()
+	private readonly requestHandler$ = new Subject<void>()
+	protected readonly AllowedRoles = AllowedRoles
 
 	constructor(
-		private _myProfileService: MyProfileService
+		private _myProfileService: MyProfileService,
+		private _myCompaniesService: MyCompaniesService
 	) {
 		super()
 		this.onReloadPage()
@@ -51,9 +55,32 @@ export class CompaniesListComponent extends LifeHooksFactory {
 		super.ngOnDestroy()
 	}
 
+	public onArchiveCompany(companyId: number) {
+		this.requestHandler$.next()
+		this.loaderState$.next(new LoaderModel(false, false))
+
+		this._myCompaniesService
+			.onArchiveCompany(companyId)
+			.pipe(
+				switchMap((el) => this._myProfileService.onGetProfileInfo().pipe(
+					tap((el) => {
+						this.loaderState$.next(new LoaderModel(true, false))
+						this._myProfileService.profileData$.next(el)
+					}),
+
+					catchError(async (el) => {
+						this.loaderState$.next(new LoaderModel(true, true))
+						return of(undefined)
+					})
+				)),
+
+				takeUntil(this.componentDestroy$),
+				takeUntil(this.requestHandler$)
+			)
+			.subscribe()
+	}
+
 	public onReloadPage() {
 		this._myProfileService.profileUpdater$.next(this.loaderState$)
 	}
-
-	protected readonly AllowedRoles = AllowedRoles
 }

@@ -1,9 +1,11 @@
 @let loaderState = loaderState$ | async;
 @let companies = companies$ | async;
 
-@if(!loaderState?.isLoaded && !loaderState?.isError){
+@if (!loaderState?.isLoaded && !loaderState?.isError) {
 	<ng-container [ngTemplateOutlet]="loading"></ng-container>
-} @else if (loaderState?.isLoaded && !loaderState?.isError) {
+}
+
+@if (loaderState?.isLoaded && !loaderState?.isError || !!companies) {
 	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 } @else if (loaderState?.isLoaded && loaderState?.isError) {
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
@@ -89,7 +91,7 @@
 						
 						<div class="card-footer">
 							<a class="btn drop-btn"
-							   [routerLink]="'new'"
+							   (click)="onArchiveCompany(item?.CompanyId!)"
 							   customBasicButton
 							   matRipple>
 								<ngx-icon [name]="'winrar'"
@@ -117,7 +119,6 @@
 				}
 			</ngx-grid>
 		}
-	
 	</div>
 </ng-template>
 
@@ -128,5 +129,6 @@
 </ng-template>
 
 <ng-template #loading>
-	<dots-loadbar class="loader disabled-bg" [@frameSideInOut2]></dots-loadbar>
+	<dots-loadbar class="loader disabled-bg"
+	              [@frameSideInOut2]></dots-loadbar>
 </ng-template>

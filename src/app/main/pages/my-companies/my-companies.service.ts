@@ -35,14 +35,9 @@ export class MyCompaniesService {
 		return this._http.get<IGetCompanyDTO>(apiUrl)
 	}
 
-	public onRemoveTypeOfInteractivity(companyId: number, typeOfActivityId: number) {
-		const apiUrl = `/api/companies/type-of-interactivity?companyId=${companyId}&typeOfActivityId=${typeOfActivityId}`
-		return this._http.delete<IGetCompanyDTO>(apiUrl).pipe(
-			tap((el) => {
-				const message = "Успішно відредаговано"
-				this._ngShortMessageService.onInitMessage(message, "check-circle")
-			})
-		)
+	public onArchiveCompany(companyId: number){
+		const apiUrl = `/api/companies/archiving?companyId=${companyId}`
+		return this._http.get(apiUrl)
 	}
 }
 

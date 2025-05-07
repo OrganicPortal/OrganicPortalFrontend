@@ -1,5 +1,5 @@
 import {DatePipe} from "@angular/common"
-import {ChangeDetectionStrategy, Component} from "@angular/core"
+import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
 import {ActivatedRoute} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
@@ -16,6 +16,7 @@ import {
 	IGetCompanyDTO,
 	MyCompaniesService
 } from "../../../my-companies/my-companies.service"
+import {containerAnimation} from "../../shared/shared.animation"
 import {TypeOfInteractivityModel} from "../create-company/create-company.component"
 import {PersonalCompaniesService} from "../personal-companies.service"
 
@@ -28,7 +29,7 @@ import {PersonalCompaniesService} from "../personal-companies.service"
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: false,
-	animations: [frameSideInOut2, frameSideInOut4]
+	animations: [frameSideInOut2, frameSideInOut4, containerAnimation]
 })
 export class EditCompanyComponent extends LifeHooksFactory {
 	public form!: FormGroup
@@ -75,6 +76,7 @@ export class EditCompanyComponent extends LifeHooksFactory {
 		return this._personalCompaniesService.typeOfInteractivityValues
 	}
 
+	@HostBinding("@containerAnimation")
 	public override ngOnInit() {
 		super.ngOnInit()
 

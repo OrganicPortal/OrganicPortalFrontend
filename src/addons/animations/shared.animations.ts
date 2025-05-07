@@ -65,12 +65,19 @@ export const frameSideInOut3 = trigger("frameSideInOut3", [
 export const frameSideInOut4 = trigger("frameSideInOut4", [
 	transition(":enter", [
 		style({opacity: 0, transform: "translateX(-10px)"}),
-		animate(".2s ease", style("*"))
+		group([
+			animate(".2s ease", style("*")),
+			query("@*", animateChild(), {optional: true})
+		])
 	]),
 
 	transition(":leave", [
 		style("*"),
-		animate(".2s ease", style({opacity: 0, transform: "translateX(-10px)"}))
+
+		group([
+			animate(".2s ease", style({opacity: 0, transform: "translateX(-10px)"})),
+			query("@*", animateChild(), {optional: true})
+		])
 	])
 ])
 
