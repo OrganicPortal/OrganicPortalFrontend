@@ -5,14 +5,16 @@ import {fromEvent, of, shareReplay} from "rxjs"
 	providedIn: "root"
 })
 export class WrapperService {
-	private wrapperScrollFrame: HTMLElement | null = null
+	private wrapperScrollFrame: Document | HTMLElement | null = null
 
 	constructor() {
 	}
 
 	public set _wrapperScrollFrame(scrollFrame: HTMLElement) {
-		this.wrapperScrollFrame = scrollFrame
+		// this.wrapperScrollFrame = scrollFrame
+		this.wrapperScrollFrame = document
 	}
+
 
 	public onListenScrollableEvents() {
 		if (!this.wrapperScrollFrame)

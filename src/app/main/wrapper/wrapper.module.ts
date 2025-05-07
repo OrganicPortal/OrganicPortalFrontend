@@ -1,5 +1,4 @@
 import {CdkMenuModule, CdkMenuTrigger} from "@angular/cdk/menu"
-import {ScrollingModule} from "@angular/cdk/scrolling"
 import {CommonModule, NgOptimizedImage} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
@@ -44,7 +43,7 @@ import {WrapperComponent} from "./wrapper.component"
 		CustomBasicLinkModule,
 		MatRippleModule,
 		NgxToastrModule,
-		ViewportOverlayModule,
+		ViewportOverlayModule
 	]
 })
 export class WrapperModule {

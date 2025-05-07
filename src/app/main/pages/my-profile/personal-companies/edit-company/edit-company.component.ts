@@ -1,16 +1,21 @@
 import {DatePipe} from "@angular/common"
-import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
+import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
 import {ActivatedRoute} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {BehaviorSubject, catchError, filter, map, merge, of, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {BehaviorSubject, catchError, filter, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideInOut2, frameSideInOut4} from "../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
 } from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
 import {DateTimeService} from "../../../../../../addons/pipes/datetime.pipe"
-import {EditCompanyBasicInfoModel, IGetCompanyDTO, MyCompaniesService} from "../../../my-companies/my-companies.service"
+import {
+	ContactItemModel,
+	EditCompanyBasicInfoModel,
+	IGetCompanyDTO,
+	MyCompaniesService
+} from "../../../my-companies/my-companies.service"
 import {TypeOfInteractivityModel} from "../create-company/create-company.component"
 import {PersonalCompaniesService} from "../personal-companies.service"
 
@@ -70,7 +75,6 @@ export class EditCompanyComponent extends LifeHooksFactory {
 		return this._personalCompaniesService.typeOfInteractivityValues
 	}
 
-	@HostBinding("@frameSideInOut4")
 	public override ngOnInit() {
 		super.ngOnInit()
 
@@ -167,21 +171,35 @@ export class EditCompanyComponent extends LifeHooksFactory {
 			return
 		}
 
+		const contactFg = this.form.get("ContactList") as FormArray<FormGroup>
+
+		const contactList = contactFg.controls.map((el: FormGroup) => {
+			const type = el.controls?.["Type"].value ?? -1
+			const contact = el.controls?.["Contact"].value ?? ""
+
+			return new ContactItemModel(type, contact)
+		})
+
+		const interactivityList = this.typeOfInteractivityValues
+			.filter(el => el.control.value === true)
+			.map(el => el.value)
+
 		const model = new EditCompanyBasicInfoModel(
 			this.form.get("Name")?.value ?? "",
 			this.form.get("Description")?.value ?? "",
 			this.form.get("Address")?.value ?? "",
 			this.form.get("LegalType")?.value ?? -1,
-			this.form.get("EstablishmentDate")?.value ?? ""
+			this.form.get("EstablishmentDate")?.value ?? "",
+			contactList,
+			interactivityList
 		)
 
 		this.updateContentLoaderState$.next(new LoaderModel(false, false))
-
 		this._myCompaniesService.onEditCompanyBasicInfo(companyId, model)
 			.pipe(
 				tap((el) => {
+					this.onUpdateFormData(el.Data)
 					this.updateContentLoaderState$.next(new LoaderModel(true, false))
-
 				}),
 
 				catchError(async (err) => {
@@ -198,7 +216,6 @@ export class EditCompanyComponent extends LifeHooksFactory {
 			.pipe(
 				tap((el) => {
 					this.onInitForm(el.Data)
-					this.onListenChangesInForm(companyId)
 					this.loaderState$.next(new LoaderModel(true, false))
 				}),
 
@@ -272,25 +289,50 @@ export class EditCompanyComponent extends LifeHooksFactory {
 		})
 	}
 
-	private onListenChangesInForm(companyId: number) {
-		const interactivityListeners = this.typeOfInteractivityValues
-			.map(el => el.control.valueChanges.pipe(map(el2 => el)))
+	private onUpdateFormData(data: IGetCompanyDTO["Data"]) {
+		const contacts = (data?.ContactList ?? []).map(el => {
+			return new FormGroup({
+				Type: new FormControl(el.Type, [Validators.required]),
+				Contact: new FormControl(el.Contact, [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)])
+			})
+		})
 
-		merge(...interactivityListeners)
-			.pipe(
-				switchMap((el) => {
-					if (el.control.value) {
-						return this._myCompaniesService.onAddTypeOfInteractivity(companyId, el.value)
-					}
+		const typeOfInteractivityControls = (data?.TypeOfActivityList ?? [])
+			.map(el => {
+				const interactivity = this.typeOfInteractivityValues
+					.find(el2 => el2.value === el.Type)
 
-					if (!el.control.value && el.Id) {
-						return this._myCompaniesService.onRemoveTypeOfInteractivity(companyId, el.Id)
-					}
+				if (!interactivity)
+					return
 
-					return of(true)
-				}),
+				interactivity.control.setValue(el.Type)
+				interactivity.Id = el.Id
 
-				takeUntil(this.componentDestroy$)
-			).subscribe()
+				return {
+					control: interactivity.control,
+					interactivity: interactivity
+				}
+			})
+			.filter(el => !!el)
+			.map(el => {
+				el?.control?.setValue(true)
+				return el
+			})
+
+		let _establishmentDate = " "
+		if (data?.EstablishmentDate) {
+			const establishmentDate = this._dateTimeService.convertToUTC0Time(data.EstablishmentDate)
+			_establishmentDate = this._datePipe.transform(establishmentDate, "yyyy-MM-dd")!
+		}
+
+		this.form.get("Name")?.setValue(data.Name)
+		this.form.get("EstablishmentDate")?.setValue(_establishmentDate)
+		this.form.get("Description")?.setValue(data.Description)
+		this.form.get("Address")?.setValue(data.Address)
+		this.form.get("LegalType")?.setValue(data.LegalType)
+
+		this.form.setControl("TypeOfInteractivityList", new FormArray(typeOfInteractivityControls.map(el => el?.control)))
+		this.form.setControl("ContactList", new FormArray(contacts))
+		this.form.updateValueAndValidity()
 	}
 }

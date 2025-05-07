@@ -2,8 +2,9 @@
 
 :host {
 	display: flex;
-	overflow: hidden;
+	flex-direction: column;
 	flex: 1 1;
+	
 	background-color: var(--color-palette-4);
 	
 	mat-progress-bar {

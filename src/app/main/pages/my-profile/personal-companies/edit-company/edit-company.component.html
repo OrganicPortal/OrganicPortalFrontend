@@ -199,7 +199,7 @@
 				
 				<div class="set-gap-05 fx-col contact-list"
 				     [formArrayName]="'ContactList'">
-					@for (item of onGetContactListControls(); track item; let idx = $index) {
+					@for (item of onGetContactListControls(); track idx; let idx = $index) {
 						<div class="set-gap-05 fx-row contact-item"
 						     [formGroupName]="idx">
 							<custom-dropdown-field [control]="onGetFormControlByName(item, 'Type')">
@@ -282,7 +282,7 @@
 				</button>
 			</div>
 		</form>
-	} @else{
+	} @else {
 		<error-loading-page
 						[message]="'Відсутні дані для перегляду'"></error-loading-page>
 	}

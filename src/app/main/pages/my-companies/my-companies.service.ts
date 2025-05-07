@@ -52,13 +52,17 @@ export class EditCompanyBasicInfoModel {
 	Address: string
 	LegalType: number
 	EstablishmentDate: string
+	ContactList: ContactItemModel[]
+	TypeOfActivityList: number[]
 
-	constructor(Name: string, Description: string, Address: string, LegalType: number, EstablishmentDate: string) {
+	constructor(Name: string, Description: string, Address: string, LegalType: number, EstablishmentDate: string, ContactList: ContactItemModel[], TypeOfActivityList: number[]) {
 		this.Name = Name
 		this.Description = Description
 		this.Address = Address
 		this.LegalType = LegalType
 		this.EstablishmentDate = EstablishmentDate
+		this.ContactList = ContactList
+		this.TypeOfActivityList = TypeOfActivityList
 	}
 }
 
@@ -129,7 +133,6 @@ export class CreateCompanyModelDTO {
 export class ContactItemModel {
 	Type: number
 	Contact: string
-
 
 	constructor(Type: number, Contact: string) {
 		this.Type = Type

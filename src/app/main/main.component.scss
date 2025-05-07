@@ -1,6 +1,5 @@
 :host {
 	display: flex;
-	position: relative;
-	overflow: hidden;
+	flex-direction: column;
 	flex: 1 1;
 }

@@ -14,15 +14,23 @@
 html, body {
 	display: flex;
 	padding: 0;
-	
 	margin: 0;
-	flex: 1 1;
-	
-	width: 100%;
+	flex-direction: column;
 	height: 100%;
 }
 
+.test{
+	position: sticky;
+	top: 0;
+	
+	z-index: 1000;
+	
+}
+
 body {
+	overflow-x: hidden;
+	overflow-y: auto;
+	
 	color: var(--text-color);
 	
 	--text-color: #333;
@@ -346,7 +354,7 @@ custom-input-field {
 		}
 	}
 	
-	&:has(.custom-input:disabled){
+	&:has(.custom-input:disabled) {
 		background-color: var(--input-hover-bg) !important;
 	}
 	
@@ -429,26 +437,26 @@ custom-input-field {
 custom-dropdown-field {
 	overflow: visible !important;
 	
-	.label{
+	.label {
 		*, & {
 			cursor: inherit !important;
 		}
 		
 	}
 	
-	&:has(.printed-text:not(:empty)){
-		.label{
+	&:has(.printed-text:not(:empty)) {
+		.label {
 			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
-			background-color: var(--color-palette-4);
 			border: 1px solid var(--default-input-border-state);
+			background-color: var(--color-palette-4);
 		}
 	}
 	
-	&:has(.menu-trigger.focused){
-		.label{
+	&:has(.menu-trigger.focused) {
+		.label {
 			transform: translate(0, calc((-1 * var(--input-height) / 2) - 1.2em / 2 - 6px));
-			background-color: var(--color-palette-4);
 			border: 1px solid var(--input-focus-border-color) !important;
+			background-color: var(--color-palette-4);
 		}
 	}
 }

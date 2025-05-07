@@ -23,12 +23,11 @@ export class WrapperComponent extends LifeHooksFactory {
 
 	override ngOnInit() {
 		super.ngOnInit()
-		this._wrapperService._wrapperScrollFrame = this._elem.nativeElement
 
 		this._listenersService.onListenRouterNavigation()
 			.pipe(
 				filter(el => el instanceof NavigationEnd),
-				tap(() => this._elem.nativeElement.scroll({behavior: "smooth", top: 0})),
+				tap(() => window.scroll({behavior: "smooth", top: 0})),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
