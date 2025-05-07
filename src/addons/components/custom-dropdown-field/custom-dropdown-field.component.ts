@@ -78,6 +78,7 @@ export class CustomDropdownFieldComponent extends LifeHooksFactory {
 			)
 			.subscribe()
 
+
 		this._control
 			?.statusChanges
 			.pipe(
@@ -127,6 +128,10 @@ export class CustomDropdownFieldComponent extends LifeHooksFactory {
 				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
+	}
+
+	public isDisabledControl() {
+		return this._control.disabled
 	}
 
 	public onClickToMenu(button: HTMLButtonElement, currState: boolean) {

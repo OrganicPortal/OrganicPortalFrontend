@@ -1,4 +1,4 @@
-import {IMyProfileDTO} from "../../../main/pages/my-profile/my-profile.service"
+import {ICompanyDTO, IMyProfileDTO} from "../../../main/pages/my-profile/my-profile.service"
 
 export class AuthAuditorReducerModel {
 	isAuthUser: boolean = false
@@ -6,13 +6,17 @@ export class AuthAuditorReducerModel {
 	isRequestComplete: boolean = false
 	userRoles?: IAuthGetRolesDTO["Data"] = []
 	userInfo?: IMyProfileDTO["Data"] = undefined
-	selectedCompany?: any
+	activeCompany?: ICompanyDTO
 }
 
 export class AuthAuditorPatchInfoModel {
 	userRoles?: IAuthGetRolesDTO["Data"] = []
 	userInfo?: IMyProfileDTO["Data"] = undefined
-	selectedCompany?: any
+	activeCompany?: any
+}
+
+export class AuthAuditorSelectCompanyModel {
+	activeCompany!: ICompanyDTO
 }
 
 export interface IAuthGetRolesDTO {

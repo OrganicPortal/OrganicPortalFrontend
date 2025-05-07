@@ -114,10 +114,6 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 				this.formGroup.get("LastName")?.setValue(el?.Data.LastName ?? "")
 				this.formGroup.get("MiddleName")?.setValue(el?.Data.MiddleName ?? "")
 				this.formGroup.get("Phone")?.setValue(el?.Data.Phone ?? "")
-
-				this._store.dispatch(AuthActions.AuthAuditorPatch({
-					userInfo: el?.Data
-				}))
 			}),
 			takeUntil(this.componentDestroy$)
 		).subscribe()

@@ -1,7 +1,5 @@
 import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
-import {ActivatedRoute, Data} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {Observable, takeUntil} from "rxjs"
 import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
 import {LoaderModel} from "../../../../../addons/models/models"
 import {MyProfileService} from "../my-profile.service"
@@ -26,7 +24,6 @@ export class PersonalCompaniesComponent extends LifeHooksFactory {
 		super()
 	}
 
-	@HostBinding("@frameSideIn4")
 	public override ngOnInit() {
 		super.ngOnInit()
 	}

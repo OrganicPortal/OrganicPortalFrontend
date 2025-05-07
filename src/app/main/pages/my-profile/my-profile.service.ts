@@ -1,7 +1,10 @@
 import {HttpClient} from "@angular/common/http"
 import {Injectable} from "@angular/core"
-import {BehaviorSubject, catchError, map, Observable, of, Subject, switchMap, tap} from "rxjs"
+import {Store} from "@ngrx/store"
+import {BehaviorSubject, catchError, map, Observable, of, Subject, switchMap, take, tap} from "rxjs"
 import {LoaderModel, onInitLoader} from "../../../../addons/models/models"
+import * as AuthActions from "../../../store/actions/auth.actions"
+import {AuthListeners} from "../../../store/listeners/auth.listeners"
 
 @Injectable({
 	providedIn: "root"
@@ -15,7 +18,9 @@ export class MyProfileService {
 	public readonly profileUpdater$ = new Subject<BehaviorSubject<LoaderModel>>()
 
 	constructor(
-		private _http: HttpClient
+		private _http: HttpClient,
+		private _store: Store<AuthActions.StoreAuthType>,
+		private _authListeners: AuthListeners
 	) {
 	}
 
@@ -24,15 +29,32 @@ export class MyProfileService {
 			tap((el) => {
 				el.next(new LoaderModel(false, false))
 			}),
+			switchMap((el) => {
+				return this._authListeners.authAuditorState$.pipe(
+					take(1),
+					map(el2 => {
+						return {
+							loader: el,
+							authState: el2
+						}
+					})
+				)
+			}),
 
-			switchMap((loader) => this.onGetProfileInfo().pipe(
+			switchMap((item) => this.onGetProfileInfo().pipe(
 				tap((el) => {
-					loader.next(new LoaderModel(true, false))
+					if (!item.authState.activeCompany && el.Data.CompanyList.length == 1) {
+						this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
+							activeCompany: el.Data.CompanyList[0]
+						}))
+					}
+
+					item.loader.next(new LoaderModel(true, false))
 					this.profileData$.next(el)
 				}),
 
 				catchError(async (el) => {
-					loader.next(new LoaderModel(true, true))
+					item.loader.next(new LoaderModel(true, true))
 					return of(undefined)
 				})
 			))

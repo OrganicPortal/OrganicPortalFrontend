@@ -58,6 +58,10 @@ export class AppComponent extends LifeHooksFactory {
 		this.authAuditorState$ = this._authListeners.authAuditorState$
 		this.logoutAuditorState$ = this._authListeners.storeLogoutState$
 
+		// this.authAuditorState$.subscribe(res => {
+		// 	console.log(res)
+		// })
+
 		this._store.dispatch(LocalStorageActions.SyncStorageByKeys(new SyncStorageModel([LOCAL_STORAGE_TOKEN_KEY])))
 		this._store.dispatch(LocalStorageActions.StorageStateFetchInit())
 		this._store.dispatch(AuthActions.AuthAuditorInit())

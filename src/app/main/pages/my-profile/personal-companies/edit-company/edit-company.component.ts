@@ -16,6 +16,7 @@ import {
 	IGetCompanyDTO,
 	MyCompaniesService
 } from "../../../my-companies/my-companies.service"
+import {MyProfileService} from "../../my-profile.service"
 import {containerAnimation} from "../../shared/shared.animation"
 import {TypeOfInteractivityModel} from "../create-company/create-company.component"
 import {PersonalCompaniesService} from "../personal-companies.service"
@@ -38,13 +39,14 @@ export class EditCompanyComponent extends LifeHooksFactory {
 	public readonly updateContentLoaderState$ = onInitLoader(true, false)
 
 	public readonly companyData$ = new BehaviorSubject<IGetCompanyDTO["Data"] | undefined>(undefined)
-	private readonly selectedCompanyId$
+	private readonly activeCompanyId$
 		= new BehaviorSubject<number | undefined>(undefined)
 	private readonly refreshHandler$
 		= new Subject<void>()
 
 	constructor(
 		private _myCompaniesService: MyCompaniesService,
+		private _myProfileService: MyProfileService,
 		private _personalCompaniesService: PersonalCompaniesService,
 		private _datePipe: DatePipe,
 		private _activatedRoute: ActivatedRoute,
@@ -81,7 +83,7 @@ export class EditCompanyComponent extends LifeHooksFactory {
 		super.ngOnInit()
 
 		this.refreshHandler$.pipe(
-			switchMap((el) => this.selectedCompanyId$),
+			switchMap((el) => this.activeCompanyId$),
 			filter(el => !!el),
 			switchMap((el) => {
 				if (!this.companyData$.getValue())
@@ -106,7 +108,7 @@ export class EditCompanyComponent extends LifeHooksFactory {
 						return
 					}
 
-					this.selectedCompanyId$.next(Number(companyId))
+					this.activeCompanyId$.next(Number(companyId))
 					this.refreshHandler$.next()
 				}),
 				takeUntil(this.componentDestroy$)
@@ -119,6 +121,7 @@ export class EditCompanyComponent extends LifeHooksFactory {
 
 	public override ngOnDestroy() {
 		super.ngOnDestroy()
+		this._myProfileService.profileData$.next(undefined)
 	}
 
 	public onAddContactToForm() {
@@ -233,8 +236,11 @@ export class EditCompanyComponent extends LifeHooksFactory {
 	private onInitForm(data: IGetCompanyDTO["Data"] | undefined) {
 		const contacts = (data?.ContactList ?? []).map(el => {
 			return new FormGroup({
-				Type: new FormControl(el.Type, [Validators.required]),
-				Contact: new FormControl(el.Contact, [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)])
+				Type: new FormControl({value: el.Type, disabled: !!data?.isArchivated}, [Validators.required]),
+				Contact: new FormControl({
+					value: el.Contact,
+					disabled: !!data?.isArchivated
+				}, [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)])
 			})
 		})
 
@@ -248,6 +254,9 @@ export class EditCompanyComponent extends LifeHooksFactory {
 
 				interactivity.control.setValue(el.Type)
 				interactivity.Id = el.Id
+
+				if (!!data?.isArchivated)
+					interactivity.control.disable()
 
 				return {
 					control: interactivity.control,
@@ -268,22 +277,40 @@ export class EditCompanyComponent extends LifeHooksFactory {
 
 		this.form = new FormGroup({
 			// Назва
-			Name: new FormControl(data?.Name, [Validators.required, Validators.minLength(2)]),
+			Name: new FormControl(
+				{
+					value: data?.Name,
+					disabled: !!data?.isArchivated
+				},
+				[Validators.required, Validators.minLength(2)]
+			),
 			// Номер в державному реєстрі
 			RegistrationNumber: new FormControl({
 				value: data?.RegistrationNumber,
 				disabled: true
 			}, []),
 			// Дата заснування компанії
-			EstablishmentDate: new FormControl(_establishmentDate, [Validators.required, Validators.minLength(2)]),
+			EstablishmentDate: new FormControl({
+				value: _establishmentDate,
+				disabled: !!data?.isArchivated
+			}, [Validators.required, Validators.minLength(2)]),
 
 			// Опис
-			Description: new FormControl(data?.Description, [Validators.required, Validators.minLength(2)]),
+			Description: new FormControl({
+				value: data?.Description,
+				disabled: !!data?.isArchivated
+			}, [Validators.required, Validators.minLength(2)]),
 			// Адреса установи
-			Address: new FormControl(data?.Address, [Validators.required, Validators.minLength(2)]),
+			Address: new FormControl({
+				value: data?.Address,
+				disabled: !!data?.isArchivated
+			}, [Validators.required, Validators.minLength(2)]),
 
 			// Юридичний статус компанії
-			LegalType: new FormControl(data?.LegalType, [Validators.required, Validators.minLength(2)]),
+			LegalType: new FormControl({
+				value: data?.LegalType,
+				disabled: !!data?.isArchivated
+			}, [Validators.required, Validators.minLength(2)]),
 			// // Види діяльності
 			TypeOfInteractivityList: new FormArray(typeOfInteractivityControls.map(el => el?.control)),
 			// Контактні дані компанії

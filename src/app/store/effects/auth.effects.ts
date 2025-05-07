@@ -9,13 +9,13 @@ import {NgShortMessageService} from "../../../addons/components/ng-materials/ng-
 import {AllowedHttpContextTokens} from "../../../addons/services/http-interceptor.service"
 import {RouterRedirects} from "../../../addons/states/states"
 import {CodeConfirmation} from "../../main/pages/auth/auth.module"
-import {MyProfileService} from "../../main/pages/my-profile/my-profile.service"
+import {IMyProfileDTO, MyProfileService} from "../../main/pages/my-profile/my-profile.service"
 import * as AuthActions from "../actions/auth.actions"
 import * as LocalStorageActions from "../actions/localstorage.actions"
 import {LocalStorageState} from "../actions/localstorage.actions"
 import {AuthListeners} from "../listeners/auth.listeners"
 import {LocalStorageListeners} from "../listeners/localstorage.listeners"
-import {IAuthGetRolesDTO} from "../models/auth/auth.auditor.models"
+import {AuthAuditorSelectCompanyModel, IAuthGetRolesDTO} from "../models/auth/auth.auditor.models"
 import {ILoginDTO, LoginEffectData} from "../models/auth/auth.login.models"
 import {
 	PhoneConfirmationEffectData,
@@ -32,6 +32,7 @@ import {
 	RegistrationReducerModel
 } from "../models/auth/auth.registration.models"
 import {
+	ACTIVE_COMPANY_ID,
 	LOCAL_STORAGE_TOKEN_KEY,
 	RemoveFromStorageModel,
 	UpdateOrSaveDataToStorageModel
@@ -75,6 +76,13 @@ export class AuthEffects {
 			exhaustMap(() => this.onLogout())
 		))
 
+	// private readonly selectCompanyEffect$ = createEffect(() =>
+	// 	this.actions$.pipe(
+	// 		ofType(AuthActions.Actions.AuthAuditorSelectCompany),
+	// 		map((payload: AuthAuditorSelectCompanyModel) => this.onSetActiveCompany(payload))
+	// 	)
+	// )
+
 	private readonly passwordRecoverySetPasswordEffect$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(AuthActions.Actions.RecoveryPasswordSaveInit),
@@ -101,6 +109,7 @@ export class AuthEffects {
 			.pipe(
 				filter(el => el.isSuccessParse),
 				switchMap((el) => {
+
 					if (!el[LOCAL_STORAGE_TOKEN_KEY]) {
 						return of(AuthActions.AuthAuditorSuccess({
 							isAuthUser: false, isRequestComplete: false, isFetchSuccess: true
@@ -109,6 +118,8 @@ export class AuthEffects {
 
 					return this.onGetAuditTokenObservable().pipe(
 						map(([el1, el2]) => {
+							this.onValidateSavedActiveCompany(el2)
+
 							return AuthActions.AuthAuditorSuccess({
 								isAuthUser: true,
 								isRequestComplete: true,
@@ -195,6 +206,7 @@ export class AuthEffects {
 
 						map(el => {
 							this.onResetBasicAuthAuditors()
+							this.onValidateSavedActiveCompany(el.userInfo)
 
 							this._store.dispatch(AuthActions.AuthAuditorSuccess({
 								isFetchSuccess: true,
@@ -236,6 +248,7 @@ export class AuthEffects {
 				this.onResetBasicAuthAuditors()
 
 				this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
+				this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: ACTIVE_COMPANY_ID}))
 				this._store.dispatch(AuthActions.AuthAuditorReset())
 				this._router.navigate([""])
 
@@ -380,5 +393,55 @@ export class AuthEffects {
 				})
 			})
 		)
+	}
+
+	private onSetActiveCompany(payload: AuthAuditorSelectCompanyModel) {
+		this._store.dispatch(LocalStorageActions.RemoveFromStorage(new RemoveFromStorageModel(ACTIVE_COMPANY_ID)))
+		const storageData = new UpdateOrSaveDataToStorageModel(ACTIVE_COMPANY_ID, payload.activeCompany.CompanyId)
+		this._store.dispatch(LocalStorageActions.UpdateOrSaveDataToStorage(storageData))
+
+		return AuthActions.AuthAuditorSelectCompany({
+			activeCompany: payload.activeCompany
+		})
+	}
+
+	private onValidateSavedActiveCompany(payload: IMyProfileDTO) {
+		const userCompanies = payload?.Data?.CompanyList ?? []
+		const activeCompanyId = localStorage.getItem(ACTIVE_COMPANY_ID)
+
+		const allowedCompaniesToSelection = userCompanies
+			.filter(el => !el.CompanyArchivated)
+
+		const isValidActiveCompany =
+			allowedCompaniesToSelection
+				.map(el => el.CompanyId)
+				.includes(Number(activeCompanyId))
+
+		if (!isValidActiveCompany) {
+			this._store.dispatch(LocalStorageActions.RemoveFromStorage(new RemoveFromStorageModel(ACTIVE_COMPANY_ID)))
+
+			if (allowedCompaniesToSelection.length > 0) {
+				const newActiveCompany = allowedCompaniesToSelection[0]
+
+				const storageData = new UpdateOrSaveDataToStorageModel(ACTIVE_COMPANY_ID, newActiveCompany.CompanyId)
+				this._store.dispatch(LocalStorageActions.UpdateOrSaveDataToStorage(storageData))
+
+				this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
+					activeCompany: newActiveCompany
+				}))
+			}
+
+			return
+		}
+
+		const activeCompany = allowedCompaniesToSelection
+			.find(el => el.CompanyId === Number(activeCompanyId))
+
+		if(!activeCompany)
+			return
+		
+		this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
+			activeCompany: activeCompany
+		}))
 	}
 }

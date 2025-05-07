@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {takeUntil} from "rxjs"
+import {filter, takeUntil, tap} from "rxjs"
 import {frameSideIn4, frameSideInOut2} from "../../../../addons/animations/shared.animations"
 import {LoaderModel} from "../../../../addons/models/models"
 import * as AuthActions from "../../../store/actions/auth.actions"
@@ -39,6 +39,18 @@ export class MyProfileComponent extends LifeHooksFactory {
 		this._myProfileService
 			.onGetProfileHandler()
 			.pipe(takeUntil(this.componentDestroy$))
+			.subscribe()
+
+		this._myProfileService.profileData$
+			.pipe(
+				filter(el => !!el),
+				tap((el) => {
+					this._store.dispatch(AuthActions.AuthAuditorPatch({
+						userInfo: el?.Data
+					}))
+				}),
+				takeUntil(this.componentDestroy$)
+			)
 			.subscribe()
 	}
 

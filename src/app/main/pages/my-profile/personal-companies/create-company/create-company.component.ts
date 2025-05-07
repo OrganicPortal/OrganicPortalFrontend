@@ -37,7 +37,6 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 		private _ngShortMessageService: NgShortMessageService,
 		private _myCompaniesService: MyCompaniesService,
 		private _myProfileService: MyProfileService,
-		private _datePipe: DatePipe,
 		private _personalCompaniesService: PersonalCompaniesService,
 		private _router: Router
 	) {
@@ -69,6 +68,11 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 				})
 			])
 		})
+	}
+
+	public override ngOnDestroy() {
+		super.ngOnDestroy()
+		this._myProfileService.profileData$.next(undefined)
 	}
 
 	protected get legalTypeList() {

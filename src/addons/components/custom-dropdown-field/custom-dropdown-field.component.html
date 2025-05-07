@@ -10,6 +10,7 @@
 	        (focus)="onFocusMenu(btnMenu)"
 	        (focusout)="onFocusOutMenu(btnMenu)"
 	        [type]="'button'"
+	        [disabled]="isDisabledControl()"
 	        #btnMenu>
 		<ng-container [ngTemplateOutlet]="labelContent"></ng-container>
 		<div class="printed-text" [innerHTML]="(selectedOptionRef?.innerText ?? '') | safehtml">

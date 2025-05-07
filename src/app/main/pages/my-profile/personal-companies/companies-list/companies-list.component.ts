@@ -1,11 +1,13 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
+import {Store} from "@ngrx/store"
 import {catchError, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideIn4, frameSideInOut2} from "../../../../../../addons/animations/shared.animations"
 import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
 import {AllowedRoles} from "../../../../../../addons/states/states"
+import {StoreAuthType} from "../../../../../store/actions/auth.actions"
 import {MyCompaniesService} from "../../../my-companies/my-companies.service"
-import {MyProfileService} from "../../my-profile.service"
+import {ICompanyDTO, MyProfileService} from "../../my-profile.service"
 import {containerAnimation} from "../../shared/shared.animation"
 
 @Component({
@@ -78,6 +80,10 @@ export class CompaniesListComponent extends LifeHooksFactory {
 				takeUntil(this.requestHandler$)
 			)
 			.subscribe()
+	}
+
+	public onSetActiveCompany(company: ICompanyDTO){
+
 	}
 
 	public onReloadPage() {

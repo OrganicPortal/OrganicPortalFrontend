@@ -234,6 +234,13 @@ export const AuthAuditorReducer = createReducer(
 			})
 	),
 
+	on(AuthActions.AuthAuditorSelectCompany,
+		(state, action) =>
+			({
+				...state, activeCompany: action.activeCompany
+			})
+	),
+
 	on(AuthActions.AuthAuditorFailure,
 		(state, action) =>
 			({

@@ -3,6 +3,10 @@
 	--focus-border-color: color-mix(in srgb, transparent, var(--color-palette-3) 60%);
 	--hover-color: color-mix(in srgb, transparent 97%, var(--dark));
 	
+	&:has(.menu-trigger:disabled) {
+		background-color: var(--hover-color) !important;
+	}
+	
 	&.field-required{
 		.required-checkmark{
 			color: var(--little-red) !important;

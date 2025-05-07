@@ -1,11 +1,13 @@
 export const LOCAL_STORAGE_TOKEN_KEY = "organic-portal-token"
 export const LOCAL_STORAGE_COMPONENTS_SETTINGS = "organic-portal-components"
+export const ACTIVE_COMPANY_ID = "active-company-id"
 
 export type ReservedLocalStorageKeys = typeof LOCAL_STORAGE_TOKEN_KEY | typeof LOCAL_STORAGE_COMPONENTS_SETTINGS
 
 export class LocalStorageModel {
 	[LOCAL_STORAGE_TOKEN_KEY]: string | undefined
 	[LOCAL_STORAGE_COMPONENTS_SETTINGS]: string | undefined
+	[ACTIVE_COMPANY_ID]: string | undefined
 }
 
 export enum StorageOperationsStatuses {

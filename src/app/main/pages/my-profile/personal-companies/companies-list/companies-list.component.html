@@ -35,14 +35,6 @@
 			<ngx-grid [cellSize]="300">
 				@for (item of companies; track item.CompanyId) {
 					<div class="card">
-						<div class="card-header">
-							<div class="icon-container">
-								<ngx-icon
-												[name]="'verified-check'"
-												[ratio]="'1.4em'"></ngx-icon>
-							</div>
-						</div>
-						
 						<div class="card-body">
 							<h4>{{ item.CompanyName }}</h4>
 							
@@ -90,27 +82,29 @@
 						</div>
 						
 						<div class="card-footer">
-							<a class="btn drop-btn"
-							   (click)="onArchiveCompany(item?.CompanyId!)"
-							   customBasicButton
-							   matRipple>
-								<ngx-icon [name]="'winrar'"
-								          [ratio]="'1.1em'"></ngx-icon>
-							</a>
-							
-							<!-- 							<a class="btn" -->
-							<!-- 							   [routerLink]="'new'" -->
-							<!-- 							   customRaisedButton -->
-							<!-- 							   matRipple> -->
-							<!-- 								<ngx-icon [name]="'check-circle'" -->
-							<!-- 								          [ratio]="'1.1em'"></ngx-icon> -->
-							<!-- 							</a> -->
+							@if (!item.CompanyArchivated) {
+								<a class="btn drop-btn"
+								   (click)="onArchiveCompany(item?.CompanyId!)"
+								   customBasicButton
+								   matRipple>
+									<ngx-icon [name]="'winrar'"
+									          [ratio]="'1.1em'"></ngx-icon>
+								</a>
+								
+								<a class="btn"
+								   customRaisedButton
+								   (click)="onSetActiveCompany(item)"
+								   matRipple>
+									<ngx-icon [name]="'check-circle'"
+									          [ratio]="'1.1em'"></ngx-icon>
+								</a>
+							}
 							
 							<a class="btn"
 							   [routerLink]="'edit/' + item.CompanyId"
 							   customBasicButton
 							   matRipple>
-								<ngx-icon [name]="'pen'"
+								<ngx-icon [name]="item?.CompanyArchivated ? 'eye' : 'pen'"
 								          [ratio]="'1.1em'"></ngx-icon>
 							</a>
 						</div>

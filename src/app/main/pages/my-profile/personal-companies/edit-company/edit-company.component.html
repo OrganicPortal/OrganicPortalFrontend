@@ -19,7 +19,7 @@
 	} @else if (loaderState?.isLoaded && !loaderState?.isError) {
 		<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 	} @else {
-		<ng-container [ngTemplateOutlet]="loading"></ng-container>
+		<!-- 		<ng-container [ngTemplateOutlet]="loading"></ng-container> -->
 	}
 </ng-template>
 <ng-template #loading>
@@ -52,6 +52,7 @@
 		<form class="form"
 		      (ngSubmit)="onSubmit(companyData.Id)"
 		      [formGroup]="form"
+		      [@containerAnimation]
 		      action="">
 			<!-- MAIN INFO SECTION -->
 			<div [@frameSideInOut4]
@@ -100,7 +101,7 @@
 						
 						<label>Юридичний статус</label>
 						
-						<custom-selection-menu>
+						<custom-selection-menu >
 							@for (item of legalTypeList; track item) {
 								<custom-selection-option [value]="item.value"
 								                         [isSelected]="form.get('LegalType')?.value === item.value">
@@ -186,15 +187,17 @@
 						</span>
 					</h3>
 					
-					<button (click)="onAddContactToForm()"
-					        [isRounded]="true"
-					        [type]="'button'"
-					        customRaisedButton
-					        matRipple>
-						<ngx-icon [name]="'pen'"
-						          [ratio]="'1em'"></ngx-icon>
-						<span>Додати ще</span>
-					</button>
+					@if (!companyData.isArchivated) {
+						<button (click)="onAddContactToForm()"
+						        [isRounded]="true"
+						        [type]="'button'"
+						        customRaisedButton
+						        matRipple>
+							<ngx-icon [name]="'pen'"
+							          [ratio]="'1em'"></ngx-icon>
+							<span>Додати ще</span>
+						</button>
+					}
 				</div>
 				
 				<div class="set-gap-05 fx-col contact-list"
@@ -232,15 +235,17 @@
 								       type="text">
 							</custom-input-field>
 							
-							<button customRaisedButton
-							        (click)="onRemoveContactFromForm(idx)"
-							        class="ratio-1-1 drop-field-btn"
-							        [type]="'button'"
-							        [isRounded]="true"
-							        matRipple>
-								<ngx-icon [name]="'trash-bin-2'"
-								          [ratio]="'1em'"></ngx-icon>
-							</button>
+							@if (!companyData.isArchivated) {
+								<button customRaisedButton
+								        (click)="onRemoveContactFromForm(idx)"
+								        class="ratio-1-1 drop-field-btn"
+								        [type]="'button'"
+								        [isRounded]="true"
+								        matRipple>
+									<ngx-icon [name]="'trash-bin-2'"
+									          [ratio]="'1em'"></ngx-icon>
+								</button>
+							}
 						</div>
 					}
 				</div>
@@ -262,7 +267,7 @@
 					@for (item of typeOfInteractivityValues; track item) {
 						<button class="fx-row selection-row"
 						        [type]="'button'"
-						        (click)="onSelectInteractivity(item)">
+						        (click)="!companyData.isArchivated ? onSelectInteractivity(item) : ''">
 							<ng-checkbox [isAutoChangeValue]="false"
 							             [control]="item.control"></ng-checkbox>
 							<span>{{ item.name }}</span>
@@ -274,12 +279,14 @@
 			
 			<div [@frameSideInOut4]
 			     class="set-gap-05 fx-row">
-				<button
-								[type]="'submit'"
-								customBasicButton>
-					<ngx-icon [name]="'verified-check'"></ngx-icon>
-					Зберегти
-				</button>
+				@if (!companyData.isArchivated) {
+					<button
+									[type]="'submit'"
+									customBasicButton>
+						<ngx-icon [name]="'verified-check'"></ngx-icon>
+						Зберегти
+					</button>
+				}
 			</div>
 		</form>
 	} @else {
