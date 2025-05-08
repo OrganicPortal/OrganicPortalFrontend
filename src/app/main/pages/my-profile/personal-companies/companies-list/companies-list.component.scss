@@ -47,27 +47,27 @@
 		gap: 1rem;
 	}
 	
-	.pin{
+	.pin {
 		padding: 5px 8px;
 		border-radius: 5px;
 	}
 	
-	.pin-red{
+	.pin-red {
 		background-color: var(--little-red) !important;
 	}
 	
-	.pin-green{
-		background-color: var(--color-palette-3) !important;
+	.pin-green {
 		color: var(--white) !important;
+		background-color: var(--color-palette-3) !important;
 	}
 	
 	.card {
 		display: flex;
 		position: relative;
-		justify-content: flex-end;
 		padding: .5rem;
 		flex: 1 1;
 		flex-direction: column;
+		justify-content: flex-end;
 		box-sizing: border-box;
 		width: 100%;
 		
@@ -88,19 +88,19 @@
 			max-height: max-content;
 			
 			// border-bottom: 1px solid var(--border-color);
-			.active-pin{
+			.active-pin {
 				display: flex;
-				justify-content: center;
+				padding: 7px 10px;
+				font-size: .85em;
 				align-items: center;
 				flex-direction: row;
-				gap: 5px;
 				
-				font-size: .85em;
-				box-shadow: var(--box-shadow-items);
-				padding: 7px 10px;
+				justify-content: center;
 				border-radius: 5px;
-		
 				background-color: var(--color-palette-6);
+				box-shadow: var(--box-shadow-items);
+				
+				gap: 5px;
 			}
 		}
 		
@@ -120,8 +120,9 @@
 		}
 		
 		.card-body {
+			flex: 1 1;
 			padding-left: 20px;
-
+			
 			h4 {
 				display: -webkit-box;
 				font-size: .9em;
@@ -135,25 +136,25 @@
 			}
 		}
 		
-		.card-footer{
+		.card-footer {
 			display: flex;
+			padding: 0 10px 10px 0;
 			justify-content: flex-end;
 			box-sizing: border-box;
 			width: 100%;
-			padding: 0 10px 10px 0;
-			gap: .5rem;
 			margin-top: 10px;
+			gap: .5rem;
 		}
 		
-		.drop-btn{
+		.drop-btn {
 			background-color: var(--little-red);
 			
 		}
 		
-		.btn{
+		.btn {
 			padding: .8rem;
-			aspect-ratio: 1/1;
 			border-radius: 1000px;
+			aspect-ratio: 1/1;
 		}
 		
 		.desc {
@@ -179,7 +180,7 @@
 	// 	background-color: var(--gray);
 	// }
 	
-	.active-card{
+	.active-card {
 		background-color: color-mix(in srgb, var(--color-palette-8) 50%, transparent);
 		
 	}

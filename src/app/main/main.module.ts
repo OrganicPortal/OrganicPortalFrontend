@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {RouterModule} from "@angular/router"
 import {
+	provideVirtualViewConfig,
 	RxVirtualView,
 	RxVirtualViewContent,
 	RxVirtualViewObserver,
@@ -116,6 +117,22 @@ export const routes: RoutesExtended = [
 		FullScreenLoaderModule,
 
 		ScrollingModule
+	],
+
+	providers: [
+		provideVirtualViewConfig({
+			keepLastKnownSize: true,
+			useContentVisibility: false,
+			useContainment: true,
+			placeholderStrategy: 'low',
+			contentStrategy: 'userBlocking',
+			startWithPlaceholderAsap: true,
+			cacheEnabled: true,
+			cache: {
+				contentCacheSize: 200,
+				placeholderCacheSize: 200,
+			},
+		}),
 	]
 })
 export class MainModule {

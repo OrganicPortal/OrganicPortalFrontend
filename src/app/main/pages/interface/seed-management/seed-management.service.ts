@@ -36,7 +36,9 @@ export class SeedManagementService {
 
 	public onGetSeedList(companyId: number, paginator?: PaginatorModel) {
 		const apiUrl = `/api/seeds/list?companyId=${companyId}`
-		return this._http.post(apiUrl, paginator ?? new PaginatorModel())
+		return this._http.post<{
+			Data: { Count: number, Items: ISeedDTO[] }
+		}>(apiUrl, paginator ?? new PaginatorModel())
 	}
 
 	public onSaveSeedAndCertsInfo(companyId: number, seedData: SeedModelDTO, certsData: IAllowedCertsDTO[]) {
@@ -52,6 +54,25 @@ export class SeedManagementService {
 		const apiUrl = `/api/seeds/new?companyId=${companyId}`
 		return this._http.post<{ Data: { SeedId: number } }>(apiUrl, payload)
 	}
+}
+
+export interface ISeedDTO {
+	Id: number
+	Name: string
+	ScientificName: string
+	Variety: string
+	SeedType: string
+	BatchNumber: string
+	HarvestDate: string
+	ExpiryDate: string
+	TreatmentType: number
+	StorageConditions: string
+	AverageWeightThousandSeeds: number
+	Status: number
+	CERTsList: any[]
+	Company: any | null
+	CompanyId: number
+	CreatedDate: string
 }
 
 export class SeedModelDTO {

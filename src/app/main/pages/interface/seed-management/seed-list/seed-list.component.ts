@@ -1,13 +1,22 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {Store} from "@ngrx/store"
-import {BehaviorSubject, filter, map, startWith, Subject, switchMap, take, takeUntil, withLatestFrom} from "rxjs"
+import {
+	BehaviorSubject,
+	catchError,
+	filter,
+	map,
+	startWith,
+	Subject,
+	switchMap,
+	take,
+	takeUntil,
+	tap,
+	withLatestFrom
+} from "rxjs"
 import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
-import {onInitLoader, PaginatorModel} from "../../../../../../addons/models/models"
-import {StoreAuthType} from "../../../../../store/actions/auth.actions"
+import {LoaderModel, onInitLoader, PaginatorModel} from "../../../../../../addons/models/models"
 import {AuthListeners} from "../../../../../store/listeners/auth.listeners"
-import {MyCompaniesService} from "../../../my-companies/my-companies.service"
-import {SeedManagementService} from "../seed-management.service"
+import {AllowedSeedStatuses, ISeedDTO, SeedManagementService} from "../seed-management.service"
 
 @Component({
 	selector: "app-seed-list",
@@ -26,12 +35,14 @@ import {SeedManagementService} from "../seed-management.service"
 export class SeedListComponent extends LifeHooksFactory {
 	public authAuditorState$
 	public readonly loaderState$ = onInitLoader()
-	public readonly paginatorState$ = new BehaviorSubject(new PaginatorModel())
+	public readonly paginatorState$ = new BehaviorSubject(new PaginatorModel(1, 200))
+	public readonly seedItems$ = new BehaviorSubject<ISeedDTO[]>([])
+	public isFirstContentLoaded: boolean = false
 	private readonly requestRefresher$ = new Subject<void>()
+	protected readonly AllowedSeedStatuses = AllowedSeedStatuses
+	protected readonly document = document
 
 	constructor(
-		private _store: Store<StoreAuthType>,
-		private _myCompaniesService: MyCompaniesService,
 		private _seedManagementService: SeedManagementService,
 		private _authListeners: AuthListeners
 	) {
@@ -42,7 +53,6 @@ export class SeedListComponent extends LifeHooksFactory {
 
 	public override ngOnInit() {
 		super.ngOnInit()
-
 
 		this.onGetSeedList()
 			.pipe(
@@ -65,7 +75,10 @@ export class SeedListComponent extends LifeHooksFactory {
 				switchMap(el =>
 					this.requestRefresher$.pipe(
 						startWith(undefined),
-						map(el2 => el)
+						map(el2 => {
+							this.loaderState$.next(new LoaderModel(false, false))
+							return el
+						})
 					)
 				),
 
@@ -74,7 +87,17 @@ export class SeedListComponent extends LifeHooksFactory {
 						el[0].activeCompany!.CompanyId!,
 						el[1]
 					)
-				)
+				),
+
+				tap((el) => {
+					this.seedItems$.next(el.Data.Items)
+					this.isFirstContentLoaded = true
+					this.loaderState$.next(new LoaderModel(true, false))
+				}),
+
+				catchError(async (err) => {
+					this.loaderState$.next(new LoaderModel(true, true))
+				})
 			)
 	}
 }

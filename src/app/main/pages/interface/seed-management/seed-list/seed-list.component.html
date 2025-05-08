@@ -1,8 +1,142 @@
-<div class="header" [@frameSideIn4]>
-	<a [routerLink]="'/interface/seed-management/new'" customBasicButton>
-		<ngx-icon [name]="'add-circle'"></ngx-icon>
-		Додати продукцію
-	</a>
-</div>
+@let loaderState = loaderState$ | async;
+@let seedItems = seedItems$ | async;
 
-<ngx-grid></ngx-grid>
+@if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+} @else if (loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded) {
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+}
+
+@if (!loaderState?.isLoaded || !isFirstContentLoaded) {
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+}
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+</ng-template>
+
+<ng-template #loaded>
+	<div class="container">
+		<div class="header"
+		     [@frameSideIn4]>
+			<a [routerLink]="'/interface/seed-management/new'"
+			   customBasicButton>
+				<ngx-icon [name]="'add-circle'"></ngx-icon>
+				Додати продукцію
+			</a>
+		</div>
+		@if (seedItems?.length! > 0) {
+			<ngx-grid [cellSize]="250">
+				@for (item of seedItems; track item.Id; let idx = $index) {
+					<div class="card-subcontainer"
+					     
+					     [ngClass]="[
+				     (item.Status == 1 || item.Status == 2) ? 'card-status-color-1' : '',
+				     (item.Status == 3) ? 'card-status-color-2' : '',
+				     ]">
+						<div class="card"
+						    >
+							<div class="card-header">
+								<span class="name-title webkit-box-text-container">{{ item.Name }}</span>
+							</div>
+							
+							<div class="card-body">
+								<div class="desc">
+									<div class="container">
+										<div class="fx-row desc-container">
+											<ngx-icon
+															[isAnimate]="false"
+															[name]="'folder-favourite-star'"
+															[ratio]="'.9em'"></ngx-icon>
+											<span class="webkit-box-text-container">
+										Тип зберігання – <strong>{{ item?.StorageConditions }}</strong>
+								</span>
+										</div>
+										
+										<div class="fx-row desc-container">
+											<ngx-icon
+															[isAnimate]="false"
+															[name]="'box-minimalistic'"
+															[ratio]="'.9em'"></ngx-icon>
+											<span class="webkit-box-text-container">
+										Сорт – <strong>{{ item?.Variety }}</strong>
+								</span>
+										</div>
+										
+										<div class="fx-row desc-container">
+											<ngx-icon
+															[isAnimate]="false"
+															[name]="'fire-square'"
+															[ratio]="'.9em'"></ngx-icon>
+											<span class="webkit-box-text-container">
+										№ Партії – <strong>{{ item?.BatchNumber }}</strong>
+								</span>
+										</div>
+									</div>
+									
+									<div class="container">
+										<div class="fx-row desc-container">
+											<ngx-icon
+															[isAnimate]="false"
+															[name]="'clock-square'"
+															[ratio]="'.9em'"></ngx-icon>
+											<span class="webkit-box-text-container">
+										Виготовлено – <strong>{{ item?.HarvestDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+								</span>
+										</div>
+										
+										<div class="fx-row desc-container">
+											<ngx-icon
+															[isAnimate]="false"
+															[name]="'clock-square'"
+															[ratio]="'.9em'"></ngx-icon>
+											<span class="webkit-box-text-container">
+										Придатний до – <strong>{{ item?.ExpiryDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+								</span>
+										</div>
+									</div>
+									
+									<div class="container">
+										<div class="fx-row desc-container">
+											<ngx-icon
+															[isAnimate]="false"
+															[name]="'stars-1'"
+															[ratio]="'.9em'"></ngx-icon>
+											<span class="webkit-box-text-container">
+										Статус – <strong>{{ AllowedSeedStatuses[item?.Status!] }}</strong>
+								</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="card-footer">
+								<a class="btn"
+								   [routerLink]="'edit/' + item.CompanyId"
+								   customRaisedButton
+								   matRipple>
+									<ngx-icon [name]="'pen'"
+									          [ratio]="'1.1em'"></ngx-icon>
+									
+									Ред.
+								</a>
+							</div>
+						</div>
+					</div>
+				}
+			</ngx-grid>
+		} @else {
+			<div class="empty-data">
+				<ngx-icon [name]="'pen-new-round'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				<h3>Записи відсутні. Створіть нову <br> продукцію для перегляду більшого набору інформації</h3>
+			</div>
+		}
+	</div>
+</ng-template>
+
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onRefreshPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>

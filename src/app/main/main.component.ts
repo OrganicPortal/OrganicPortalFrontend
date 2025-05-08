@@ -37,7 +37,15 @@ export class MainComponent extends LifeHooksFactory {
 			).subscribe()
 	}
 
+	public onGetScrollContainer(){
+		return null as any
+	}
+
 	public override ngAfterViewInit() {
 		super.ngAfterViewInit()
+	}
+
+	public onGetRootScrollableFrame() {
+		return document.body
 	}
 }
