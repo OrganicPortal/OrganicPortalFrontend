@@ -15,6 +15,7 @@ import {FooterComponent} from "./footer/footer.component"
 import {HeaderComponent} from "./header/header.component"
 import {NavbarComponent} from "./navbar/navbar.component"
 import {LoginButtonComponent} from "./shared/login-button/login-button.component"
+import {SidebarComponent} from "./sidebar/sidebar.component"
 import {WrapperComponent} from "./wrapper.component"
 
 @NgModule({
@@ -24,7 +25,8 @@ import {WrapperComponent} from "./wrapper.component"
 		BodyComponent,
 		FooterComponent,
 		NavbarComponent,
-		LoginButtonComponent
+		LoginButtonComponent,
+		SidebarComponent
 	],
 
 	exports: [

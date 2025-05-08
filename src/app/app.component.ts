@@ -1,5 +1,5 @@
 import {AsyncPipe} from "@angular/common"
-import {Component} from "@angular/core"
+import {Component, Renderer2} from "@angular/core"
 import {MatProgressBarModule} from "@angular/material/progress-bar"
 import {
 	NavigationCancel,
@@ -47,20 +47,19 @@ export class AppComponent extends LifeHooksFactory {
 	public readonly isLoadingInterface$ = new BehaviorSubject<boolean>(false)
 	public readonly authAuditorState$
 	public readonly logoutAuditorState$
+	public readonly fullScreenLoaderState$
 
 	constructor(
 		private _listenersService: ListenersService,
 		private _authListeners: AuthListeners,
+		private _renderer2: Renderer2,
 		private _store: Store<LocalStorageActions.LocalStorageOperations & StoreAuthType>
 	) {
 		super()
 
 		this.authAuditorState$ = this._authListeners.authAuditorState$
 		this.logoutAuditorState$ = this._authListeners.storeLogoutState$
-
-		// this.authAuditorState$.subscribe(res => {
-		// 	console.log(res)
-		// })
+		this.fullScreenLoaderState$ = this._authListeners.fullScreenLoaderState$
 
 		this._store.dispatch(LocalStorageActions.SyncStorageByKeys(new SyncStorageModel([LOCAL_STORAGE_TOKEN_KEY])))
 		this._store.dispatch(LocalStorageActions.StorageStateFetchInit())
@@ -70,6 +69,17 @@ export class AppComponent extends LifeHooksFactory {
 	public override ngOnInit() {
 		super.ngOnInit()
 
+		this.fullScreenLoaderState$.pipe(
+			tap(el => {
+				if(el.isAnimating){
+					this._renderer2.addClass(document.body, "hidden-content")
+					return
+				}
+
+				this._renderer2.removeClass(document.body, "hidden-content")
+			}),
+			takeUntil(this.componentDestroy$)
+		).subscribe()
 		this._listenersService.onListenRouterNavigation()
 			.pipe(
 				filter(el =>

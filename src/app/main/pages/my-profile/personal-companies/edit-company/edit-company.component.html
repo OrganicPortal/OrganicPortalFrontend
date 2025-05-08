@@ -19,7 +19,7 @@
 	} @else if (loaderState?.isLoaded && !loaderState?.isError) {
 		<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 	} @else {
-		<!-- 		<ng-container [ngTemplateOutlet]="loading"></ng-container> -->
+<!-- 		<ng-container [ngTemplateOutlet]="loading"></ng-container> -->
 	}
 </ng-template>
 <ng-template #loading>
@@ -101,7 +101,7 @@
 						
 						<label>Юридичний статус</label>
 						
-						<custom-selection-menu >
+						<custom-selection-menu>
 							@for (item of legalTypeList; track item) {
 								<custom-selection-option [value]="item.value"
 								                         [isSelected]="form.get('LegalType')?.value === item.value">

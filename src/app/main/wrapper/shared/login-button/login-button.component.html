@@ -25,7 +25,8 @@
 		<a class="set-border-bottom"
 		   cdkMenuItem
 		   customBasicLink
-		   href=""
+		   [routerLink]="'/my-profile/personal-companies'"
+		   [routerLinkActive]="'active'"
 		   matRipple>
 			<ngx-icon [name]="'flag-2'"></ngx-icon>
 			Мої компанії
@@ -33,6 +34,7 @@
 		
 		<a [routerLink]="'/my-profile'"
 		   [routerLinkActive]="'active'"
+		   [routerLinkActiveOptions]="{exact: true}"
 		   cdkMenuItem
 		   customBasicLink
 		   matRipple>

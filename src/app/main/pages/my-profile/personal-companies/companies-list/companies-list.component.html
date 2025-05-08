@@ -1,5 +1,6 @@
 @let loaderState = loaderState$ | async;
 @let companies = companies$ | async;
+@let authAuditorState = authAuditorState$ | async;
 
 @if (!loaderState?.isLoaded && !loaderState?.isError) {
 	<ng-container [ngTemplateOutlet]="loading"></ng-container>
@@ -35,6 +36,16 @@
 			<ngx-grid [cellSize]="300">
 				@for (item of companies; track item.CompanyId) {
 					<div class="card">
+						<div class="card-header">
+							@if(item.CompanyId && item.CompanyId === authAuditorState?.activeCompany?.CompanyId){
+								<div class="active-pin">
+									<ngx-icon [name]="'check-circle'"
+									          [ratio]="'.9em'"></ngx-icon>
+									<span>Активна</span>
+								</div>
+							}
+						</div>
+						
 						<div class="card-body">
 							<h4>{{ item.CompanyName }}</h4>
 							
@@ -65,7 +76,10 @@
 													[ratio]="'.9em'"></ngx-icon>
 									
 									<span>
-										Архівовано – {{ item?.CompanyArchivated ? 'Так' : 'Ні' }}
+										Архівовано –
+										<span class="pin" [ngClass]="item?.CompanyArchivated ? 'pin-red' : 'pin-green'">
+											{{ item?.CompanyArchivated ? 'Так' : 'Ні' }}
+										</span>
 									</span>
 								</div>
 								
@@ -90,15 +104,15 @@
 									<ngx-icon [name]="'winrar'"
 									          [ratio]="'1.1em'"></ngx-icon>
 								</a>
-								
-								<a class="btn"
-								   customRaisedButton
-								   (click)="onSetActiveCompany(item)"
-								   matRipple>
-									<ngx-icon [name]="'check-circle'"
-									          [ratio]="'1.1em'"></ngx-icon>
-								</a>
 							}
+							
+							<a class="btn"
+							   customRaisedButton
+							   (click)="onSetActiveCompany(item, authAuditorState!)"
+							   matRipple>
+								<ngx-icon [name]="'check-circle'"
+								          [ratio]="'1.1em'"></ngx-icon>
+							</a>
 							
 							<a class="btn"
 							   [routerLink]="'edit/' + item.CompanyId"

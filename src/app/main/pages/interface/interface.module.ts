@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core"
 import {RouterModule} from "@angular/router"
 import {AllowedGroupsOfUsers, RoutesExtended} from "../../../../addons/states/states"
 import {InterfaceComponent} from "./interface.component"
+import {SeedManagementModule} from "./seed-management/seed-management.module"
 
 export const routes: RoutesExtended = [
 	{
@@ -20,10 +21,15 @@ export const routes: RoutesExtended = [
 			},
 
 			{
-				path: "**",
-				redirectTo: "",
-				pathMatch: "full"
-			}
+				path: "seed-management",
+				loadChildren: () => import("./seed-management/seed-management.module").then(m => m.SeedManagementModule),
+			},
+
+
+			{
+				path: "seed-certification",
+				loadChildren: () => import("./seed-certification/seed-certification.module").then(m => m.SeedCertificationModule),
+			},
 		]
 	},
 

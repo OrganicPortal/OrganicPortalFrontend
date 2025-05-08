@@ -1,4 +1,3 @@
-import {DatePipe} from "@angular/common"
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
 import {Router} from "@angular/router"
@@ -25,13 +24,39 @@ import {PersonalCompaniesService} from "../personal-companies.service"
 	animations: [
 		frameSideInOut2,
 		frameSideInOut4
-	]
+	],
+	providers: [PersonalCompaniesService]
 })
 export class CreateCompanyComponent extends LifeHooksFactory {
 	public loaderState$ = onInitLoader(true)
 	public form: FormGroup
-	private readonly requestHandler$: Subject<void> = new Subject()
+	public readonly typeOfInteractivityValues: TypeOfInteractivityModel[] = [
+		new TypeOfInteractivityModel(
+			"Виробництво та пакування насіння",
+			0
+		),
 
+		new TypeOfInteractivityModel(
+			"Дистрибуція та оптовий продаж насіння",
+			1
+		),
+
+		new TypeOfInteractivityModel(
+			"Роздрібна торгівля насінням, добривами, засобами захисту рослин (ЗЗР), тощо",
+			2
+		),
+
+		new TypeOfInteractivityModel(
+			"Селекція та виведення нових сортів",
+			3
+		),
+
+		new TypeOfInteractivityModel(
+			"Імпорт та експорт насіння або супутніх товарів",
+			4
+		)
+	]
+	private readonly requestHandler$: Subject<void> = new Subject()
 
 	constructor(
 		private _ngShortMessageService: NgShortMessageService,
@@ -69,12 +94,7 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 			])
 		})
 	}
-
-	public override ngOnDestroy() {
-		super.ngOnDestroy()
-		this._myProfileService.profileData$.next(undefined)
-	}
-
+	
 	protected get legalTypeList() {
 		return this._personalCompaniesService.legalTypeList
 	}
@@ -83,13 +103,14 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 		return this._personalCompaniesService.allowedContactTypes
 	}
 
-	protected get typeOfInteractivityValues() {
-		return this._personalCompaniesService.typeOfInteractivityValues
-	}
-
 	public override ngOnInit() {
 		super.ngOnInit()
 		this._myProfileService.loaderState$.next(new LoaderModel(true, false))
+	}
+
+	public override ngOnDestroy() {
+		super.ngOnDestroy()
+		this._myProfileService.profileData$.next(undefined)
 	}
 
 	public onAddContactToForm() {

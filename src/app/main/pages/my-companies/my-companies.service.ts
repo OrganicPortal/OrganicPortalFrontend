@@ -110,10 +110,10 @@ export class CreateCompanyModelDTO {
 
 	LegalType: number
 	EstablishmentDate: Date | string
-	TypeOfInteractivityList: number[]
+	TypeOfActivityList: number[]
 	ContactList: ContactItemModel[]
 
-	constructor(Name: string, Description: string, RegistrationNumber: string, Address: string, LegalType: number, EstablishmentDate: Date | string, ContactList: ContactItemModel[], TypeOfInteractivityList: number[]) {
+	constructor(Name: string, Description: string, RegistrationNumber: string, Address: string, LegalType: number, EstablishmentDate: Date | string, ContactList: ContactItemModel[], TypeOfActivityList: number[]) {
 		this.Name = Name
 		this.Description = Description
 		this.RegistrationNumber = RegistrationNumber
@@ -121,7 +121,7 @@ export class CreateCompanyModelDTO {
 		this.LegalType = LegalType
 		this.EstablishmentDate = EstablishmentDate
 		this.ContactList = ContactList
-		this.TypeOfInteractivityList = TypeOfInteractivityList
+		this.TypeOfActivityList = TypeOfActivityList
 	}
 }
 

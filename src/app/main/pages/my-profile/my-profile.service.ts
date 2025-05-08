@@ -1,7 +1,7 @@
 import {HttpClient} from "@angular/common/http"
 import {Injectable} from "@angular/core"
 import {Store} from "@ngrx/store"
-import {BehaviorSubject, catchError, map, Observable, of, Subject, switchMap, take, tap} from "rxjs"
+import {BehaviorSubject, catchError, delay, iif, map, Observable, of, Subject, switchMap, take, tap} from "rxjs"
 import {LoaderModel, onInitLoader} from "../../../../addons/models/models"
 import * as AuthActions from "../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../store/listeners/auth.listeners"
@@ -42,16 +42,36 @@ export class MyProfileService {
 			}),
 
 			switchMap((item) => this.onGetProfileInfo().pipe(
-				tap((el) => {
-					if (!item.authState.activeCompany && el.Data.CompanyList.length == 1) {
-						this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
-							activeCompany: el.Data.CompanyList[0]
+				map((el) => {
+					const delayTime = 1000
+					const isAutoSetCompany = !item.authState.activeCompany && el.Data.CompanyList.length == 1
+
+					const a$ = of(true)
+						.pipe(
+							delay(delayTime - 250),
+							tap(() => {
+								this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
+									activeCompany: el.Data.CompanyList[0]
+								}))
+
+								item.loader.next(new LoaderModel(true, false))
+								this.profileData$.next(el)
+							})
+						)
+
+					if (isAutoSetCompany) {
+						this._store.dispatch(AuthActions.FullScreenLoaderInit({
+							delay: delayTime
 						}))
+					} else {
+						item.loader.next(new LoaderModel(true, false))
+						this.profileData$.next(el)
 					}
 
-					item.loader.next(new LoaderModel(true, false))
-					this.profileData$.next(el)
+					return iif(() => isAutoSetCompany, a$, of(true))
 				}),
+
+				switchMap((el) => el),
 
 				catchError(async (el) => {
 					item.loader.next(new LoaderModel(true, true))

@@ -1,35 +1,7 @@
 import {Injectable} from "@angular/core"
-import {TypeOfInteractivityModel} from "./create-company/create-company.component"
 
 @Injectable()
 export class PersonalCompaniesService {
-	public readonly typeOfInteractivityValues: TypeOfInteractivityModel[] = [
-		new TypeOfInteractivityModel(
-			"Виробництво та пакування насіння",
-			0
-		),
-
-		new TypeOfInteractivityModel(
-			"Дистрибуція та оптовий продаж насіння",
-			1
-		),
-
-		new TypeOfInteractivityModel(
-			"Роздрібна торгівля насінням, добривами, засобами захисту рослин (ЗЗР), тощо",
-			2
-		),
-
-		new TypeOfInteractivityModel(
-			"Селекція та виведення нових сортів",
-			3
-		),
-
-		new TypeOfInteractivityModel(
-			"Імпорт та експорт насіння або супутніх товарів",
-			4
-		)
-	]
-
 	public readonly allowedContactTypes = [
 		{
 			name: "Мобільний телефон",

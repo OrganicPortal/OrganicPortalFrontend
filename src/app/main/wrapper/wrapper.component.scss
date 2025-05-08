@@ -1,7 +1,19 @@
 :host{
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	flex: 1 1 auto;
+	
+	.___wrapper{
+		display: flex;
+		position: relative;
+		box-sizing: border-box;
+		flex: 1 1;
+		flex-direction: column;
+	}
+	
+	app-sidebar{
+		z-index: 10;
+	}
 	
 	app-header{
 		z-index: 5;
@@ -13,7 +25,6 @@
 	
 	app-body{
 		z-index: 3;
-		
 	}
 	
 	app-footer{

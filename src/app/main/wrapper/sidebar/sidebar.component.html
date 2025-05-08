@@ -1,0 +1,76 @@
+@let authAuditorState = authAuditorState$ | async;
+@let isOpenedSidebar = isOpenedSidebar$ | async;
+
+<div class="header" >
+	<div class="full-view-container-header" [@frameSideIn5]>
+		<div class="title fx-row fx-gap">
+			<h3 class="sidebar-title">
+				Меню компанії
+			</h3>
+		</div>
+		
+		<div class="company-name">
+			<h3>{{ authAuditorState?.activeCompany?.CompanyName }}</h3>
+		</div>
+	</div>
+	
+	<div class="short-view-container-header" [@frameSideIn5]>
+		<ngx-icon [name]="'menu-dots'"
+		          [ratio]="'1.5em'"></ngx-icon>
+	</div>
+	
+	<button class="handler-sidebar-button"
+	        (click)="onHandleSidebarState(isOpenedSidebar!)"
+	        customBasicButton
+	        matRipple>
+		
+		<div class="arrow-icon"
+		     [ngClass]="isOpenedSidebar ? 'rotate-arrow-icon' : ''">
+			<ngx-icon [name]="'alt-arrow-right'"
+			          [ratio]="'1.5em'"></ngx-icon>
+		</div>
+	</button>
+</div>
+
+<div class="body">
+	<div class="scrollable-container">
+		@for (item of links; track item) {
+			<a class="nav-link-content custom-basic-link"
+			   customRaisedButton
+			   [routerLink]="item.redirectTo"
+			   [routerLinkActiveOptions]="{exact: item.redirectTo === ''}"
+			   [routerLinkActive]="'active'"
+			   matRipple>
+				<ngx-icon [name]="item.icon"></ngx-icon>
+				
+				@if (isOpenedSidebar) {
+					<span class="route-name"
+					      [@frameSideIn5]>{{ item.name }}</span>
+				}
+			</a>
+		}
+	</div>
+</div>
+
+<div class="footer">
+	<a [routerLinkActive]="'active'"
+	   [routerLink]="'/my-profile'"
+	   [routerLinkActiveOptions]="{exact: true}"
+	   customRaisedButton
+	>
+		<ngx-icon [name]="'settings'"></ngx-icon>
+		@if (isOpenedSidebar) {
+			<span class="text"
+			      [@frameSideIn5]>Профіль</span>
+		}
+	</a>
+	
+	@if (isOpenedSidebar) {
+		<a (click)="onLogout()"
+		   [@frameSideIn5]
+		   customRaisedButton>
+			<ngx-icon [name]="'logout'"></ngx-icon>
+			<span class="text">Вихід</span>
+		</a>
+	}
+</div>

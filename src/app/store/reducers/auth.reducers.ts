@@ -1,6 +1,6 @@
 import {createReducer, on} from "@ngrx/store"
 import * as AuthActions from "../actions/auth.actions"
-import {AuthAuditorReducerModel} from "../models/auth/auth.auditor.models"
+import {AuthAuditorReducerModel, FullScreenLoaderReducerModel} from "../models/auth/auth.auditor.models"
 import {LoginReducerModel} from "../models/auth/auth.login.models"
 import {LogoutReducerModel} from "../models/auth/auth.logout.models"
 import {PhoneConfirmationReducerModel} from "../models/auth/auth.phone-confirmation.models"
@@ -319,3 +319,17 @@ export const AuthRecoveryPasswordReducer = createReducer(
 	)
 )
 //#endregion Recovery Password Reducer
+
+export const FullScreenLoaderReducer = createReducer(
+	new FullScreenLoaderReducerModel(),
+
+	on(AuthActions.FullScreenLoaderInit,
+		(state, action) =>
+			({...state, ...action, isAnimating: true})
+	),
+
+	on(AuthActions.FullScreenAnimationEnded,
+		(state, action) =>
+			({delay: undefined, isAnimating: false})
+	)
+)

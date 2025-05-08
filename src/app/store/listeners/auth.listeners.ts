@@ -40,4 +40,9 @@ export class AuthListeners {
 		return this._store.select(AuthActions.Actions.RecoveryPasswordReducerName)
 			.pipe()
 	}
+
+	public get fullScreenLoaderState$() {
+		return this._store.select(AuthActions.Actions.FullScreenLoaderReducerName)
+			.pipe()
+	}
 }

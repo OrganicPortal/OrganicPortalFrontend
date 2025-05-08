@@ -25,3 +25,9 @@ export interface IAuthGetRolesDTO {
 		CompanyId: number
 	}[]
 }
+
+
+export class FullScreenLoaderReducerModel {
+	delay: number | undefined = undefined
+	isAnimating: boolean | undefined = false
+}

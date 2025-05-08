@@ -3,6 +3,7 @@ import {NavigationEnd} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {filter, takeUntil, tap} from "rxjs"
 import {ListenersService} from "../../../addons/services/listeners.service"
+import {AuthListeners} from "../../store/listeners/auth.listeners"
 import {WrapperService} from "./wrapper.service"
 
 @Component({
@@ -13,12 +14,14 @@ import {WrapperService} from "./wrapper.service"
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WrapperComponent extends LifeHooksFactory {
+	public authAuditorState$
 	constructor(
-		private _wrapperService: WrapperService,
 		private _listenersService: ListenersService,
-		private _elem: ElementRef<HTMLElement>
+		private _authListeners: AuthListeners,
 	) {
 		super()
+
+		this.authAuditorState$ = this._authListeners.authAuditorState$
 	}
 
 	override ngOnInit() {

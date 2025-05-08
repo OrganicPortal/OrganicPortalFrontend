@@ -19,12 +19,8 @@ html, body {
 	height: 100%;
 }
 
-.test{
-	position: sticky;
-	top: 0;
-	
-	z-index: 1000;
-	
+body.hidden-content {
+	scrollbar-gutter: stable;
 }
 
 body {
@@ -36,6 +32,7 @@ body {
 	--text-color: #333;
 	--dark: #333;
 	--gray: #f4f4f4;
+	--gray-2: #e3e3e3;
 	--white: white;
 	
 	--header-height: 70px;
@@ -48,6 +45,8 @@ body {
 	--color-palette-3: #63b45b;
 	--color-palette-4: #fbfffb;
 	--color-palette-5: #d8e1d8;
+	--color-palette-6: #bef2ba;
+	--color-palette-7: #72bd8c;
 	
 	--little-red: #f4695f;
 	

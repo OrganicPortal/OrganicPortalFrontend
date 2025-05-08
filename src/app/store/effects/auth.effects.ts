@@ -76,6 +76,17 @@ export class AuthEffects {
 			exhaustMap(() => this.onLogout())
 		))
 
+	private readonly fullScreenLoaderEffect$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(AuthActions.FullScreenLoaderInit),
+			exhaustMap((el) =>
+				of(true).pipe(
+					delay(el.delay),
+					map(() => AuthActions.FullScreenAnimationEnded())
+				)
+			)
+		)
+	)
 	// private readonly selectCompanyEffect$ = createEffect(() =>
 	// 	this.actions$.pipe(
 	// 		ofType(AuthActions.Actions.AuthAuditorSelectCompany),
@@ -409,19 +420,16 @@ export class AuthEffects {
 		const userCompanies = payload?.Data?.CompanyList ?? []
 		const activeCompanyId = localStorage.getItem(ACTIVE_COMPANY_ID)
 
-		const allowedCompaniesToSelection = userCompanies
-			.filter(el => !el.CompanyArchivated)
-
 		const isValidActiveCompany =
-			allowedCompaniesToSelection
+			userCompanies
 				.map(el => el.CompanyId)
 				.includes(Number(activeCompanyId))
 
 		if (!isValidActiveCompany) {
 			this._store.dispatch(LocalStorageActions.RemoveFromStorage(new RemoveFromStorageModel(ACTIVE_COMPANY_ID)))
 
-			if (allowedCompaniesToSelection.length > 0) {
-				const newActiveCompany = allowedCompaniesToSelection[0]
+			if (userCompanies.length > 0) {
+				const newActiveCompany = userCompanies[0]
 
 				const storageData = new UpdateOrSaveDataToStorageModel(ACTIVE_COMPANY_ID, newActiveCompany.CompanyId)
 				this._store.dispatch(LocalStorageActions.UpdateOrSaveDataToStorage(storageData))
@@ -434,12 +442,12 @@ export class AuthEffects {
 			return
 		}
 
-		const activeCompany = allowedCompaniesToSelection
+		const activeCompany = userCompanies
 			.find(el => el.CompanyId === Number(activeCompanyId))
 
-		if(!activeCompany)
+		if (!activeCompany)
 			return
-		
+
 		this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
 			activeCompany: activeCompany
 		}))

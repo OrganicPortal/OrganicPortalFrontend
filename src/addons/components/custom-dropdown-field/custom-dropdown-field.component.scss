@@ -5,6 +5,7 @@
 	
 	&:has(.menu-trigger:disabled) {
 		background-color: var(--hover-color) !important;
+		font-size: 1em;
 	}
 	
 	&.field-required{

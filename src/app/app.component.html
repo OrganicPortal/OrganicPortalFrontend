@@ -2,6 +2,7 @@
 @let isLoadingInterface = isLoadingInterface$ | async;
 @let authAuditorState = authAuditorState$ | async;
 @let logoutAuditorState = logoutAuditorState$ | async;
+@let fullScreenLoaderState = fullScreenLoaderState$ | async;
 
 @if (isLoadingChunks) {
 	<mat-progress-bar mode="indeterminate"
@@ -14,6 +15,7 @@
 <viewport-overlay></viewport-overlay>
 <ng-short-messages></ng-short-messages>
 
-@if(((isLoadingInterface && isLoadingChunks)) || !authAuditorState?.isFetchSuccess || !logoutAuditorState?.isFetchSuccess){
+@if(((isLoadingInterface && isLoadingChunks)) || !authAuditorState?.isFetchSuccess ||
+!logoutAuditorState?.isFetchSuccess || fullScreenLoaderState?.isAnimating){
 	<full-screen-loader [@fullScreenLoaderAnimation]></full-screen-loader>
 }

@@ -47,10 +47,24 @@
 		gap: 1rem;
 	}
 	
+	.pin{
+		padding: 5px 8px;
+		border-radius: 5px;
+	}
+	
+	.pin-red{
+		background-color: var(--little-red) !important;
+	}
+	
+	.pin-green{
+		background-color: var(--color-palette-3) !important;
+		color: var(--white) !important;
+	}
+	
 	.card {
 		display: flex;
 		position: relative;
-		
+		justify-content: flex-end;
 		padding: .5rem;
 		flex: 1 1;
 		flex-direction: column;
@@ -69,30 +83,24 @@
 		.card-header {
 			display: flex;
 			position: relative;
-			padding: 20px 0 0 20px;
 			align-items: center;
-			justify-content: flex-start;
+			justify-content: flex-end;
+			max-height: max-content;
 			
 			// border-bottom: 1px solid var(--border-color);
-			min-height: 40px;
-			
-			.icon-container {
-				padding: .8rem;
-				bottom: 0;
-				left: 20px;
-				border-radius: 5000px;
-				background-color: var(--white);
-				box-shadow: rgba(94, 122, 177, 0.29) 0 2px 5px;
+			.active-pin{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: row;
+				gap: 5px;
 				
-				.solar-outline {
-					--ngx-icon-override-color-1: var(--container-text-color);
-				}
-			}
-			
-			.date {
-				font-size: .75em;
-				font-weight: 500;
-				color: var(--container-text-color);
+				font-size: .85em;
+				box-shadow: var(--box-shadow-items);
+				padding: 7px 10px;
+				border-radius: 5px;
+		
+				background-color: var(--color-palette-6);
 			}
 		}
 		
@@ -113,7 +121,7 @@
 		
 		.card-body {
 			padding-left: 20px;
-			flex: 1 1;
+
 			h4 {
 				display: -webkit-box;
 				font-size: .9em;

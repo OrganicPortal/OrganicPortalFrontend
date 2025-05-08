@@ -2,7 +2,7 @@ import {createAction, props} from "@ngrx/store"
 import {
 	AuthAuditorPatchInfoModel,
 	AuthAuditorReducerModel,
-	AuthAuditorSelectCompanyModel
+	AuthAuditorSelectCompanyModel, FullScreenLoaderReducerModel
 } from "../models/auth/auth.auditor.models"
 import {LoginEffectData, LoginReducerModel} from "../models/auth/auth.login.models"
 import {LogoutReducerModel} from "../models/auth/auth.logout.models"
@@ -13,7 +13,8 @@ import {
 } from "../models/auth/auth.phone-confirmation.models"
 import {
 	AuthRecoveryPasswordReducerModel,
-	RecoveryPasswordGetTokenEffectData, SaveRecoveredPasswordEffectData
+	RecoveryPasswordGetTokenEffectData,
+	SaveRecoveredPasswordEffectData
 } from "../models/auth/auth.recovery-password"
 import {RegistrationReducerModel} from "../models/auth/auth.registration.models"
 import {ResendPhoneCodeReducerModel} from "../models/auth/auth.resend-phone-code.models"
@@ -66,6 +67,10 @@ export enum Actions {
 	AuthAuditorSelectCompany = "[AUTH] Auditor select company",
 	AuthAuditorFailure = "[AUTH] Auditor failure",
 	AuthAuditorReset = "[AUTH] Auditor reset",
+
+	FullScreenLoaderReducerName = "fullScreenLoaderReducer",
+	FullScreenLoaderInit = "[LOADER] Full Screen Loader init",
+	FullScreenAnimationEnded = "[LOADER] Full Screen Animation Ended",
 }
 
 
@@ -139,6 +144,10 @@ export const RecoveryPasswordReset =
 //#endregion Recovery Password
 
 
+export const FullScreenLoaderInit = createAction(Actions.FullScreenLoaderInit, props<{ delay: number }>())
+export const FullScreenAnimationEnded = createAction(Actions.FullScreenAnimationEnded)
+
+
 export type StoreAuthType = {
 	[Actions.RegistrationReducerName]: RegistrationReducerModel,
 	[Actions.PhoneCodeConfirmationReducerName]: PhoneConfirmationReducerModel,
@@ -147,4 +156,5 @@ export type StoreAuthType = {
 	[Actions.LogoutReducerName]: LogoutReducerModel,
 	[Actions.AuthAuditorReducerName]: AuthAuditorReducerModel,
 	[Actions.RecoveryPasswordReducerName]: AuthRecoveryPasswordReducerModel,
+	[Actions.FullScreenLoaderReducerName] : FullScreenLoaderReducerModel,
 }

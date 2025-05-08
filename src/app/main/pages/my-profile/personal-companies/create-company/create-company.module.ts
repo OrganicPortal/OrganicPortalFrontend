@@ -34,7 +34,7 @@ export const routes: RoutesExtended = [
 		DotsLoaderModule
 	],
 
-	providers: [DatePipe, PersonalCompaniesService]
+	providers: [DatePipe]
 })
 export class CreateCompanyModule {
 }

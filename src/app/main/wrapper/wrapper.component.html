@@ -1,6 +1,14 @@
-<app-header></app-header>
-<app-navbar />
-<app-body>
-	<ng-content></ng-content>
-</app-body>
-<app-footer></app-footer>
+@let authAuditorState = authAuditorState$ | async;
+
+@if(!!authAuditorState?.activeCompany && authAuditorState?.isAuthUser){
+	<app-sidebar></app-sidebar>
+}
+
+<div class="___wrapper">
+	<app-header></app-header>
+	<app-navbar />
+	<app-body>
+		<ng-content></ng-content>
+	</app-body>
+	<app-footer></app-footer>
+</div>

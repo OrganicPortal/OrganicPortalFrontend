@@ -49,6 +49,7 @@ export const appConfig: ApplicationConfig = {
 			[AuthActions.Actions.LogoutReducerName]: AuthReducers.LogoutReducer,
 			[AuthActions.Actions.AuthAuditorReducerName]: AuthReducers.AuthAuditorReducer,
 
+			[AuthActions.Actions.FullScreenLoaderReducerName]: AuthReducers.FullScreenLoaderReducer,
 			[LocalStorageActions.Actions.LocalStorageOperationsReducerName]: LocalStorageReducers.StorageOperations,
 			[LocalStorageActions.Actions.StorageStateReducerName]: LocalStorageReducers.StorageStates
 		})),

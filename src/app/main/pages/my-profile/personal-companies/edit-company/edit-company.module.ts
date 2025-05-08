@@ -33,7 +33,7 @@ export const routes: RoutesExtended = [
 		ReactiveFormsModule,
 		NgCheckboxModule
 	],
-	providers: [DatePipe, PersonalCompaniesService]
+	providers: [DatePipe]
 })
 export class EditCompanyModule {
 }

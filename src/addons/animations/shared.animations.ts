@@ -91,6 +91,16 @@ export const frameSideIn4 = trigger("frameSideIn4", [
 	])
 ])
 
+export const frameSideIn5 = trigger("frameSideIn5", [
+	transition(":enter", [
+		style({opacity: 0, transform: "translateX(20px)"}),
+		group([
+			animate(".3s ease", style("*")),
+			query("@*", animateChild(), {optional: true})
+		])
+	])
+])
+
 export const frameSideOut4 = trigger("frameSideOut4", [
 	transition(":leave", [
 		style("*"),

@@ -30,7 +30,8 @@ import {PersonalCompaniesService} from "../personal-companies.service"
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: false,
-	animations: [frameSideInOut2, frameSideInOut4, containerAnimation]
+	animations: [frameSideInOut2, frameSideInOut4, containerAnimation],
+	providers: [PersonalCompaniesService]
 })
 export class EditCompanyComponent extends LifeHooksFactory {
 	public form!: FormGroup
@@ -39,6 +40,32 @@ export class EditCompanyComponent extends LifeHooksFactory {
 	public readonly updateContentLoaderState$ = onInitLoader(true, false)
 
 	public readonly companyData$ = new BehaviorSubject<IGetCompanyDTO["Data"] | undefined>(undefined)
+	public readonly typeOfInteractivityValues: TypeOfInteractivityModel[] = [
+		new TypeOfInteractivityModel(
+			"Виробництво та пакування насіння",
+			0
+		),
+
+		new TypeOfInteractivityModel(
+			"Дистрибуція та оптовий продаж насіння",
+			1
+		),
+
+		new TypeOfInteractivityModel(
+			"Роздрібна торгівля насінням, добривами, засобами захисту рослин (ЗЗР), тощо",
+			2
+		),
+
+		new TypeOfInteractivityModel(
+			"Селекція та виведення нових сортів",
+			3
+		),
+
+		new TypeOfInteractivityModel(
+			"Імпорт та експорт насіння або супутніх товарів",
+			4
+		)
+	]
 	private readonly activeCompanyId$
 		= new BehaviorSubject<number | undefined>(undefined)
 	private readonly refreshHandler$
@@ -72,10 +99,6 @@ export class EditCompanyComponent extends LifeHooksFactory {
 
 	protected get allowedContactTypes() {
 		return this._personalCompaniesService.allowedContactTypes
-	}
-
-	protected get typeOfInteractivityValues() {
-		return this._personalCompaniesService.typeOfInteractivityValues
 	}
 
 	@HostBinding("@containerAnimation")
