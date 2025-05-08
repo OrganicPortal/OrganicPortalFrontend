@@ -1,7 +1,7 @@
 @let isAuthFetchSuccess = isAuthFetchSuccess$ | async;
 
 @if(isAuthFetchSuccess){
-	<app-wrapper rxVirtualViewObserver cdkScrollable  [root]="onGetScrollContainer()">
+	<app-wrapper cdkScrollable >
 		<router-outlet></router-outlet>
 	</app-wrapper>
 }

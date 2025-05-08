@@ -16,9 +16,10 @@
 </ng-template>
 
 <ng-template #loaded>
-	<div class="container">
-		<div class="header"
-		     [@frameSideIn4]>
+	<div class="virtual-view-container"
+	     [root]="onGetRootFrame()"
+	     rxVirtualViewObserver>
+		<div class="header">
 			<a [routerLink]="'/interface/seed-management/new'"
 			   customBasicButton>
 				<ngx-icon [name]="'add-circle'"></ngx-icon>
@@ -26,102 +27,109 @@
 			</a>
 		</div>
 		@if (seedItems?.length! > 0) {
-			<ngx-grid [cellSize]="250">
+			<ngx-grid [cellSize]="250"
+			          [@frameSideIn4]>
 				@for (item of seedItems; track item.Id; let idx = $index) {
-					<div class="card-subcontainer"
-					     
-					     [ngClass]="[
+					<div class="container"
+					     rxVirtualView>
+						<div class="card-subcontainer"
+						     *rxVirtualViewContent
+						     [ngClass]="[
 				     (item.Status == 1 || item.Status == 2) ? 'card-status-color-1' : '',
 				     (item.Status == 3) ? 'card-status-color-2' : '',
 				     ]">
-						<div class="card"
-						    >
-							<div class="card-header">
-								<span class="name-title webkit-box-text-container">{{ item.Name }}</span>
-							</div>
-							
-							<div class="card-body">
-								<div class="desc">
-									<div class="container">
-										<div class="fx-row desc-container">
-											<ngx-icon
-															[isAnimate]="false"
-															[name]="'folder-favourite-star'"
-															[ratio]="'.9em'"></ngx-icon>
-											<span class="webkit-box-text-container">
+							<div class="card"
+							>
+								<div class="card-header">
+									<span class="name-title webkit-box-text-container">{{ item.Name }}</span>
+								</div>
+								
+								<div class="card-body">
+									<div class="desc">
+										<div class="container">
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'folder-favourite-star'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
 										Тип зберігання – <strong>{{ item?.StorageConditions }}</strong>
 								</span>
-										</div>
-										
-										<div class="fx-row desc-container">
-											<ngx-icon
-															[isAnimate]="false"
-															[name]="'box-minimalistic'"
-															[ratio]="'.9em'"></ngx-icon>
-											<span class="webkit-box-text-container">
+											</div>
+											
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'box-minimalistic'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
 										Сорт – <strong>{{ item?.Variety }}</strong>
 								</span>
-										</div>
-										
-										<div class="fx-row desc-container">
-											<ngx-icon
-															[isAnimate]="false"
-															[name]="'fire-square'"
-															[ratio]="'.9em'"></ngx-icon>
-											<span class="webkit-box-text-container">
+											</div>
+											
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'fire-square'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
 										№ Партії – <strong>{{ item?.BatchNumber }}</strong>
 								</span>
-										</div>
-									</div>
-									
-									<div class="container">
-										<div class="fx-row desc-container">
-											<ngx-icon
-															[isAnimate]="false"
-															[name]="'clock-square'"
-															[ratio]="'.9em'"></ngx-icon>
-											<span class="webkit-box-text-container">
-										Виготовлено – <strong>{{ item?.HarvestDate | datetime | date: 'dd.MM.yyyy' }}</strong>
-								</span>
+											</div>
 										</div>
 										
-										<div class="fx-row desc-container">
-											<ngx-icon
-															[isAnimate]="false"
-															[name]="'clock-square'"
-															[ratio]="'.9em'"></ngx-icon>
-											<span class="webkit-box-text-container">
+										<div class="container">
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'clock-square'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
+										Виготовлено – <strong>{{ item?.HarvestDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+								</span>
+											</div>
+											
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'clock-square'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
 										Придатний до – <strong>{{ item?.ExpiryDate | datetime | date: 'dd.MM.yyyy' }}</strong>
 								</span>
+											</div>
 										</div>
-									</div>
-									
-									<div class="container">
-										<div class="fx-row desc-container">
-											<ngx-icon
-															[isAnimate]="false"
-															[name]="'stars-1'"
-															[ratio]="'.9em'"></ngx-icon>
-											<span class="webkit-box-text-container">
+										
+										<div class="container">
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'stars-1'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
 										Статус – <strong>{{ AllowedSeedStatuses[item?.Status!] }}</strong>
 								</span>
+											</div>
 										</div>
 									</div>
 								</div>
+								
+								<div class="card-footer">
+									<a class="btn"
+									   [routerLink]="'edit/' + item.CompanyId"
+									   customRaisedButton
+									   matRipple>
+										<ngx-icon [name]="'pen'"
+										          [ratio]="'1.1em'"></ngx-icon>
+										
+										Ред.
+									</a>
+								</div>
 							</div>
-							
-							<div class="card-footer">
-								<a class="btn"
-								   [routerLink]="'edit/' + item.CompanyId"
-								   customRaisedButton
-								   matRipple>
-									<ngx-icon [name]="'pen'"
-									          [ratio]="'1.1em'"></ngx-icon>
-									
-									Ред.
-								</a>
-							</div>
+						
 						</div>
+						
+						<div *rxVirtualViewPlaceholder style="height: 250px;"></div>
 					</div>
 				}
 			</ngx-grid>

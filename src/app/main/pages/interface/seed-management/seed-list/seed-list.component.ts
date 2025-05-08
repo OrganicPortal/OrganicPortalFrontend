@@ -11,6 +11,7 @@ import {
 	take,
 	takeUntil,
 	tap,
+	window,
 	withLatestFrom
 } from "rxjs"
 import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
@@ -41,6 +42,7 @@ export class SeedListComponent extends LifeHooksFactory {
 	private readonly requestRefresher$ = new Subject<void>()
 	protected readonly AllowedSeedStatuses = AllowedSeedStatuses
 	protected readonly document = document
+	protected readonly window = window
 
 	constructor(
 		private _seedManagementService: SeedManagementService,
@@ -58,6 +60,10 @@ export class SeedListComponent extends LifeHooksFactory {
 			.pipe(
 				takeUntil(this.componentDestroy$)
 			).subscribe()
+	}
+
+	public onGetRootFrame() {
+		return null as any
 	}
 
 	public onRefreshPage() {

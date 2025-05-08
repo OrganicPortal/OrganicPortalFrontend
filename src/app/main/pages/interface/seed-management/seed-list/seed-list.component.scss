@@ -55,7 +55,6 @@
 		// box-shadow: 0 0 0 1px var(--grid-cell-border-color);
 		
 	}
-	
 	.card-subcontainer {
 		display: flex;
 		padding: 8px;
@@ -84,18 +83,29 @@
 	}
 	
 	.placeholder{
-		height: 260px;
+		display: flex;
+		height: 200px;
 	}
 	
 	.card {
 		display: flex;
 		padding: 20px;
+		flex: 1 1;
 		flex-direction: column;
 		box-sizing: border-box;
 		width: 100%;
 		border-radius: 5px;
 		background-color: var(--white);
 		gap: 1rem;
+		
+		opacity: 0;
+		
+		animation: animate .2s ease forwards;
+		@keyframes animate {
+			100%{
+				opacity: 1;
+			}
+		}
 		
 		.desc {
 			display: flex;

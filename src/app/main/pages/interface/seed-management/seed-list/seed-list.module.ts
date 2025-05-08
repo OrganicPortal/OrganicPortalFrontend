@@ -3,6 +3,13 @@ import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
 import {RouterModule} from "@angular/router"
 import {NgxGridLayoutModule, NgxIconsModule} from "@fixAR496/ngx-elly-lib"
+import {
+	provideVirtualViewConfig,
+	RxVirtualView,
+	RxVirtualViewContent,
+	RxVirtualViewObserver,
+	RxVirtualViewPlaceholder
+} from "@rx-angular/template/virtual-view"
 import {CustomInputFieldModule} from "../../../../../../addons/components/custom-input-field/custom-input-field.module"
 import {DotsLoaderModule} from "../../../../../../addons/components/dots-loader/dots-loader.module"
 import {ErrorLoadingModule} from "../../../../../../addons/components/error-loading/error-loading.module"
@@ -44,10 +51,29 @@ export const routes: RoutesExtended = [
 		NgxGridLayoutModule,
 		MatRippleModule,
 		DotsLoaderModule,
-		ErrorLoadingModule
+		ErrorLoadingModule,
+
+		RxVirtualView,
+		RxVirtualViewContent,
+		RxVirtualViewObserver,
+		RxVirtualViewPlaceholder
 	],
 
-	providers: []
+	providers: [
+		provideVirtualViewConfig({
+			keepLastKnownSize: true,
+			useContentVisibility: false,
+			useContainment: true,
+			placeholderStrategy: "low",
+			contentStrategy: "normal",
+			startWithPlaceholderAsap: false,
+			cacheEnabled: false,
+			cache: {
+				contentCacheSize: 20,
+				placeholderCacheSize: 20
+			}
+		})
+	]
 })
 export class SeedListModule {
 }
