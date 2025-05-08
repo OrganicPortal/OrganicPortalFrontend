@@ -1,6 +1,7 @@
 @let authAuditorState = authAuditorState$ | async;
+@let isActiveInterface = isActiveInterface$ | async;
 
-@if(!!authAuditorState?.activeCompany && authAuditorState?.isAuthUser){
+@if(!!authAuditorState?.activeCompany && authAuditorState?.isAuthUser && isActiveInterface){
 	<app-sidebar></app-sidebar>
 }
 
@@ -10,5 +11,8 @@
 	<app-body>
 		<ng-content></ng-content>
 	</app-body>
-	<app-footer></app-footer>
+	
+	@if(!isActiveInterface){
+		<app-footer></app-footer>
+	}
 </div>

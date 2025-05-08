@@ -3,11 +3,11 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
 import {Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {catchError, Subject, takeUntil, tap} from "rxjs"
-import {frameSideInOut2, frameSideInOut4} from "../../../../../../addons/animations/shared.animations"
+import {frameSideInOut2, frameSideInOut4} from "../../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
-} from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
-import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
+} from "../../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
+import {LoaderModel, onInitLoader} from "../../../../../../../addons/models/models"
 import {ContactItemModel, CreateCompanyModelDTO, MyCompaniesService} from "../../../my-companies/my-companies.service"
 import {MyProfileService} from "../../my-profile.service"
 import {PersonalCompaniesService} from "../personal-companies.service"
@@ -94,7 +94,7 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 			])
 		})
 	}
-	
+
 	protected get legalTypeList() {
 		return this._personalCompaniesService.legalTypeList
 	}

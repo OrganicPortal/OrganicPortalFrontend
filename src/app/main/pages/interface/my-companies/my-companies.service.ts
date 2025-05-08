@@ -2,7 +2,7 @@ import {HttpClient} from "@angular/common/http"
 import {Injectable} from "@angular/core"
 import {
 	NgShortMessageService
-} from "../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
+} from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 
 @Injectable({
 	providedIn: "root"

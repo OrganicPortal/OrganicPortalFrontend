@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
+import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
-import {LoaderModel} from "../../../../../addons/models/models"
+import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
+import {LoaderModel} from "../../../../../../addons/models/models"
 import {MyProfileService} from "../my-profile.service"
 
 @Component({

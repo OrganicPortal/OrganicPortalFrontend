@@ -1,4 +1,4 @@
-import {ICompanyDTO, IMyProfileDTO} from "../../../main/pages/my-profile/my-profile.service"
+import {ICompanyDTO, IMyProfileDTO} from "../../../main/pages/interface/my-profile/my-profile.service"
 
 export class AuthAuditorReducerModel {
 	isAuthUser: boolean = false

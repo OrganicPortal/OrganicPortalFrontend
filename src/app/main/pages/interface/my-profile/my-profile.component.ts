@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {filter, takeUntil, tap} from "rxjs"
-import {frameSideIn4, frameSideInOut2} from "../../../../addons/animations/shared.animations"
-import {LoaderModel} from "../../../../addons/models/models"
-import * as AuthActions from "../../../store/actions/auth.actions"
+import {frameSideIn4, frameSideInOut2} from "../../../../../addons/animations/shared.animations"
+import {LoaderModel} from "../../../../../addons/models/models"
 import {MyProfileService} from "./my-profile.service"
+import * as AuthActions from "../../../../store/actions/auth.actions"
 
 @Component({
 	selector: "app-my-profile",

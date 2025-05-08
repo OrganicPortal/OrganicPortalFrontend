@@ -4,12 +4,12 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
 import {ActivatedRoute} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {BehaviorSubject, catchError, filter, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
-import {frameSideInOut2, frameSideInOut4} from "../../../../../../addons/animations/shared.animations"
+import {frameSideInOut2, frameSideInOut4} from "../../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
-} from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
-import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
-import {DateTimeService} from "../../../../../../addons/pipes/datetime.pipe"
+} from "../../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
+import {LoaderModel, onInitLoader} from "../../../../../../../addons/models/models"
+import {DateTimeService} from "../../../../../../../addons/pipes/datetime.pipe"
 import {
 	ContactItemModel,
 	EditCompanyBasicInfoModel,

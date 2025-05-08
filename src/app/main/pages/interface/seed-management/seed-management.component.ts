@@ -7,7 +7,7 @@ import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
 import {ListenersService} from "../../../../../addons/services/listeners.service"
 import * as AuthActions from "../../../../store/actions/auth.actions"
 import {AuthListeners} from "../../../../store/listeners/auth.listeners"
-import {MyCompaniesService} from "../../my-companies/my-companies.service"
+import {MyCompaniesService} from "../my-companies/my-companies.service"
 
 @Component({
 	selector: "app-seed-management",

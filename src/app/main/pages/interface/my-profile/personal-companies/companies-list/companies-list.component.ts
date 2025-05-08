@@ -2,18 +2,18 @@ import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {catchError, delay, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
-import {frameSideIn4, frameSideInOut2} from "../../../../../../addons/animations/shared.animations"
+import {frameSideIn4, frameSideInOut2} from "../../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
-} from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
-import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
-import {AllowedRoles} from "../../../../../../addons/states/states"
-import * as AuthActions from "../../../../../store/actions/auth.actions"
-import {StoreAuthType} from "../../../../../store/actions/auth.actions"
-import * as LocalStorageActions from "../../../../../store/actions/localstorage.actions"
-import {AuthListeners} from "../../../../../store/listeners/auth.listeners"
-import {AuthAuditorReducerModel} from "../../../../../store/models/auth/auth.auditor.models"
-import {ACTIVE_COMPANY_ID, UpdateOrSaveDataToStorageModel} from "../../../../../store/models/localstorage/models"
+} from "../../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
+import {LoaderModel, onInitLoader} from "../../../../../../../addons/models/models"
+import {AllowedRoles} from "../../../../../../../addons/states/states"
+import * as AuthActions from "../../../../../../store/actions/auth.actions"
+import * as LocalStorageActions from "../../../../../../store/actions/localstorage.actions"
+
+import {AuthListeners} from "../../../../../../store/listeners/auth.listeners"
+import {AuthAuditorReducerModel} from "../../../../../../store/models/auth/auth.auditor.models"
+import {ACTIVE_COMPANY_ID, UpdateOrSaveDataToStorageModel} from "../../../../../../store/models/localstorage/models"
 import {MyCompaniesService} from "../../../my-companies/my-companies.service"
 import {ICompanyDTO, MyProfileService} from "../../my-profile.service"
 import {containerAnimation} from "../../shared/shared.animation"
@@ -34,15 +34,16 @@ export class CompaniesListComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader()
 	public readonly authAuditorState$
 	private readonly requestHandler$ = new Subject<void>()
-	protected readonly AllowedRoles = AllowedRoles
+	protected AllowedRoles = AllowedRoles
 
 	constructor(
 		private _myProfileService: MyProfileService,
 		private _myCompaniesService: MyCompaniesService,
-		private _store: Store<StoreAuthType>,
+		private _store: Store<AuthActions.StoreAuthType>,
 		private _authListeners: AuthListeners,
 		private _ngShortMessageService: NgShortMessageService
 	) {
+
 		super()
 		this.onReloadPage()
 

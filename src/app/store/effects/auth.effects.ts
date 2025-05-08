@@ -9,7 +9,7 @@ import {NgShortMessageService} from "../../../addons/components/ng-materials/ng-
 import {AllowedHttpContextTokens} from "../../../addons/services/http-interceptor.service"
 import {RouterRedirects} from "../../../addons/states/states"
 import {CodeConfirmation} from "../../main/pages/auth/auth.module"
-import {IMyProfileDTO, MyProfileService} from "../../main/pages/my-profile/my-profile.service"
+import {IMyProfileDTO, MyProfileService} from "../../main/pages/interface/my-profile/my-profile.service"
 import * as AuthActions from "../actions/auth.actions"
 import * as LocalStorageActions from "../actions/localstorage.actions"
 import {LocalStorageState} from "../actions/localstorage.actions"

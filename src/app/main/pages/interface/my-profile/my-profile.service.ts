@@ -2,9 +2,9 @@ import {HttpClient} from "@angular/common/http"
 import {Injectable} from "@angular/core"
 import {Store} from "@ngrx/store"
 import {BehaviorSubject, catchError, delay, iif, map, Observable, of, Subject, switchMap, take, tap} from "rxjs"
-import {LoaderModel, onInitLoader} from "../../../../addons/models/models"
-import * as AuthActions from "../../../store/actions/auth.actions"
-import {AuthListeners} from "../../../store/listeners/auth.listeners"
+import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
+import * as AuthActions from "../../../../store/actions/auth.actions"
+import {AuthListeners} from "../../../../store/listeners/auth.listeners"
 
 @Injectable({
 	providedIn: "root"
