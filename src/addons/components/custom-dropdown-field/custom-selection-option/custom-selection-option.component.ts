@@ -51,7 +51,7 @@ export class CustomSelectionOptionComponent extends LifeHooksFactory {
 		this._customDropdownFieldService
 			.initialValue$
 			.pipe(
-				filter(el => !!el && el === this.value),
+				filter(el => el != undefined && el === this.value),
 				tap((el) => {
 					this.selectedOptionRef$
 						.next(

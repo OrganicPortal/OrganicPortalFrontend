@@ -13,6 +13,16 @@ export class LoaderModel {
 	}
 }
 
+export class PaginatorModel {
+	Page: number = 1
+	PageSize: number = 20
+
+	constructor(Page?: number, PageSize?: number) {
+		this.Page = Page ?? 1
+		this.PageSize = PageSize ?? 20
+	}
+}
+
 export const onInitLoader = (isLoaded: boolean = false, isError: boolean = false, error = null) => {
 	return new BehaviorSubject<LoaderModel>(new LoaderModel(isLoaded, isError, error))
 }

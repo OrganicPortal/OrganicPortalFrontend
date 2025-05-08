@@ -1,6 +1,5 @@
 import {HttpClient} from "@angular/common/http"
 import {Injectable} from "@angular/core"
-import {tap} from "rxjs"
 import {
 	NgShortMessageService
 } from "../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -20,6 +19,11 @@ export class MyCompaniesService {
 		return this._http.patch<IGetCompanyDTO>(apiUrl, typeOfInteractivity)
 	}
 
+	public onArchiveCompany(companyId: number) {
+		const apiUrl = `/api/companies/archiving?companyId=${companyId}`
+		return this._http.get(apiUrl)
+	}
+
 	public onCreateCompany(payload: CreateCompanyModelDTO) {
 		const apiUrl = "/api/companies/new"
 		return this._http.post<{ Data: { CompanyId: number } }>(apiUrl, payload)
@@ -30,14 +34,14 @@ export class MyCompaniesService {
 		return this._http.patch<IGetCompanyDTO>(apiUrl, payload)
 	}
 
+	public onGetArchivatedCompanyStatus(companyId: number) {
+		const apiUrl = `/api/companies/is-archivated?companyId=${companyId}`
+		return this._http.get<{ Data: { isArchivated: boolean } }>(apiUrl)
+	}
+
 	public onGetCompanyInfoById(companyId: number) {
 		const apiUrl = `/api/companies/info?companyId=${companyId}`
 		return this._http.get<IGetCompanyDTO>(apiUrl)
-	}
-
-	public onArchiveCompany(companyId: number){
-		const apiUrl = `/api/companies/archiving?companyId=${companyId}`
-		return this._http.get(apiUrl)
 	}
 }
 

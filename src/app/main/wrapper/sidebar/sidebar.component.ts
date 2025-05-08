@@ -20,7 +20,7 @@ export class SidebarComponent extends LifeHooksFactory {
 	public readonly links: SidebarLinkModel[] = [
 		new SidebarLinkModel("Змінити компанію", "route", "/my-profile/personal-companies"),
 		new SidebarLinkModel("Управління продукцією", "link", "/interface/seed-management"),
-		new SidebarLinkModel("Сертифікація продукції", "diploma", "/interface/seed-certification")
+		// new SidebarLinkModel("Сертифікація продукції", "diploma", "/interface/seed-certification")
 	]
 
 	public authAuditorState$

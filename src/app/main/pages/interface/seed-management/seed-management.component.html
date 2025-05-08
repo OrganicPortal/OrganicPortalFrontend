@@ -1,1 +1,25 @@
-<p>seed-management works!</p>
+@let loaderState = loaderState$ | async;
+
+
+@if (!loaderState?.isLoaded) {
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+} @else if(loaderState?.isLoaded && loaderState?.isError){
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+
+} @else if(loaderState?.isLoaded && !loaderState?.isError){
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+}
+
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onRefreshPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>
+
+<ng-template #loaded>
+	<router-outlet></router-outlet>
+</ng-template>
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+</ng-template>
