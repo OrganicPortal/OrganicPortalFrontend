@@ -4,7 +4,7 @@ import {
 	BehaviorSubject,
 	catchError,
 	filter,
-	map,
+	map, Observable,
 	startWith,
 	Subject,
 	switchMap,
@@ -17,6 +17,7 @@ import {
 import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
 import {LoaderModel, onInitLoader, PaginatorModel} from "../../../../../../addons/models/models"
 import {AuthListeners} from "../../../../../store/listeners/auth.listeners"
+import {AuthAuditorReducerModel} from "../../../../../store/models/auth/auth.auditor.models"
 import {AllowedSeedStatuses, ISeedDTO, SeedManagementService} from "../seed-management.service"
 
 @Component({
@@ -34,7 +35,7 @@ import {AllowedSeedStatuses, ISeedDTO, SeedManagementService} from "../seed-mana
 	]
 })
 export class SeedListComponent extends LifeHooksFactory {
-	public authAuditorState$
+	public authAuditorState$: Observable<AuthAuditorReducerModel>
 	public readonly loaderState$ = onInitLoader()
 	public readonly paginatorState$ = new BehaviorSubject(new PaginatorModel(1, 200))
 	public readonly seedItems$ = new BehaviorSubject<ISeedDTO[]>([])

@@ -22,7 +22,7 @@ export const routes: RoutesExtended = [
 			},
 
 			{
-				path: "edit",
+				path: "edit/:seedId",
 				loadChildren: () => import("./edit-seed/edit-seed.module").then(x => x.EditSeedModule)
 			}
 		]

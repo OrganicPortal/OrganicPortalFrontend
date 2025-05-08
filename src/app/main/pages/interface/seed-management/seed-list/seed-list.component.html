@@ -1,5 +1,6 @@
 @let loaderState = loaderState$ | async;
 @let seedItems = seedItems$ | async;
+@let authAuditorState = authAuditorState$ | async;
 
 @if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
@@ -19,13 +20,17 @@
 	<div class="virtual-view-container"
 	     [root]="onGetRootFrame()"
 	     rxVirtualViewObserver>
-		<div class="header">
-			<a [routerLink]="'/interface/seed-management/new'"
-			   customBasicButton>
-				<ngx-icon [name]="'add-circle'"></ngx-icon>
-				Додати продукцію
-			</a>
-		</div>
+		
+		@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
+			<div class="header">
+				<a [routerLink]="'/interface/seed-management/new'"
+				   customBasicButton>
+					<ngx-icon [name]="'add-circle'"></ngx-icon>
+					Додати продукцію
+				</a>
+			</div>
+		}
+		
 		@if (seedItems?.length! > 0) {
 			<ngx-grid [cellSize]="250"
 			          [@frameSideIn4]>
@@ -50,16 +55,6 @@
 											<div class="fx-row desc-container">
 												<ngx-icon
 																[isAnimate]="false"
-																[name]="'folder-favourite-star'"
-																[ratio]="'.9em'"></ngx-icon>
-												<span class="webkit-box-text-container">
-										Тип зберігання – <strong>{{ item?.StorageConditions }}</strong>
-								</span>
-											</div>
-											
-											<div class="fx-row desc-container">
-												<ngx-icon
-																[isAnimate]="false"
 																[name]="'box-minimalistic'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
@@ -74,6 +69,16 @@
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
 										№ Партії – <strong>{{ item?.BatchNumber }}</strong>
+								</span>
+											</div>
+											
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'folder-favourite-star'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
+										Тип зберігання – <strong>{{ item?.StorageConditions }}</strong>
 								</span>
 											</div>
 										</div>
@@ -116,7 +121,7 @@
 								
 								<div class="card-footer">
 									<a class="btn"
-									   [routerLink]="'edit/' + item.CompanyId"
+									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
 									   customRaisedButton
 									   matRipple>
 										<ngx-icon [name]="'pen'"
@@ -129,7 +134,8 @@
 						
 						</div>
 						
-						<div *rxVirtualViewPlaceholder style="height: 250px;"></div>
+						<div *rxVirtualViewPlaceholder
+						     style="height: 250px;"></div>
 					</div>
 				}
 			</ngx-grid>
