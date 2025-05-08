@@ -126,4 +126,13 @@ export class CompaniesListComponent extends LifeHooksFactory {
 			})
 		).subscribe()
 	}
+
+	public onSortCompanies(companies: ICompanyDTO[], activeCompanyId: number) {
+		let sortedArr = [...companies]
+			.sort((a, b) => Number(a.CompanyArchivated) > Number(b.CompanyArchivated) ? 1 : -1)
+
+		sortedArr = sortedArr.sort((a, b) => a.CompanyId !== activeCompanyId ? 1 : -1)
+
+		return sortedArr
+	}
 }

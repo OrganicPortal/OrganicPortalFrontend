@@ -34,18 +34,12 @@
 			</div>
 		} @else {
 			<ngx-grid [cellSize]="300">
-				@for (item of companies; track item.CompanyId) {
-					<div class="card">
-						<div class="card-header">
-							@if(item.CompanyId && item.CompanyId === authAuditorState?.activeCompany?.CompanyId){
-								<div class="active-pin">
-									<ngx-icon [name]="'check-circle'"
-									          [ratio]="'.9em'"></ngx-icon>
-									<span>Активна</span>
-								</div>
-							}
-						</div>
-						
+				@for (item of onSortCompanies(companies, authAuditorState?.activeCompany?.CompanyId!); track item.CompanyId) {
+					<div class="card"
+					     [ngClass]="[
+								item.CompanyId && item.CompanyId === authAuditorState?.activeCompany?.CompanyId ? 'active-card' : '',
+								item.CompanyArchivated ? 'archivated-item-card' : ''
+								]">
 						<div class="card-body">
 							<h4>{{ item.CompanyName }}</h4>
 							
@@ -77,7 +71,8 @@
 									
 									<span>
 										Архівовано –
-										<span class="pin" [ngClass]="item?.CompanyArchivated ? 'pin-red' : 'pin-green'">
+										<span class="pin"
+										      [ngClass]="item?.CompanyArchivated ? 'pin-red' : 'pin-green'">
 											{{ item?.CompanyArchivated ? 'Так' : 'Ні' }}
 										</span>
 									</span>

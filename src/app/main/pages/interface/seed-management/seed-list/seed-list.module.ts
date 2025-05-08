@@ -32,6 +32,7 @@ export const routes: RoutesExtended = [
 		CommonModule,
 		RouterModule.forChild(routes),
 		NgxIconsModule,
+		NgxGridLayoutModule,
 		CustomRaisedButtonModule,
 		CustomBasicButtonModule,
 		CustomBasicLinkModule,
