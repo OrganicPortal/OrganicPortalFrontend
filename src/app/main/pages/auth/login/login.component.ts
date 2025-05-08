@@ -76,7 +76,7 @@ export class LoginComponent extends LifeHooksFactory {
 					const message = "Вхід успішно виконано"
 					this._toastrService.onInitMessage(message)
 
-					this._router.navigate(["/my-profile"])
+					this._router.navigate(["/interface/my-profile"])
 					this._store.dispatch(AuthActions.LoginReset())
 				}),
 				takeUntil(this.componentDestroy$)

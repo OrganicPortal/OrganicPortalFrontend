@@ -45,6 +45,8 @@ import {LOCAL_STORAGE_TOKEN_KEY, SyncStorageModel} from "./store/models/localsto
 export class AppComponent extends LifeHooksFactory {
 	public readonly isLoadingChunks$ = new BehaviorSubject<boolean>(false)
 	public readonly isLoadingInterface$ = new BehaviorSubject<boolean>(false)
+	public readonly isSuccessLoadingInterface$ = new BehaviorSubject<boolean>(false)
+
 	public readonly authAuditorState$
 	public readonly logoutAuditorState$
 	public readonly fullScreenLoaderState$
@@ -100,8 +102,9 @@ export class AppComponent extends LifeHooksFactory {
 						this.isLoadingInterface$.next(true)
 					}
 
-					if (el instanceof NavigationEnd || el instanceof NavigationCancel && regexp.test(el.url)) {
+					if ((el instanceof NavigationEnd || el instanceof NavigationCancel) && regexp.test(el.url)) {
 						this.isLoadingInterface$.next(false)
+						this.isSuccessLoadingInterface$.next(true)
 					}
 				}),
 				takeUntil(this.componentDestroy$)

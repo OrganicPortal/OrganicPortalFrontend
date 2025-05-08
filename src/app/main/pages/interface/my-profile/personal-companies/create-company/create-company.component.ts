@@ -190,7 +190,7 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 		this._myCompaniesService.onCreateCompany(model)
 			.pipe(
 				tap((el) => {
-					const redirectUrl = "/my-profile/personal-companies/"
+					const redirectUrl = "/interface/my-profile/personal-companies/"
 					this.loaderState$.next(new LoaderModel(true, false))
 					this._router.navigate([redirectUrl])
 				}),
