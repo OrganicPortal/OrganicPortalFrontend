@@ -1,6 +1,6 @@
-import {CommonModule} from "@angular/common"
+import {CommonModule, DatePipe} from "@angular/common"
 import {NgModule} from "@angular/core"
-import {ReactiveFormsModule} from "@angular/forms"
+import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import {RouterModule} from "@angular/router"
 import {NgxGridLayoutModule, NgxIconsModule} from "@fixAR496/ngx-elly-lib"
 import {
@@ -21,6 +21,7 @@ import {
 	CustomBasicLinkModule
 } from "../../../../../../addons/directives/links/custom-basic-link/custom-basic-link.module"
 import {CustomPipesModule} from "../../../../../../addons/pipes/custom.pipes.module"
+import {DateTimePipe} from "../../../../../../addons/pipes/datetime.pipe"
 import {RoutesExtended} from "../../../../../../addons/states/states"
 import {SeedManagementService} from "../seed-management.service"
 import {EditSeedComponent} from "./edit-seed.component"
@@ -53,10 +54,14 @@ export const routes: RoutesExtended = [
 		CustomDropdownFieldModule,
 		ErrorLoadingModule,
 		DotsLoaderModule,
-		NgCheckboxModule
+		NgCheckboxModule,
+
+		FormsModule
 	],
 	providers: [
-		SeedManagementService
+		SeedManagementService,
+		DateTimePipe,
+		DatePipe
 	]
 })
 export class EditSeedModule {

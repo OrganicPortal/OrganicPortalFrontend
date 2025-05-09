@@ -25,18 +25,18 @@ export class HttpInterceptorService implements HttpInterceptor {
 	}
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		const deserializedTokens = this.onDeserializeTokens(req)
+
 		return next.handle(req).pipe(
 			tap((el) => {
 				const evt = el as any
 				const message = evt?.body?.Message
 
-				if (message) {
+				if (message && !deserializedTokens.isDisableSendSuccessMessages) {
 					this._ngShortMessageService.onInitMessage(message, "check-circle")
 				}
 			}),
 			catchError((err: HttpErrorResponse) => {
-				const deserializedTokens = this.onDeserializeTokens(req)
-
 				if (deserializedTokens.isDisableValidateStatusCode)
 					return throwError(() => err)
 
@@ -67,11 +67,15 @@ export class HttpInterceptorService implements HttpInterceptor {
 		let context = _context.map as Map<any, any>
 		let contextData = Array.from(context).map(([name, value]) => ({name: name?.defaultValue(), value}))
 
-		let settings = new InterceptorSettingsModel(false)
+		let settings = new InterceptorSettingsModel(false, false)
 		contextData.map(el => {
 			switch (el.name) {
 				case "is-disable-validate-status-code":
 					settings.isDisableValidateStatusCode = true
+					break
+
+				case "is-disable-send-success-messages":
+					settings.isDisableSendSuccessMessages = true
 					break
 				default:
 					settings.isDisableValidateStatusCode = false
@@ -86,20 +90,26 @@ export const AllowedHttpContextTokens = new Map<AllowedRequestTokensKeys, IReque
 	.set("DisableValidateStatusCode", {
 		token: new HttpContextToken<string>(() => "is-disable-validate-status-code")
 	})
+	.set("DisableSendSuccessMessages", {
+		token: new HttpContextToken<string>(() => "is-disable-send-success-messages")
+	})
 
 interface IRequestToken {
 	token: HttpContextToken<string>
 	customMessage?: string
 }
 
-type AllowedRequestTokensKeys = "DisableValidateStatusCode" | "SendMessageIfError"
+type AllowedRequestTokensKeys = "DisableValidateStatusCode" | "SendMessageIfError" | "DisableSendSuccessMessages"
 
 class InterceptorSettingsModel {
 	isDisableValidateStatusCode: boolean
+	isDisableSendSuccessMessages: boolean
+
 	validateStatusCodeMessage?: string
 
-	constructor(isDisableValidateStatusCode: boolean, validateStatusCodeMessage?: string) {
+	constructor(isDisableValidateStatusCode: boolean, isDisableSendSuccessMessages: boolean, validateStatusCodeMessage?: string) {
 		this.isDisableValidateStatusCode = isDisableValidateStatusCode
 		this.validateStatusCodeMessage = validateStatusCodeMessage
+		this.isDisableSendSuccessMessages = isDisableSendSuccessMessages
 	}
 }

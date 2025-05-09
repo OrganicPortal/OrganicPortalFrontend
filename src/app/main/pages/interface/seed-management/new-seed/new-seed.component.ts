@@ -14,7 +14,10 @@ import {IAllowedCertsDTO, SeedManagementService, SeedModelDTO} from "../seed-man
 	selector: "app-new-seed",
 	standalone: false,
 	templateUrl: "./new-seed.component.html",
-	styleUrl: "./new-seed.component.scss",
+	styleUrls: [
+		"./new-seed.component.scss",
+		"./shared.styles.scss"
+	],
 	providers: [
 		SeedManagementService
 	]
@@ -106,20 +109,20 @@ export class NewSeedComponent extends LifeHooksFactory {
 				model,
 				selectedCerts.map(el => el.certData)
 			).pipe(
-				tap((el) => {
-					const redirectTo = "/interface/seed-management"
-					this._router.navigate([redirectTo])
+			tap((el) => {
+				const redirectTo = "/interface/seed-management"
+				this._router.navigate([redirectTo])
 
-					this.loaderState$.next(new LoaderModel(true, false))
-				}),
+				this.loaderState$.next(new LoaderModel(true, false))
+			}),
 
-				catchError(async (err) => {
-					this.loaderState$.next(new LoaderModel(true, true))
-				}),
+			catchError(async (err) => {
+				this.loaderState$.next(new LoaderModel(true, true))
+			}),
 
-				takeUntil(this.requestHandler$),
-				takeUntil(this.componentDestroy$)
-			).subscribe()
+			takeUntil(this.requestHandler$),
+			takeUntil(this.componentDestroy$)
+		).subscribe()
 	}
 
 	private onGetAllowedCerts() {

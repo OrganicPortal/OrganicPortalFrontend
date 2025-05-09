@@ -1,1 +1,220 @@
-<p>edit-seed works!</p>
+@let loaderState = loaderState$ | async;
+@let allowedCerts = allowedCerts$ | async;
+@let seedData = seedData$ | async;
+
+@if(loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded){
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+} @else if(loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded){
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+}
+
+@if (!loaderState?.isLoaded || !isFirstContentLoaded) {
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+}
+
+<ng-template #loaded>
+	<form (ngSubmit)="onSubmit(seedData!, allowedCerts!)"
+	      [formGroup]="form"
+	      action="">
+		<div class="container">
+			<div class="title">
+				<ngx-icon [name]="'info-circle'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				<h3>Інформація про культуру</h3>
+			</div>
+			<div class="fields-container fx-row fx-wrap">
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="Name">Назва культури</label>
+					
+					<input id="Name"
+					       [formControlName]="'Name'"
+					       
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="ScientificName">Узагальнене ім'я культури на латині</label>
+					
+					<input id="ScientificName"
+					       [formControlName]="'ScientificName'"
+					       
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="Variety">Сорт рослин</label>
+					
+					<input id="Variety"
+					       [formControlName]="'Variety'"
+					       
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="SeedType">Тип насіння (органічне, гібридне тощо)</label>
+					
+					<input id="SeedType"
+					       [formControlName]="'SeedType'"
+					       
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="title">
+				<ngx-icon [name]="'notebook-bookmark'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				<h3>Партія та терміни</h3>
+			</div>
+			<div class="fields-container fx-row fx-wrap">
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="BatchNumber">Номер партії</label>
+					
+					<input id="BatchNumber"
+					       [formControlName]="'BatchNumber'"
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="HarvestDate">Дата виготовлення (збирання)</label>
+					
+					<input id="HarvestDate"
+					       [formControlName]="'HarvestDate'"
+					       autocomplete="on"
+					       customInput
+					       type="datetime-local">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="ExpiryDate">Термін придатності</label>
+					
+					<input id="ExpiryDate"
+					       [formControlName]="'ExpiryDate'"
+					       autocomplete="on"
+					       customInput
+					       type="datetime-local">
+				</custom-input-field>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="title">
+				<ngx-icon [name]="'minimalistic-magnifer-bug'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				<h3>Характеристики насіння</h3>
+			</div>
+			<div class="fields-container fx-row fx-wrap">
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="StorageConditions">Умови зберігання насіння</label>
+					
+					<input id="StorageConditions"
+					       [formControlName]="'StorageConditions'"
+					       
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-input-field>
+					<ngx-icon [name]="'text-square-2'"
+					          [ratio]="'1em'"></ngx-icon>
+					<label for="AverageWeightThousandSeeds">Вага 1 тисячі насінин (в грамах)</label>
+					
+					<input id="AverageWeightThousandSeeds"
+					       [formControlName]="'AverageWeightThousandSeeds'"
+					       
+					       autocomplete="on"
+					       customInput
+					       type="text">
+				</custom-input-field>
+				
+				<custom-dropdown-field [control]="form.get('TreatmentType')!">
+					<ngx-icon [name]="'pin-list'"
+					          [ratio]="'1em'"></ngx-icon>
+					
+					<label>Обробка насіння</label>
+					
+					<custom-selection-menu>
+						@for (item of allowedTreatmentTypes; track item) {
+							<custom-selection-option [value]="item.enumType">
+								<ngx-icon [name]="item.icon"
+								          [ratio]="'1em'"></ngx-icon>
+								{{ item.name }}
+							</custom-selection-option>
+						}
+					</custom-selection-menu>
+				</custom-dropdown-field>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="title">
+				<ngx-icon [name]="'diploma'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				<h3>Сертифікація</h3>
+				<span class="red-checkmark">*</span>
+			</div>
+			
+			<div class="fields-container fx-row fx-wrap set-max-w">
+				<div class="selection-certs">
+					@for (item of allowedCerts; track idx; let idx = $index) {
+						<button class="fx-row selection-row"
+						        (click)="onSelectionCertHandler(item.control)"
+						        [type]="'button'">
+							<ng-checkbox [isAutoChangeValue]="false"
+							             [control]="item.control"></ng-checkbox>
+							<span>{{ item.certData.Name }} ({{ item.certData.Description }})</span>
+						</button>
+					}
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="fx-row fx-end">
+				<button [type]="'submit'"
+				        customBasicButton>
+					<ngx-icon [name]="'verified-check'"></ngx-icon>
+					Зберегти
+				</button>
+			</div>
+		</div>
+	</form>
+</ng-template>
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+</ng-template>
+
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onRefreshPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>

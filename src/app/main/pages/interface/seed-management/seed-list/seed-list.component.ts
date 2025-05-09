@@ -86,6 +86,10 @@ export class SeedListComponent extends LifeHooksFactory {
 			.pipe(
 				withLatestFrom(this.paginatorState$),
 				this.onGetRefreshListPipe(companyId),
+				tap(() => {
+					const message = "Дані успішно видалено"
+					this._ngShortMessageService.onInitMessage(message, "check-circle")
+				}),
 				takeUntil(this.requestHandler$),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
@@ -114,9 +118,6 @@ export class SeedListComponent extends LifeHooksFactory {
 			tap((el => {
 				this.loaderState$.next(new LoaderModel(true, false))
 				this.seedItems$.next(el.Data.Items)
-
-				const message = "Дані успішно видалено"
-				this._ngShortMessageService.onInitMessage(message, "check-circle")
 			})),
 
 			catchError(async (err) => {
