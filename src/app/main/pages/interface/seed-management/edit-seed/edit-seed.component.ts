@@ -183,7 +183,13 @@ export class EditSeedComponent extends LifeHooksFactory {
 				tap(() => {
 					const message = "Дані успішно видалено"
 					this._ngShortMessageService.onInitMessage(message, "check-circle")
+
+					this.loaderState$.next(new LoaderModel(true, false))
 					this._router.navigate(["/interface/seed-management"])
+				}),
+
+				catchError(async (err) => {
+					this.loaderState$.next(new LoaderModel(true, true))
 				}),
 				takeUntil(this.requestHandler$),
 				takeUntil(this.componentDestroy$)
@@ -193,7 +199,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 			.onCreateModalWindow(message)
 			.pipe(
 				filter(el => el.isConfirmWindow),
-				tap((el) => {
+				tap(() => {
 					this.requestHandler$.next()
 					this.loaderState$.next(new LoaderModel(false, false))
 				}),
