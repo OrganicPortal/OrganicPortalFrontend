@@ -104,12 +104,12 @@
 		
 		&.active {
 			color: var(--active-color);
-			--active-color: #65b65d;
+			--active-color: var(--color-palette-3);
 		}
 		
 		&:hover {
 			color: var(--hover-color);
-			--hover-color: #65b65d;
+			--hover-color: var(--color-palette-3);
 		}
 	}
 	
