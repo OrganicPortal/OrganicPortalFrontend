@@ -50,6 +50,11 @@ export class SeedManagementService {
 			)
 	}
 
+	public onRemoveSeedFromCompany(seedId: number, companyId: number) {
+		const apiUrl = `/api/seeds/remove?companyId=${companyId}&seedId=${seedId}`
+		return this._http.delete(apiUrl)
+	}
+
 	public onSaveSeedInfo(companyId: number, payload: SeedModelDTO) {
 		const apiUrl = `/api/seeds/new?companyId=${companyId}`
 		return this._http.post<{ Data: { SeedId: number } }>(apiUrl, payload)

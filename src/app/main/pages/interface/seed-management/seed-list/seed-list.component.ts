@@ -4,7 +4,8 @@ import {
 	BehaviorSubject,
 	catchError,
 	filter,
-	map, Observable,
+	map,
+	Observable,
 	startWith,
 	Subject,
 	switchMap,
@@ -15,6 +16,9 @@ import {
 	withLatestFrom
 } from "rxjs"
 import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
+import {
+	NgShortMessageService
+} from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader, PaginatorModel} from "../../../../../../addons/models/models"
 import {AuthListeners} from "../../../../../store/listeners/auth.listeners"
 import {AuthAuditorReducerModel} from "../../../../../store/models/auth/auth.auditor.models"
@@ -41,13 +45,15 @@ export class SeedListComponent extends LifeHooksFactory {
 	public readonly seedItems$ = new BehaviorSubject<ISeedDTO[]>([])
 	public isFirstContentLoaded: boolean = false
 	private readonly requestRefresher$ = new Subject<void>()
+	private readonly requestHandler$ = new Subject<void>()
 	protected readonly AllowedSeedStatuses = AllowedSeedStatuses
 	protected readonly document = document
 	protected readonly window = window
 
 	constructor(
 		private _seedManagementService: SeedManagementService,
-		private _authListeners: AuthListeners
+		private _authListeners: AuthListeners,
+		private _ngShortMessageService: NgShortMessageService
 	) {
 		super()
 
@@ -69,6 +75,34 @@ export class SeedListComponent extends LifeHooksFactory {
 
 	public onRefreshPage() {
 		this.requestRefresher$.next()
+	}
+
+	public onRemoveSeedInfo(seedId: number, companyId: number) {
+		this.requestHandler$.next()
+		this.loaderState$.next(new LoaderModel(false, false))
+		this._seedManagementService
+			.onRemoveSeedFromCompany(seedId, companyId)
+			.pipe(
+				withLatestFrom(this.paginatorState$),
+				switchMap((el) =>
+					this._seedManagementService.onGetSeedList(companyId, el[1])
+				),
+
+				tap((el => {
+					this.loaderState$.next(new LoaderModel(true, false))
+					this.seedItems$.next(el.Data.Items)
+
+					const message = "Дані успішно видалено"
+					this._ngShortMessageService.onInitMessage(message, "check-circle")
+				})),
+
+				catchError(async (err) => {
+					this.loaderState$.next(new LoaderModel(true, true))
+				}),
+
+				takeUntil(this.requestHandler$),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	private onGetSeedList() {

@@ -152,9 +152,9 @@
 		width: 100%;
 		
 		gap: .5rem;
-		
+		margin-top: 10px;
 		.btn {
-			padding: .8rem;
+			padding: .7rem;
 			border-radius: 1000px;
 		}
 	}
@@ -167,6 +167,14 @@
 		.name-title {
 			display: -webkit-box;
 			font-size: .85em;
+		}
+	}
+	
+	
+	.remove-btn{
+		background-color: var(--little-red);
+		.solar-outline{
+			--ngx-icon-override-color-1: var(--white);
 		}
 	}
 	

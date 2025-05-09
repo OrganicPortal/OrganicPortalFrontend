@@ -120,13 +120,28 @@
 								</div>
 								
 								<div class="card-footer">
+									<a class="btn remove-btn"
+									   customRaisedButton
+									   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
+									   matRipple>
+										<ngx-icon [name]="'trash-bin-2'"
+										          [ratio]="'1.1em'"></ngx-icon>
+									</a>
+									
+									<a class="btn signature-btn"
+									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
+									   customBasicButton
+									   matRipple>
+										<ngx-icon [name]="'document-add'"
+										          [ratio]="'1.1em'"></ngx-icon>
+									</a>
+									
 									<a class="btn"
 									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
 									   customRaisedButton
 									   matRipple>
 										<ngx-icon [name]="'pen'"
 										          [ratio]="'1.1em'"></ngx-icon>
-										
 										Ред.
 									</a>
 								</div>
