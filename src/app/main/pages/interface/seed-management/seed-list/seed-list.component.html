@@ -122,28 +122,25 @@
 								<div class="card-footer">
 									@let isArchivated = authAuditorState?.activeCompany?.CompanyArchivated;
 									@let isAllowedEditRecord = ((item.Status != 0 && item.Status != 3) && !isArchivated);
-								
+									
+									@let editButtonTooltipMessage = isAllowedEditRecord ? 'Переглянути' : 'Редагувати';
+									@let dropButtonTooltipMessage = 'Видалити';
+									
 									@if (!isArchivated) {
 										@if (item.Status == 0 || item.Status == 3) {
 											<a class="btn remove-btn" [@frameSideInOut4]
 											   customRaisedButton
+											   [matTooltip]="dropButtonTooltipMessage"
 											   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
 											   matRipple>
 												<ngx-icon [name]="'trash-bin-2'"
 												          [ratio]="'1.1em'"></ngx-icon>
 											</a>
-											
-<!-- 											<a class="btn signature-btn" [@frameSideInOut4] -->
-<!-- 											   (click)="onSendSeedToCertification(item.Id, item.CompanyId)" -->
-<!-- 											   customBasicButton -->
-<!-- 											   matRipple> -->
-<!-- 												<ngx-icon [name]="'document-add'" -->
-<!-- 												          [ratio]="'1.1em'"></ngx-icon> -->
-<!-- 											</a> -->
 										}
 									}
 
 									<a class="btn" [@frameSideInOut4]
+									   [matTooltip]="editButtonTooltipMessage"
 									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
 									   customRaisedButton
 									   matRipple>
@@ -153,7 +150,6 @@
 									</a>
 								</div>
 							</div>
-						
 						</div>
 						
 						<div *rxVirtualViewPlaceholder

@@ -61,6 +61,15 @@ body {
 	--ng-actions-bg: #454545;
 	--ng-actions-border: #9d9d9d;
 	
+	--mdc-plain-tooltip-container-color: #616161;
+	--mdc-plain-tooltip-supporting-text-color: #fff;
+	--mdc-plain-tooltip-supporting-text-font: Roboto, sans-serif;
+	--mdc-plain-tooltip-supporting-text-size: 12px;
+	--mdc-plain-tooltip-supporting-text-weight: 400;
+	--mdc-plain-tooltip-supporting-text-tracking: .0333333333em;
+	--mdc-plain-tooltip-container-shape: 4px;
+	--mdc-plain-tooltip-supporting-text-line-height: 16px;
+	
 	
 	/* #region ngx-ngx-toastr */
 	--ngx-toastr-animated-border-override: #fff;

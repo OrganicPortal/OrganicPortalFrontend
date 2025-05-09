@@ -1,6 +1,7 @@
 import {CommonModule} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
+import {MatTooltipModule} from "@angular/material/tooltip"
 import {RouterModule} from "@angular/router"
 import {NgxGridLayoutModule, NgxIconsModule} from "@fixAR496/ngx-elly-lib"
 import {
@@ -56,7 +57,8 @@ export const routes: RoutesExtended = [
 		RxVirtualView,
 		RxVirtualViewContent,
 		RxVirtualViewObserver,
-		RxVirtualViewPlaceholder
+		RxVirtualViewPlaceholder,
+		MatTooltipModule
 	],
 
 	providers: [

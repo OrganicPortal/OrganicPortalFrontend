@@ -91,9 +91,14 @@
 						</div>
 						
 						<div class="card-footer">
+							@let editButtonTooltipMessage = item?.CompanyArchivated ? 'Переглянути' : 'Редагувати';
+							@let dropButtonTooltipMessage = 'Архівувати компанію';
+							@let activeButtonTooltipMessage = 'Зробити компанію активною';
+							
 							@if (!item.CompanyArchivated) {
 								<a class="btn drop-btn"
 								   (click)="onArchiveCompany(item?.CompanyId!, item?.CompanyName!)"
+								   [matTooltip]="dropButtonTooltipMessage"
 								   customBasicButton
 								   matRipple>
 									<ngx-icon [name]="'winrar'"
@@ -102,6 +107,7 @@
 							}
 							
 							<a class="btn"
+							   [matTooltip]="activeButtonTooltipMessage"
 							   customRaisedButton
 							   (click)="onSetActiveCompany(item, authAuditorState!)"
 							   matRipple>
@@ -109,9 +115,11 @@
 								          [ratio]="'1.1em'"></ngx-icon>
 							</a>
 							
+							
 							<a class="btn"
 							   [routerLink]="'edit/' + item.CompanyId"
 							   customBasicButton
+							   [matTooltip]="editButtonTooltipMessage"
 							   matRipple>
 								<ngx-icon [name]="item?.CompanyArchivated ? 'eye' : 'pen'"
 								          [ratio]="'1.1em'"></ngx-icon>
