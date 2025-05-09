@@ -165,9 +165,6 @@ export class EditSeedComponent extends LifeHooksFactory {
 
 	public override ngAfterViewInit() {
 		super.ngAfterViewInit()
-
-		this._confirmedModalWindowService
-			.onCreateModalWindow(this.sendToCertTemplate)
 	}
 
 	public onChangedDropdownValue() {
