@@ -6,6 +6,7 @@ import {
 	filter,
 	map,
 	Observable,
+	pipe,
 	startWith,
 	Subject,
 	switchMap,
@@ -84,22 +85,7 @@ export class SeedListComponent extends LifeHooksFactory {
 			.onRemoveSeedFromCompany(seedId, companyId)
 			.pipe(
 				withLatestFrom(this.paginatorState$),
-				switchMap((el) =>
-					this._seedManagementService.onGetSeedList(companyId, el[1])
-				),
-
-				tap((el => {
-					this.loaderState$.next(new LoaderModel(true, false))
-					this.seedItems$.next(el.Data.Items)
-
-					const message = "Дані успішно видалено"
-					this._ngShortMessageService.onInitMessage(message, "check-circle")
-				})),
-
-				catchError(async (err) => {
-					this.loaderState$.next(new LoaderModel(true, true))
-				}),
-
+				this.onGetRefreshListPipe(companyId),
 				takeUntil(this.requestHandler$),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
@@ -112,17 +98,31 @@ export class SeedListComponent extends LifeHooksFactory {
 		this._seedManagementService
 			.onSendSeedToCertification(seedId, companyId)
 			.pipe(
-				tap((el) => {
-					this.loaderState$.next(new LoaderModel(true, false))
-				}),
-
-				catchError(async (err) => {
-					this.loaderState$.next(new LoaderModel(true, true))
-				}),
-
+				this.onGetRefreshListPipe(companyId),
 				takeUntil(this.requestHandler$),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
+	}
+
+	private onGetRefreshListPipe(companyId: number) {
+		return pipe(
+			withLatestFrom(this.paginatorState$),
+			switchMap((el) =>
+				this._seedManagementService.onGetSeedList(companyId, el[1])
+			),
+
+			tap((el => {
+				this.loaderState$.next(new LoaderModel(true, false))
+				this.seedItems$.next(el.Data.Items)
+
+				const message = "Дані успішно видалено"
+				this._ngShortMessageService.onInitMessage(message, "check-circle")
+			})),
+
+			catchError(async (err) => {
+				this.loaderState$.next(new LoaderModel(true, true))
+			})
+		)
 	}
 
 	private onGetSeedList() {

@@ -120,21 +120,25 @@
 								</div>
 								
 								<div class="card-footer">
-									<a class="btn remove-btn"
-									   customRaisedButton
-									   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
-									   matRipple>
-										<ngx-icon [name]="'trash-bin-2'"
-										          [ratio]="'1.1em'"></ngx-icon>
-									</a>
-									
-									<a class="btn signature-btn"
-									   (click)="onSendSeedToCertification(item.Id, item.CompanyId)"
-									   customBasicButton
-									   matRipple>
-										<ngx-icon [name]="'document-add'"
-										          [ratio]="'1.1em'"></ngx-icon>
-									</a>
+									@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
+										<a class="btn remove-btn"
+										   customRaisedButton
+										   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
+										   matRipple>
+											<ngx-icon [name]="'trash-bin-2'"
+											          [ratio]="'1.1em'"></ngx-icon>
+										</a>
+										
+										@if ((item.Status == 0 || item.Status == 3)) {
+											<a class="btn signature-btn"
+											   (click)="onSendSeedToCertification(item.Id, item.CompanyId)"
+											   customBasicButton
+											   matRipple>
+												<ngx-icon [name]="'document-add'"
+												          [ratio]="'1.1em'"></ngx-icon>
+											</a>
+										}
+									}
 									
 									<a class="btn"
 									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
@@ -155,7 +159,8 @@
 				}
 			</ngx-grid>
 		} @else {
-			<div class="empty-data" [@frameSideIn4]>
+			<div class="empty-data"
+			     [@frameSideIn4]>
 				<ngx-icon [name]="'pen-new-round'"
 				          [ratio]="'1.5em'"></ngx-icon>
 				<h3>Записи відсутні. Створіть нову <br> продукцію для перегляду більшого набору інформації</h3>

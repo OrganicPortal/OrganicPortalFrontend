@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {NavigationEnd} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {catchError, filter, merge, startWith, Subject, switchMap, take, takeUntil, tap} from "rxjs"
+import {catchError, filter, map, merge, startWith, Subject, switchMap, take, takeUntil, tap} from "rxjs"
 import {LoaderModel, onInitLoader} from "../../../../../addons/models/models"
 import {ListenersService} from "../../../../../addons/services/listeners.service"
 import * as AuthActions from "../../../../store/actions/auth.actions"
@@ -59,6 +59,12 @@ export class SeedManagementComponent extends LifeHooksFactory {
 			.pipe(
 				filter(el => !!el.activeCompany),
 				take(1),
+				switchMap((el) => {
+					return this.requestRefresher$.pipe(
+						startWith(undefined),
+						map(() => el)
+					)
+				}),
 				switchMap((el2) => this._myCompaniesService
 					.onGetArchivatedCompanyStatus(el2.activeCompany?.CompanyId ?? -1)
 					.pipe(

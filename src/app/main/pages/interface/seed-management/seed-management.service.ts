@@ -34,6 +34,11 @@ export class SeedManagementService {
 		return this._http.get<{ Data: IAllowedCertsDTO[] }>(apiUrl)
 	}
 
+	public onGetSeedInfo(seedId: number, companyId: number){
+		const apiUrl = `/api/seeds/info?seedId=${seedId}&companyId=${companyId}`
+		return this._http.get(apiUrl)
+	}
+
 	public onGetSeedList(companyId: number, paginator?: PaginatorModel) {
 		const apiUrl = `/api/seeds/list?companyId=${companyId}`
 		return this._http.post<{
