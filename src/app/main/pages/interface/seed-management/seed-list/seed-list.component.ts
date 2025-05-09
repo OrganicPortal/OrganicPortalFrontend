@@ -16,7 +16,7 @@ import {
 	window,
 	withLatestFrom
 } from "rxjs"
-import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
+import {frameSideIn4, frameSideInOut4} from "../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
 } from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -32,7 +32,8 @@ import {AllowedSeedStatuses, ISeedDTO, SeedManagementService} from "../seed-mana
 	standalone: false,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [
-		frameSideIn4
+		frameSideIn4,
+		frameSideInOut4
 	],
 
 	providers: [

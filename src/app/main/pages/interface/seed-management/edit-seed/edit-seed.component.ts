@@ -124,6 +124,12 @@ export class EditSeedComponent extends LifeHooksFactory {
 				tap((el) => {
 					const certs = el.response[1].Data.map((el) => new AllowedCertModel(el))
 
+					if (Object.keys(el.response[0]).length == 0) {
+						this.loaderState$.next(new LoaderModel(true, true))
+						this._router.navigate(["/interface/seed-management"])
+						return
+					}
+
 					this.allowedCerts$.next(certs)
 					this.seedData$.next(el.response[0].Data)
 					this.selectedCompanyId = el.response[0].Data.CompanyId
@@ -132,7 +138,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 					this.onInitForm(el.response[0].Data, el.auditorData.data.activeCompanyData, certs)
 					this.loaderState$.next(new LoaderModel(true, false))
 
-					if(el.auditorData.refresherState === "refresh-edit"){
+					if (el.auditorData.refresherState === "refresh-edit") {
 						const message = "Успішно відредаговано"
 						this._ngShortMessageService.onInitMessage(message, "check-circle")
 					}
@@ -151,6 +157,9 @@ export class EditSeedComponent extends LifeHooksFactory {
 	}
 
 	public onSelectionCertHandler(control: FormControl) {
+		if (control.disabled)
+			return
+
 		control.setValue(!control.value)
 	}
 

@@ -120,9 +120,11 @@
 								</div>
 								
 								<div class="card-footer">
-									@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
+									@let isArchivated = authAuditorState?.activeCompany?.CompanyArchivated;
+									
+									@if (!isArchivated) {
 										@if (item.Status == 0 || item.Status == 3) {
-											<a class="btn remove-btn"
+											<a class="btn remove-btn" [@frameSideInOut4]
 											   customRaisedButton
 											   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
 											   matRipple>
@@ -130,7 +132,7 @@
 												          [ratio]="'1.1em'"></ngx-icon>
 											</a>
 											
-											<a class="btn signature-btn"
+											<a class="btn signature-btn" [@frameSideInOut4]
 											   (click)="onSendSeedToCertification(item.Id, item.CompanyId)"
 											   customBasicButton
 											   matRipple>
@@ -138,16 +140,16 @@
 												          [ratio]="'1.1em'"></ngx-icon>
 											</a>
 										}
-						
-										<a class="btn"
-										   [routerLink]="'/interface/seed-management/edit/' + item.Id"
-										   customRaisedButton
-										   matRipple>
-											<ngx-icon [name]="'pen'"
-											          [ratio]="'1.1em'"></ngx-icon>
-											Ред.
-										</a>
 									}
+
+									<a class="btn" [@frameSideInOut4]
+									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
+									   customRaisedButton
+									   matRipple>
+										<ngx-icon [name]="isArchivated ? 'eye' : 'pen'"
+										          [ratio]="'1.1em'"></ngx-icon>
+										{{!isArchivated ? 'Ред.' : ''}}
+									</a>
 								</div>
 							</div>
 						

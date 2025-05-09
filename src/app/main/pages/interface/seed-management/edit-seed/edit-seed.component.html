@@ -1,6 +1,7 @@
 @let loaderState = loaderState$ | async;
 @let allowedCerts = allowedCerts$ | async;
 @let seedData = seedData$ | async;
+@let authAuditorState = authAuditorState$ | async;
 
 @if(loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded){
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
@@ -197,15 +198,19 @@
 			</div>
 		</div>
 		
-		<div class="container">
-			<div class="fx-row fx-end">
-				<button [type]="'submit'"
-				        customBasicButton>
-					<ngx-icon [name]="'verified-check'"></ngx-icon>
-					Зберегти
-				</button>
-			</div>
-		</div>
+		@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
+			@if (seedData?.Status == 0 || seedData?.Status == 3) {
+				<div class="container">
+					<div class="fx-row fx-end">
+						<button [type]="'submit'"
+						        customBasicButton>
+							<ngx-icon [name]="'verified-check'"></ngx-icon>
+							Зберегти
+						</button>
+					</div>
+				</div>
+			}}
+	
 	</form>
 </ng-template>
 
