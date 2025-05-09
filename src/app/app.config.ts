@@ -2,13 +2,12 @@ import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi}
 import {ApplicationConfig, importProvidersFrom, Provider, provideZoneChangeDetection} from "@angular/core"
 import {provideClientHydration, withEventReplay} from "@angular/platform-browser"
 import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations"
-import {provideRouter} from "@angular/router"
+import {RouterModule} from "@angular/router"
 import {JwtModule} from "@auth0/angular-jwt"
 import {NgxIconsModule} from "@fixAR496/ngx-elly-lib"
 import {EffectsModule} from "@ngrx/effects"
 import {StoreModule} from "@ngrx/store"
 import {HttpInterceptorService} from "../addons/services/http-interceptor.service"
-
 import {routes} from "./app.routes"
 import * as AuthActions from "./store/actions/auth.actions"
 import * as LocalStorageActions from "./store/actions/localstorage.actions"
@@ -24,7 +23,6 @@ export const HttpInterceptorProvider: Provider =
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideZoneChangeDetection({eventCoalescing: true}),
-		provideRouter(routes),
 		provideClientHydration(withEventReplay()),
 		provideAnimations(),
 		provideHttpClient(withFetch()),
@@ -33,6 +31,12 @@ export const appConfig: ApplicationConfig = {
 		importProvidersFrom(NgxIconsModule.forRoot(["custom-collection"])),
 		importProvidersFrom(BrowserAnimationsModule),
 
+		importProvidersFrom(RouterModule.forRoot(routes, {
+			anchorScrolling: 'enabled',
+			scrollOffset: [0, 70],
+			scrollPositionRestoration: 'enabled',
+			})
+		),
 		importProvidersFrom(
 			EffectsModule.forRoot([
 				AuthEffects,
@@ -71,5 +75,6 @@ export const appConfig: ApplicationConfig = {
 		),
 
 		HttpInterceptorProvider
+
 	]
 }

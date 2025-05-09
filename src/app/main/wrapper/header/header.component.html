@@ -22,18 +22,23 @@
 	
 	<div class="nav-container">
 		<a class="social ratio-1-1"
+		   [href]="'https://x.com/FarmTrustUA/'"
+		   [target]="'_blank'"
 		   customBasicLink
 		   matRipple>
 			<ng-container [ngTemplateOutlet]="twitter"></ng-container>
 		</a>
 		
 		<a class="social ratio-1-1"
+		   [href]="'https://www.facebook.com/OrganicPortal'"
+		   [target]="'_blank'"
 		   customBasicLink
 		   matRipple>
 			<ng-container [ngTemplateOutlet]="facebook"></ng-container>
 		</a>
 		
 		<a class="social ratio-1-1"
+		   href="mailto:organicportal@gmail.com?subject=Тема&body=Текст повідомлення"
 		   customBasicLink
 		   matRipple>
 			<ng-container [ngTemplateOutlet]="gmail"></ng-container>
