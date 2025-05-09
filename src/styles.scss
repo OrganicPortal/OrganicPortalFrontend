@@ -49,6 +49,9 @@ body {
 	--color-palette-7: #72bd8c;
 	--color-palette-8: #cfebff;
 	
+	--modal-window-bg: #fff;
+	--modal-window-prevent-bg: rgba(163, 163, 163, 0.24);
+	
 	--little-red: #f4695f;
 	
 	--dots-loadbar-color: #609870;
@@ -68,6 +71,8 @@ body {
 	
 	--basic-button-color: #64b55c;
 	--basic-button-disabled-color: #cdcdcd;
+	--reised-button-disabled-color: #eaeaea;
+	
 	--basic-button-active-color: #559e52;
 	--basic-button-ripple-color: rgba(255, 255, 255, 0.16);
 	--basic-button-raised-ripple-color: rgba(161, 161, 161, 0.16);
@@ -121,6 +126,14 @@ body {
 			font-weight: 500;
 		}
 	}
+}
+
+.little-red-color {
+	color: var(--little-red);
+}
+
+.font-bold {
+	font-weight: bold;
 }
 
 .custom-button {
@@ -195,6 +208,10 @@ body {
 	
 	&.active {
 		background-color: var(--gray);
+	}
+	
+	&[disabled], &.disabled {
+		background-color: var(--reised-button-disabled-color) !important;
 	}
 }
 

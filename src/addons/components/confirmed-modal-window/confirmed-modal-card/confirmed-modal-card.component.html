@@ -1,0 +1,45 @@
+<div class="card-header" [ngFxLayout]="'row'" [ngFxWrap]="'wrap'" [ngFxGap]="10" [ngFxAlign]="'space-between center'">
+    <div class="left-content" [ngFxLayout]="'row'" [ngFxWrap]="'wrap'" [ngFxGap]="5">
+        <div class="icon">
+	        <ngx-icon [name]="card.type === 'info' ? 'info-circle' : 'dialog-2'" [ratio]="'1.2em'"></ngx-icon>
+        </div>
+
+        <h3 [ngSwitch]="card.type" class="header-title">
+            <span *ngSwitchCase="'info'">Інформація</span>
+            <span *ngSwitchDefault>Підтвердіть дію</span>
+        </h3>
+    </div>
+
+    <div class="right-content controls" [ngFxLayout]="'row'" [ngFxGap]="10" [ngFxWrap]="'wrap'"
+        [ngFxAlign]="'end center'">
+
+	      <button class="full-rounded close-btn"
+	              (click)="onCloseWindow()"
+	              customRaisedButton>
+		      <ngx-icon [name]="'close'" [collection]="'custom-collection'" [ratio]="'1em'"></ngx-icon>
+	      </button>
+    </div>
+</div>
+
+<div class="card-body">
+	@if(isTemplateMessage){
+		<ng-container [ngTemplateOutlet]="templateMessage"></ng-container>
+	} @else{
+		<span class="text-container" [innerHTML]="card.message | safehtml"></span>
+	}
+</div>
+
+<form class="card-footer" (ngSubmit)="onConfirmWindow()">
+    <button customBasicButton [type]="'submit'" class="confirm-button"
+        matRipple #buttonEl>
+        <span>ОК</span>
+    </button>
+
+    @if(card.isCloseBtn){
+    <button customRaisedButton [type]="'button'"
+        
+        (click)="onCloseWindow()" matRipple>
+        <span>Відмінити</span>
+    </button>
+    }
+</form>

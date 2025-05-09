@@ -1,0 +1,9 @@
+@if(windowList.length > 0){
+@for(elem of windowList; track elem; let index = $index){
+<div class="modal-container modal-window-container" 
+(mousedown)="onClickOfContainer($event, elem)"
+[@dynamicModalAnimation]>
+    <confirmed-modal-card [card]="elem" [@confirmedModalAnimation]></confirmed-modal-card>
+</div>
+}
+}

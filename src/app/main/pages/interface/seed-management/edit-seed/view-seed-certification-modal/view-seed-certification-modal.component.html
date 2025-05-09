@@ -1,0 +1,98 @@
+@let seedDataContent = seedData$ | async;
+
+<div class="cert-data">
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Назва культури –
+				<span class="font-bold little-red-color">{{ seedDataContent?.Name }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Ім'я культури (Латинь) –
+				<span class="font-bold little-red-color">{{ seedDataContent?.ScientificName }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Сорт –
+				<span class="font-bold little-red-color">{{ seedDataContent?.Variety }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Тип насіння –
+				<span class="font-bold little-red-color">{{ seedDataContent?.SeedType }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Номер партії –
+				<span class="font-bold little-red-color">{{ seedDataContent?.BatchNumber }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Дата виготовлення –
+				<span class="font-bold little-red-color">{{ seedDataContent?.HarvestDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Термін придатності –
+				<span class="font-bold little-red-color">{{ seedDataContent?.ExpiryDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Умови зберігання –
+				<span class="font-bold little-red-color">{{ seedDataContent?.StorageConditions  }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Вага 1 тис. насінин (в грамах) –
+				<span class="font-bold little-red-color">{{ seedDataContent?.AverageWeightThousandSeeds  }}
+		</span>
+		</span>
+	</div>
+	
+	<div class="text-container">
+		<ngx-icon [name]="'forward-2'"></ngx-icon>
+		<span class="text-block">
+			Обробка насіння –
+				<span class="font-bold little-red-color">
+					{{
+						onFindTreatmentType(seedDataContent?.TreatmentType!)?.name
+					}}
+		</span>
+		</span>
+	</div>
+</div>
+
+<span class="font-bold little-red-color">Сертифікувати вказану інформацію?</span>

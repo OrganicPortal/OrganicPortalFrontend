@@ -70,9 +70,10 @@ export class CustomDropdownFieldComponent extends LifeHooksFactory {
 				filter(el => !!el),
 				tap((el) => {
 					const newState = el.componentValue ?? el.innerText
-
 					this._control.setValue(newState)
-					this.valueChange$.next(newState)
+
+					if (!el.isInitialValue)
+						this.valueChange$.next(newState)
 				}),
 				takeUntil(this.componentDestroy$)
 			)

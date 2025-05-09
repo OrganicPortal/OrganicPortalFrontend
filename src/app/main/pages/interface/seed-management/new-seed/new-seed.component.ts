@@ -1,8 +1,9 @@
-import {Component} from "@angular/core"
+import {Component, HostBinding} from "@angular/core"
 import {FormControl, FormGroup, Validators} from "@angular/forms"
 import {Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {BehaviorSubject, catchError, map, startWith, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
 import {
 	NgShortMessageService
 } from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -20,6 +21,9 @@ import {IAllowedCertsDTO, SeedManagementService, SeedModelDTO} from "../seed-man
 	],
 	providers: [
 		SeedManagementService
+	],
+	animations: [
+		frameSideIn4
 	]
 })
 export class NewSeedComponent extends LifeHooksFactory {
@@ -46,12 +50,13 @@ export class NewSeedComponent extends LifeHooksFactory {
 		return this._seedManagementService.allowedTreatmentTypes
 	}
 
+	@HostBinding("@frameSideIn4")
 	public override ngOnInit() {
 		super.ngOnInit()
 
 		this.authAuditorState$.pipe(
 			tap((el) => {
-				if(el.activeCompany?.CompanyArchivated){
+				if (el.activeCompany?.CompanyArchivated) {
 					this._router.navigate(["/interface/seed-management"])
 					return
 				}
@@ -114,21 +119,22 @@ export class NewSeedComponent extends LifeHooksFactory {
 				this.selectedCompanyId,
 				model,
 				selectedCerts.map(el => el.certData)
-			).pipe(
-			tap((el) => {
-				const redirectTo = "/interface/seed-management"
-				this._router.navigate([redirectTo])
+			)
+			.pipe(
+				tap((el) => {
+					const redirectTo = `/interface/seed-management/edit/${el.Data.SeedId}`
+					this._router.navigate([redirectTo])
 
-				this.loaderState$.next(new LoaderModel(true, false))
-			}),
+					this.loaderState$.next(new LoaderModel(true, false))
+				}),
 
-			catchError(async (err) => {
-				this.loaderState$.next(new LoaderModel(true, true))
-			}),
+				catchError(async (err) => {
+					this.loaderState$.next(new LoaderModel(true, true))
+				}),
 
-			takeUntil(this.requestHandler$),
-			takeUntil(this.componentDestroy$)
-		).subscribe()
+				takeUntil(this.requestHandler$),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	private onGetAllowedCerts() {

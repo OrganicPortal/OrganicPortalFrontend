@@ -15,10 +15,10 @@
 	<form [formGroup]="form"
 	      (ngSubmit)="onSubmit(allowedCerts!)"
 	      action="">
-		<div class="container">
+		<div class="container" [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'info-circle'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Інформація про культуру</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
@@ -76,10 +76,10 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div class="container" [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'notebook-bookmark'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Партія та терміни</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
@@ -121,10 +121,10 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div class="container" [@frameSideIn4]>
 			<div class="title">
-				<ngx-icon [name]="'minimalistic-magnifer-bug'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				<ngx-icon [name]="'bug'"
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Характеристики насіння</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
@@ -173,10 +173,10 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div class="container" [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'diploma'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Сертифікація</h3>
 				<span class="red-checkmark">*</span>
 			</div>
@@ -196,7 +196,7 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div class="container" [@frameSideIn4]>
 			<div class="fx-row fx-end">
 				<button [type]="'submit'"
 				        customBasicButton>

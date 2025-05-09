@@ -1,8 +1,11 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {catchError, delay, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {catchError, delay, filter, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideIn4, frameSideInOut2} from "../../../../../../../addons/animations/shared.animations"
+import {
+	ConfirmedModalWindowService
+} from "../../../../../../../addons/components/confirmed-modal-window/confirmed-modal-window.service"
 import {
 	NgShortMessageService
 } from "../../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -40,6 +43,7 @@ export class CompaniesListComponent extends LifeHooksFactory {
 		private _myProfileService: MyProfileService,
 		private _myCompaniesService: MyCompaniesService,
 		private _store: Store<AuthActions.StoreAuthType>,
+		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _authListeners: AuthListeners,
 		private _ngShortMessageService: NgShortMessageService
 	) {
@@ -72,11 +76,11 @@ export class CompaniesListComponent extends LifeHooksFactory {
 		super.ngOnDestroy()
 	}
 
-	public onArchiveCompany(companyId: number) {
+	public onArchiveCompany(companyId: number, companyName: string) {
 		this.requestHandler$.next()
-		this.loaderState$.next(new LoaderModel(false, false))
 
-		this._myCompaniesService
+		const message = `Компанію <span class="little-red-color font-bold">${companyName}</span> буде заархівовано. Продовжити?`
+		const obs$ = this._myCompaniesService
 			.onArchiveCompany(companyId)
 			.pipe(
 				switchMap((el) => this._myProfileService.onGetProfileInfo().pipe(
@@ -94,7 +98,17 @@ export class CompaniesListComponent extends LifeHooksFactory {
 				takeUntil(this.componentDestroy$),
 				takeUntil(this.requestHandler$)
 			)
-			.subscribe()
+
+		this._confirmedModalWindowService
+			.onCreateModalWindow(message)
+			.pipe(
+				filter(el => el.isConfirmWindow),
+				tap((el) => {
+					this.loaderState$.next(new LoaderModel(false, false))
+				}),
+				switchMap((el) => obs$),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	public onReloadPage() {
@@ -102,16 +116,16 @@ export class CompaniesListComponent extends LifeHooksFactory {
 	}
 
 	public onSetActiveCompany(company: ICompanyDTO, authAuditorState: AuthAuditorReducerModel) {
-		if (!authAuditorState.activeCompany) {
-		}
+		if (!authAuditorState.activeCompany) {}
 
+		const message = `Зробити компанію <span class="little-red-color font-bold">${company.CompanyName}</span> активною?`
 		const delayTime = 1000
-		this._store.dispatch(AuthActions.FullScreenLoaderInit({delay: delayTime}))
 
-		of(true).pipe(
+		const obs$ = of(true).pipe(
 			delay(delayTime - 250),
 			tap(() => {
 				const storageData = new UpdateOrSaveDataToStorageModel(ACTIVE_COMPANY_ID, company.CompanyId)
+				window.scrollTo(0, 0)
 
 				this._store.dispatch(LocalStorageActions.UpdateOrSaveDataToStorage(storageData))
 				this._store.dispatch(AuthActions.AuthAuditorSelectCompany({
@@ -125,7 +139,17 @@ export class CompaniesListComponent extends LifeHooksFactory {
 				const message = "Компанію успішно обрано"
 				this._ngShortMessageService.onInitMessage(message, "check-circle")
 			})
-		).subscribe()
+		)
+
+		this._confirmedModalWindowService
+			.onCreateModalWindow(message)
+			.pipe(
+				filter(el => el.isConfirmWindow),
+				tap(() => {
+					this._store.dispatch(AuthActions.FullScreenLoaderInit({delay: delayTime}))
+				}),
+				switchMap((el) => obs$),
+			).subscribe()
 	}
 
 	public onSortCompanies(companies: ICompanyDTO[], activeCompanyId: number) {

@@ -1,0 +1,100 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    flex: 1 1;
+    
+    max-height: min(500px, 90dvh);
+    min-height: 210px;
+    min-width: min(450px, 80vw);
+    max-width: min(450px, 80vw);
+
+    background-color: var(--modal-window-bg);
+    box-shadow: var(--default-box-shadow);
+    border-radius: 5px;
+    padding: 5px 10px;
+    
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    .close-btn{
+        padding: .8rem;
+        aspect-ratio: 1/1;
+    }
+    
+    .text-container{
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+    
+    .card-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        box-sizing: border-box;
+        white-space: nowrap;
+        height: max-content;
+
+        width: 100%;
+        gap: 5px;
+
+        padding: 10px 0;
+
+        .icon{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .header-title {
+            margin: 0;
+            font-size: 1em;
+        }
+    }
+
+    .card-body {
+        display: flex;
+        align-items: center;
+        white-space: wrap;
+        word-break: keep-all;
+        text-wrap: wrap;
+        flex: 1 1;
+        margin: 10px 0;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+
+        gap: 10px;
+        padding: 5px 0;
+
+        .control-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            cursor: pointer;
+            gap: 5px;
+            border-radius: 5px;
+            padding: 10px 15px;
+
+            transition: opacity .5s ease;
+
+            &:hover {
+                opacity: .7;
+            }
+
+            *,
+            & {
+                color: var(--text-color-1);
+                font-weight: 400;
+            }
+        }
+
+        .confirm-button {
+            min-width: 70px;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {filter, takeUntil, tap} from "rxjs"
+import {filter, take, takeUntil, tap} from "rxjs"
 import {CustomDropdownFieldService, SelectedDropdownItemModel} from "../custom-dropdown-field.service"
 
 @Component({
@@ -54,10 +54,9 @@ export class CustomSelectionOptionComponent extends LifeHooksFactory {
 				filter(el => el != undefined && el === this.value),
 				tap((el) => {
 					this.selectedOptionRef$
-						.next(
-							new SelectedDropdownItemModel(this.btnEl.nativeElement.innerText, this.value)
-						)
+						.next(new SelectedDropdownItemModel(this.btnEl.nativeElement.innerText, this.value, true))
 				}),
+				take(1),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}

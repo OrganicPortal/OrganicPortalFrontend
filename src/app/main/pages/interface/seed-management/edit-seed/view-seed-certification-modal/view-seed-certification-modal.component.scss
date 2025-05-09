@@ -1,0 +1,40 @@
+:host{
+	display: flex;
+	flex-direction: column;
+	
+	gap: .5rem;
+	flex: 1 1;
+	
+	.cert-data{
+		display: flex;
+		flex-direction: column;
+		gap: .3rem;
+	}
+	
+	.text-container{
+		display: flex;
+		flex-direction: row;
+		gap: .4rem;
+		
+		justify-content: flex-start;
+		align-items: center;
+		font-size: .8em;
+		ngx-icon{
+			min-width: max-content;
+		}
+		
+		.text-block{
+			display: -webkit-box;
+			font-weight: 500;
+			overflow: hidden;
+			text-align: start;
+			text-overflow: ellipsis;
+			line-height: 1.3em;
+			color: color-mix(in srgb, var(--text-color) 80%, transparent);
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+		}
+	}
+	
+	
+}

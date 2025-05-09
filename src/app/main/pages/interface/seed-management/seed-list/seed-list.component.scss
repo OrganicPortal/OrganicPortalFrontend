@@ -5,6 +5,13 @@
 	flex-direction: column;
 	gap: 1rem;
 	
+	background-color: var(--white);
+	padding: 1rem;
+	border-radius: 5px;
+	box-shadow: var(--box-shadow-items);
+	--box-shadow-items: rgba(94, 122, 177, 0.2) 0px 2px 5px;
+	
+	
 	.header {
 		display: flex;
 		justify-content: flex-end;

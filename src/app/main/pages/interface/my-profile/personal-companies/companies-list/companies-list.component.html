@@ -93,7 +93,7 @@
 						<div class="card-footer">
 							@if (!item.CompanyArchivated) {
 								<a class="btn drop-btn"
-								   (click)="onArchiveCompany(item?.CompanyId!)"
+								   (click)="onArchiveCompany(item?.CompanyId!, item?.CompanyName!)"
 								   customBasicButton
 								   matRipple>
 									<ngx-icon [name]="'winrar'"

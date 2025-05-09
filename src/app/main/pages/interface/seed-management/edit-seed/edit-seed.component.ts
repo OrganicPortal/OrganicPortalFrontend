@@ -1,6 +1,6 @@
 import {DatePipe} from "@angular/common"
-import {ChangeDetectionStrategy, Component} from "@angular/core"
-import {FormControl, FormGroup, Validators} from "@angular/forms"
+import {ChangeDetectionStrategy, Component, HostBinding, TemplateRef, ViewChild} from "@angular/core"
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
 import {ActivatedRoute, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {
@@ -18,6 +18,10 @@ import {
 	tap,
 	toArray
 } from "rxjs"
+import {frameSideIn4} from "../../../../../../addons/animations/shared.animations"
+import {
+	ConfirmedModalWindowService
+} from "../../../../../../addons/components/confirmed-modal-window/confirmed-modal-window.service"
 import {
 	NgShortMessageService
 } from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -37,7 +41,8 @@ import {ISeedBaseDTO, SeedManagementService, SeedModelDTO} from "../seed-managem
 		"./edit-seed.component.scss",
 		"../new-seed/shared.styles.scss"
 	],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	animations: [frameSideIn4]
 })
 export class EditSeedComponent extends LifeHooksFactory {
 	public authAuditorState$: Observable<AuthAuditorReducerModel>
@@ -46,6 +51,8 @@ export class EditSeedComponent extends LifeHooksFactory {
 	public readonly allowedCerts$ = new BehaviorSubject<AllowedCertModel[]>([])
 	public form!: FormGroup
 	public isFirstContentLoaded: boolean = false
+	@ViewChild("sendToCertTemplate") sendToCertTemplate!: TemplateRef<any>
+	public readonly isDetectChangesInForm$ = new BehaviorSubject<boolean>(false)
 	private readonly requestHandler$ = new Subject<void>()
 	private readonly requestRefresher$ = new Subject<void | "refresh-edit">()
 	private selectedCompanyId: number = -1
@@ -56,6 +63,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 		private _activatedRoute: ActivatedRoute,
 		private _dateTimePipe: DateTimePipe,
 		private _datePipe: DatePipe,
+		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _router: Router,
 		private _ngShortMessageService: NgShortMessageService,
 		private _seedManagementService: SeedManagementService
@@ -68,6 +76,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 		return this._seedManagementService.allowedTreatmentTypes
 	}
 
+	@HostBinding("@frameSideIn4")
 	public override ngOnInit() {
 		super.ngOnInit()
 
@@ -136,6 +145,8 @@ export class EditSeedComponent extends LifeHooksFactory {
 					this.isFirstContentLoaded = true
 
 					this.onInitForm(el.response[0].Data, el.auditorData.data.activeCompanyData, certs)
+					this.isDetectChangesInForm$.next(false)
+
 					this.loaderState$.next(new LoaderModel(true, false))
 
 					if (el.auditorData.refresherState === "refresh-edit") {
@@ -152,6 +163,17 @@ export class EditSeedComponent extends LifeHooksFactory {
 			).subscribe()
 	}
 
+	public override ngAfterViewInit() {
+		super.ngAfterViewInit()
+
+		this._confirmedModalWindowService
+			.onCreateModalWindow(this.sendToCertTemplate)
+	}
+
+	public onChangedDropdownValue() {
+		this.isDetectChangesInForm$.next(true)
+	}
+
 	public onRefreshPage() {
 		this.requestRefresher$.next()
 	}
@@ -161,6 +183,46 @@ export class EditSeedComponent extends LifeHooksFactory {
 			return
 
 		control.setValue(!control.value)
+		this.isDetectChangesInForm$.next(true)
+	}
+
+	public onSendSeedToCertification(isFormChanged: boolean | null) {
+		if (!this.sendToCertTemplate)
+			return
+
+		if (isFormChanged) {
+			const message = "Збережіть зміни для виконання сертифікації."
+			this._ngShortMessageService.onInitMessage(message, "info-circle")
+			return
+		}
+
+		const seedId = this.selectedSeedId
+		const companyId = this.selectedCompanyId
+
+		const obs$ = this._seedManagementService
+			.onSendSeedToCertification(seedId, companyId)
+			.pipe(
+				tap((el) => {
+					this.requestRefresher$.next()
+				}),
+
+				catchError(async () => {
+					this.loaderState$.next(new LoaderModel(true, true))
+				}),
+				takeUntil(this.requestHandler$),
+				takeUntil(this.componentDestroy$)
+			)
+
+		this._confirmedModalWindowService
+			.onCreateModalWindow(this.sendToCertTemplate)
+			.pipe(
+				filter(el => el.isConfirmWindow),
+				tap(() => {
+					this.requestHandler$.next()
+					this.loaderState$.next(new LoaderModel(false, false))
+				}),
+				switchMap(() => obs$)
+			).subscribe()
 	}
 
 	public onSubmit(seedData: ISeedBaseDTO, allowedCerts: AllowedCertModel[]) {
@@ -253,6 +315,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 	}
 
 	private onInitForm(seedInfo: ISeedBaseDTO, companyInfo: ICompanyDTO | undefined, allowedCerts: AllowedCertModel[]) {
+
 		const isDisableFields = !!companyInfo?.CompanyArchivated ||
 			(seedInfo.Status != 0 && seedInfo.Status != 3)
 
@@ -315,7 +378,9 @@ export class EditSeedComponent extends LifeHooksFactory {
 			AverageWeightThousandSeeds: new FormControl({
 				value: seedInfo.AverageWeightThousandSeeds,
 				disabled: isDisableFields
-			}, [Validators.pattern(/^[+-]?(?:\d+([.,]\d+)?|[.,]\d+)$/), Validators.required])
+			}, [Validators.pattern(/^[+-]?(?:\d+([.,]\d+)?|[.,]\d+)$/), Validators.required]),
+
+			Certificates: new FormArray(allowedCerts.map(el => el.control))
 		})
 	}
 }

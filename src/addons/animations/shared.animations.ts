@@ -1,4 +1,4 @@
-import {animate, animateChild, group, query, style, transition, trigger} from "@angular/animations"
+import {animate, animateChild, group, query, sequence, style, transition, trigger} from "@angular/animations"
 
 export const textFramesSideIn = trigger("textFramesSideIn", [
 	transition(":enter", [
@@ -84,7 +84,7 @@ export const frameSideInOut4 = trigger("frameSideInOut4", [
 export const frameSideIn4 = trigger("frameSideIn4", [
 	transition(":enter", [
 		style({opacity: 0, transform: "translateX(-10px)"}),
-		group([
+		sequence([
 			animate(".2s ease", style("*")),
 			query("@*", animateChild(), {optional: true})
 		])

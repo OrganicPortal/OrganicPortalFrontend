@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core"
+import {ChangeDetectionStrategy, Component, HostBinding} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {
 	BehaviorSubject,
@@ -17,6 +17,9 @@ import {
 	withLatestFrom
 } from "rxjs"
 import {frameSideIn4, frameSideInOut4} from "../../../../../../addons/animations/shared.animations"
+import {
+	ConfirmedModalWindowService
+} from "../../../../../../addons/components/confirmed-modal-window/confirmed-modal-window.service"
 import {
 	NgShortMessageService
 } from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
@@ -55,6 +58,7 @@ export class SeedListComponent extends LifeHooksFactory {
 	constructor(
 		private _seedManagementService: SeedManagementService,
 		private _authListeners: AuthListeners,
+		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _ngShortMessageService: NgShortMessageService
 	) {
 		super()
@@ -62,6 +66,7 @@ export class SeedListComponent extends LifeHooksFactory {
 		this.authAuditorState$ = this._authListeners.authAuditorState$
 	}
 
+	@HostBinding("@frameSideIn4")
 	public override ngOnInit() {
 		super.ngOnInit()
 
@@ -80,9 +85,8 @@ export class SeedListComponent extends LifeHooksFactory {
 	}
 
 	public onRemoveSeedInfo(seedId: number, companyId: number) {
-		this.requestHandler$.next()
-		this.loaderState$.next(new LoaderModel(false, false))
-		this._seedManagementService
+		const message = `Обрану одиницю продукції буде <span class="little-red-color font-bold">видалено</span>. Продовжити?`
+		const obs$ = this._seedManagementService
 			.onRemoveSeedFromCompany(seedId, companyId)
 			.pipe(
 				withLatestFrom(this.paginatorState$),
@@ -93,19 +97,17 @@ export class SeedListComponent extends LifeHooksFactory {
 				}),
 				takeUntil(this.requestHandler$),
 				takeUntil(this.componentDestroy$)
-			).subscribe()
-	}
+			)
 
-	public onSendSeedToCertification(seedId: number, companyId: number) {
-		this.requestHandler$.next()
-		this.loaderState$.next(new LoaderModel(false, false))
-
-		this._seedManagementService
-			.onSendSeedToCertification(seedId, companyId)
+		this._confirmedModalWindowService
+			.onCreateModalWindow(message)
 			.pipe(
-				this.onGetRefreshListPipe(companyId),
-				takeUntil(this.requestHandler$),
-				takeUntil(this.componentDestroy$)
+				filter(el => el.isConfirmWindow),
+				tap((el) => {
+					this.requestHandler$.next()
+					this.loaderState$.next(new LoaderModel(false, false))
+				}),
+				switchMap((el) => obs$)
 			).subscribe()
 	}
 

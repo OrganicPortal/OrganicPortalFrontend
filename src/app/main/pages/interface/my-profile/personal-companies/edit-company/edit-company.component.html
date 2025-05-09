@@ -19,7 +19,7 @@
 	} @else if (loaderState?.isLoaded && !loaderState?.isError) {
 		<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 	} @else {
-<!-- 		<ng-container [ngTemplateOutlet]="loading"></ng-container> -->
+		<ng-container [ngTemplateOutlet]="loading"></ng-container>
 	}
 </ng-template>
 <ng-template #loading>

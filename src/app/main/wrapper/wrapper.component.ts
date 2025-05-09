@@ -38,7 +38,7 @@ export class WrapperComponent extends LifeHooksFactory {
 					this.onValidateInterfaceRoute(this._router.url)
 				}),
 				filter(el => el instanceof NavigationEnd),
-				tap(() => window.scroll({behavior: "auto", top: 0})),
+				tap(() => window.scroll({behavior: "smooth", top: 0})),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}

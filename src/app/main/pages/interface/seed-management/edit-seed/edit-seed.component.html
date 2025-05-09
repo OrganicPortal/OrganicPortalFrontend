@@ -2,10 +2,11 @@
 @let allowedCerts = allowedCerts$ | async;
 @let seedData = seedData$ | async;
 @let authAuditorState = authAuditorState$ | async;
+@let isDetectChangesInForm = isDetectChangesInForm$ | async;
 
-@if(loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded){
+@if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
-} @else if(loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded){
+} @else if (loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded) {
 	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 }
 
@@ -17,10 +18,10 @@
 	<form (ngSubmit)="onSubmit(seedData!, allowedCerts!)"
 	      [formGroup]="form"
 	      action="">
-		<div class="container">
+		<div [@frameSideIn4] class="container">
 			<div class="title">
 				<ngx-icon [name]="'info-circle'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Інформація про культуру</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
@@ -78,10 +79,10 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div [@frameSideIn4] class="container">
 			<div class="title">
 				<ngx-icon [name]="'notebook-bookmark'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Партія та терміни</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
@@ -123,10 +124,10 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div [@frameSideIn4] class="container">
 			<div class="title">
-				<ngx-icon [name]="'minimalistic-magnifer-bug'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				<ngx-icon [name]="'bug'"
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Характеристики насіння</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
@@ -156,7 +157,7 @@
 					       type="text">
 				</custom-input-field>
 				
-				<custom-dropdown-field [control]="form.get('TreatmentType')!">
+				<custom-dropdown-field [control]="form.get('TreatmentType')!" (valueChange$)="onChangedDropdownValue()">
 					<ngx-icon [name]="'pin-list'"
 					          [ratio]="'1em'"></ngx-icon>
 					
@@ -175,10 +176,10 @@
 			</div>
 		</div>
 		
-		<div class="container">
+		<div [@frameSideIn4] class="container">
 			<div class="title">
 				<ngx-icon [name]="'diploma'"
-				          [ratio]="'1.5em'"></ngx-icon>
+				          [ratio]="'1.3em'"></ngx-icon>
 				<h3>Сертифікація</h3>
 				<span class="red-checkmark">*</span>
 			</div>
@@ -200,17 +201,43 @@
 		
 		@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
 			@if (seedData?.Status == 0 || seedData?.Status == 3) {
-				<div class="container">
-					<div class="fx-row fx-end">
-						<button [type]="'submit'"
-						        customBasicButton>
-							<ngx-icon [name]="'verified-check'"></ngx-icon>
-							Зберегти
-						</button>
+				<div [@frameSideIn4] class="controls">
+					<div class="container">
+						<div class="fx-row fx-end">
+							<button [type]="'submit'"
+							        class="drop-btn"
+							        customBasicButton>
+								<ngx-icon [name]="'trash-bin-2'"></ngx-icon>
+								Видалити
+							</button>
+						</div>
+					</div>
+					
+					<div class="container">
+						<div class="fx-row fx-end">
+							<button [type]="'button'"
+							        [ngClass]="form.dirty || isDetectChangesInForm ? 'disabled' : ''"
+							        (click)="onSendSeedToCertification(form.dirty || isDetectChangesInForm)"
+							        customRaisedButton>
+								<ngx-icon [name]="'document-add'"></ngx-icon>
+								Сертифікувати
+							</button>
+						</div>
+					</div>
+					
+					<div class="container">
+						<div class="fx-row fx-end">
+							<button [type]="'submit'"
+							        [ngClass]="form.dirty ? 'is-dirty' : ''"
+							        customBasicButton>
+								<ngx-icon [name]="'verified-check'"></ngx-icon>
+								Зберегти
+							</button>
+						</div>
 					</div>
 				</div>
-			}}
-	
+			}
+		}
 	</form>
 </ng-template>
 
@@ -222,4 +249,8 @@
 	<error-loading-page>
 		<refresh-button (click)="onRefreshPage()"></refresh-button>
 	</error-loading-page>
+</ng-template>
+
+<ng-template #sendToCertTemplate>
+	<view-seed-certification-modal [seedData]="seedData!"></view-seed-certification-modal>
 </ng-template>

@@ -25,6 +25,9 @@ import {DateTimePipe} from "../../../../../../addons/pipes/datetime.pipe"
 import {RoutesExtended} from "../../../../../../addons/states/states"
 import {SeedManagementService} from "../seed-management.service"
 import {EditSeedComponent} from "./edit-seed.component"
+import {
+	ViewSeedCertificationModalComponent
+} from "./view-seed-certification-modal/view-seed-certification-modal.component"
 
 export const routes: RoutesExtended = [
 	{
@@ -35,6 +38,7 @@ export const routes: RoutesExtended = [
 
 @NgModule({
 	declarations: [
+		ViewSeedCertificationModalComponent,
 		EditSeedComponent
 	],
 	imports: [

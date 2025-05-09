@@ -13,6 +13,8 @@ import {LifeHooksFactory, NgxToastrModule} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
 import {BehaviorSubject, filter, takeUntil, tap} from "rxjs"
 import {frameSideInOut2} from "../addons/animations/shared.animations"
+import {ConfirmedModalWindowModule} from "../addons/components/confirmed-modal-window/confirmed-modal-window.module"
+import {ConfirmedModalWindowService} from "../addons/components/confirmed-modal-window/confirmed-modal-window.service"
 import {fullScreenLoaderAnimation} from "../addons/components/dots-loader/animations"
 import {FullScreenLoaderModule} from "../addons/components/full-screen-loader/full-screen-loader.module"
 import {NgShortMessageModule} from "../addons/components/ng-materials/ng-short-message/ng-short-message.module"
@@ -33,7 +35,8 @@ import {LOCAL_STORAGE_TOKEN_KEY, SyncStorageModel} from "./store/models/localsto
 		NgShortMessageModule,
 		MatProgressBarModule,
 		AsyncPipe,
-		FullScreenLoaderModule
+		FullScreenLoaderModule,
+		ConfirmedModalWindowModule
 	],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.scss",
@@ -54,6 +57,7 @@ export class AppComponent extends LifeHooksFactory {
 	constructor(
 		private _listenersService: ListenersService,
 		private _authListeners: AuthListeners,
+		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _renderer2: Renderer2,
 		private _store: Store<LocalStorageActions.LocalStorageOperations & StoreAuthType>
 	) {

@@ -32,7 +32,7 @@
 		}
 		
 		@if (seedItems?.length! > 0) {
-			<ngx-grid [cellSize]="250"
+			<ngx-grid [cellSize]="220"
 			          [@frameSideIn4]>
 				@for (item of seedItems; track item.Id; let idx = $index) {
 					<div class="container"
@@ -121,7 +121,8 @@
 								
 								<div class="card-footer">
 									@let isArchivated = authAuditorState?.activeCompany?.CompanyArchivated;
-									
+									@let isAllowedEditRecord = ((item.Status != 0 && item.Status != 3) && !isArchivated);
+								
 									@if (!isArchivated) {
 										@if (item.Status == 0 || item.Status == 3) {
 											<a class="btn remove-btn" [@frameSideInOut4]
@@ -132,13 +133,13 @@
 												          [ratio]="'1.1em'"></ngx-icon>
 											</a>
 											
-											<a class="btn signature-btn" [@frameSideInOut4]
-											   (click)="onSendSeedToCertification(item.Id, item.CompanyId)"
-											   customBasicButton
-											   matRipple>
-												<ngx-icon [name]="'document-add'"
-												          [ratio]="'1.1em'"></ngx-icon>
-											</a>
+<!-- 											<a class="btn signature-btn" [@frameSideInOut4] -->
+<!-- 											   (click)="onSendSeedToCertification(item.Id, item.CompanyId)" -->
+<!-- 											   customBasicButton -->
+<!-- 											   matRipple> -->
+<!-- 												<ngx-icon [name]="'document-add'" -->
+<!-- 												          [ratio]="'1.1em'"></ngx-icon> -->
+<!-- 											</a> -->
 										}
 									}
 
@@ -146,9 +147,9 @@
 									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
 									   customRaisedButton
 									   matRipple>
-										<ngx-icon [name]="isArchivated ? 'eye' : 'pen'"
+										<ngx-icon [name]="isAllowedEditRecord ? 'eye' : 'pen'"
 										          [ratio]="'1.1em'"></ngx-icon>
-										{{!isArchivated ? 'Ред.' : ''}}
+										{{!isAllowedEditRecord ? 'Ред.' : ''}}
 									</a>
 								</div>
 							</div>
@@ -165,7 +166,12 @@
 			     [@frameSideIn4]>
 				<ngx-icon [name]="'pen-new-round'"
 				          [ratio]="'1.5em'"></ngx-icon>
-				<h3>Записи відсутні. Створіть нову <br> продукцію для перегляду більшого набору інформації</h3>
+				
+				@if(!authAuditorState?.activeCompany?.CompanyArchivated){
+					<h3>Записи відсутні. Створіть нову <br> продукцію для перегляду більшого набору інформації</h3>
+				} @else{
+					<h3>Записи відсутні. Для створення  <br> продукції розархівуйте компанію</h3>
+				}
 			</div>
 		}
 	</div>

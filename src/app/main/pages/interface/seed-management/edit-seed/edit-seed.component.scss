@@ -1,0 +1,15 @@
+:host {
+	.controls {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		
+		gap: .5rem;
+	}
+	
+	.drop-btn {
+		background-color: var(--little-red) !important;
+	}
+
+}

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core"
-import {BehaviorSubject, Subject} from "rxjs"
+import {BehaviorSubject} from "rxjs"
 
 @Injectable()
 export class CustomDropdownFieldService {
@@ -13,9 +13,12 @@ export class CustomDropdownFieldService {
 export class SelectedDropdownItemModel {
 	innerText: string
 	componentValue?: any
+	isInitialValue: boolean = false
 
-	constructor(innerText: string, componentValue?: string) {
+	constructor(innerText: string, componentValue?: string, isInitialValue?: boolean) {
 		this.innerText = innerText
 		this.componentValue = componentValue
+
+		this.isInitialValue = !!isInitialValue
 	}
 }

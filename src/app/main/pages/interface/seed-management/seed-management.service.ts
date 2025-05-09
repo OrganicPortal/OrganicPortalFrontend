@@ -1,6 +1,6 @@
 import {HttpClient, HttpContext} from "@angular/common/http"
 import {Injectable} from "@angular/core"
-import {merge, Observable, switchMap} from "rxjs"
+import {combineLatest, map, merge, Observable, switchMap} from "rxjs"
 import {PaginatorModel} from "../../../../../addons/models/models"
 import {AllowedHttpContextTokens} from "../../../../../addons/services/http-interceptor.service"
 
@@ -100,14 +100,16 @@ export class SeedManagementService {
 		}
 
 		return this.onEditSeedBasicInfo(seedId, companyId, seedData, isDisableHandleSuccessMessages)
-			.pipe(switchMap((el) => merge(...certRequests$)))
+			.pipe(switchMap((el) => combineLatest(certRequests$)))
 	}
 
 	public onSaveSeedAndCertsInfo(companyId: number, seedData: SeedModelDTO, certsData: IAllowedCertsDTO[]) {
 		return this.onSaveSeedInfo(companyId, seedData)
 			.pipe(
-				switchMap((el) =>
-					this.onAddCertInfoToSeed(companyId, el.Data.SeedId, certsData)
+				switchMap((el2) =>
+					this.onAddCertInfoToSeed(companyId, el2.Data.SeedId, certsData).pipe(
+						map(() => el2)
+					)
 				)
 			)
 	}
