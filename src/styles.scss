@@ -16,7 +16,7 @@ html, body {
 	padding: 0;
 	margin: 0;
 	flex-direction: column;
-	height: 100%;
+	height: 100dvh;
 	scroll-behavior: smooth;
 }
 
@@ -49,6 +49,7 @@ body {
 	--color-palette-6: #baf2e3;
 	--color-palette-7: #72bd8c;
 	--color-palette-8: #cfebff;
+	--color-palette-9: #72bdaf;
 	
 	--modal-window-bg: #fff;
 	--modal-window-prevent-bg: rgba(163, 163, 163, 0.24);

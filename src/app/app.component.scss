@@ -3,19 +3,39 @@
 :host {
 	display: flex;
 	flex-direction: column;
+	position: relative;
 	flex: 1 1;
 	
 	background-color: var(--color-palette-4);
 	
-	mat-progress-bar {
-		position: absolute;
-		z-index: 999;
+	.progress-bar-container{
+		position: sticky;
 		top: 0;
 		left: 0;
-		@include mat.progress-bar-overrides((
-				active-indicator-color: var(--color-palette-3),
-		));
+		width: 100%;
+		z-index: 9919;
+		
+		mat-progress-bar {
+			position: absolute;
+			top: 0;
+			left: 0;
+			
+			mix-blend-mode: difference;
+			
+			@include mat.progress-bar-overrides((
+					active-indicator-color: var(--color-palette-9),
+					active-indicator-height: 5px
+			));
+		}
+		
+		mat-progress-bar .mat-progress-bar-fill::after {
+			background-color: white;
+			mix-blend-mode: difference;
+		}
+		
 	}
+	
+	
 	
 	ngx-toastr {
 		z-index: 100;

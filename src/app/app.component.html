@@ -5,9 +5,11 @@
 @let fullScreenLoaderState = fullScreenLoaderState$ | async;
 @let isSuccessLoadingInterface = isSuccessLoadingInterface$ | async;
 
-@if (isLoadingChunks) {
-	<mat-progress-bar mode="indeterminate"
-	                  [@frameSideInOut2]></mat-progress-bar>
+@if(isLoadingChunks){
+	<div class="progress-bar-container">
+		<mat-progress-bar [@frameSideInOut2]
+		                  mode="indeterminate"></mat-progress-bar>
+	</div>
 }
 
 <router-outlet></router-outlet>
@@ -17,7 +19,7 @@
 <ng-short-messages></ng-short-messages>
 <confirmed-modal-window></confirmed-modal-window>
 
-@if(((isLoadingInterface && !isSuccessLoadingInterface)) || !authAuditorState?.isFetchSuccess ||
-!logoutAuditorState?.isFetchSuccess || fullScreenLoaderState?.isAnimating){
+@if (((isLoadingInterface && !isSuccessLoadingInterface)) || !authAuditorState?.isFetchSuccess ||
+!logoutAuditorState?.isFetchSuccess || fullScreenLoaderState?.isAnimating) {
 	<full-screen-loader [@fullScreenLoaderAnimation]></full-screen-loader>
 }

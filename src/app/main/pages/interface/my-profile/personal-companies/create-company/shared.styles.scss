@@ -1,7 +1,7 @@
 :host {
 	display: flex;
-	flex: 1 1;
 	position: relative;
+	flex: 1 1;
 	flex-direction: column;
 	gap: 1.5rem;
 	--default-titles-color: color-mix(in srgb, transparent, var(--text-color) 80%);
@@ -35,25 +35,29 @@
 		gap: .5rem;
 	}
 	
-	.ratio-1-1{
+	.ratio-1-1 {
 		aspect-ratio: 1/1;
 	}
 	
-	.contact-item{
-		justify-content: flex-start;
+	.contact-item {
 		align-items: center;
+		justify-content: flex-start;
 		text-align: start;
 	}
 	
-	.drop-field-btn{
+	.drop-field-btn {
 		padding: .7rem !important;
+	}
+	
+	.back-btn {
+		padding: .8rem 1rem;
 	}
 	
 	.red-checkmark {
 		color: var(--little-red);
 	}
 	
-	.contact-list{
+	.contact-list {
 		max-width: 50%;
 	}
 	
