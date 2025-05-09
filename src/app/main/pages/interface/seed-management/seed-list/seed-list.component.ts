@@ -105,6 +105,26 @@ export class SeedListComponent extends LifeHooksFactory {
 			).subscribe()
 	}
 
+	public onSendSeedToCertification(seedId: number, companyId: number) {
+		this.requestHandler$.next()
+		this.loaderState$.next(new LoaderModel(false, false))
+
+		this._seedManagementService
+			.onSendSeedToCertification(seedId, companyId)
+			.pipe(
+				tap((el) => {
+					this.loaderState$.next(new LoaderModel(true, false))
+				}),
+
+				catchError(async (err) => {
+					this.loaderState$.next(new LoaderModel(true, true))
+				}),
+
+				takeUntil(this.requestHandler$),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
+	}
+
 	private onGetSeedList() {
 		return this.authAuditorState$
 			.pipe(

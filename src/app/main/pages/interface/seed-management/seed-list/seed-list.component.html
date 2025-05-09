@@ -129,7 +129,7 @@
 									</a>
 									
 									<a class="btn signature-btn"
-									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
+									   (click)="onSendSeedToCertification(item.Id, item.CompanyId)"
 									   customBasicButton
 									   matRipple>
 										<ngx-icon [name]="'document-add'"
