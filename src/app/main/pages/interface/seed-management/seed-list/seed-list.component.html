@@ -2,7 +2,6 @@
 @let seedItems = seedItems$ | async;
 @let authAuditorState = authAuditorState$ | async;
 
-
 <ng-title [titleLevel]="'h3'">
 	<ngx-icon [name]="'forward-2'"></ngx-icon>
 	Список продукції
@@ -127,14 +126,16 @@
 								
 								<div class="card-footer">
 									@let isArchivated = authAuditorState?.activeCompany?.CompanyArchivated;
-									@let isAllowedEditRecord = ((item.Status != 0 && item.Status != 3) && !isArchivated);
+									@let isAllowedEditRecord = ((item.Status == 0 || item.Status == 3));
+									@let editableValidation = isAllowedEditRecord && !isArchivated;
+									@let editButtonTooltipMessage = editableValidation ? 'Редагувати' : 'Переглянути';
 									
-									@let editButtonTooltipMessage = isAllowedEditRecord ? 'Переглянути' : 'Редагувати';
 									@let dropButtonTooltipMessage = 'Видалити';
 									
 									@if (!isArchivated) {
 										@if (item.Status == 0 || item.Status == 3) {
-											<a class="btn remove-btn" [@frameSideIn4]
+											<a class="btn remove-btn"
+											   [@frameSideIn4]
 											   customRaisedButton
 											   [matTooltip]="dropButtonTooltipMessage"
 											   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
@@ -144,15 +145,16 @@
 											</a>
 										}
 									}
-
-									<a class="btn" [@frameSideIn4]
+									
+									<a class="btn"
+									   [@frameSideIn4]
 									   [matTooltip]="editButtonTooltipMessage"
 									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
 									   customRaisedButton
 									   matRipple>
-										<ngx-icon [name]="isAllowedEditRecord ? 'eye' : 'pen'"
+										<ngx-icon [name]="editableValidation ? 'pen' : 'eye'"
 										          [ratio]="'1.1em'"></ngx-icon>
-										{{!isAllowedEditRecord ? 'Ред.' : ''}}
+										{{ editableValidation ? 'Ред.' : '' }}
 									</a>
 								</div>
 							</div>
@@ -169,10 +171,10 @@
 				<ngx-icon [name]="'pen-new-round'"
 				          [ratio]="'1.5em'"></ngx-icon>
 				
-				@if(!authAuditorState?.activeCompany?.CompanyArchivated){
+				@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
 					<h3>Записи відсутні. Створіть нову <br> продукцію для перегляду більшого набору інформації</h3>
-				} @else{
-					<h3>Записи відсутні. Для створення  <br> продукції розархівуйте компанію</h3>
+				} @else {
+					<h3>Записи відсутні. Для створення <br> продукції розархівуйте компанію</h3>
 				}
 			</div>
 		}
