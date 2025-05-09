@@ -50,6 +50,12 @@ export class NewSeedComponent extends LifeHooksFactory {
 		super.ngOnInit()
 
 		this.authAuditorState$.pipe(
+			tap((el) => {
+				if(el.activeCompany?.CompanyArchivated){
+					this._router.navigate(["/interface/seed-management"])
+					return
+				}
+			}),
 			map(el => el.activeCompany?.CompanyId),
 			tap((el) => {
 				this.selectedCompanyId = el ?? -1
