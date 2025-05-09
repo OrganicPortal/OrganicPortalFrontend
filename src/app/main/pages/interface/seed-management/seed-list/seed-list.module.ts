@@ -14,6 +14,7 @@ import {
 import {CustomInputFieldModule} from "../../../../../../addons/components/custom-input-field/custom-input-field.module"
 import {DotsLoaderModule} from "../../../../../../addons/components/dots-loader/dots-loader.module"
 import {ErrorLoadingModule} from "../../../../../../addons/components/error-loading/error-loading.module"
+import {NgTitleModule} from "../../../../../../addons/components/ng-materials/ng-title/ng-title.module"
 import {
 	CustomBasicButtonModule
 } from "../../../../../../addons/directives/buttons/custom-basic-button/custom-button.module"
@@ -58,7 +59,8 @@ export const routes: RoutesExtended = [
 		RxVirtualViewContent,
 		RxVirtualViewObserver,
 		RxVirtualViewPlaceholder,
-		MatTooltipModule
+		MatTooltipModule,
+		NgTitleModule
 	],
 
 	providers: [

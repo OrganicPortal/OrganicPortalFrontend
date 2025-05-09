@@ -106,15 +106,16 @@
 								</a>
 							}
 							
-							<a class="btn"
-							   [matTooltip]="activeButtonTooltipMessage"
-							   customRaisedButton
-							   (click)="onSetActiveCompany(item, authAuditorState!)"
-							   matRipple>
-								<ngx-icon [name]="'check-circle'"
-								          [ratio]="'1.1em'"></ngx-icon>
-							</a>
-							
+							@if (authAuditorState?.activeCompany?.CompanyId !== item.CompanyId && item.CompanyId) {
+								<a class="btn"
+								   [matTooltip]="activeButtonTooltipMessage"
+								   customRaisedButton
+								   (click)="onSetActiveCompany(item, authAuditorState!)"
+								   matRipple>
+									<ngx-icon [name]="'check-circle'"
+									          [ratio]="'1.1em'"></ngx-icon>
+								</a>
+							}
 							
 							<a class="btn"
 							   [routerLink]="'edit/' + item.CompanyId"

@@ -84,7 +84,6 @@
 	.header {
 		display: flex;
 		position: relative;
-		padding: 1rem .5rem;
 		
 		z-index: 10;
 		align-items: center;
@@ -93,8 +92,10 @@
 		box-sizing: border-box;
 		min-height: calc(var(--header-height) - 18px);
 		// max-height: calc(var(--header-height) - 14px);
-		
+		padding: 0 .5rem;
 		border-bottom: var(--border-size) solid var(--border-color);
+		line-height: 1.2em;
+		max-height: calc(2.4em + 1em * 2);
 		
 		.full-view-container-header {
 			display: flex;
@@ -104,6 +105,8 @@
 			flex-direction: column;
 			justify-content: center;
 			gap: .5rem;
+			padding: 1rem 0;
+			box-sizing: border-box;
 		}
 		
 		.short-view-container-header {
@@ -111,6 +114,7 @@
 			justify-content: center;
 			align-items: center;
 			flex: 1 1 auto;
+			box-sizing: border-box;
 			width: 0;
 		}
 		
@@ -129,6 +133,7 @@
 			text-align: center;
 			
 			color: color-mix(in srgb, var(--text-color) 40%, transparent);
+			white-space: nowrap;
 			
 			h3 {
 				display: -webkit-box;
@@ -233,6 +238,9 @@
 		padding: 1rem 2rem !important;
 	}
 	
+	.company-name{
+		white-space: unset !important;
+	}
 	
 	.full-view-container-header {
 		overflow: hidden;

@@ -1,7 +1,8 @@
-<div class="container" [@frameSideIn4]>
+<div class="container"
+     [@frameSideIn4]>
 	<div class="image-frame">
 		<img class="card-bg"
-		     [ngSrc]="'assets/my-profile/3.webp'"
+		     [ngSrc]="'assets/my-profile/1.webp'"
 		     alt=""
 		     fill
 		     priority>
@@ -14,42 +15,43 @@
 			     width="50"
 			>
 		</div>
-	</div>
-	
-	<nav class="navigation">
-		<div class="links">
-			<a class="link-frame"
-			   [routerLinkActiveOptions]="{exact: true}"
-			   [routerLinkActive]="'active'"
-			   [routerLink]="'/interface/my-profile'"
-			   customRaisedButton
-			   matRipple>
+		
+		<nav class="navigation">
+			<div class="links">
+				<a class="link-frame"
+				   [routerLinkActiveOptions]="{exact: true}"
+				   [routerLinkActive]="'active'"
+				   [routerLink]="'/interface/my-profile'"
+				   customRaisedButton
+				   matRipple>
+					
+					<ngx-icon [name]="'user-rounded'"></ngx-icon>
+					Особисті дані
+				</a>
 				
-				<ngx-icon [name]="'user-rounded'"></ngx-icon>
-				Особисті дані
-			</a>
-			
-			<a class="link-frame"
-			   [routerLinkActive]="'active'"
-			   [routerLink]="'/interface/my-profile/personal-companies'"
-			   customRaisedButton
-			   matRipple>
-				<ngx-icon [name]="'flag-2'"></ngx-icon>
-				Мої компанії
-			</a>
-			
-			<a class="link-frame"
-			   (click)="onLogout()"
-			   customRaisedButton
-			   matRipple>
-				<ngx-icon [name]="'logout'"></ngx-icon>
-				Вихід
-			</a>
-		</div>
-	</nav>
+				<a class="link-frame"
+				   [routerLinkActive]="'active'"
+				   [routerLink]="'/interface/my-profile/personal-companies'"
+				   customRaisedButton
+				   matRipple>
+					<ngx-icon [name]="'flag-2'"></ngx-icon>
+					Мої компанії
+				</a>
+				
+				<a class="link-frame"
+				   (click)="onLogout()"
+				   customRaisedButton
+				   matRipple>
+					<ngx-icon [name]="'logout'"></ngx-icon>
+					Вихід
+				</a>
+			</div>
+		</nav>
+	</div>
 </div>
 
-<div class="content-container" [@frameSideIn4]>
+<div class="content-container"
+     [@frameSideIn4]>
 	<router-outlet></router-outlet>
 </div>
 

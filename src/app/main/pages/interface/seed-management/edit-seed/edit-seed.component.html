@@ -4,6 +4,11 @@
 @let authAuditorState = authAuditorState$ | async;
 @let isDetectChangesInForm = isDetectChangesInForm$ | async;
 
+<ng-title [titleLevel]="'h3'">
+	<ngx-icon [name]="'pen'" [ratio]="'1.3em'"></ngx-icon>
+	Редагування продукту
+</ng-title>
+
 @if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
 } @else if (loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded) {

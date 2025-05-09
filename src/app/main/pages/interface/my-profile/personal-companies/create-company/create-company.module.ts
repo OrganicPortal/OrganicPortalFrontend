@@ -1,6 +1,7 @@
 import {CommonModule, DatePipe} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
+import {MatTooltipModule} from "@angular/material/tooltip"
 import {RouterModule} from "@angular/router"
 import {
 	CustomDropdownFieldModule
@@ -30,7 +31,8 @@ export const routes: RoutesExtended = [
 		FormsModule,
 		NgCheckboxModule,
 		CustomDropdownFieldModule,
-		DotsLoaderModule
+		DotsLoaderModule,
+		MatTooltipModule
 	],
 
 	providers: [DatePipe]

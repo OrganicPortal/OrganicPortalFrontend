@@ -54,3 +54,15 @@
 :host.disable-bg {
 	background-color: unset !important;
 }
+
+// :host.loader{
+// 	opacity: 0;
+//
+// 	animation: loader-animation .5s ease forwards;
+//
+// 	@keyframes loader-animation {
+// 		100% {
+// 			opacity: 1;
+// 		}
+// 	}
+// }

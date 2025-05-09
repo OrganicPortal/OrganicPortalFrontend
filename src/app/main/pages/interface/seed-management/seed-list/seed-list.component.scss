@@ -66,7 +66,7 @@
 	.virtual-view-container{
 		display: flex;
 		flex-direction: column;
-		gap: .5rem;
+		gap: 1rem;
 		flex: 1 1;
 	}
 	
@@ -85,7 +85,7 @@
 	}
 	
 	.card-status-color-2 {
-		background-color: #eafff6;
+		background-color: rgba(6, 119, 93, 0.13);
 	}
 	
 	.placeholder{
@@ -106,7 +106,7 @@
 		
 		opacity: 0;
 		
-		animation: animate .2s ease forwards;
+		animation: animate .5s ease forwards;
 		@keyframes animate {
 			100%{
 				opacity: 1;
@@ -132,7 +132,7 @@
 				}
 				
 				span {
-					font-size: .7em;
+					font-size: .75em;
 					font-weight: 400 !important;
 				}
 			}

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {catchError, delay, filter, map, of, Subject, switchMap, takeUntil, tap} from "rxjs"
+import {catchError, delay, filter, map, Observable, of, Subject, switchMap, takeUntil, tap} from "rxjs"
 import {frameSideIn4, frameSideInOut2} from "../../../../../../../addons/animations/shared.animations"
 import {
 	ConfirmedModalWindowService
@@ -35,7 +35,7 @@ import {containerAnimation} from "../../shared/shared.animation"
 })
 export class CompaniesListComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader()
-	public readonly authAuditorState$
+	public readonly authAuditorState$: Observable<AuthAuditorReducerModel>
 	private readonly requestHandler$ = new Subject<void>()
 	protected AllowedRoles = AllowedRoles
 

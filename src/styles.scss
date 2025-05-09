@@ -43,10 +43,10 @@ body {
 	
 	--color-palette-1: #5e6d8a51;
 	--color-palette-2: #f6fdf6;
-	--color-palette-3: #63b45b;
-	--color-palette-4: #fbfffb;
-	--color-palette-5: #d8e1d8;
-	--color-palette-6: #bef2ba;
+	--color-palette-3: #06785e;
+	--color-palette-4: #fff;
+	--color-palette-5: #d8e1de;
+	--color-palette-6: #baf2e3;
 	--color-palette-7: #72bd8c;
 	--color-palette-8: #cfebff;
 	
@@ -55,7 +55,7 @@ body {
 	
 	--little-red: #f4695f;
 	
-	--dots-loadbar-color: #609870;
+	--dots-loadbar-color: var(--color-palette-3);
 	
 	--ngx-default-icon-color: var(--text-color);
 	
@@ -79,16 +79,16 @@ body {
 	--ngx-toastr-text-override: #fff;
 	/* #endregion ngx-ngx-toastr */
 	
-	--basic-button-color: #64b55c;
+	--basic-button-color:#06785e;
 	--basic-button-disabled-color: #cdcdcd;
 	--reised-button-disabled-color: #eaeaea;
 	
-	--basic-button-active-color: #559e52;
+	--basic-button-active-color: #0aa17e;
 	--basic-button-ripple-color: rgba(255, 255, 255, 0.16);
 	--basic-button-raised-ripple-color: rgba(161, 161, 161, 0.16);
 	
 	--basic-link-ripple-color: rgba(255, 255, 255, 0.08);
-	--basic-link-active-color-1: #c5ffbd;
+	--basic-link-active-color-1: #1c8f71;
 	--basic-link-active-color-2: #676767;
 	
 	--clipboard-bg-selected-color: #e8e8e8;

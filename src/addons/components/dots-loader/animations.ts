@@ -6,10 +6,10 @@ export const DotsLoadbarAnimation = trigger("DotsLoadbarAnimation", [
         animate(".3s ease", style("*"))
     ]),
 
-    transition(":leave", [
-        style("*"),
-        animate(".3s ease", style({ opacity: 0 }))
-    ])
+    // transition(":leave", [
+    //     style("*"),
+    //     animate(".3s ease", style({ opacity: 0 }))
+    // ])
 ])
 
 export const fullScreenLoaderAnimation = trigger("fullScreenLoaderAnimation", [

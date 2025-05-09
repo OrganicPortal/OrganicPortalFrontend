@@ -8,7 +8,7 @@
 		
 		&.active {
 			color: var(--active-color);
-			--active-color: #65b65d;
+			--active-color: var(--basic-link-active-color-1);
 			
 			ngx-icon {
 				--ngx-icon-override-color-1: var(--active-color) !important;
@@ -142,7 +142,7 @@
 		
 		&.active {
 			color: var(--active-color);
-			--active-color: #65b65d;
+			--active-color: var(--basic-link-active-color-1);
 			
 			ngx-icon {
 				--ngx-icon-override-color-1: var(--active-color) !important;

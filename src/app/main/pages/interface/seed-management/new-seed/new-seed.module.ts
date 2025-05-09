@@ -10,6 +10,7 @@ import {CustomInputFieldModule} from "../../../../../../addons/components/custom
 import {DotsLoaderModule} from "../../../../../../addons/components/dots-loader/dots-loader.module"
 import {ErrorLoadingModule} from "../../../../../../addons/components/error-loading/error-loading.module"
 import {NgCheckboxModule} from "../../../../../../addons/components/ng-materials/ng-checkbox/ng-checkbox.module"
+import {NgTitleModule} from "../../../../../../addons/components/ng-materials/ng-title/ng-title.module"
 import {
 	CustomBasicButtonModule
 } from "../../../../../../addons/directives/buttons/custom-basic-button/custom-button.module"
@@ -52,7 +53,8 @@ export const routes: RoutesExtended = [
 		RouterModule.forChild(routes),
 		ErrorLoadingModule,
 		DotsLoaderModule,
-		NgCheckboxModule
+		NgCheckboxModule,
+		NgTitleModule
 	]
 })
 export class NewSeedModule {

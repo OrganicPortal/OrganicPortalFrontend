@@ -1,6 +1,11 @@
 @let loaderState = loaderState$ | async;
 @let allowedCerts = allowedCerts$ | async;
 
+<ng-title [titleLevel]="'h3'">
+	<ngx-icon [name]="'add-circle'" [ratio]="'1.3em'"></ngx-icon>
+	Створення продукту
+</ng-title>
+
 @if(loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded){
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
 } @else if(loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded){

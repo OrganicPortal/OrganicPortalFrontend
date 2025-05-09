@@ -2,6 +2,12 @@
 @let seedItems = seedItems$ | async;
 @let authAuditorState = authAuditorState$ | async;
 
+
+<ng-title [titleLevel]="'h3'">
+	<ngx-icon [name]="'forward-2'"></ngx-icon>
+	Список продукції
+</ng-title>
+
 @if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
 } @else if (loaderState?.isLoaded && !loaderState?.isError || isFirstContentLoaded) {
@@ -128,7 +134,7 @@
 									
 									@if (!isArchivated) {
 										@if (item.Status == 0 || item.Status == 3) {
-											<a class="btn remove-btn" [@frameSideInOut4]
+											<a class="btn remove-btn" [@frameSideIn4]
 											   customRaisedButton
 											   [matTooltip]="dropButtonTooltipMessage"
 											   (click)="onRemoveSeedInfo(item.Id, item.CompanyId)"
@@ -139,7 +145,7 @@
 										}
 									}
 
-									<a class="btn" [@frameSideInOut4]
+									<a class="btn" [@frameSideIn4]
 									   [matTooltip]="editButtonTooltipMessage"
 									   [routerLink]="'/interface/seed-management/edit/' + item.Id"
 									   customRaisedButton
