@@ -5,7 +5,8 @@
 @let isDetectChangesInForm = isDetectChangesInForm$ | async;
 
 <ng-title [titleLevel]="'h3'">
-	<ngx-icon [name]="'pen'" [ratio]="'1.3em'"></ngx-icon>
+	<ngx-icon [name]="'pen'"
+	          [ratio]="'1.3em'"></ngx-icon>
 	Редагування продукту
 </ng-title>
 
@@ -23,7 +24,8 @@
 	<form (ngSubmit)="onSubmit(seedData!, allowedCerts!)"
 	      [formGroup]="form"
 	      action="">
-		<div [@frameSideIn4] class="container">
+		<div class="container"
+		     [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'info-circle'"
 				          [ratio]="'1.3em'"></ngx-icon>
@@ -84,7 +86,8 @@
 			</div>
 		</div>
 		
-		<div [@frameSideIn4] class="container">
+		<div class="container"
+		     [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'notebook-bookmark'"
 				          [ratio]="'1.3em'"></ngx-icon>
@@ -129,7 +132,8 @@
 			</div>
 		</div>
 		
-		<div [@frameSideIn4] class="container">
+		<div class="container"
+		     [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'bug'"
 				          [ratio]="'1.3em'"></ngx-icon>
@@ -162,7 +166,8 @@
 					       type="text">
 				</custom-input-field>
 				
-				<custom-dropdown-field [control]="form.get('TreatmentType')!" (valueChange$)="onChangedDropdownValue()">
+				<custom-dropdown-field (valueChange$)="onChangedDropdownValue()"
+				                       [control]="form.get('TreatmentType')!">
 					<ngx-icon [name]="'pin-list'"
 					          [ratio]="'1em'"></ngx-icon>
 					
@@ -181,7 +186,8 @@
 			</div>
 		</div>
 		
-		<div [@frameSideIn4] class="container">
+		<div class="container"
+		     [@frameSideIn4]>
 			<div class="title">
 				<ngx-icon [name]="'diploma'"
 				          [ratio]="'1.3em'"></ngx-icon>
@@ -206,10 +212,12 @@
 		
 		@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
 			@if (seedData?.Status == 0 || seedData?.Status == 3) {
-				<div [@frameSideIn4] class="controls">
+				<div [@frameSideIn4]
+				     class="controls">
 					<div class="container">
 						<div class="fx-row fx-end">
-							<button [type]="'submit'"
+							<button [type]="'button'"
+							        (click)="onRemoveSeedInfo()"
 							        class="drop-btn"
 							        customBasicButton>
 								<ngx-icon [name]="'trash-bin-2'"></ngx-icon>

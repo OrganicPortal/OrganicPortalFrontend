@@ -175,6 +175,33 @@ export class EditSeedComponent extends LifeHooksFactory {
 		this.requestRefresher$.next()
 	}
 
+	public onRemoveSeedInfo() {
+		const message = `Обрану одиницю продукції буде <span class="little-red-color font-bold">видалено</span>. Продовжити?`
+		const obs$ = this._seedManagementService
+			.onRemoveSeedFromCompany(this.selectedSeedId, this.selectedCompanyId)
+			.pipe(
+				tap(() => {
+					const message = "Дані успішно видалено"
+					this._ngShortMessageService.onInitMessage(message, "check-circle")
+					this._router.navigate(["/interface/seed-management"])
+				}),
+				takeUntil(this.requestHandler$),
+				takeUntil(this.componentDestroy$)
+			)
+
+		this._confirmedModalWindowService
+			.onCreateModalWindow(message)
+			.pipe(
+				filter(el => el.isConfirmWindow),
+				tap((el) => {
+					this.requestHandler$.next()
+					this.loaderState$.next(new LoaderModel(false, false))
+				}),
+				switchMap((el) => obs$)
+			).subscribe()
+	}
+
+
 	public onSelectionCertHandler(control: FormControl) {
 		if (control.disabled)
 			return
