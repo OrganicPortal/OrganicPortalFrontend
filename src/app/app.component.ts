@@ -1,4 +1,5 @@
-import {AsyncPipe} from "@angular/common"
+import {Breakpoints, BreakpointState} from "@angular/cdk/layout"
+import {AsyncPipe, CommonModule} from "@angular/common"
 import {Component, Renderer2} from "@angular/core"
 import {MatProgressBarModule} from "@angular/material/progress-bar"
 import {
@@ -11,7 +12,7 @@ import {
 } from "@angular/router"
 import {LifeHooksFactory, NgxToastrModule} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
-import {BehaviorSubject, filter, takeUntil, tap} from "rxjs"
+import {BehaviorSubject, filter, Observable, takeUntil, tap} from "rxjs"
 import {frameSideInOut2} from "../addons/animations/shared.animations"
 import {ConfirmedModalWindowModule} from "../addons/components/confirmed-modal-window/confirmed-modal-window.module"
 import {ConfirmedModalWindowService} from "../addons/components/confirmed-modal-window/confirmed-modal-window.service"
@@ -19,6 +20,7 @@ import {fullScreenLoaderAnimation} from "../addons/components/dots-loader/animat
 import {FullScreenLoaderModule} from "../addons/components/full-screen-loader/full-screen-loader.module"
 import {NgShortMessageModule} from "../addons/components/ng-materials/ng-short-message/ng-short-message.module"
 import {ViewportOverlayModule} from "../addons/components/viewport-overlay/viewport-overlay.module"
+import {BreakpointsService} from "../addons/services/breakpoints.service"
 import {ListenersService} from "../addons/services/listeners.service"
 import * as AuthActions from "./store/actions/auth.actions"
 import {StoreAuthType} from "./store/actions/auth.actions"
@@ -29,6 +31,7 @@ import {LOCAL_STORAGE_TOKEN_KEY, SyncStorageModel} from "./store/models/localsto
 @Component({
 	selector: "app-root",
 	imports: [
+		CommonModule,
 		RouterOutlet,
 		NgxToastrModule,
 		ViewportOverlayModule,
@@ -53,11 +56,13 @@ export class AppComponent extends LifeHooksFactory {
 	public readonly authAuditorState$
 	public readonly logoutAuditorState$
 	public readonly fullScreenLoaderState$
+	public breakPointForXSmall$: Observable<BreakpointState>
 
 	constructor(
 		private _listenersService: ListenersService,
 		private _authListeners: AuthListeners,
 		private _confirmedModalWindowService: ConfirmedModalWindowService,
+		private _breakpointsService: BreakpointsService,
 		private _renderer2: Renderer2,
 		private _store: Store<LocalStorageActions.LocalStorageOperations & StoreAuthType>
 	) {
@@ -70,6 +75,8 @@ export class AppComponent extends LifeHooksFactory {
 		this._store.dispatch(LocalStorageActions.SyncStorageByKeys(new SyncStorageModel([LOCAL_STORAGE_TOKEN_KEY])))
 		this._store.dispatch(LocalStorageActions.StorageStateFetchInit())
 		this._store.dispatch(AuthActions.AuthAuditorInit())
+
+		this.breakPointForXSmall$ = this._breakpointsService.onListenBreakpoint(Breakpoints.XSmall)
 	}
 
 	public override ngOnInit() {
@@ -77,7 +84,7 @@ export class AppComponent extends LifeHooksFactory {
 
 		this.fullScreenLoaderState$.pipe(
 			tap(el => {
-				if(el.isAnimating){
+				if (el.isAnimating) {
 					this._renderer2.addClass(document.body, "hidden-content")
 					return
 				}
@@ -86,6 +93,7 @@ export class AppComponent extends LifeHooksFactory {
 			}),
 			takeUntil(this.componentDestroy$)
 		).subscribe()
+
 		this._listenersService.onListenRouterNavigation()
 			.pipe(
 				filter(el =>

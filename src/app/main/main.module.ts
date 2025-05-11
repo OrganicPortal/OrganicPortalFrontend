@@ -82,7 +82,17 @@ export const routes: RoutesExtended = [
 				data: {
 					canActivateGroups: [
 						AllowedGroupsOfUsers.OnlyAuthorized
-					]
+					],
+
+					canActivateGroupsRedirectsIfValidationError: {
+						[AllowedGroupsOfUsers.OnlyAuthorized]: {
+							redirectTo: [{outlets: {"auth-overlay": ["auth-overlay"]}}],
+							autoInitRedirectTo: true,
+							extras: {
+								skipLocationChange: true
+							}
+						}
+					}
 				}
 			}
 		]

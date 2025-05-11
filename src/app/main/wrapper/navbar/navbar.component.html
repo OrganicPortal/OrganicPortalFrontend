@@ -1,72 +1,97 @@
 @let activeLink = activeLink$ | async;
 @let isAuthUser = isAuthUser$ | async;
+@let isOpenedSidebar = isOpenedSidebar$ | async;
+
+@let breakPointForMw850 = breakPointForMw850$ | async;
+@let breakPointForMw1080 = breakPointForMw1080$ | async;
+@let breakPointForMinW1080 = breakPointForMinW1080$ | async;
 
 <div class="nav-container fx-row">
 	<nav class="navigation fx-row">
+		<!-- 		@if(!breakPointForMw850?.matches){ -->
 		<ng-container [ngTemplateOutletContext]="
 					              {links: navLinks, isTopLevel: true}"
 		              [ngTemplateOutlet]="navItems">
 		</ng-container>
+		<!-- 		} -->
+	
 	</nav>
 </div>
 
 <ng-template #navItems
+             let-isSmallScreenMenu="isSmallScreenMenu"
              let-isChild="isChild"
              let-isTopLevel="isTopLevel"
              let-links="links">
-	<ul class="fx-row">
+	<ul class="fx-row"
+	    [ngClass]="breakPointForMw850?.matches || (breakPointForMw1080?.matches && isOpenedSidebar) ? 'fx-end-items' : ''">
 		@for (item of links; track item) {
-			@if (!item.isAuthRequired || isAuthUser) {
-				<li [ngClass]="isTopLevel ? 'top-level-items' : ''">
-					@if (item.children && item.children!.length > 0) {
-						<button class="header-link"
-						        aria-haspopup="true"
-						        aria-expanded="false"
-						        customBasicLink
-						        matRipple
-						        [ngClass]="activeLink?.linkRawData == item ? 'active' : ''"
-						        [cdkMenuTriggerFor]="childNavigation"
-						        [cdkMenuTriggerData]="{links: item.children, link: item, elRef: elRef}"
-						        #elRef>
-							<ngx-icon [name]="item.icon"></ngx-icon>
-							
-							<span>{{ item.title }}</span>
-							
-							@if (item.children && item.children!.length > 0) {
-								<ngx-icon class="arrow-list"
-								          [name]="'alt-arrow-left'"
-								          [ngClass]="activeLink?.linkRawData == item ?  'icon-menu-opened' : ''"
-								></ngx-icon>
-							}
-						</button>
-					} @else {
-						<a class="header-link"
-						   [ngClass]="isChild ? 'header-child-link' : ''"
-						   [routerLink]="onGetLinkHref(item)"
-						   [routerLinkActive]="'active'"
-						   customBasicLink
-						   matRipple
-						   [routerLinkActiveOptions]="{exact: (onGetLinkHref(item) == '')}">
-							<ngx-icon [name]="item.icon"></ngx-icon>
-							<span>{{ item.title }}</span>
-						</a>
-					}
-					
-					@if (item.children && item.children!.length > 0) {
-						<ng-container [ngTemplateOutlet]="navItems"
-						              [ngTemplateOutletContext]="
-					              {links: item.children, isChild: true}">
-						</ng-container>
-					}
-				</li>
+			@if (((!item.isAuthRequired || isAuthUser) && (!breakPointForMw850?.matches || isSmallScreenMenu))
+							&& (breakPointForMw1080?.matches && !isOpenedSidebar) || breakPointForMinW1080?.matches) {
+				<ng-container [ngTemplateOutlet]="baseNav"
+				              [ngTemplateOutletContext]="{item, isChild, isTopLevel}"
+				></ng-container>
 			}
 		}
+		
+		@if (breakPointForMw850?.matches || (breakPointForMw1080?.matches && isOpenedSidebar)) {
+			<ng-container [ngTemplateOutlet]="navbarForSmallScreen"></ng-container>
+		}
 	</ul>
+</ng-template>
+
+<ng-template #baseNav
+             let-isChild="isChild"
+             let-isTopLevel="isTopLevel"
+             let-item="item">
+	<li [ngClass]="isTopLevel ? 'top-level-items' : ''">
+		@if (item.children && item.children!.length > 0) {
+			<button class="header-link"
+			        aria-haspopup="true"
+			        aria-expanded="false"
+			        customBasicLink
+			        matRipple
+			        [ngClass]="activeLink?.linkRawData == item ? 'active' : ''"
+			        [cdkMenuTriggerFor]="childNavigation"
+			        [cdkMenuTriggerData]="{links: item.children, link: item, elRef: elRef}"
+			        #elRef>
+				<ngx-icon [name]="item.icon"></ngx-icon>
+				
+				<span>{{ item.title }}</span>
+				
+				@if (item.children && item.children!.length > 0) {
+					<ngx-icon class="arrow-list"
+					          [name]="'alt-arrow-left'"
+					          [ngClass]="activeLink?.linkRawData == item ?  'icon-menu-opened' : ''"
+					></ngx-icon>
+				}
+			</button>
+		} @else {
+			<a class="header-link"
+			   [ngClass]="isChild ? 'header-child-link' : ''"
+			   [routerLink]="onGetLinkHref(item)"
+			   [routerLinkActive]="'active'"
+			   customBasicLink
+			   matRipple
+			   [routerLinkActiveOptions]="{exact: (onGetLinkHref(item) == '')}">
+				<ngx-icon [name]="item.icon"></ngx-icon>
+				<span>{{ item.title }}</span>
+			</a>
+		}
+		
+		@if (item.children && item.children!.length > 0) {
+			<ng-container [ngTemplateOutlet]="navItems"
+			              [ngTemplateOutletContext]="
+					              {links: item.children, isChild: true}">
+			</ng-container>
+		}
+	</li>
 </ng-template>
 
 <ng-template #childNavigation
              let-links="links">
 	<div class="menu-container"
+	     [ngClass]="breakPointForMw850?.matches || (breakPointForMw1080?.matches && isOpenedSidebar) ? 'sticky-to-right' : ''"
 	     [@childMenuSideIn]
 	     cdkMenu>
 		@for (item of links; track item) {
@@ -89,4 +114,22 @@
 			}
 		}
 	</div>
+</ng-template>
+
+<ng-template #navbarForSmallScreen>
+	
+	<button class="header-link"
+	        [cdkMenuTriggerFor]="childNavigation"
+	        [cdkMenuPosition]="[smallScreenMenuPosition]"
+	        [cdkMenuTriggerData]="{links: mergedLinksForSmallScreens}"
+	        #cdkTriggerForm="cdkMenuTriggerFor"
+	        customBasicLink>
+		<ngx-icon [name]="'hamburger-menu'"></ngx-icon>
+		Меню
+		
+		<ngx-icon class="arrow-list"
+		          [ngClass]="cdkTriggerForm.isOpen() ?  'icon-menu-opened' : ''"
+		          [name]="'alt-arrow-left'"
+		></ngx-icon>
+	</button>
 </ng-template>

@@ -28,7 +28,7 @@ export const routes: RoutesExtended = [
 
 			{
 				path: "**",
-				redirectTo: "seed-management",
+				redirectTo: "my-profile",
 				pathMatch: "full"
 			}
 		]

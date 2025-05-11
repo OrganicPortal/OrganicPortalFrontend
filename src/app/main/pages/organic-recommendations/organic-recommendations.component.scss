@@ -1,6 +1,7 @@
 :host {
 	display: flex;
 	line-height: 1.5em;
+	flex: 1 1;
 	
 	flex-direction: column;
 	
@@ -8,33 +9,87 @@
 	
 	color: color-mix(in srgb, var(--text-color) 80%, transparent);
 	
+	.entry-content {
+		display: flex;
+		flex: 1 1;
+		
+		flex-direction: column;
+	}
+	
 	.entry-content a {
 		text-decoration: none;
 		color: var(--link-color);
 	}
 	
-	figure{
+	.controls-navigation {
 		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		
+		gap: 1rem;
+		
+		a {
+			padding: .7rem 1rem;
+			flex: 1 1;
+			max-width: 200px;
+		}
+		
+	}
+	
+	figure {
+		display: flex;
+		margin: 0 !important;
+		align-items: center;
 		flex-direction: column;
 		justify-content: center;
-		align-items: center;
+	}
+	
+	.wp-block-imag {
+		max-width: 100%;
 	}
 	
 	.wp-block-image img {
 		box-sizing: border-box;
-		height: auto;
 		max-width: 100%;
+		height: auto;
 		vertical-align: bottom;
 	}
 	
-	figcaption{
+	figcaption {
 		text-align: center;
 	}
 	
-	table, .wp-block-table {
-		margin: 0 0 1.5em;
+	.table-frame {
+		display: inline-block;
+		position: relative;
+		
+		overflow-x: auto;
+		flex: 1 1;
 		width: 100%;
+		border-radius: 5px;
+		box-sizing: border-box;
+		
+		.table-container {
+			display: flex;
+			position: relative;
+			flex: 1 1;
+			box-sizing: border-box;
+			width: 0;
+			min-width: 100%;
+		}
+		
+		table {
+			position: relative;
+			box-sizing: border-box;
+			
+			margin: 0 0 1rem 0;
+			width: 100%;
+			min-width: 100px;
+			background-color: var(--table-bg-color-1) !important;
+			box-shadow: unset;
+		}
 	}
+	
 	
 	tbody {
 		display: table-row-group;
@@ -51,14 +106,26 @@
 	}
 	
 	.wp-block-table table {
-		width: 100%;
 		border-collapse: collapse;
 	}
 	
 	table th, table td, .wp-block-table th, .wp-block-table td {
 		padding: 1em;
+		box-sizing: border-box;
 		text-align: left;
 		color: color-mix(in srgb, var(--text-color) 80%, transparent);
 		border: 1px solid #e9ecef;
 	}
 }
+
+@media screen and (max-width: 600px) {
+	:host {
+		.controls-navigation {
+			a {
+				flex: 1 1;
+				max-width: unset !important;
+			}
+		}
+	}
+}
+

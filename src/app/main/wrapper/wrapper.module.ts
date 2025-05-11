@@ -2,6 +2,7 @@ import {CdkMenuModule, CdkMenuTrigger} from "@angular/cdk/menu"
 import {CommonModule, NgOptimizedImage} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
+import {MatTooltipModule} from "@angular/material/tooltip"
 import {RouterModule} from "@angular/router"
 import {NgxIconsModule, NgxToastrModule} from "@fixAR496/ngx-elly-lib"
 import {ViewportOverlayModule} from "../../../addons/components/viewport-overlay/viewport-overlay.module"
@@ -13,6 +14,7 @@ import {CustomBasicLinkModule} from "../../../addons/directives/links/custom-bas
 import {BodyComponent} from "./body/body.component"
 import {FooterComponent} from "./footer/footer.component"
 import {HeaderComponent} from "./header/header.component"
+import {NavbarXsComponent} from "./navbar-xs/navbar-xs.component"
 import {NavbarComponent} from "./navbar/navbar.component"
 import {LoginButtonComponent} from "./shared/login-button/login-button.component"
 import {SidebarComponent} from "./sidebar/sidebar.component"
@@ -26,7 +28,8 @@ import {WrapperComponent} from "./wrapper.component"
 		FooterComponent,
 		NavbarComponent,
 		LoginButtonComponent,
-		SidebarComponent
+		SidebarComponent,
+		NavbarXsComponent
 	],
 
 	exports: [
@@ -45,7 +48,8 @@ import {WrapperComponent} from "./wrapper.component"
 		CustomBasicLinkModule,
 		MatRippleModule,
 		NgxToastrModule,
-		ViewportOverlayModule
+		ViewportOverlayModule,
+		MatTooltipModule
 	]
 })
 export class WrapperModule {

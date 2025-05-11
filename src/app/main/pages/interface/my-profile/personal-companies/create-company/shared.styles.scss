@@ -6,11 +6,19 @@
 	gap: 1.5rem;
 	--default-titles-color: color-mix(in srgb, transparent, var(--text-color) 80%);
 	
+	ngx-icon{
+		min-width: max-content;
+	}
+	
 	.container-header {
 		display: flex;
 		flex-wrap: wrap;
 		width: 100%;
 		gap: 1rem;
+	}
+	
+	.fx-row {
+		flex-wrap: wrap !important;
 	}
 	
 	.basic-area-fields {
@@ -21,17 +29,24 @@
 		}
 	}
 	
+	custom-input-field, custom-dropdown-field {
+		min-width: min(100%, 300px);
+	}
+	
 	.selection-row {
 		display: flex;
 		align-items: center;
+		text-align: start;
+		flex-wrap: nowrap !important;
 		
-		width: max-content;
+		justify-content: flex-start;
+		width: unset !important;
+		
 		cursor: pointer;
+		white-space: wrap !important;
 		color: var(--default-titles-color);
-		
 		border: unset;
 		background-color: unset;
-		
 		gap: .5rem;
 	}
 	
@@ -101,5 +116,14 @@
 		min-height: 100px;
 		max-height: 150px;
 		resize: vertical;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	:host{
+		.contact-list {
+			width: 100% !important;
+			max-width: unset;
+		}
 	}
 }

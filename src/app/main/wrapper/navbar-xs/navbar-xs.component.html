@@ -1,0 +1,16 @@
+<nav>
+	@for (item of links; track item) {
+		@let icon = item.icon | async;
+		
+		<a customBasicLink
+		   [routerLink]="item.href"
+		   [routerLinkActive]="'active'"
+		   [routerLinkActiveOptions]="{exact: item.href == ''}"
+		   matRipple
+			[matTooltip]="item.tooltip | async" [matTooltipPosition]="'above'">
+			<div class="icon-frame"><ngx-icon [name]="icon!" [ratio]="'1.2em'"></ngx-icon></div>
+			
+			<span class="link-desc">{{item.tooltip | async}}</span>
+		</a>
+	}
+</nav>

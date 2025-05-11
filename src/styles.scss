@@ -24,8 +24,9 @@ body.hidden-content {
 	scrollbar-gutter: stable;
 }
 
+
 body {
-	overflow-x: hidden;
+	overflow-x: visible;
 	overflow-y: auto;
 	
 	color: var(--text-color);
@@ -50,6 +51,7 @@ body {
 	--color-palette-7: #72bd8c;
 	--color-palette-8: #cfebff;
 	--color-palette-9: #72bdaf;
+	--color-palette-10: #303030;
 	
 	--modal-window-bg: #fff;
 	--modal-window-prevent-bg: rgba(163, 163, 163, 0.24);
@@ -85,6 +87,7 @@ body {
 	--reised-button-disabled-color: #eaeaea;
 	
 	--basic-button-active-color: #0aa17e;
+	--raised-button-active-color: #d3d3d3;
 	--basic-button-ripple-color: rgba(255, 255, 255, 0.16);
 	--basic-button-raised-ripple-color: rgba(161, 161, 161, 0.16);
 	
@@ -137,6 +140,10 @@ body {
 			font-weight: 500;
 		}
 	}
+}
+
+[mattooltip], [matripple] {
+	touch-action: auto !important;
 }
 
 .little-red-color {
@@ -302,6 +309,7 @@ custom-input-field, custom-dropdown-field {
 	position: relative;
 	
 	width: 100%;
+	flex: 1 1;
 	min-height: var(--input-height);
 	
 	transition: background-color .2s ease, border .2s ease;

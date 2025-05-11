@@ -1,6 +1,7 @@
 @let loaderState = loaderState$ | async;
 @let companies = companies$ | async;
 @let authAuditorState = authAuditorState$ | async;
+@let breakPointForXSmall = breakPointForXSmall$ | async;
 
 @if (!loaderState?.isLoaded && !loaderState?.isError) {
 	<ng-container [ngTemplateOutlet]="loading"></ng-container>
@@ -13,124 +14,127 @@
 }
 
 <ng-template #loaded>
-	<div class="component-header">
-		<a class="btn"
-		   [routerLink]="'new'"
-		   customBasicButton
-		   matRipple>
-			<ngx-icon [name]="'add-circle'"
-			          [ratio]="'1em'"></ngx-icon>
-			<span>Додати компанію</span>
-		</a>
-	</div>
-	
-	<div class="component-content"
-	     [@frameSideIn4]>
-		@if (companies?.length == 0 || !companies) {
-			<div class="empty-data">
-				<ngx-icon [name]="'pen-new-round'"
-				          [ratio]="'1.5em'"></ngx-icon>
-				<h3>Записи відсутні. Створіть нову <br> компанію для перегляду більшого набору інформації</h3>
-			</div>
-		} @else {
-			<ngx-grid [cellSize]="300">
-				@for (item of onSortCompanies(companies, authAuditorState?.activeCompany?.CompanyId!); track item.CompanyId) {
-					<div class="card"
-					     [ngClass]="[
+	<div class="content-container-2"  [ngClass]="breakPointForXSmall?.matches ? 'adaptive-to-xs-2' : ''">
+		<div class="component-header">
+			<a class="btn"
+			   [ngClass]="breakPointForXSmall?.matches ? 'adaptive-to-xs' : ''"
+			   [routerLink]="'new'"
+			   customBasicButton
+			   matRipple>
+				<ngx-icon [name]="'add-circle'"
+				          [ratio]="'1em'"></ngx-icon>
+				<span>Додати компанію</span>
+			</a>
+		</div>
+		
+		<div class="component-content"
+		     [@frameSideIn4]>
+			@if (companies?.length == 0 || !companies) {
+				<div class="empty-data">
+					<ngx-icon [name]="'pen-new-round'"
+					          [ratio]="'1.5em'"></ngx-icon>
+					<h3>Записи відсутні. Створіть нову <br> компанію для перегляду більшого набору інформації</h3>
+				</div>
+			} @else {
+				<ngx-grid>
+					@for (item of onSortCompanies(companies, authAuditorState?.activeCompany?.CompanyId!); track item.CompanyId) {
+						<div class="card"
+						     [ngClass]="[
 								item.CompanyId && item.CompanyId === authAuditorState?.activeCompany?.CompanyId ? 'active-card' : '',
 								item.CompanyArchivated ? 'archivated-item-card' : ''
 								]">
-						<div class="card-body">
-							<h4>{{ item.CompanyName }}</h4>
-							
-							<div class="desc">
-								<div class="fx-row desc-container">
-									<ngx-icon
-													[name]="'notes'"
-													[ratio]="'.9em'"></ngx-icon>
-									
-									<span>
+							<div class="card-body">
+								<h4>{{ item.CompanyName }}</h4>
+								
+								<div class="desc">
+									<div class="fx-row desc-container">
+										<ngx-icon
+														[name]="'notes'"
+														[ratio]="'.9em'"></ngx-icon>
+										
+										<span>
 										Ідентифікатор – #{{ item?.CompanyId }}
 									</span>
-								</div>
-								
-								<div class="fx-row desc-container">
-									<ngx-icon
-													[name]="'document-add'"
-													[ratio]="'.9em'"></ngx-icon>
+									</div>
 									
-									<span>
+									<div class="fx-row desc-container">
+										<ngx-icon
+														[name]="'document-add'"
+														[ratio]="'.9em'"></ngx-icon>
+										
+										<span>
 										Засновано – {{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}
 									</span>
-								</div>
-								
-								<div class="fx-row desc-container">
-									<ngx-icon
-													[name]="'winrar'"
-													[ratio]="'.9em'"></ngx-icon>
+									</div>
 									
-									<span>
+									<div class="fx-row desc-container">
+										<ngx-icon
+														[name]="'winrar'"
+														[ratio]="'.9em'"></ngx-icon>
+										
+										<span>
 										Архівовано –
 										<span class="pin"
 										      [ngClass]="item?.CompanyArchivated ? 'pin-red' : 'pin-green'">
 											{{ item?.CompanyArchivated ? 'Так' : 'Ні' }}
 										</span>
 									</span>
-								</div>
-								
-								<div class="fx-row desc-container">
-									<ngx-icon
-													[name]="'shield-star'"
-													[ratio]="'.9em'"></ngx-icon>
+									</div>
 									
-									<span>
+									<div class="fx-row desc-container">
+										<ngx-icon
+														[name]="'shield-star'"
+														[ratio]="'.9em'"></ngx-icon>
+										
+										<span>
 										Ваша роль – {{ AllowedRoles[item.Role] }}
 									</span>
+									</div>
 								</div>
 							</div>
-						</div>
-						
-						<div class="card-footer">
-							@let editButtonTooltipMessage = item?.CompanyArchivated ? 'Переглянути' : 'Редагувати';
-							@let dropButtonTooltipMessage = 'Архівувати компанію';
-							@let activeButtonTooltipMessage = 'Зробити компанію активною';
 							
-							@if (!item.CompanyArchivated) {
-								<a class="btn drop-btn"
-								   (click)="onArchiveCompany(item?.CompanyId!, item?.CompanyName!)"
-								   [matTooltip]="dropButtonTooltipMessage"
-								   customBasicButton
-								   matRipple>
-									<ngx-icon [name]="'winrar'"
-									          [ratio]="'1.1em'"></ngx-icon>
-								</a>
-							}
-							
-							@if (authAuditorState?.activeCompany?.CompanyId !== item.CompanyId && item.CompanyId) {
+							<div class="card-footer">
+								@let editButtonTooltipMessage = item?.CompanyArchivated ? 'Переглянути' : 'Редагувати';
+								@let dropButtonTooltipMessage = 'Архівувати компанію';
+								@let activeButtonTooltipMessage = 'Зробити компанію активною';
+								
+								@if (!item.CompanyArchivated) {
+									<a class="btn drop-btn"
+									   (click)="onArchiveCompany(item?.CompanyId!, item?.CompanyName!)"
+									   [matTooltip]="dropButtonTooltipMessage"
+									   customBasicButton
+									   matRipple>
+										<ngx-icon [name]="'winrar'"
+										          [ratio]="'1.1em'"></ngx-icon>
+									</a>
+								}
+								
+								@if (authAuditorState?.activeCompany?.CompanyId !== item.CompanyId && item.CompanyId) {
+									<a class="btn"
+									   [matTooltip]="activeButtonTooltipMessage"
+									   customRaisedButton
+									   (click)="onSetActiveCompany(item, authAuditorState!)"
+									   matRipple>
+										<ngx-icon [name]="'check-circle'"
+										          [ratio]="'1.1em'"></ngx-icon>
+									</a>
+								}
+								
 								<a class="btn"
-								   [matTooltip]="activeButtonTooltipMessage"
-								   customRaisedButton
-								   (click)="onSetActiveCompany(item, authAuditorState!)"
+								   [routerLink]="'edit/' + item.CompanyId"
+								   customBasicButton
+								   [matTooltip]="editButtonTooltipMessage"
 								   matRipple>
-									<ngx-icon [name]="'check-circle'"
+									<ngx-icon [name]="item?.CompanyArchivated ? 'eye' : 'pen'"
 									          [ratio]="'1.1em'"></ngx-icon>
 								</a>
-							}
-							
-							<a class="btn"
-							   [routerLink]="'edit/' + item.CompanyId"
-							   customBasicButton
-							   [matTooltip]="editButtonTooltipMessage"
-							   matRipple>
-								<ngx-icon [name]="item?.CompanyArchivated ? 'eye' : 'pen'"
-								          [ratio]="'1.1em'"></ngx-icon>
-							</a>
+							</div>
+							<!-- 						{{ item.CompanyName }} -->
 						</div>
-						<!-- 						{{ item.CompanyName }} -->
-					</div>
-				}
-			</ngx-grid>
-		}
+					}
+				</ngx-grid>
+			}
+		</div>
 	</div>
 </ng-template>
 

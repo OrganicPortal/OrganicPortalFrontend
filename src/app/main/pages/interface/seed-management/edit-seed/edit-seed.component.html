@@ -3,6 +3,7 @@
 @let seedData = seedData$ | async;
 @let authAuditorState = authAuditorState$ | async;
 @let isDetectChangesInForm = isDetectChangesInForm$ | async;
+@let breakPointForXSmall = breakPointForXSmall$ | async;
 
 <ng-title [titleLevel]="'h3'">
 	<ngx-icon [name]="'pen'"
@@ -213,7 +214,7 @@
 		@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
 			@if (seedData?.Status == 0 || seedData?.Status == 3) {
 				<div [@frameSideIn4]
-				     class="controls">
+				     class="controls" [ngClass]="breakPointForXSmall?.matches ? 'adaptive-to-xs' : ''">
 					<div class="container">
 						<div class="fx-row fx-end">
 							<button [type]="'button'"

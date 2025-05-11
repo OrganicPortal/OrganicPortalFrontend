@@ -5,6 +5,37 @@
 	text-align: justify;
 	color: color-mix(in srgb, var(--text-color) 80%, transparent);
 	
+	.table-frame {
+		display: inline-block;
+		position: relative;
+		
+		overflow-x: auto;
+		flex: 1 1;
+		width: 100%;
+		border-radius: 5px;
+		box-sizing: border-box;
+		
+		.table-container {
+			display: flex;
+			position: relative;
+			flex: 1 1;
+			box-sizing: border-box;
+			width: 0;
+			min-width: 100%;
+		}
+		
+		table {
+			position: relative;
+			box-sizing: border-box;
+			
+			margin: 0 0 1rem 0;
+			width: 100%;
+			min-width: 100px;
+			background-color: var(--table-bg-color-1) !important;
+			box-shadow: unset;
+		}
+	}
+	
 	.entry-content {
 		margin: 0 0 3em;
 	}

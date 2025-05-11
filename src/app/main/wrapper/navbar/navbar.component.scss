@@ -12,6 +12,16 @@
 	--header-trigger-link-color: #f3f3f3;
 	padding-inline: 10px;
 	
+	.space-between-items{
+		justify-content: space-between !important;
+		gap: .5rem;
+	}
+	
+	.fx-end-items{
+		justify-content: flex-end !important;
+		gap: .5rem;
+	}
+	
 	login-button {
 		position: absolute;
 		right: 0;
@@ -85,6 +95,16 @@
 	}
 	
 	.navigation {
+		display: flex;
+		width: 100%;
+		justify-content: flex-start;
+	
+		ul{
+			display: flex;
+			width: 100%;
+			justify-content: flex-start;
+		}
+		
 		ul, li {
 			padding: 0;
 			margin: 0;
@@ -116,9 +136,7 @@
 	}
 	
 	nav {
-		
-		
-		button, a {
+		.header-link, a {
 			position: relative;
 			padding: 1.2rem 1.2rem;
 			transition: border .2s ease, color .2s, background-color .2s ease;
@@ -171,7 +189,7 @@
 	background-color: var(--white);
 	box-shadow: var(--box-shadow-items);
 	gap: 5px;
-	
+	border-radius: 0 0 3px 3px;
 	--box-shadow-items: rgba(94, 122, 177, 0.2) 0px 2px 5px;
 	
 	.header-child-link {
@@ -200,11 +218,17 @@
 		
 		&.active {
 			color: var(--active-color);
-			--active-color: #65b65d;
+			--active-color: var(--color-palette-3);
 			
 			ngx-icon {
 				--ngx-icon-override-color-1: var(--active-color) !important;
 			}
 		}
 	}
+}
+
+.menu-container.sticky-to-right{
+	position: absolute;
+	right: 0 !important;
+	left: unset !important;
 }

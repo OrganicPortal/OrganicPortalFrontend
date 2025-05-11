@@ -72,6 +72,7 @@ export class SharedGuardsValidatorsService {
 				if ((el1.isAuthUser && el1.isRequestComplete))
 					return true
 
+
 				this.onRedirectTo(triggerRule)
 				return false
 			}),
@@ -166,6 +167,15 @@ export class SharedGuardsValidatorsService {
 		if (!rule) {
 			this._router.navigate([""])
 			return
+		}
+
+		if(rule?.autoInitRedirectTo){
+			rule.extras = {
+				...rule.extras,
+				queryParams: {
+					redirectAfterClose: this._router.url
+				}
+			}
 		}
 
 		this._router.navigate(rule.redirectTo, rule.extras)

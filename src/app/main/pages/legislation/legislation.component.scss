@@ -1,12 +1,19 @@
-:host{
-	li{
-		text-align: justify;
+:host {
+	*, & {
+		word-wrap: break-word;
+		word-break: break-word;
+		overflow-wrap: break-word;
+	}
+	
+	li {
 		line-height: 1.5em;
-		color: color-mix(in srgb, var(--text-color) 80% , transparent);
+		text-align: justify;
+		color: color-mix(in srgb, var(--text-color) 80%, transparent);
+		
 	}
 	
 	.entry-content a {
-		color: var(--link-color);
 		text-decoration: none;
+		color: var(--link-color);
 	}
 }

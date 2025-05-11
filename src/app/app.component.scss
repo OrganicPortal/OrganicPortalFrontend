@@ -40,4 +40,8 @@
 	ngx-toastr {
 		z-index: 100;
 	}
+	
+	.adaptive-to-xs{
+		bottom: calc(var(--header-height) - 10px);
+	}
 }

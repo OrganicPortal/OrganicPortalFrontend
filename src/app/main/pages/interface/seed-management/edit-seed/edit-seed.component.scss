@@ -3,13 +3,35 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: flex-end;
-		
 		gap: .5rem;
+		justify-content: flex-end;
 	}
 	
 	.drop-btn {
 		background-color: var(--little-red) !important;
 	}
-
+	
+	.adaptive-to-xs{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		
+		width: 100%;
+		gap: .5rem;
+		
+		.container {
+			flex: 1 1;
+			
+			.fx-row{
+				flex: 1 1;
+				
+				button{
+					flex: 1 1;
+					padding: .8rem 1rem;
+				}
+			}
+		}
+	}
+	
 }

@@ -1,7 +1,9 @@
+import {Breakpoints, BreakpointState} from "@angular/cdk/layout"
 import {ChangeDetectionStrategy, Component} from "@angular/core"
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router"
+import {NavigationEnd, Router} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {BehaviorSubject, filter, takeUntil, tap} from "rxjs"
+import {BehaviorSubject, filter, Observable, takeUntil, tap} from "rxjs"
+import {BreakpointsService} from "../../../addons/services/breakpoints.service"
 import {ListenersService} from "../../../addons/services/listeners.service"
 import {AuthListeners} from "../../store/listeners/auth.listeners"
 
@@ -15,16 +17,18 @@ import {AuthListeners} from "../../store/listeners/auth.listeners"
 export class WrapperComponent extends LifeHooksFactory {
 	public authAuditorState$
 	public isActiveInterface$ = new BehaviorSubject<boolean>(false)
+	public breakPointForXSmall$: Observable<BreakpointState>
 
 	constructor(
 		private _listenersService: ListenersService,
+		private _breakpointsService: BreakpointsService,
 		private _authListeners: AuthListeners,
-		private _router: Router,
-		private _activatedRoute: ActivatedRoute
+		private _router: Router
 	) {
 		super()
 
 		this.authAuditorState$ = this._authListeners.authAuditorState$
+		this.breakPointForXSmall$ = this._breakpointsService.onListenBreakpoint(Breakpoints.XSmall)
 	}
 
 	override ngOnInit() {
@@ -42,6 +46,7 @@ export class WrapperComponent extends LifeHooksFactory {
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
+
 
 	private onValidateInterfaceRoute(url: string) {
 		const includeStr = "/interface"

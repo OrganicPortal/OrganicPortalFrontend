@@ -1,53 +1,86 @@
+@let breakPointForMw850 = breakPointForMw850$ | async;
+
 <div class="container"
-     [@frameSideIn4]>
-	<div class="image-frame">
-		<img class="card-bg"
-		     [ngSrc]="'assets/my-profile/1.webp'"
-		     alt=""
-		     fill
-		     priority>
-		
-		<div class="user-frame-image">
-			<img [ngSrc]="'assets/logos/logo-min.png'"
-			     [priority]="false"
-			     alt="logo"
-			     height="50"
-			     width="50"
-			>
-		</div>
-		
-		<nav class="navigation">
-			<div class="links">
-				<a class="link-frame"
-				   [routerLinkActiveOptions]="{exact: true}"
-				   [routerLinkActive]="'active'"
-				   [routerLink]="'/interface/my-profile'"
-				   customRaisedButton
-				   matRipple>
-					
-					<ngx-icon [name]="'user-rounded'"></ngx-icon>
-					Особисті дані
-				</a>
-				
-				<a class="link-frame"
-				   [routerLinkActive]="'active'"
-				   [routerLink]="'/interface/my-profile/personal-companies'"
-				   customRaisedButton
-				   matRipple>
-					<ngx-icon [name]="'flag-2'"></ngx-icon>
-					Мої компанії
-				</a>
-				
-				<a class="link-frame"
-				   (click)="onLogout()"
-				   customRaisedButton
-				   matRipple>
-					<ngx-icon [name]="'logout'"></ngx-icon>
-					Вихід
-				</a>
+     [@frameSideIn4]
+     [ngClass]="breakPointForMw850?.matches ? 'view-for-small-screen' : ''">
+	@if (!breakPointForMw850?.matches) {
+		<div class="image-frame">
+			<img class="card-bg"
+			     [ngSrc]="'assets/my-profile/1.webp'"
+			     alt=""
+			     fill
+			     priority>
+			
+			<div class="user-frame-image">
+				<img [ngSrc]="'assets/logos/logo-min.png'"
+				     [priority]="false"
+				     alt="logo"
+				     height="50"
+				     width="50"
+				>
 			</div>
+			
+			<nav class="navigation">
+				<div class="scrollable-container">
+					<div class="links">
+						<a class="link-frame"
+						   [routerLinkActiveOptions]="{exact: true}"
+						   [routerLinkActive]="'active'"
+						   [routerLink]="'/interface/my-profile'"
+						   customRaisedButton
+						   matRipple>
+							
+							<ngx-icon [name]="'user-rounded'"></ngx-icon>
+							Особисті дані
+						</a>
+						
+						<a class="link-frame"
+						   [routerLinkActive]="'active'"
+						   [routerLink]="'/interface/my-profile/personal-companies'"
+						   customRaisedButton
+						   matRipple>
+							<ngx-icon [name]="'flag-2'"></ngx-icon>
+							Мої компанії
+						</a>
+						
+						<a class="link-frame"
+						   (click)="onLogout()"
+						   customRaisedButton
+						   matRipple>
+							<ngx-icon [name]="'logout'"></ngx-icon>
+							Вихід
+						</a>
+					</div>
+				</div>
+			</nav>
+		</div>
+	} @else {
+		<nav class="small-screen-navigation">
+			<a customRaisedButton
+			   matRipple
+			   [routerLinkActiveOptions]="{exact: true}"
+			   [routerLinkActive]="'active'"
+			   [routerLink]="'/interface/my-profile'">
+				<ngx-icon [name]="'user-rounded'"></ngx-icon>
+				Особисті дані
+			</a>
+			
+			<a [routerLinkActive]="'active'"
+			   [routerLink]="'/interface/my-profile/personal-companies'"
+			   customRaisedButton
+			   matRipple>
+				<ngx-icon [name]="'flag-2'"></ngx-icon>
+				Мої компанії
+			</a>
+			
+			<a (click)="onLogout()"
+			   customRaisedButton
+			   matRipple>
+				<ngx-icon [name]="'logout'"></ngx-icon>
+				Вихід
+			</a>
 		</nav>
-	</div>
+	}
 </div>
 
 <div class="content-container"

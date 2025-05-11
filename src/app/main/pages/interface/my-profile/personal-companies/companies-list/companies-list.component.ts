@@ -1,3 +1,4 @@
+import {Breakpoints, BreakpointState} from "@angular/cdk/layout"
 import {ChangeDetectionStrategy, Component} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {Store} from "@ngrx/store"
@@ -10,6 +11,7 @@ import {
 	NgShortMessageService
 } from "../../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader} from "../../../../../../../addons/models/models"
+import {BreakpointsService} from "../../../../../../../addons/services/breakpoints.service"
 import {AllowedRoles} from "../../../../../../../addons/states/states"
 import * as AuthActions from "../../../../../../store/actions/auth.actions"
 import * as LocalStorageActions from "../../../../../../store/actions/localstorage.actions"
@@ -36,12 +38,14 @@ import {containerAnimation} from "../../shared/shared.animation"
 export class CompaniesListComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader()
 	public readonly authAuditorState$: Observable<AuthAuditorReducerModel>
+	public readonly breakPointForXSmall$: Observable<BreakpointState>
 	private readonly requestHandler$ = new Subject<void>()
 	protected AllowedRoles = AllowedRoles
 
 	constructor(
 		private _myProfileService: MyProfileService,
 		private _myCompaniesService: MyCompaniesService,
+		private _breakpointsService: BreakpointsService,
 		private _store: Store<AuthActions.StoreAuthType>,
 		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _authListeners: AuthListeners,
@@ -51,6 +55,7 @@ export class CompaniesListComponent extends LifeHooksFactory {
 		super()
 		this.onReloadPage()
 
+		this.breakPointForXSmall$ = this._breakpointsService.onListenBreakpoint(Breakpoints.XSmall)
 		this.authAuditorState$ = this._authListeners.authAuditorState$
 	}
 
@@ -116,7 +121,8 @@ export class CompaniesListComponent extends LifeHooksFactory {
 	}
 
 	public onSetActiveCompany(company: ICompanyDTO, authAuditorState: AuthAuditorReducerModel) {
-		if (!authAuditorState.activeCompany) {}
+		if (!authAuditorState.activeCompany) {
+		}
 
 		const message = `Зробити компанію <span class="little-red-color font-bold">${company.CompanyName}</span> активною?`
 		const delayTime = 1000
@@ -148,7 +154,7 @@ export class CompaniesListComponent extends LifeHooksFactory {
 				tap(() => {
 					this._store.dispatch(AuthActions.FullScreenLoaderInit({delay: delayTime}))
 				}),
-				switchMap((el) => obs$),
+				switchMap((el) => obs$)
 			).subscribe()
 	}
 

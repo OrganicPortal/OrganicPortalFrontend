@@ -32,12 +32,14 @@ export enum AllowedGroupsOfUsers {
 	OnlyUnauthorized = "OnlyUnauthorized",
 	OnlyWithInitPassRecovery = "OnlyWithInitPassRecovery",
 	OnlyWithConfirmRegistrationStep = "OnlyWithConfirmRegistrationStep",
+
 }
 
 //#endregion GroupsOfUser
 
 export type RedirectRuleItem = {
 	redirectTo: any[],
+	autoInitRedirectTo?: boolean
 	extras?: NavigationExtras
 }
 

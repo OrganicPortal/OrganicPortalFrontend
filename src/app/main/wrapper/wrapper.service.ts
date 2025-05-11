@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core"
-import {fromEvent, of, shareReplay} from "rxjs"
+import {BehaviorSubject, fromEvent, of, shareReplay} from "rxjs"
 
 @Injectable({
 	providedIn: "root"
 })
 export class WrapperService {
 	private wrapperScrollFrame: Document | HTMLElement | null = null
-
+	public readonly isOpenedSidebar$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
 	constructor() {
 	}
 

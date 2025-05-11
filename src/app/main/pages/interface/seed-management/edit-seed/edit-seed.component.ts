@@ -1,3 +1,4 @@
+import {Breakpoints, BreakpointState} from "@angular/cdk/layout"
 import {DatePipe} from "@angular/common"
 import {ChangeDetectionStrategy, Component, HostBinding, TemplateRef, ViewChild} from "@angular/core"
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms"
@@ -27,6 +28,7 @@ import {
 } from "../../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {LoaderModel, onInitLoader} from "../../../../../../addons/models/models"
 import {DateTimePipe} from "../../../../../../addons/pipes/datetime.pipe"
+import {BreakpointsService} from "../../../../../../addons/services/breakpoints.service"
 import {AuthListeners} from "../../../../../store/listeners/auth.listeners"
 import {AuthAuditorReducerModel} from "../../../../../store/models/auth/auth.auditor.models"
 import {ICompanyDTO} from "../../my-profile/my-profile.service"
@@ -57,12 +59,14 @@ export class EditSeedComponent extends LifeHooksFactory {
 	private readonly requestRefresher$ = new Subject<void | "refresh-edit">()
 	private selectedCompanyId: number = -1
 	private selectedSeedId: number = -1
+	public readonly breakPointForXSmall$: Observable<BreakpointState>
 
 	constructor(
 		private _authListeners: AuthListeners,
 		private _activatedRoute: ActivatedRoute,
 		private _dateTimePipe: DateTimePipe,
 		private _datePipe: DatePipe,
+		private _breakpointsService: BreakpointsService,
 		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _router: Router,
 		private _ngShortMessageService: NgShortMessageService,
@@ -70,6 +74,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 	) {
 		super()
 		this.authAuditorState$ = this._authListeners.authAuditorState$
+		this.breakPointForXSmall$ = this._breakpointsService.onListenBreakpoint(Breakpoints.XSmall)
 	}
 
 	public get allowedTreatmentTypes() {

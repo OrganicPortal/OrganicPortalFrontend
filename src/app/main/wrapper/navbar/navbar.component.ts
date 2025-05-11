@@ -1,10 +1,24 @@
 import {animate, style, transition, trigger} from "@angular/animations"
+import {BreakpointState} from "@angular/cdk/layout"
 import {CdkMenuTrigger} from "@angular/cdk/menu"
+import {ConnectedPosition} from "@angular/cdk/overlay"
 import {Component, QueryList, ViewChildren} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
-import {BehaviorSubject, map, merge, pairwise, startWith, Subject, takeUntil, tap} from "rxjs"
+import {
+	BehaviorSubject,
+	combineLatest,
+	map,
+	merge,
+	Observable,
+	pairwise,
+	startWith,
+	Subject,
+	switchMap,
+	takeUntil,
+	tap
+} from "rxjs"
 import {frameSideInOut3} from "../../../../addons/animations/shared.animations"
-import {ListenersService} from "../../../../addons/services/listeners.service"
+import {BreakpointsService, CustomBreakpoints} from "../../../../addons/services/breakpoints.service"
 import {AuthListeners} from "../../../store/listeners/auth.listeners"
 import {WrapperService} from "../wrapper.service"
 
@@ -66,7 +80,6 @@ export class NavbarComponent extends LifeHooksFactory {
 
 		{
 			title: "Про органіку",
-			href: "",
 			icon: "book-bookmark",
 			isAuthRequired: false,
 			children: [
@@ -84,25 +97,38 @@ export class NavbarComponent extends LifeHooksFactory {
 				}
 			]
 		}
-		//
-		// {
-		// 	title: "Кабінет",
-		// 	href: "/interface",
-		// 	icon: "book-bookmark",
-		// 	isAuthRequired: true,
-		// 	children: []
-		// }
 	]
+
+	public readonly mergedLinksForSmallScreens: IHeaderLink[]
+	public readonly breakPointForMw850$: Observable<BreakpointState>
+	public readonly  breakPointForMw1080$: Observable<BreakpointState>
+	public readonly  breakPointForMinW1080$: Observable<BreakpointState>
 
 	public readonly isAuthUser$ = new BehaviorSubject<boolean>(false)
 	@ViewChildren(CdkMenuTrigger) menus!: QueryList<CdkMenuTrigger>
+	public readonly smallScreenMenuPosition: ConnectedPosition = {
+		originX: "end",
+		originY: "bottom",
+		overlayX: "end",
+		overlayY: "top"
+	}
 
 	constructor(
 		private _wrapperService: WrapperService,
-		private _authListeners: AuthListeners,
-		private _listenersService: ListenersService
+		private _breakpointsService: BreakpointsService,
+		private _authListeners: AuthListeners
 	) {
 		super()
+
+		this.breakPointForMw850$ = this._breakpointsService.onListenBreakpoint(CustomBreakpoints.mw850)
+		this.breakPointForMw1080$ = this._breakpointsService.onListenBreakpoint(CustomBreakpoints.mw1080)
+		this.breakPointForMinW1080$ = this._breakpointsService.onListenBreakpoint(CustomBreakpoints.minW1080)
+
+		this.mergedLinksForSmallScreens = this.onMergeLinksForSmallScreenMenu(this.navLinks)
+	}
+
+	public get isOpenedSidebar$(){
+		return this._wrapperService.isOpenedSidebar$
 	}
 
 	override ngOnInit() {
@@ -136,45 +162,58 @@ export class NavbarComponent extends LifeHooksFactory {
 				takeUntil(this.componentDestroy$)
 			).subscribe()
 
-		this.menus.map(el => {
-			const a$ = el.opened.pipe(map(() => true))
-			const b$ = el.closed.pipe(map(() => false))
+		combineLatest([this.breakPointForMw850$])
+			.pipe(
+				switchMap((el) =>
+					this.menus.changes.pipe(startWith(this.menus))
+				),
+				switchMap((el: QueryList<CdkMenuTrigger>) => {
+					const obsArr = el.map(el => {
+						const a$ = el.opened.pipe(map(() => true))
+						const b$ = el.closed.pipe(map(() => false))
 
-			merge(a$, b$).pipe(
-				map(el2 => ({
-					triggerItem: el,
-					isOpened: el2
-				})),
-				map(el => {
-					const menuData = el.triggerItem.menuData as any
-					const link = menuData.link
+						const obs1$ = merge(a$, b$).pipe(
+							map(el2 => ({
+								triggerItem: el,
+								isOpened: el2
+							})),
+							tap(el => {
+								const menuData = el.triggerItem.menuData as any
+								const link = menuData?.link
 
-					if (el.isOpened) {
-						let obj: ISelectedLink = {
-							linkRawData: link,
-							menuTrigger: el.triggerItem
-						}
+								if (el.isOpened) {
+									let obj: ISelectedLink = {
+										linkRawData: link,
+										menuTrigger: el.triggerItem
+									}
 
-						this.selectedLink$.next(obj)
-						this.activeLink$.next(obj)
+									this.selectedLink$.next(obj)
+									this.activeLink$.next(obj)
 
-						return
-					}
+									return
+								}
 
-					this.activeLink$.next(undefined)
+								this.activeLink$.next(undefined)
+							}),
+							takeUntil(this.componentDestroy$)
+						)
+
+						const obs2$ = this.selectedLink$.pipe(
+							startWith(undefined),
+							pairwise(),
+							tap(([el1, el2]) => {
+								el1?.menuTrigger.close()
+							}),
+							takeUntil(this.componentDestroy$)
+						)
+
+						return merge(obs1$, obs2$)
+					})
+
+					return merge(...obsArr)
 				}),
 				takeUntil(this.componentDestroy$)
 			).subscribe()
-
-			this.selectedLink$.pipe(
-				startWith(undefined),
-				pairwise(),
-				tap(([el1, el2]) => {
-					el1?.menuTrigger.close()
-				}),
-				takeUntil(this.componentDestroy$)
-			).subscribe()
-		})
 	}
 
 	public onGetLinkHref(link: IHeaderLink) {
@@ -183,11 +222,27 @@ export class NavbarComponent extends LifeHooksFactory {
 
 		return null
 	}
+
+	private onMergeLinksForSmallScreenMenu(links: IHeaderLink[]) {
+		const resLinks: IHeaderLink[] = []
+
+		links.map(el => {
+			if (el.children?.length === 0 || !el.children) {
+				resLinks.push(el)
+				return
+			}
+
+			const childLinksList = this.onMergeLinksForSmallScreenMenu(el.children)
+			childLinksList.map(el => resLinks.push(el))
+		})
+
+		return resLinks
+	}
 }
 
 export interface IHeaderLink {
 	title: string
-	href: string
+	href?: string
 	icon: string
 	children?: IHeaderLink[]
 	isAuthRequired: boolean

@@ -25,7 +25,7 @@
     "@angular/service-worker": "^19.2.10",
     "@angular/ssr": "^19.2.8",
     "@auth0/angular-jwt": "^5.2.0",
-    "@fixAR496/ngx-elly-lib": "^0.0.10",
+    "@fixAR496/ngx-elly-lib": "^0.0.11",
     "@ngrx/effects": "^19.1.0",
     "@ngrx/operators": "^19.1.0",
     "@ngrx/store": "^19.1.0",

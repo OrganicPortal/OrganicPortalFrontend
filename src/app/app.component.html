@@ -4,6 +4,7 @@
 @let logoutAuditorState = logoutAuditorState$ | async;
 @let fullScreenLoaderState = fullScreenLoaderState$ | async;
 @let isSuccessLoadingInterface = isSuccessLoadingInterface$ | async;
+@let breakPointForXSmall = breakPointForXSmall$ | async;
 
 @if(isLoadingChunks){
 	<div class="progress-bar-container">
@@ -16,7 +17,7 @@
 <router-outlet name="auth-overlay"></router-outlet>
 <ngx-toastr></ngx-toastr>
 <viewport-overlay></viewport-overlay>
-<ng-short-messages></ng-short-messages>
+<ng-short-messages [ngClass]="breakPointForXSmall?.matches ? 'adaptive-to-xs' : ''"></ng-short-messages>
 <confirmed-modal-window></confirmed-modal-window>
 
 @if (((isLoadingInterface && !isSuccessLoadingInterface)) || !authAuditorState?.isFetchSuccess ||

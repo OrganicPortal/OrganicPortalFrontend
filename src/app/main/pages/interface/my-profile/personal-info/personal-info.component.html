@@ -60,7 +60,7 @@
 			      (ngSubmit)="onSubmit(profileData?.Data?.Id)"
 			      [formGroup]="formGroup"
 			      class="form-data">
-				<ngx-grid [cellSize]="400">
+				<ngx-grid [cellSize]="'min(100%, 400px, 90vw)'">
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>

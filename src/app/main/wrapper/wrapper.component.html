@@ -1,18 +1,25 @@
 @let authAuditorState = authAuditorState$ | async;
 @let isActiveInterface = isActiveInterface$ | async;
+@let breakPointForXSmall = breakPointForXSmall$ | async;
 
 @if(!!authAuditorState?.activeCompany && authAuditorState?.isAuthUser && isActiveInterface){
 	<app-sidebar></app-sidebar>
 }
 
 <div class="___wrapper">
-	<app-header></app-header>
-	<app-navbar />
+	<app-header [ngClass]="breakPointForXSmall?.matches ? 'set-header-xs-styles' : ''"></app-header>
+	@if(!breakPointForXSmall?.matches){
+		<app-navbar />
+	}
 	<app-body>
 		<ng-content></ng-content>
 	</app-body>
 	
 	@if(!isActiveInterface){
 		<app-footer></app-footer>
+	}
+	
+	@if(breakPointForXSmall?.matches){
+		<app-navbar-xs></app-navbar-xs>
 	}
 </div>

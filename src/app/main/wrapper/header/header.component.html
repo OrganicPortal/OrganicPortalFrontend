@@ -1,4 +1,9 @@
 @let socialRatio = "1.6em";
+@let breakPointForMw850 = breakPointForMw850$ | async;
+@let breakPointForMw1080 = breakPointForMw1080$ | async;
+@let breakPointForXSmall = breakPointForXSmall$ | async;
+@let breakPointForMinW1080 = breakPointForMinW1080$ | async;
+@let isOpenedSidebar = isOpenedSidebar$ | async;
 
 <header>
 	<div class="fx-row fx-gap">
@@ -13,36 +18,65 @@
 				     fill>
 			</div>
 			
-			<div class="title-frame">
-				<span class="title">OrganicPortal</span>
-				<span class="desc">Портал органічного землеробства</span>
-			</div>
+			@if (!breakPointForMw850?.matches && (breakPointForMw1080?.matches && !isOpenedSidebar) ||
+			breakPointForMinW1080?.matches) {
+				<div class="title-frame">
+					<span class="title">OrganicPortal</span>
+					<span class="desc">Портал органічного землеробства</span>
+				</div>
+			}
 		</a>
 	</div>
 	
 	<div class="nav-container">
-		<a class="social ratio-1-1"
-		   [href]="'https://x.com/FarmTrustUA/'"
-		   [target]="'_blank'"
-		   customBasicLink>
-			<ng-container [ngTemplateOutlet]="twitter"></ng-container>
-		</a>
+		<!-- 		@if(!breakPointForXSmall?.matches){ -->
+		<!-- 			<a class="social ratio-1-1" -->
+		<!-- 			   [href]="'https://x.com/FarmTrustUA/'" -->
+		<!-- 			   [target]="'_blank'" -->
+		<!-- 			   customBasicLink> -->
+		<!-- 				<ng-container [ngTemplateOutlet]="twitter"></ng-container> -->
+		<!-- 			</a> -->
+		<!-- 			 -->
+		<!-- 			<a class="social ratio-1-1" -->
+		<!-- 			   [href]="'https://www.facebook.com/OrganicPortal'" -->
+		<!-- 			   [target]="'_blank'" -->
+		<!-- 			   customBasicLink> -->
+		<!-- 				<ng-container [ngTemplateOutlet]="facebook"></ng-container> -->
+		<!-- 			</a> -->
+		<!-- 			 -->
+		<!-- 			<a class="social ratio-1-1" -->
+		<!-- 			   customBasicLink -->
+		<!-- 			   href="mailto:organicportal@gmail.com?subject=Тема&body=Текст повідомлення"> -->
+		<!-- 				<ng-container [ngTemplateOutlet]="gmail"></ng-container> -->
+		<!-- 			</a> -->
+		<!-- 			 -->
+		<!-- 			<div class="delimiter"></div> -->
+		<!-- 		} -->
 		
-		<a class="social ratio-1-1"
-		   [href]="'https://www.facebook.com/OrganicPortal'"
-		   [target]="'_blank'"
-		   customBasicLink>
-			<ng-container [ngTemplateOutlet]="facebook"></ng-container>
-		</a>
-		
-		<a class="social ratio-1-1"
-		   customBasicLink
-		   href="mailto:organicportal@gmail.com?subject=Тема&body=Текст повідомлення">
-			<ng-container [ngTemplateOutlet]="gmail"></ng-container>
-		</a>
-		
-		<div class="delimiter"></div>
-		<login-button></login-button>
+		@if (!breakPointForXSmall?.matches) {
+			<a class="social ratio-1-1"
+			   [href]="'https://x.com/FarmTrustUA/'"
+			   [target]="'_blank'"
+			   customBasicLink>
+				<ng-container [ngTemplateOutlet]="twitter"></ng-container>
+			</a>
+			
+			<a class="social ratio-1-1"
+			   [href]="'https://www.facebook.com/OrganicPortal'"
+			   [target]="'_blank'"
+			   customBasicLink>
+				<ng-container [ngTemplateOutlet]="facebook"></ng-container>
+			</a>
+			
+			<a class="social ratio-1-1"
+			   customBasicLink
+			   href="mailto:organicportal@gmail.com?subject=Тема&body=Текст повідомлення">
+				<ng-container [ngTemplateOutlet]="gmail"></ng-container>
+			</a>
+			
+			<div class="delimiter"></div>
+		}
+		<login-button [ngClass]="breakPointForXSmall?.matches ? 'set-login-button-xs-styles' : ''"></login-button>
 	</div>
 </header>
 
