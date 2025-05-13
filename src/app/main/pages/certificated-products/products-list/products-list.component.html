@@ -1,0 +1,160 @@
+@let loaderState = loaderState$| async;
+@let dataSource = dataSource$ | async;
+@let maxRecords = maxRecords$ | async;
+@let paginator = paginator$ | async;
+
+<div class="fx-col-container" [@frameSideIn4]>
+	<ng-title [titleLevel]="'h2'">
+		<ngx-icon [name]="'cart-large-2'"></ngx-icon>
+		Сертифіковані товари
+	</ng-title>
+	
+	<span class="desc-for-title">Товари сертифіковано з використанням блокчейн-платформи Solana</span>
+</div>
+
+
+@if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+} @else if (((loaderState?.isLoaded && !loaderState?.isError) || dataSource?.length! > 0 || (isFirstContentLoaded &&
+				(loaderState?.isLoaded &&
+				!loaderState?.isError)))) {
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+}
+
+@if (!loaderState?.isLoaded || !isFirstContentLoaded) {
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+}
+
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+</ng-template>
+
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onRefreshPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>
+
+<ng-template #loaded>
+	<div class="virtual-view-container"
+	     [root]="onGetRootFrame()"
+	     rxVirtualViewObserver>
+		
+		@if (dataSource?.length! > 0) {
+			<ngx-grid [cellSize]="'min(220px)'"
+			          [@frameSideIn4]>
+				@for (item of dataSource; track item.Id; let idx = $index) {
+					<div class="container"
+					     [@frameSideIn4]
+					     rxVirtualView>
+						<div class="card-subcontainer"
+						     *rxVirtualViewContent>
+							<div class="card"
+							>
+								<div class="card-header">
+									<span class="name-title webkit-box-text-container">{{ item.Name }}</span>
+									<span class="distributor-name name-title webkit-box-text-container">
+										{{ item.CompanyName }}
+									</span>
+								</div>
+								
+								<div class="card-body">
+									<div class="desc">
+										<div class="container">
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'box-minimalistic'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
+										Сорт – <strong>{{ item?.Variety }}</strong>
+								</span>
+											</div>
+											
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'waterdrops'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
+										Тип продукту – <strong>{{ item?.SeedType }}</strong>
+								</span>
+											</div>
+											
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'fire-square'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
+										Обробка продукту – <strong>{{ onFindTreatmentType(item?.TreatmentType!)?.name }}</strong>
+								</span>
+											</div>
+										</div>
+										
+										<div class="container">
+											<div class="fx-row desc-container">
+												<ngx-icon
+																[isAnimate]="false"
+																[name]="'clock-square'"
+																[ratio]="'.9em'"></ngx-icon>
+												<span class="webkit-box-text-container">
+										Створено – <strong>{{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+								</span>
+											</div>
+										</div>
+									
+									</div>
+								</div>
+								
+								<div class="card-footer">
+									<a class="btn"
+									   [@frameSideIn4]
+									   [matTooltip]="'Сформувати QR-код'"
+									   customRaisedButton
+									   matRipple>
+										<ngx-icon [name]="'qr-code'"
+										          [ratio]="'1.1em'"></ngx-icon>
+									</a>
+									
+									<a class="btn"
+									   [@frameSideIn4]
+									   [routerLink]="'/products/' + item.AccountPublicKey + '/' + item.HistoryKey"
+									   [matTooltip]="'Переглянути'"
+									   customRaisedButton
+									   matRipple>
+										<ngx-icon [name]="'eye'"
+										          [ratio]="'1.1em'"></ngx-icon>
+									</a>
+								</div>
+							</div>
+						</div>
+						
+						<div *rxVirtualViewPlaceholder
+						     style="height: 200px;"></div>
+					</div>
+				}
+			</ngx-grid>
+		} @else {
+			<div class="empty-data"
+			     [@frameSideIn4]>
+				<ngx-icon [name]="'pen-new-round'"
+				          [ratio]="'1.5em'"></ngx-icon>
+				
+				<h3>Наразі записів немає. Тут відображатимуться <br> сертифіковані товари компаній</h3>
+			</div>
+		}
+	</div>
+	
+	<mat-paginator class="custom-mat-paginator"
+	               [@frameSideIn4]
+	               (page)="onPageChange($event, paginator!)"
+	               [length]="maxRecords"
+	               [pageIndex]="paginator?.Page! - 1"
+	               [pageSizeOptions]="pageSizeOptions"
+	               [pageSize]="paginator?.PageSize!"
+	               [showFirstLastButtons]="true"
+	               aria-label="Select page">
+	</mat-paginator>
+</ng-template>

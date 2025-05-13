@@ -30,7 +30,10 @@ import {AllowedSeedStatuses, ISeedDTO, SeedManagementService} from "../seed-mana
 @Component({
 	selector: "app-seed-list",
 	templateUrl: "./seed-list.component.html",
-	styleUrl: "./seed-list.component.scss",
+	styleUrls: [
+		"./seed-list.component.scss",
+		"./shared.styles.scss"
+	],
 	standalone: false,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	animations: [

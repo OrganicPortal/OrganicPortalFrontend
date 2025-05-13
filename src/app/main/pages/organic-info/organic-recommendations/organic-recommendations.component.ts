@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core"
-import {textFramesSideIn} from "../../../../addons/animations/shared.animations"
+import {textFramesSideIn} from "../../../../../addons/animations/shared.animations"
 
 @Component({
   selector: 'app-organic-recommendations',

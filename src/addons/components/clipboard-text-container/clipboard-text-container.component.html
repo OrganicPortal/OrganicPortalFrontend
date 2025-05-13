@@ -9,7 +9,7 @@
     isEnableBg ? 'enable-bg' : ''
     ]"
       #container>
-    <ng-content></ng-content>
+		<span class="text-frame"><ng-content></ng-content></span>
 	
 	@if (isEnableCopyIcon) {
 		<ngx-icon [name]="'copy'" [ratio]="'.9em'"></ngx-icon>

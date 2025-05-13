@@ -32,8 +32,8 @@ export const routes: RoutesExtended = [
 			},
 
 			{
-				path: "legislation",
-				loadChildren: () => import("./pages/legislation/legislation.module").then(m => m.LegislationModule),
+				path: "organic",
+				loadChildren: () => import("./pages/organic-info/organic-info.module").then(x => x.OrganicInfoModule),
 				canActivate: [UserGroupsGuardService],
 				data: {
 					canActivateGroups: [
@@ -43,8 +43,8 @@ export const routes: RoutesExtended = [
 			},
 
 			{
-				path: "history-of-development",
-				loadChildren: () => import("./pages/history-of-development/history-of-development.module").then(m => m.HistoryOfDevelopmentModule),
+				path: "products",
+				loadChildren: () => import("./pages/certificated-products/certificated-products.module").then(x => x.CertificatedProductsModule),
 				canActivate: [UserGroupsGuardService],
 				data: {
 					canActivateGroups: [
@@ -56,17 +56,6 @@ export const routes: RoutesExtended = [
 			{
 				path: "organic-map",
 				loadChildren: () => import("./pages/organic-map/organic-map.module").then(m => m.OrganicMapModule),
-				canActivate: [UserGroupsGuardService],
-				data: {
-					canActivateGroups: [
-						AllowedGroupsOfUsers.Any
-					]
-				}
-			},
-
-			{
-				path: "organic-recommendations",
-				loadChildren: () => import("./pages/organic-recommendations/organic-recommendations.module").then(m => m.OrganicRecommendationsModule),
 				canActivate: [UserGroupsGuardService],
 				data: {
 					canActivateGroups: [

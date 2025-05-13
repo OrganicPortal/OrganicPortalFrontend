@@ -1,13 +1,14 @@
 :host {
 	display: flex;
 	position: relative;
-	
-	cursor: pointer;
-	opacity: 1;
-	white-space: nowrap;
-	border-radius: 5px;
-	margin-left: 2px;
 	padding: 2px 8px;
+	box-sizing: border-box;
+	width: 100%;
+	margin-left: 2px;
+	cursor: pointer;
+	white-space: nowrap;
+	opacity: 1;
+	border-radius: 5px;
 	
 	.pressed-mouse {
 		opacity: .7 !important;
@@ -15,15 +16,18 @@
 	
 	.clipboard-container {
 		display: flex;
-		justify-content: center;
-		align-items: center;
 		line-height: 1.5em !important;
-		transition: background-color .2s ease, opacity .2s ease;
+		align-items: center;
+		flex: 1 1;
 		flex-direction: row;
-		gap: .5rem;
+		justify-content: center;
+		box-sizing: border-box;
+		transition: background-color .2s ease, opacity .2s ease;
 		white-space: nowrap;
 		border-radius: 3px;
+		gap: .5rem;
 	}
+	
 	
 	&.enable-bg {
 		background-color: color-mix(in srgb, var(--clipboard-bg-selected-color) 50%, transparent);
@@ -33,6 +37,25 @@
 		.clipboard-container {
 			background-color: var(--clipboard-bg-selected-color);
 		}
+	}
+}
+
+:host.one-short-row {
+	box-sizing: border-box;
+	white-space: nowrap;
+	
+	.clipboard-container {
+		box-sizing: border-box;
+		white-space: nowrap;
+	}
+	
+	.text-frame {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex: 1 1;
+		width: 0;
+		
 	}
 }
 

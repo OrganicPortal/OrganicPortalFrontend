@@ -1,0 +1,41 @@
+@let viewData = viewData$ | async;
+
+<h3 class="title-container title-data-h3">
+	<span class="title">Відскануйте QR-код для перегляду <br> інформації про підписання</span>
+</h3>
+
+<div class="reflect-qr-container"
+     [@frameSideIn4]>
+	<div class="qr-sub-container">
+		<div class="qr-code">
+			@if (viewData?.qrCode) {
+				<img [src]="'data:image/png;base64,' + viewData?.qrCode"
+				     alt="qr-code">
+			}
+		</div>
+		
+		<div class="signed-info">
+			<div class="container-signed-info">
+				<clipboard-text-container class="enable-bg one-short-row"
+				                          [isEnableCopyIcon]="true"
+				                          [text]="viewData?.accessKey!">
+					
+					<span class="text-info"><strong>AccessKey: </strong>{{ viewData?.accessKey }}</span>
+				</clipboard-text-container>
+			</div>
+			
+			<div class="container-signed-info">
+				<clipboard-text-container class="enable-bg one-short-row "
+				                          [isEnableCopyIcon]="true"
+				                          [text]="viewData?.historyKey!">
+					
+					<span class="text-info"><strong>HistoryKey: </strong> {{ viewData?.historyKey }}</span>
+				</clipboard-text-container>
+			</div>
+			
+			<div class="container-signed-info signed-detail">
+				<span>Signed by <strong>Solana</strong></span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -17,10 +17,6 @@
 	<ng-container [ngTemplateOutlet]="loading"></ng-container>
 }
 
-<ng-template #loading>
-	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
-</ng-template>
-
 <ng-template #loaded>
 	<div class="virtual-view-container"
 	     [root]="onGetRootFrame()"
@@ -37,7 +33,7 @@
 		}
 		
 		@if (seedItems?.length! > 0) {
-			<ngx-grid [cellSize]="220"
+			<ngx-grid [cellSize]="'min(220px)'"
 			          [@frameSideIn4]>
 				@for (item of seedItems; track item.Id; let idx = $index) {
 					<div class="container"
@@ -179,6 +175,10 @@
 			</div>
 		}
 	</div>
+</ng-template>
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
 </ng-template>
 
 <ng-template #error>

@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http"
-import {ApplicationConfig, importProvidersFrom, Provider, provideZoneChangeDetection, isDevMode} from "@angular/core"
+import {ApplicationConfig, importProvidersFrom, Provider, provideZoneChangeDetection} from "@angular/core"
 import {provideClientHydration, withEventReplay} from "@angular/platform-browser"
 import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations"
 import {RouterModule} from "@angular/router"
@@ -15,8 +15,7 @@ import {AuthEffects} from "./store/effects/auth.effects"
 import {LocalStorageEffects} from "./store/effects/localstorage.effects"
 import {LOCAL_STORAGE_TOKEN_KEY} from "./store/models/localstorage/models"
 import * as AuthReducers from "./store/reducers/auth.reducers"
-import * as LocalStorageReducers from "./store/reducers/localstorage.reducers";
-import { provideServiceWorker } from '@angular/service-worker'
+import * as LocalStorageReducers from "./store/reducers/localstorage.reducers"
 
 export const HttpInterceptorProvider: Provider =
 	{provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
@@ -75,9 +74,11 @@ export const appConfig: ApplicationConfig = {
 			})
 		),
 
-		HttpInterceptorProvider, provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          })
+		HttpInterceptorProvider
+
+		// provideServiceWorker('ngsw-worker.js', {
+		//     enabled: !isDevMode(),
+		//     registrationStrategy: 'registerWhenStable:30000'
+		//   })
 	]
 }

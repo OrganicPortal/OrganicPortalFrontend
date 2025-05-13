@@ -25,13 +25,14 @@ export class ConfirmedModalWindowService implements OnDestroy {
 		this.unsubscribe$?.complete()
 	}
 
-	onCreateModalWindow(message: string | TemplateRef<any>, type?: "confirm" | "info", confirmedBtnFn?: Function, isCloseBtn?: boolean): Observable<{
+	onCreateModalWindow(message: string | TemplateRef<any>, type?: "confirm" | "info", confirmedBtnFn?: Function, isCloseBtn?: boolean, templateRefContext?: object): Observable<{
 		isConfirmWindow: boolean
 	}> {
 		let modalWindow: IConfirmedModalWindow = {
 			id: this.modalWindowCoutner,
 			type: type ? type : "confirm",
 			message: message,
+			templateRefContext: templateRefContext,
 
 			isCloseBtn: isCloseBtn != undefined ? isCloseBtn : true,
 			confirmedBtnFn: confirmedBtnFn,
@@ -65,9 +66,12 @@ export interface IConfirmedModalWindow {
 	id: number
 	type: "confirm" | "info"
 	message: string | TemplateRef<any>
+	templateRefContext?: object
 
 	isCloseBtn: boolean
 	confirmedBtnFn?: Function
 
 	onHandlerWindowEvent$: Subject<{ isConfirmWindow: boolean }>
+
+
 }

@@ -97,6 +97,22 @@ body {
 	
 	--clipboard-bg-selected-color: #e8e8e8;
 	
+	--mat-select-panel-background-color: var(--white);
+	
+	mat-option{
+		transition: background-color .2s ease;
+		will-change: background-color;
+		
+		*,
+		& {
+			font-family: "Roboto", sans-serif !important;
+		}
+		
+		&:hover{
+			background-color: var(--gray-2) !important;
+		}
+	}
+	
 	.mat-ripple-element {
 		background-color: var(--basic-button-ripple-color);
 	}
@@ -499,4 +515,51 @@ custom-dropdown-field {
 
 .disabled-bg {
 	background-color: unset !important;
+}
+
+mat-form-field{
+	// border: 1px solid var(--little-red);
+	;
+}
+
+mat-paginator{
+	*,
+	& {
+		font-family: "Roboto", sans-serif !important;
+	}
+	
+	.mat-ripple-element {
+		background-color: var(--basic-link-ripple-color) !important;
+	}
+	
+	.mat-mdc-button-disabled{
+		*, &{
+			color: color-mix(in srgb, transparent 50%, var(--text-color)) !important;
+		}
+	}
+	
+	.mat-mdc-paginator-range-label, .mat-mdc-paginator-page-size-label{
+		font-size: .8em;
+		color: color-mix(in srgb, transparent 50%, var(--text-color));
+	}
+	
+	.mdc-notched-outline{
+		border: 1px solid var(--gray-2);
+		border-radius: 5px;
+		
+		mat-select{
+			padding-inline: 10px !important;
+			box-sizing: border-box;
+		}
+		
+		*{
+			border: unset !important;
+		}
+	}
+	
+	
+	.mat-mdc-form-field-infix{
+		padding: 10px !important;
+	}
+	
 }

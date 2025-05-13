@@ -1,0 +1,33 @@
+:host{
+	display: flex;
+	flex: 1 1;
+	flex-direction: column;
+	
+	gap: 1rem;
+	
+	.controls-navigation {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		
+		gap: 1rem;
+		
+		a {
+			padding: .7rem 1rem;
+			flex: 1 1;
+			max-width: 200px;
+		}
+	}
+}
+
+
+@media screen and (max-width: 600px) {
+	:host {
+		.controls-navigation {
+			a {
+				flex: 1 1;
+				max-width: unset !important;
+			}
+		}
+	}
+}

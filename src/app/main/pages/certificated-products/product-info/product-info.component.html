@@ -1,0 +1,262 @@
+@let loaderState = loaderState$| async;
+@let dataSource = dataSource$ | async;
+
+@if (loaderState?.isLoaded && loaderState?.isError) {
+	<ng-container [ngTemplateOutlet]="error"></ng-container>
+} @else if (loaderState?.isLoaded && !loaderState?.isError) {
+	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+}
+
+@if (!loaderState?.isLoaded) {
+	<ng-container [ngTemplateOutlet]="loading"></ng-container>
+}
+
+
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+</ng-template>
+
+<ng-template #error>
+		<error-loading-page>
+			<refresh-button (click)="onRefreshPage()"></refresh-button>
+		</error-loading-page>
+</ng-template>
+
+<ng-template #loaded>
+	<div class="reflect-qr-container" [@frameSideIn4]>
+		@let historyItem = onGetFirstHistoryItem(dataSource?.history!);
+		
+		<div class="qr-sub-container">
+			<div class="title-container">
+				<ngx-icon class="certificate-icon"
+				          [name]="'diploma'"
+				          [ratio]="'2em'"></ngx-icon>
+				<ng-title>
+					<span class="title">Certificate of Product <br> Compliance</span>
+				</ng-title>
+			</div>
+			
+			<div class="qr-code">
+				@let qrCode = onGetQRCodeData(dataSource?.history!);
+				@if (qrCode) {
+					<img [src]="'data:image/png;base64,' + qrCode"
+					     alt="qr-code">
+				}
+			</div>
+			
+			<div class="signed-info">
+				<div class="container-signed-info">
+					<clipboard-text-container class="enable-bg one-short-row"
+					                          [isEnableCopyIcon]="true"
+					                          [text]="historyItem?.AccountPublicKey!">
+						
+						<span class="text-info"><strong>AccessKey: </strong>{{ historyItem?.AccountPublicKey }}</span>
+					</clipboard-text-container>
+				</div>
+				
+				<div class="container-signed-info">
+					<clipboard-text-container class="enable-bg one-short-row "
+					                          [isEnableCopyIcon]="true"
+					                          [text]="dataSource?.reads?.HistoryKey!">
+						
+						<span class="text-info"><strong>HistoryKey: </strong> {{ dataSource?.reads?.HistoryKey }}</span>
+					</clipboard-text-container>
+				</div>
+				
+				<div class="container-signed-info signed-detail">
+					<span>Signed by <strong>Solana</strong></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="reflect-content-container">
+		<div class="card" [@frameSideIn4]>
+			<div class="card-header">
+				<ng-title>
+					<ngx-icon [name]="'box'"
+					          [ratio]="'1.3em'"></ngx-icon>
+					Сертифіковані дані
+				</ng-title>
+				
+				<div class="desc">
+					<span>{{dataSource?.reads?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm'}}</span>
+				</div>
+			</div>
+			
+			<div class="card-body">
+				<div class="card-body-container" [@frameSideIn4]>
+					<ng-title>
+						<ngx-icon [name]="'database'"
+						          [ratio]="'1em'"></ngx-icon>
+						Відомості про продукцію
+					</ng-title>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Продукт: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.Name! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"> <strong><span class="field-name">Назва (Латинь): </span></strong>{{
+							dataSource?.reads?.SeedInfo?.ScientificName! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Тип насіння: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.SeedType! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Умови зберігання: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.StorageConditions! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Номер партії: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.BatchNumber! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Сорт: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.Variety! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Обробка насіння: </span></strong> {{
+							onFindTreatmentType(dataSource?.reads?.SeedInfo?.TreatmentType!)?.name ?? '' }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span
+									class="field-value"><strong><span class="field-name">Вага 1 тисячі насіннин (в грамах): </span></strong> {{ dataSource?.reads?.SeedInfo?.AverageWeightThousandSeeds! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span
+									class="field-value"><strong><span class="field-name">Виготовлено: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.HarvestDate! | datetime | date: 'dd.MM.yyyy HH:mm'}}</span>
+					</div>
+					
+					<div class="text-container">
+					<span
+									class="field-value"><strong><span class="field-name">Придатний до: </span></strong> {{
+							dataSource?.reads?.SeedInfo?.ExpiryDate! | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
+					</div>
+				</div>
+				
+				<div class="card-body-container" [@frameSideIn4]>
+					<ng-title>
+						<ngx-icon [name]="'medal-star-square'"
+						          [ratio]="'1em'"></ngx-icon>
+						Відомості про виробника
+					</ng-title>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Компанія: </span></strong> {{
+							dataSource?.reads?.CompanyInfo?.Name! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Адреса: </span></strong> {{
+							dataSource?.reads?.CompanyInfo?.Address! }}</span>
+					</div>
+					
+					<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Дод. Інформація: </span></strong> {{
+							dataSource?.reads?.CompanyInfo?.Description! }}</span>
+					</div>
+				</div>
+				
+				<div class="card-body-container large-gap" [@frameSideIn4]>
+					<ng-title>
+						<ngx-icon [name]="'medal-star-square'"
+						          [ratio]="'1em'"></ngx-icon>
+						Застосовані сертифікати
+					</ng-title>
+					
+					@for (item of dataSource?.reads?.CERTList; track item) {
+						<div class="text-container-2">
+							<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Сертифікат: </span></strong> {{
+							item?.Name }}</span>
+							</div>
+							
+							<div class="text-container">
+					<span class="field-value"><strong><span class="field-name">Номер: </span></strong> {{
+							item?.Number }}</span>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+		
+		<div class="card" [@frameSideIn4]>
+			<div class="card-header">
+				<ng-title>
+					<ngx-icon [name]="'document-1'"
+					          [ratio]="'1.3em'"></ngx-icon>
+					Історія сертифікацій
+				</ng-title>
+			</div>
+			
+			<div class="card-body" [@frameSideIn4]>
+				<div class="scrollable-frame">
+					<div class="table-frame">
+						<table>
+							<thead>
+							<tr>
+								<th>Назва</th>
+								<th>Сорт</th>
+								<th>Дата створення</th>
+								<th>HistoryKey</th>
+								<th>AccountPublicKey</th>
+								<th>Дії</th>
+							</tr>
+							</thead>
+							<tbody>
+								@for (item of dataSource?.history?.History; track item) {
+									<tr>
+										<td>{{ item.Name }}</td>
+										<td>{{ item.Variety }}</td>
+										<td>{{ item.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm' }}</td>
+										<td class="HistoryKey">{{ item.HistoryKey }}</td>
+										<td class="AccountPublicKey">{{ item.AccountPublicKey }}</td>
+										
+										<td class="actions">
+											<a customRaisedButton
+											   matRipple
+											   (click)="onGenerateQrCode(item.QrBase64, item.AccountPublicKey, item.HistoryKey)"
+											   class="scan-btn"
+											   [matTooltip]="'Сформувати QR-код'">
+												<ngx-icon [name]="'qr-code'"
+												          [ratio]="'1.5em'"></ngx-icon>
+											</a>
+											
+											<a customRaisedButton
+											   matRipple
+											   class="scan-btn"
+											   [matTooltip]="'Скопіювати запис'">
+												<ngx-icon [name]="'copy'"
+												          [ratio]="'1.5em'"></ngx-icon>
+											</a>
+										</td>
+									</tr>
+								}
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #QrCodeTemplate>
+	@let selectedHistoryCert = selectedHistoryCert$ | async;
+	
+	<app-product-info-modal [viewData]="selectedHistoryCert!"></app-product-info-modal>
+</ng-template>

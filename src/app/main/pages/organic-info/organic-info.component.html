@@ -1,0 +1,33 @@
+<nav class="controls-navigation"
+     [@textFramesSideIn]>
+	
+	<a [routerLink]="'/organic/recommendations'"
+	   [routerLinkActive]="'active'"
+	   customRaisedButton>
+		<ngx-icon [name]="'shield-star'"></ngx-icon>
+		Органічні технології
+	</a>
+	
+	<a [routerLink]="'/organic/history-of-development'"
+	   [routerLinkActive]="'active'"
+	   customRaisedButton>
+		<ngx-icon [name]="'history-2'"></ngx-icon>
+		Історія розвитку
+	</a>
+	
+	<a [routerLink]="'/organic/legislation'"
+	   [routerLinkActive]="'active'"
+	   customRaisedButton>
+		<ngx-icon [name]="'medal-star-circle'"></ngx-icon>
+		Законодавство
+	</a>
+	
+	<a [routerLink]="'/organic-map'"
+	   [routerLinkActive]="'active'"
+	   customRaisedButton>
+		<ngx-icon [name]="'map-point-rotate'"></ngx-icon>
+		Органічна карта
+	</a>
+</nav>
+
+<router-outlet></router-outlet>

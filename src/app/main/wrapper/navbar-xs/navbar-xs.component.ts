@@ -23,8 +23,8 @@ export class NavbarXsComponent extends LifeHooksFactory {
 
 		this.links = [
 			new NavbarXsLinkModel("", of("home-1"), of("Головна")),
-			new NavbarXsLinkModel("/organic-map", of("map-point-rotate"), of("Карта")),
-			new NavbarXsLinkModel("/organic-recommendations", of("shield-star"), of("Технології")),
+			new NavbarXsLinkModel("/organic", of("book-bookmark"), of("Про органіку")),
+			new NavbarXsLinkModel("/products", of("cart-large-2"), of("Продукція")),
 			new NavbarXsLinkModel("/interface",
 				this.authAuditorState$.pipe(
 					map(el => el.isFetchSuccess && el.isAuthUser ? "user-rounded" : "key")

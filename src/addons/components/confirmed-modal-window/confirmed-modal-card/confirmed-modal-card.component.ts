@@ -31,9 +31,13 @@ export class ConfirmedModalCardComponent implements OnInit, AfterViewInit, OnDes
 	public get isTemplateMessage() {
 		return typeof this.card.message !== "string"
 	}
-	
+
 	public get templateMessage(){
 		return this.card.message as TemplateRef<any>
+	}
+
+	public get templateContext(){
+		return this.card.templateRefContext ?? {}
 	}
 
 	ngOnInit(): void {

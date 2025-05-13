@@ -21,21 +21,6 @@
 		color: var(--link-color);
 	}
 	
-	.controls-navigation {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		
-		gap: 1rem;
-		
-		a {
-			padding: .7rem 1rem;
-			flex: 1 1;
-			max-width: 200px;
-		}
-		
-	}
-	
 	figure {
 		display: flex;
 		margin: 0 !important;
@@ -118,14 +103,4 @@
 	}
 }
 
-@media screen and (max-width: 600px) {
-	:host {
-		.controls-navigation {
-			a {
-				flex: 1 1;
-				max-width: unset !important;
-			}
-		}
-	}
-}
 

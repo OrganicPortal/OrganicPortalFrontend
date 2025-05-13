@@ -70,12 +70,13 @@ export class NavbarComponent extends LifeHooksFactory {
 			children: [],
 			isAuthRequired: false
 		},
+
 		{
-			title: "Органічні технології",
-			href: "organic-recommendations",
-			icon: "shield-star",
-			children: [],
-			isAuthRequired: false
+			title: "Продукція",
+			href: "products",
+			icon: "cart-large-2",
+			isAuthRequired: false,
+			children: []
 		},
 
 		{
@@ -84,14 +85,23 @@ export class NavbarComponent extends LifeHooksFactory {
 			isAuthRequired: false,
 			children: [
 				{
+					title: "Органічні технології",
+					href: "/organic/recommendations",
+					icon: "shield-star",
+					children: [],
+					isAuthRequired: false
+				},
+
+				{
 					title: "Історія розвитку",
-					href: "history-of-development",
+					href: "/organic/history-of-development",
 					icon: "history-2",
 					isAuthRequired: false
 				},
+
 				{
 					title: "Законодавство",
-					href: "legislation",
+					href: "/organic/legislation",
 					icon: "medal-star-circle",
 					isAuthRequired: false
 				}
@@ -101,8 +111,8 @@ export class NavbarComponent extends LifeHooksFactory {
 
 	public readonly mergedLinksForSmallScreens: IHeaderLink[]
 	public readonly breakPointForMw850$: Observable<BreakpointState>
-	public readonly  breakPointForMw1080$: Observable<BreakpointState>
-	public readonly  breakPointForMinW1080$: Observable<BreakpointState>
+	public readonly breakPointForMw1080$: Observable<BreakpointState>
+	public readonly breakPointForMinW1080$: Observable<BreakpointState>
 
 	public readonly isAuthUser$ = new BehaviorSubject<boolean>(false)
 	@ViewChildren(CdkMenuTrigger) menus!: QueryList<CdkMenuTrigger>
@@ -127,7 +137,7 @@ export class NavbarComponent extends LifeHooksFactory {
 		this.mergedLinksForSmallScreens = this.onMergeLinksForSmallScreenMenu(this.navLinks)
 	}
 
-	public get isOpenedSidebar$(){
+	public get isOpenedSidebar$() {
 		return this._wrapperService.isOpenedSidebar$
 	}
 

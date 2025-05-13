@@ -23,7 +23,7 @@
 
 <div class="card-body">
 	@if(isTemplateMessage){
-		<ng-container [ngTemplateOutlet]="templateMessage"></ng-container>
+		<ng-container [ngTemplateOutlet]="templateMessage" [ngTemplateOutletContext]="templateContext"></ng-container>
 	} @else{
 		<span class="text-container" [innerHTML]="card.message | safehtml"></span>
 	}
