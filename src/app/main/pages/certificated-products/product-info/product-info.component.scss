@@ -10,6 +10,20 @@
 	--border-color: color-mix(in srgb, transparent, var(--gray-2) 80%);
 	--shadow-color: rgba(94, 122, 177, 0.25);
 	
+	.error-content{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex: 1 1;
+		flex-direction: column;
+		gap: 1rem;
+	}
+	
+	.text-center{
+		text-align: center;
+		line-height: 1.4em;
+	}
+	
 	.large-gap {
 		gap: 1rem;
 	}

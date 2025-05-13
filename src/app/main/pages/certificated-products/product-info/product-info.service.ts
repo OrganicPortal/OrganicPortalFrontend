@@ -11,7 +11,7 @@ export class ProductInfoService {
 	) {
 	}
 
-	public onGetProductInfo(loaderState$: BehaviorSubject<LoaderStateModel>, requestRefresher$: Subject<void>, activatedRoute: ActivatedRoute) {
+	public onGetProductInfo(loaderState$: BehaviorSubject<LoaderStateModel>, requestRefresher$: Subject<void>, activatedRoute: ActivatedRoute, requestIsSuccessComplete$: BehaviorSubject<boolean>) {
 		return combineLatest([
 			activatedRoute.params,
 			requestRefresher$.pipe(startWith(undefined))
@@ -33,10 +33,15 @@ export class ProductInfoService {
 				]).pipe(
 					tap(() => {
 						loaderState$.next(new LoaderStateModel(true, false))
+						requestIsSuccessComplete$.next(true)
 					}),
 
 					catchError(async (err) => {
 						loaderState$.next(new LoaderStateModel(true, true))
+
+						if(err.status != 500) {
+							requestIsSuccessComplete$.next(true)
+						}
 					})
 				)
 			}),

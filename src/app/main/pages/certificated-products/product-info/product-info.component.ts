@@ -1,3 +1,4 @@
+import {Clipboard} from "@angular/cdk/clipboard"
 import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild} from "@angular/core"
 import {ActivatedRoute} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
@@ -6,9 +7,12 @@ import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
 import {
 	ConfirmedModalWindowService
 } from "../../../../../addons/components/confirmed-modal-window/confirmed-modal-window.service"
+import {
+	NgShortMessageService
+} from "../../../../../addons/components/ng-materials/ng-short-message/ng-short-message.service"
 import {onInitLoader} from "../../../../../addons/models/models"
 import {SeedManagementService} from "../../interface/seed-management/seed-management.service"
-import {ISignedCertificatedInfoDTO, ISignedSeedBasicInfoDTO} from "../certificated-products.service"
+import {IHistoryItem, ISignedCertificatedInfoDTO, ISignedSeedBasicInfoDTO} from "../certificated-products.service"
 import {SelectedHistoryCertModel} from "./product-info-modal/product-info-modal.component"
 import {ProductInfoService} from "./product-info.service"
 
@@ -27,6 +31,8 @@ import {ProductInfoService} from "./product-info.service"
 })
 export class ProductInfoComponent extends LifeHooksFactory {
 	public readonly loaderState$ = onInitLoader()
+	public readonly requestIsSuccessComplete$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+
 	public readonly dataSource$: BehaviorSubject<{
 		reads: ISignedSeedBasicInfoDTO,
 		history: ISignedCertificatedInfoDTO
@@ -45,14 +51,29 @@ export class ProductInfoComponent extends LifeHooksFactory {
 		private _activatedRoute: ActivatedRoute,
 		private _productInfoService: ProductInfoService,
 		private _seedManagementService: SeedManagementService,
-		private _confirmedModalWindowService: ConfirmedModalWindowService
+		private _confirmedModalWindowService: ConfirmedModalWindowService,
+		private _ngShortMessageService: NgShortMessageService,
+		private _clipboard: Clipboard
 	) {
 		super()
 	}
 
+	public onGetCopyMessage(item: IHistoryItem){
+		return `Назва: ${item.Name},
+		Сорт: ${item.Variety},
+		Дата створення: ${item.CreatedDate},
+		HistoryKey: ${item.HistoryKey},
+		AccountPublicKey: ${item.AccountPublicKey}`
+	}
+
+	public onCopyRecord(){
+		const message = "Запис успішно скопійовано"
+		this._ngShortMessageService.onInitMessage(message, "check-circle")
+	}
+
 	public override ngOnInit() {
 		this._productInfoService
-			.onGetProductInfo(this.loaderState$, this.requestRefresher$, this._activatedRoute)
+			.onGetProductInfo(this.loaderState$, this.requestRefresher$, this._activatedRoute, this.requestIsSuccessComplete$)
 			.pipe(
 				filter(el => !!el),
 				tap(([el1, el2]) => {
@@ -77,7 +98,9 @@ export class ProductInfoComponent extends LifeHooksFactory {
 	}
 
 	public onFindTreatmentType(treatmentType: number) {
-		return this._seedManagementService.allowedTreatmentTypes.find(el => el.enumType === treatmentType)
+		return this._seedManagementService
+			.allowedTreatmentTypes
+			.find(el => el.enumType === treatmentType)
 	}
 
 	public onGenerateQrCode(qrCode: string, accessKey: string, historyKey: string) {
@@ -86,15 +109,13 @@ export class ProductInfoComponent extends LifeHooksFactory {
 
 		this._confirmedModalWindowService
 			.onCreateModalWindow(this.qrCodeTemplate, "confirm", undefined, false, data)
-			.pipe(
-				takeUntil(this.componentDestroy$)
-			).subscribe()
+			.pipe(takeUntil(this.componentDestroy$))
+			.subscribe()
 	}
 
 	public onGetFirstHistoryItem(history: ISignedCertificatedInfoDTO) {
 		if (history.History?.length == 0 || !history.History?.length)
 			return
-
 		return history.History[0]
 	}
 

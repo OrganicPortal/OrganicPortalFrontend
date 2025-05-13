@@ -85,13 +85,13 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 							queryParamsHandling: "merge",
 							skipLocationChange: true,
 							queryParams: {
-								[RoutesReservedQueryParams.redirectAfterClose]: this._router.url,
-								backUrl: this._router.url
+								[RoutesReservedQueryParams.redirectAfterClose]:decodeURIComponent(this._router.url),
+								backUrl: decodeURIComponent(this._router.url)
 							},
 							state: {
 								recoveryToken: el.recoveryToken,
 								phone: this.formGroup.get("Phone")?.value,
-								backUrl: this._router.url
+								backUrl: decodeURIComponent(this._router.url)
 							}
 						}
 

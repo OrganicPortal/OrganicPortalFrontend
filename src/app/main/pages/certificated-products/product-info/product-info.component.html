@@ -1,8 +1,31 @@
 @let loaderState = loaderState$| async;
 @let dataSource = dataSource$ | async;
+@let requestIsSuccessComplete = requestIsSuccessComplete$ | async;
 
 @if (loaderState?.isLoaded && loaderState?.isError) {
-	<ng-container [ngTemplateOutlet]="error"></ng-container>
+	@if (requestIsSuccessComplete) {
+		<div class="error-content">
+			<ngx-icon class="certificate-icon"
+			          [name]="'file-text'"
+			          [ratio]="'2em'"></ngx-icon>
+			
+			<ng-title>
+				<span class="text-center">Не вдалося знайти дані про запитуваний  <br> запис</span>
+			</ng-title>
+			
+			<a class="btn submit-btn"
+			   [routerLink]="''"
+			   customRaisedButton
+			   [isRounded]="true"
+			   matRipple>
+				<ngx-icon [name]="'home-1'"
+				          [ratio]="'1.1em'"></ngx-icon>
+				<span>На головну</span>
+			</a>
+		</div>
+	} @else {
+		<ng-container [ngTemplateOutlet]="error"></ng-container>
+	}
 } @else if (loaderState?.isLoaded && !loaderState?.isError) {
 	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 }
@@ -11,20 +34,19 @@
 	<ng-container [ngTemplateOutlet]="loading"></ng-container>
 }
 
-
-
 <ng-template #loading>
 	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
 </ng-template>
 
 <ng-template #error>
-		<error-loading-page>
-			<refresh-button (click)="onRefreshPage()"></refresh-button>
-		</error-loading-page>
+	<error-loading-page>
+		<refresh-button (click)="onRefreshPage()"></refresh-button>
+	</error-loading-page>
 </ng-template>
 
 <ng-template #loaded>
-	<div class="reflect-qr-container" [@frameSideIn4]>
+	<div class="reflect-qr-container"
+	     [@frameSideIn4]>
 		@let historyItem = onGetFirstHistoryItem(dataSource?.history!);
 		
 		<div class="qr-sub-container">
@@ -72,7 +94,8 @@
 	</div>
 	
 	<div class="reflect-content-container">
-		<div class="card" [@frameSideIn4]>
+		<div class="card"
+		     [@frameSideIn4]>
 			<div class="card-header">
 				<ng-title>
 					<ngx-icon [name]="'box'"
@@ -81,12 +104,13 @@
 				</ng-title>
 				
 				<div class="desc">
-					<span>{{dataSource?.reads?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm'}}</span>
+					<span>{{ dataSource?.reads?.CreatedDate | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
 				</div>
 			</div>
 			
 			<div class="card-body">
-				<div class="card-body-container" [@frameSideIn4]>
+				<div class="card-body-container"
+				     [@frameSideIn4]>
 					<ng-title>
 						<ngx-icon [name]="'database'"
 						          [ratio]="'1em'"></ngx-icon>
@@ -136,7 +160,7 @@
 					<div class="text-container">
 					<span
 									class="field-value"><strong><span class="field-name">Виготовлено: </span></strong> {{
-							dataSource?.reads?.SeedInfo?.HarvestDate! | datetime | date: 'dd.MM.yyyy HH:mm'}}</span>
+							dataSource?.reads?.SeedInfo?.HarvestDate! | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
 					</div>
 					
 					<div class="text-container">
@@ -146,7 +170,8 @@
 					</div>
 				</div>
 				
-				<div class="card-body-container" [@frameSideIn4]>
+				<div class="card-body-container"
+				     [@frameSideIn4]>
 					<ng-title>
 						<ngx-icon [name]="'medal-star-square'"
 						          [ratio]="'1em'"></ngx-icon>
@@ -169,7 +194,8 @@
 					</div>
 				</div>
 				
-				<div class="card-body-container large-gap" [@frameSideIn4]>
+				<div class="card-body-container large-gap"
+				     [@frameSideIn4]>
 					<ng-title>
 						<ngx-icon [name]="'medal-star-square'"
 						          [ratio]="'1em'"></ngx-icon>
@@ -193,7 +219,8 @@
 			</div>
 		</div>
 		
-		<div class="card" [@frameSideIn4]>
+		<div class="card"
+		     [@frameSideIn4]>
 			<div class="card-header">
 				<ng-title>
 					<ngx-icon [name]="'document-1'"
@@ -202,7 +229,8 @@
 				</ng-title>
 			</div>
 			
-			<div class="card-body" [@frameSideIn4]>
+			<div class="card-body"
+			     [@frameSideIn4]>
 				<div class="scrollable-frame">
 					<div class="table-frame">
 						<table>
@@ -237,6 +265,8 @@
 											
 											<a customRaisedButton
 											   matRipple
+											   [cdkCopyToClipboard]="onGetCopyMessage(item)"
+											   (click)="onCopyRecord()"
 											   class="scan-btn"
 											   [matTooltip]="'Скопіювати запис'">
 												<ngx-icon [name]="'copy'"

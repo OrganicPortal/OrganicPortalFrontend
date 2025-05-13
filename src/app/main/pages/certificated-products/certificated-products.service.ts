@@ -38,7 +38,7 @@ export class CertificatedProductsService {
 			HistoryKey: historyKey
 		}
 
-		return this._http.post<{Data: ISignedCertificatedInfoDTO}>(apiUrl, payload)
+		return this._http.post<{ Data: ISignedCertificatedInfoDTO }>(apiUrl, payload)
 	}
 
 	public onGoToPage(paginatorState: PaginatorModel) {
@@ -113,19 +113,21 @@ export interface ISignedCertificatedInfoDTO {
 		CERTList: ISignedSeedBasicInfoDTO["CERTList"]
 	}
 
-	History: {
-		Id: number
-		HistoryKey: string
-		AccountPublicKey: string
-		Name: string
-		Variety: string
-		SeedType: string
-		TreatmentType: AllowedTreatmentTypes
-		CompanyName: string
-		CreatedDate: string
+	History: IHistoryItem[]
+}
 
-		QrBase64: string
-	}[]
+export interface IHistoryItem {
+	Id: number
+	HistoryKey: string
+	AccountPublicKey: string
+	Name: string
+	Variety: string
+	SeedType: string
+	TreatmentType: AllowedTreatmentTypes
+	CompanyName: string
+	CreatedDate: string
+
+	QrBase64: string
 }
 
 export interface ISignedSeedBasicInfoDTO {

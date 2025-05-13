@@ -1,3 +1,4 @@
+import {ClipboardModule} from "@angular/cdk/clipboard"
 import {CommonModule, NgOptimizedImage} from "@angular/common"
 import {NgModule} from "@angular/core"
 import {MatRippleModule} from "@angular/material/core"
@@ -43,6 +44,7 @@ export const routes: RoutesExtended = [
 		ClipboardTextContainerModule,
 		CustomPipesModule,
 		CustomRaisedButtonModule,
+		ClipboardModule,
 		MatTooltipModule,
 		MatRippleModule
 	],

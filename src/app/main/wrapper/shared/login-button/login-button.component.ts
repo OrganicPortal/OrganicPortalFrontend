@@ -114,7 +114,7 @@ export class LoginButtonComponent extends LifeHooksFactory {
 		this._router.navigate([{outlets: {"auth-overlay": ["auth-overlay"]}}], {
 			skipLocationChange: true,
 			queryParams: {
-				[RoutesReservedQueryParams.redirectAfterClose]: this._router.url
+				[RoutesReservedQueryParams.redirectAfterClose]: decodeURIComponent(this._router.url)
 			}
 		})
 	}
