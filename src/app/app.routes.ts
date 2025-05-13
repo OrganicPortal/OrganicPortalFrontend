@@ -7,6 +7,12 @@ export const routes: RoutesExtended = [
 		loadChildren: () => MainModule
 	},
 
+
+	{
+		path: "qr-info",
+		loadChildren: () => import("./main/pages/qr-info/qr-info.module").then(x => x.QrInfoModule)
+	},
+
 	{
 		path: "auth-overlay",
 		outlet: "auth-overlay",

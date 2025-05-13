@@ -22,6 +22,7 @@ import {
 } from "../../../../../addons/directives/buttons/custom-raised-button/custom-raised-button.module"
 import {CustomPipesModule} from "../../../../../addons/pipes/custom.pipes.module"
 import {RoutesExtended} from "../../../../../addons/states/states"
+import {ProductInfoModalModule} from "../product-info/product-info-modal/product-info-modal.module"
 import {ProductsListComponent} from "./products-list.component"
 
 export const routes: RoutesExtended = [
@@ -53,7 +54,8 @@ export const routes: RoutesExtended = [
 		RxVirtualViewContent,
 		RxVirtualViewPlaceholder,
 		MatTooltipModule,
-		NgTitleModule
+		NgTitleModule,
+		ProductInfoModalModule
 	]
 })
 export class ProductsListModule {

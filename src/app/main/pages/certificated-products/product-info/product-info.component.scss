@@ -10,18 +10,18 @@
 	--border-color: color-mix(in srgb, transparent, var(--gray-2) 80%);
 	--shadow-color: rgba(94, 122, 177, 0.25);
 	
-	.error-content{
+	.error-content {
 		display: flex;
-		justify-content: center;
 		align-items: center;
 		flex: 1 1;
 		flex-direction: column;
+		justify-content: center;
 		gap: 1rem;
 	}
 	
-	.text-center{
-		text-align: center;
+	.text-center {
 		line-height: 1.4em;
+		text-align: center;
 	}
 	
 	.large-gap {
@@ -97,9 +97,9 @@
 		}
 	}
 	
-	.desc{
-		font-weight: 500;
+	.desc {
 		font-size: .8em;
+		font-weight: 500;
 		color: color-mix(in srgb, transparent, var(--text-color) 50%);
 	}
 	
@@ -201,7 +201,7 @@
 		flex-direction: column !important;
 		flex-wrap: unset !important;
 		
-		.qr-sub-container{
+		.qr-sub-container {
 			flex: 1 1 !important;
 			min-width: unset !important;
 		}

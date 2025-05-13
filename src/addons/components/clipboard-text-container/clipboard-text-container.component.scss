@@ -3,7 +3,6 @@
 	position: relative;
 	padding: 2px 8px;
 	box-sizing: border-box;
-	width: 100%;
 	margin-left: 2px;
 	cursor: pointer;
 	white-space: nowrap;
@@ -41,6 +40,7 @@
 }
 
 :host.one-short-row {
+	width: 100%;
 	box-sizing: border-box;
 	white-space: nowrap;
 	

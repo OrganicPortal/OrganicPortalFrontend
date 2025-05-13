@@ -1,4 +1,3 @@
-import {Clipboard} from "@angular/cdk/clipboard"
 import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild} from "@angular/core"
 import {ActivatedRoute} from "@angular/router"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
@@ -52,23 +51,9 @@ export class ProductInfoComponent extends LifeHooksFactory {
 		private _productInfoService: ProductInfoService,
 		private _seedManagementService: SeedManagementService,
 		private _confirmedModalWindowService: ConfirmedModalWindowService,
-		private _ngShortMessageService: NgShortMessageService,
-		private _clipboard: Clipboard
+		private _ngShortMessageService: NgShortMessageService
 	) {
 		super()
-	}
-
-	public onGetCopyMessage(item: IHistoryItem){
-		return `Назва: ${item.Name},
-		Сорт: ${item.Variety},
-		Дата створення: ${item.CreatedDate},
-		HistoryKey: ${item.HistoryKey},
-		AccountPublicKey: ${item.AccountPublicKey}`
-	}
-
-	public onCopyRecord(){
-		const message = "Запис успішно скопійовано"
-		this._ngShortMessageService.onInitMessage(message, "check-circle")
 	}
 
 	public override ngOnInit() {
@@ -81,20 +66,18 @@ export class ProductInfoComponent extends LifeHooksFactory {
 						reads: el1.Data,
 						history: el2.Data
 					})
-				})
-			)
-			.subscribe()
-
-		// this.dataSource$.next({
-		// 	reads: this.test?.Data as any,
-		// 	history: this.test2?.Data as any
-		// })
-		//
-		// this.loaderState$.next(new LoaderModel(true, true))
+				}),
+				takeUntil(this.componentDestroy$)
+			).subscribe()
 	}
 
 	public override ngAfterViewInit() {
 		super.ngAfterViewInit()
+	}
+
+	public onCopyRecord() {
+		const message = "Запис успішно скопійовано"
+		this._ngShortMessageService.onInitMessage(message, "check-circle")
 	}
 
 	public onFindTreatmentType(treatmentType: number) {
@@ -111,6 +94,14 @@ export class ProductInfoComponent extends LifeHooksFactory {
 			.onCreateModalWindow(this.qrCodeTemplate, "confirm", undefined, false, data)
 			.pipe(takeUntil(this.componentDestroy$))
 			.subscribe()
+	}
+
+	public onGetCopyMessage(item: IHistoryItem) {
+		return `Назва: ${item.Name},
+		Сорт: ${item.Variety},
+		Дата створення: ${item.CreatedDate},
+		HistoryKey: ${item.HistoryKey},
+		AccountPublicKey: ${item.AccountPublicKey}`
 	}
 
 	public onGetFirstHistoryItem(history: ISignedCertificatedInfoDTO) {

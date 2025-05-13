@@ -17,7 +17,7 @@ import {
 import {CustomPipesModule} from "../../../../../addons/pipes/custom.pipes.module"
 import {RoutesExtended} from "../../../../../addons/states/states"
 import {SeedManagementService} from "../../interface/seed-management/seed-management.service"
-import {ProductInfoModalComponent} from "./product-info-modal/product-info-modal.component"
+import {ProductInfoModalModule} from "./product-info-modal/product-info-modal.module"
 import {ProductInfoComponent} from "./product-info.component"
 import {ProductInfoService} from "./product-info.service"
 
@@ -30,8 +30,7 @@ export const routes: RoutesExtended = [
 
 @NgModule({
 	declarations: [
-		ProductInfoComponent,
-		ProductInfoModalComponent
+		ProductInfoComponent
 	],
 	imports: [
 		CommonModule,
@@ -46,7 +45,8 @@ export const routes: RoutesExtended = [
 		CustomRaisedButtonModule,
 		ClipboardModule,
 		MatTooltipModule,
-		MatRippleModule
+		MatRippleModule,
+		ProductInfoModalModule
 	],
 
 	providers: [

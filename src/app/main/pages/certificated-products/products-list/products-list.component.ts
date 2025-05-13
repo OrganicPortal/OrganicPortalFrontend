@@ -1,10 +1,14 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core"
+import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild} from "@angular/core"
 import {LifeHooksFactory} from "@fixAR496/ngx-elly-lib"
 import {BehaviorSubject, Subject, takeUntil, tap} from "rxjs"
 import {frameSideIn4} from "../../../../../addons/animations/shared.animations"
+import {
+	ConfirmedModalWindowService
+} from "../../../../../addons/components/confirmed-modal-window/confirmed-modal-window.service"
 import {onInitLoader, PaginatorModel} from "../../../../../addons/models/models"
 import {SeedManagementService} from "../../interface/seed-management/seed-management.service"
 import {CertificatedProductsService, ISignedInfoItemDTO} from "../certificated-products.service"
+import {SelectedHistoryCertModel} from "../product-info/product-info-modal/product-info-modal.component"
 import {ProductsListService} from "./products-list.service"
 
 @Component({
@@ -29,12 +33,32 @@ export class ProductsListComponent extends LifeHooksFactory {
 	public readonly pageSizeOptions: Array<number> = [10, 20, 50, 100]
 	private readonly requestRefresher$: Subject<void> = new Subject<void>()
 
+	public readonly selectedHistoryCert$:
+		BehaviorSubject<SelectedHistoryCertModel | undefined>
+		= new BehaviorSubject<SelectedHistoryCertModel | undefined>(undefined)
+
+	@ViewChild("QrCodeTemplate") public qrCodeTemplate!: TemplateRef<any>
 	constructor(
 		private _productsListService: ProductsListService,
 		private _seedManagementService: SeedManagementService,
+		private _confirmedModalWindowService: ConfirmedModalWindowService,
 		private _certificatedProductsService: CertificatedProductsService
 	) {
 		super()
+	}
+
+	public onEncodeUrl(url: string){
+		return encodeURIComponent(url)
+	}
+
+	public onGenerateQrCode(qrCode: string, accessKey: string, historyKey: string) {
+		const data = new SelectedHistoryCertModel(qrCode, accessKey, historyKey)
+		this.selectedHistoryCert$.next(data)
+
+		this._confirmedModalWindowService
+			.onCreateModalWindow(this.qrCodeTemplate, "confirm", undefined, false, data)
+			.pipe(takeUntil(this.componentDestroy$))
+			.subscribe()
 	}
 
 	public override ngOnInit() {

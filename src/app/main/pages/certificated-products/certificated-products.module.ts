@@ -20,7 +20,7 @@ export const routes: RoutesExtended = [
 			{
 				path: ":productAccessKey/:productHistoryKey",
 				loadChildren: () => import("./product-info/product-info.module").then(x => x.ProductInfoModule)
-			}
+			},
 		]
 	}
 ]

@@ -112,6 +112,7 @@
 									<a class="btn"
 									   [@frameSideIn4]
 									   [matTooltip]="'Сформувати QR-код'"
+									   (click)="onGenerateQrCode(item.QrBase64, item.AccountPublicKey, item.HistoryKey)"
 									   customRaisedButton
 									   matRipple>
 										<ngx-icon [name]="'qr-code'"
@@ -120,7 +121,8 @@
 									
 									<a class="btn"
 									   [@frameSideIn4]
-									   [routerLink]="'/products/' + item.AccountPublicKey + '/' + item.HistoryKey"
+									   [routerLink]="'/products/' + onEncodeUrl(item.AccountPublicKey) + '/' +
+									   onEncodeUrl(item.HistoryKey)"
 									   [matTooltip]="'Переглянути'"
 									   customRaisedButton
 									   matRipple>
@@ -157,4 +159,9 @@
 	               [showFirstLastButtons]="true"
 	               aria-label="Select page">
 	</mat-paginator>
+</ng-template>
+
+<ng-template #QrCodeTemplate>
+	@let selectedHistoryCert = selectedHistoryCert$ | async;
+	<app-product-info-modal [viewData]="selectedHistoryCert!"></app-product-info-modal>
 </ng-template>

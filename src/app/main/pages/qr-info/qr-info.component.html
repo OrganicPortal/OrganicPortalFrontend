@@ -1,0 +1,249 @@
+@let loaderState = loaderState$| async;
+@let requestIsSuccessComplete = requestIsSuccessComplete$ | async;
+@let dataSource = dataSource$ | async;
+
+<div class="viewport-content">
+	<div class="header-content">
+		<button class="close-btn btn"
+		        [isRounded]="true"
+		        [routerLink]="''"
+		        customRaisedButton
+		        matRipple>
+			<ngx-icon [collection]="'custom-collection'"
+			          [name]="'close'"
+			          [ratio]="'1.4em'"></ngx-icon>
+		</button>
+	</div>
+	
+	<div class="body-content">
+		@if (loaderState?.isLoaded && loaderState?.isError) {
+			@if (requestIsSuccessComplete) {
+				<div class="error-content">
+					<ngx-icon class="certificate-icon"
+					          [name]="'file-text'"
+					          [ratio]="'2em'"></ngx-icon>
+					
+					<ng-title>
+						<span class="text-center">Не вдалося знайти дані про запитуваний  <br> запис</span>
+					</ng-title>
+					
+					<a class="btn submit-btn"
+					   [routerLink]="''"
+					   customRaisedButton
+					   [isRounded]="true"
+					   matRipple>
+						<ngx-icon [name]="'home-1'"
+						          [ratio]="'1.1em'"></ngx-icon>
+						<span>На головну</span>
+					</a>
+				</div>
+			} @else {
+				<ng-container [ngTemplateOutlet]="error"></ng-container>
+			}
+		} @else if (loaderState?.isLoaded && !loaderState?.isError) {
+			<ng-container [ngTemplateOutlet]="loaded"></ng-container>
+		}
+		
+		@if (!loaderState?.isLoaded) {
+			<ng-container [ngTemplateOutlet]="loading"></ng-container>
+		}
+	</div>
+</div>
+
+<ng-template #loading>
+	<dots-loadbar class="loader disabled-bg"></dots-loadbar>
+</ng-template>
+
+<ng-template #error>
+	<error-loading-page>
+		<refresh-button (click)="onRefreshPage()"></refresh-button>
+	</error-loading-page>
+</ng-template>
+
+<ng-template #loaded>
+	@let seedDataContent = (dataSource$ | async)?.SeedInfo;
+	
+	<div class="logo"
+	     [@frameSideIn4]>
+		<div class="logo-frame">
+			<img [ngSrc]="'assets/logos/organic_logo_full.png'"
+			     [priority]="true"
+			     alt="logo"
+			     fill>
+		</div>
+	</div>
+	
+	<div class="container"
+	     [@frameSideIn4]>
+		<div class="card-header"
+		     [ngFxAlign]="'space-between center'"
+		     [ngFxGap]="10"
+		     [ngFxLayout]="'row'"
+		     [ngFxWrap]="'wrap'">
+			<div class="left-content"
+			     [ngFxGap]="5"
+			     [ngFxLayout]="'row'"
+			     [ngFxWrap]="'wrap'">
+				<div class="icon">
+					<ngx-icon [name]="'dialog-2'"
+					          [ratio]="'1.2em'"></ngx-icon>
+				</div>
+				
+				<h3 class="header-title">
+					<span>Інформація про продукт</span>
+				</h3>
+			</div>
+		</div>
+		
+		<div class="cert-data">
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Назва культури –
+				<span class="font-bold little-red-color">{{ seedDataContent?.Name }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Ім'я культури (Латинь) –
+				<span class="font-bold little-red-color">{{ seedDataContent?.ScientificName }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Сорт –
+				<span class="font-bold little-red-color">{{ seedDataContent?.Variety }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Тип насіння –
+				<span class="font-bold little-red-color">{{ seedDataContent?.SeedType }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Номер партії –
+				<span class="font-bold little-red-color">{{ seedDataContent?.BatchNumber }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Дата виготовлення –
+				<span class="font-bold little-red-color">{{ seedDataContent?.HarvestDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Термін придатності –
+				<span class="font-bold little-red-color">{{ seedDataContent?.ExpiryDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Умови зберігання –
+				<span class="font-bold little-red-color">{{ seedDataContent?.StorageConditions }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Вага 1 тис. насінин (в грамах) –
+				<span class="font-bold little-red-color">{{ seedDataContent?.AverageWeightThousandSeeds }}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Обробка насіння –
+				<span class="font-bold little-red-color">
+					{{
+						onFindTreatmentType(seedDataContent?.TreatmentType!)?.name
+					}}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Виробник –
+				<span class="font-bold little-red-color">
+					{{
+						dataSource?.CompanyInfo?.Name
+					}}
+		</span>
+		</span>
+			</div>
+			
+			<div class="text-container">
+				<ngx-icon [name]="'forward-2'"></ngx-icon>
+				<span class="text-block">
+			Адреса виробника –
+				<span class="font-bold little-red-color">
+					{{
+						dataSource?.CompanyInfo?.Address
+					}}
+		</span>
+		</span>
+			</div>
+			
+			<div class="certificates">
+				<ng-title>
+					<ngx-icon [name]="'diploma'"></ngx-icon>
+					Підписано сертифікатами
+				</ng-title>
+				@for (item of dataSource?.CERTList; track item) {
+					<div class="certs-info">
+						<div class="text-container">
+							<ngx-icon [name]="'forward-2'"></ngx-icon>
+							<span class="text-block">
+								Назва –
+									<span class="font-bold little-red-color">
+										{{
+											item.Name + '(№' + item.Number + ')'
+										}}
+							</span>
+							</span>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+		
+		<div class="footer-content">
+			<a class="end-of-view"
+			   [routerLink]="''"
+			   customRaisedButton>
+				<ngx-icon [name]="'home-1'"
+				          [ratio]="'1.3em'"></ngx-icon>
+				На головну
+			</a>
+		</div>
+	</div>
+</ng-template>

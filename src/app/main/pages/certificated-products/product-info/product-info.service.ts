@@ -28,8 +28,8 @@ export class ProductInfoService {
 				loaderState$.next(new LoaderStateModel(false, false))
 
 				return combineLatest([
-					this._certificatedProductsService.onGetProductBaseInfo(productAccessKey),
-					this._certificatedProductsService.onGetProductCertificatedInfo(productHistoryKey)
+					this._certificatedProductsService.onGetProductBaseInfo(decodeURIComponent(productAccessKey)),
+					this._certificatedProductsService.onGetProductCertificatedInfo(decodeURIComponent(productHistoryKey))
 				]).pipe(
 					tap(() => {
 						loaderState$.next(new LoaderStateModel(true, false))
