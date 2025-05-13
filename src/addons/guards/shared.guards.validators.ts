@@ -173,7 +173,7 @@ export class SharedGuardsValidatorsService {
 			rule.extras = {
 				...rule.extras,
 				queryParams: {
-					redirectAfterClose: this._router.url
+					redirectAfterClose: decodeURIComponent(this._router.url)
 				}
 			}
 		}
