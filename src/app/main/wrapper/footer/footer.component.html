@@ -63,6 +63,7 @@
 			<div class="nav-row-container">
 				<a class="social ratio-1-1"
 				   [href]="'https://x.com/FarmTrustUA/'"
+				   aria-label="twitter"
 				   [target]="'_blank'"
 				   customBasicLink>
 					<ng-container [ngTemplateOutlet]="twitter"></ng-container>
@@ -70,12 +71,14 @@
 				
 				<a class="social ratio-1-1"
 				   [href]="'https://www.facebook.com/OrganicPortal'"
+				   aria-label="facebook"
 				   [target]="'_blank'"
 				   customBasicLink	>
 					<ng-container [ngTemplateOutlet]="facebook"></ng-container>
 				</a>
 				
 				<a class="social ratio-1-1"
+				   aria-label="e-mail"
 				   customBasicLink
 				   href="mailto:organicportal@gmail.com?subject=Тема&body=Текст повідомлення">
 					<ng-container [ngTemplateOutlet]="gmail"></ng-container>

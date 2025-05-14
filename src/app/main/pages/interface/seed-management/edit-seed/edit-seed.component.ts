@@ -208,7 +208,8 @@ export class EditSeedComponent extends LifeHooksFactory {
 					this.requestHandler$.next()
 					this.loaderState$.next(new LoaderModel(false, false))
 				}),
-				switchMap((el) => obs$)
+				switchMap((el) => obs$),
+				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
 
@@ -256,7 +257,8 @@ export class EditSeedComponent extends LifeHooksFactory {
 					this.requestHandler$.next()
 					this.loaderState$.next(new LoaderModel(false, false))
 				}),
-				switchMap(() => obs$)
+				switchMap(() => obs$),
+				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
 

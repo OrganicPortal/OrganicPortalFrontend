@@ -68,11 +68,12 @@ export class ProductsListComponent extends LifeHooksFactory {
 			.onGetProducts(this.paginator$, this.requestRefresher$, this.loaderState$)
 			.pipe(
 				tap((el) => {
-					this.isFirstContentLoaded = true
-
-					if (!el)
+					if (!el){
+						this.isFirstContentLoaded = this.isFirstContentLoaded ?? false
 						return
+					}
 
+					this.isFirstContentLoaded = true
 					this.maxRecords$.next(el.Data.Count)
 					this.dataSource$.next(el.Data.Items)
 				}),

@@ -12,7 +12,6 @@
 	<span class="desc-for-title">Товари сертифіковано з використанням блокчейн-платформи Solana</span>
 </div>
 
-
 @if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
 	<ng-container [ngTemplateOutlet]="error"></ng-container>
 } @else if (((loaderState?.isLoaded && !loaderState?.isError) || dataSource?.length! > 0 || (isFirstContentLoaded &&
@@ -21,7 +20,7 @@
 	<ng-container [ngTemplateOutlet]="loaded"></ng-container>
 }
 
-@if (!loaderState?.isLoaded || !isFirstContentLoaded) {
+@if ((!loaderState?.isLoaded || !isFirstContentLoaded) && !loaderState?.isError) {
 	<ng-container [ngTemplateOutlet]="loading"></ng-container>
 }
 

@@ -29,13 +29,12 @@ export class ProductsListService {
 				paginator$.next(el1)
 			}),
 
-
 			switchMap(([el1, el2]) => {
 				return this._certificatedProductsService.onGetCertificatedProducts(el1)
 					.pipe(
 						tap(() => {
-							loaderState$.next(new LoaderStateModel(true, false))
-
+							const loaderState = new LoaderStateModel(true, false)
+							loaderState$.next(loaderState)
 						}),
 
 						catchError(async (err) => {

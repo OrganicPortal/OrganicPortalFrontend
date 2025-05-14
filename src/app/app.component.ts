@@ -26,7 +26,7 @@ import * as AuthActions from "./store/actions/auth.actions"
 import {StoreAuthType} from "./store/actions/auth.actions"
 import * as LocalStorageActions from "./store/actions/localstorage.actions"
 import {AuthListeners} from "./store/listeners/auth.listeners"
-import {LOCAL_STORAGE_TOKEN_KEY, SyncStorageModel} from "./store/models/localstorage/models"
+import {ACTIVE_COMPANY_ID, LOCAL_STORAGE_TOKEN_KEY, SyncStorageModel} from "./store/models/localstorage/models"
 
 @Component({
 	selector: "app-root",
@@ -72,7 +72,7 @@ export class AppComponent extends LifeHooksFactory {
 		this.logoutAuditorState$ = this._authListeners.storeLogoutState$
 		this.fullScreenLoaderState$ = this._authListeners.fullScreenLoaderState$
 
-		this._store.dispatch(LocalStorageActions.SyncStorageByKeys(new SyncStorageModel([LOCAL_STORAGE_TOKEN_KEY])))
+		this._store.dispatch(LocalStorageActions.SyncStorageByKeys(new SyncStorageModel([LOCAL_STORAGE_TOKEN_KEY, ACTIVE_COMPANY_ID])))
 		this._store.dispatch(LocalStorageActions.StorageStateFetchInit())
 		this._store.dispatch(AuthActions.AuthAuditorInit())
 

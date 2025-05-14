@@ -154,7 +154,8 @@ export class CompaniesListComponent extends LifeHooksFactory {
 				tap(() => {
 					this._store.dispatch(AuthActions.FullScreenLoaderInit({delay: delayTime}))
 				}),
-				switchMap((el) => obs$)
+				switchMap((el) => obs$),
+				takeUntil(this.componentDestroy$)
 			).subscribe()
 	}
 
