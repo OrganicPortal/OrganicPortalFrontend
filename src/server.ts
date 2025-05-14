@@ -65,10 +65,10 @@ if (isMainModule(import.meta.url)) {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 } else{
-    const port = process.env['PORT'] || 4000;
-    app.listen(port, () => {
-        console.log(`Node Express server listening on http://localhost:${port}`);
-    });
+    // const port = process.env['PORT'] || 4000;
+    // app.listen(port, () => {
+    //     console.log(`Node Express server listening on http://localhost:${port}`);
+    // });
 }
 
 /**
