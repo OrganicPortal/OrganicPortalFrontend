@@ -195,12 +195,12 @@
 			<div class="fields-container fx-row fx-wrap set-max-w">
 				<div class="selection-certs">
 					@for (item of allowedCerts; track idx; let idx = $index) {
-						<button class="fx-row selection-row"
+						<button class="fx-row selection-row cert-button"
 						        (click)="onSelectionCertHandler(item.control)"
 						        [type]="'button'">
 							<ng-checkbox [isAutoChangeValue]="false"
 							             [control]="item.control"></ng-checkbox>
-							<span>{{ item.certData.Name }} ({{ item.certData.Description }})</span>
+							<span class="allow-text-wrap">{{ item.certData.Name }} ({{ item.certData.Description }})</span>
 						</button>
 					}
 				</div>
