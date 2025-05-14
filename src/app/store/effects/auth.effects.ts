@@ -263,7 +263,7 @@ export class AuthEffects {
 				this._store.dispatch(AuthActions.AuthAuditorReset())
 				this._router.navigate([""])
 
-				this._toastrService.onInitMessage("Вихід успішно виконано")
+				this._toastrService.onInitMessage("Logout completed successfully.")
 
 				return AuthActions.LogoutSuccess({
 					isFetchSuccess: true,
@@ -294,7 +294,7 @@ export class AuthEffects {
 					const state = !!(el.isRequestComplete && el.isFetchSuccess && el.Data)
 
 					if (!state && el.isRequestComplete) {
-						const message = "Заповніть реєстраційні дані на сторінці реєстрації."
+						const message = "Fill in the registration details on the registration page."
 						this._ngShortMessageService.onInitMessage(message, "info-circle")
 						this._router.navigate([RouterRedirects.registration], {queryParamsHandling: "merge"})
 					}

@@ -85,7 +85,7 @@ export class NewSeedComponent extends LifeHooksFactory {
 
 	public onSubmit(allowedCerts: AllowedCertModel[]) {
 		if (!this.form.valid) {
-			const message = "Форму заповнено не коректно"
+			const message = "The form was filled out incorrectly"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
@@ -93,7 +93,7 @@ export class NewSeedComponent extends LifeHooksFactory {
 		const selectedCerts = allowedCerts.filter(el => !!el.control.value)
 
 		if (selectedCerts.length === 0) {
-			const message = "Виберіть щонайменше один сертифікат"
+			const message = "Select at least one certificate"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}

@@ -4,7 +4,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Назва культури –
+			Culture name –
 				<span class="font-bold little-red-color">{{ seedDataContent?.Name }}
 		</span>
 		</span>
@@ -13,7 +13,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Ім'я культури (Латинь) –
+			Culture name (Latin) –
 				<span class="font-bold little-red-color">{{ seedDataContent?.ScientificName }}
 		</span>
 		</span>
@@ -22,7 +22,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Сорт –
+			Sort –
 				<span class="font-bold little-red-color">{{ seedDataContent?.Variety }}
 		</span>
 		</span>
@@ -31,7 +31,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Тип насіння –
+			Seed type –
 				<span class="font-bold little-red-color">{{ seedDataContent?.SeedType }}
 		</span>
 		</span>
@@ -40,7 +40,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Номер партії –
+			Batch number –
 				<span class="font-bold little-red-color">{{ seedDataContent?.BatchNumber }}
 		</span>
 		</span>
@@ -49,7 +49,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Дата виготовлення –
+			Date of manufacture –
 				<span class="font-bold little-red-color">{{ seedDataContent?.HarvestDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
 		</span>
 		</span>
@@ -58,7 +58,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Термін придатності –
+			Expiration date –
 				<span class="font-bold little-red-color">{{ seedDataContent?.ExpiryDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
 		</span>
 		</span>
@@ -67,7 +67,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Умови зберігання –
+			Storage conditions –
 				<span class="font-bold little-red-color">{{ seedDataContent?.StorageConditions  }}
 		</span>
 		</span>
@@ -76,7 +76,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Вага 1 тис. насінин (в грамах) –
+			Weight of 1 thousand seeds (in grams) –
 				<span class="font-bold little-red-color">{{ seedDataContent?.AverageWeightThousandSeeds  }}
 		</span>
 		</span>
@@ -85,7 +85,7 @@
 	<div class="text-container">
 		<ngx-icon [name]="'forward-2'"></ngx-icon>
 		<span class="text-block">
-			Обробка насіння –
+			Seed treatment –
 				<span class="font-bold little-red-color">
 					{{
 						onFindTreatmentType(seedDataContent?.TreatmentType!)?.name
@@ -95,4 +95,4 @@
 	</div>
 </div>
 
-<span class="font-bold little-red-color">Сертифікувати вказану інформацію?</span>
+<span class="font-bold little-red-color">Certify the information provided?</span>

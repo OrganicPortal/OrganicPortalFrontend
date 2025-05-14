@@ -6,7 +6,7 @@
 	<div class="page-title">
 		<app-auth-logo></app-auth-logo>
 		<h2>
-			Вхід до акаунту
+			Sign in to your account
 		</h2>
 	</div>
 	
@@ -14,7 +14,7 @@
 		<custom-input-field>
 			<ngx-icon [name]="'phone-calling-rounded'"
 			          [ratio]="'1em'"></ngx-icon>
-			<label for="phone">Номер телефону</label>
+			<label for="phone">Phone number</label>
 			
 			<input id="phone"
 			       [formControlName]="'phone'"
@@ -27,7 +27,7 @@
 		<custom-input-field>
 			<ngx-icon [name]="'lock-password-unlocked'"
 			          [ratio]="'1em'"></ngx-icon>
-			<label for="password">Пароль</label>
+			<label for="password">Password</label>
 			
 			<div customInputSuffix>
 				<div class="input-suffix"
@@ -62,7 +62,7 @@
 				<ngx-icon [name]="'paperclip-2'"
 				          [ratio]="'1em'"></ngx-icon>
 				
-				Забули пароль?
+				Forgot your password?
 			</a>
 		</div>
 	</div>
@@ -73,12 +73,12 @@
 	        matRipple>
 		<ngx-icon [name]="'login-3'"
 		          [ratio]="'1.3em'"></ngx-icon>
-		<span>Увійти</span>
+		<span>Sign In</span>
 	</button>
 </form>
 
 <span class="mark">
-	або
+	or
 </span>
 
 <a class="btn submit-btn link"
@@ -89,7 +89,7 @@
    matRipple>
 	<ngx-icon [name]="'passport-minimalistic'"
 	          [ratio]="'1.3em'"></ngx-icon>
-	<span>Зареєструватися</span>
+	<span>Sign Up</span>
 </a>
 
 @if (!loaderState?.isLoaded) {

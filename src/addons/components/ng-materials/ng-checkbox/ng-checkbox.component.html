@@ -6,7 +6,7 @@
 (control.valueChanges | async) === true || control.value === true ? 'active' : 'disactive'" matRipple
             [type]="'button'">
             <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'"
-                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+                [title]="control.value === true ? 'enabled' : 'disabled'">
                 <div class="circle" ngFxLayout="row" ngFxAlign="center center">
                 </div>
             </div>
@@ -19,7 +19,7 @@
 (control.valueChanges | async) === true || control.value === true ? 'active' : 'disactive'" matRipple
             [type]="'button'">
             <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'" [ngFxAlign]="'center center'"
-                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+                [title]="control.value === true ? 'enabled' : 'disabled'">
 
                 @if((control.valueChanges | async) === true || control.value === true){
                 <svg width="80%" height="80%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@
 (control.valueChanges | async) === true || control.value === true ? 'active' : 'disactive'" matRipple
             [type]="'button'">
             <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'" [ngFxAlign]="'center center'"
-                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+                [title]="control.value === true ? 'enabled' : 'disabled'">
 
                 @if((control.valueChanges | async) === true || control.value === true){
                 <svg width="80%" height="80%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@
         <button class="checkbox-frame-type-1" (click)="onChangeValue()" [ngClass]="
 (control.valueChanges | async) === true ? 'active' : 'disactive'" matRipple [type]="'button'">
             <div class="checkbox-subframe" [ngFxLayout]="'row'" [ngFx]="'1 1'"
-                [title]="control.value === true ? 'Увімкнено' : 'Вимкнено'">
+                [title]="control.value === true ? 'enabled' : 'disabled'">
                 <div class="circle" ngFxLayout="row" ngFxAlign="center center">
                 </div>
             </div>

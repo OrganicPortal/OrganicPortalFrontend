@@ -4,7 +4,7 @@ import {Injectable} from "@angular/core"
 export class PersonalCompaniesService {
 	public readonly allowedContactTypes = [
 		{
-			name: "Мобільний телефон",
+			name: "Phone number",
 			icon: "phone-calling",
 			value: 1
 		}
@@ -12,19 +12,19 @@ export class PersonalCompaniesService {
 
 	public readonly legalTypeList = [
 		{
-			name: "Не вказано",
+			name: "Not specified",
 			icon: "bill-list",
 			value: 0
 		},
 
 		{
-			name: "Фіз. особа підприємець (ФОП)",
+			name: "Individual entrepreneur (FOP)",
 			icon: "user-rounded",
 			value: 1
 		},
 
 		{
-			name: "Товариство з обмеженою відповідальністю (ТОВ)",
+			name: "Limited Liability Company (LLC)",
 			icon: "bookmark",
 			value: 2
 		}

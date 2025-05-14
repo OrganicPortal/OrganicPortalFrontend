@@ -32,27 +32,27 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 	public form: FormGroup
 	public readonly typeOfInteractivityValues: TypeOfInteractivityModel[] = [
 		new TypeOfInteractivityModel(
-			"Виробництво та пакування насіння",
+			"Seed production and packaging",
 			0
 		),
 
 		new TypeOfInteractivityModel(
-			"Дистрибуція та оптовий продаж насіння",
+			"Distribution and wholesale of seeds",
 			1
 		),
 
 		new TypeOfInteractivityModel(
-			"Роздрібна торгівля насінням, добривами, засобами захисту рослин (ЗЗР), тощо",
+			"Retail trade in seeds, fertilizers, plant protection products (PPP), etc.",
 			2
 		),
 
 		new TypeOfInteractivityModel(
-			"Селекція та виведення нових сортів",
+			"Selection and development of new varieties",
 			3
 		),
 
 		new TypeOfInteractivityModel(
-			"Імпорт та експорт насіння або супутніх товарів",
+			"Import and export of seeds or related products",
 			4
 		)
 	]
@@ -141,7 +141,7 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 		const formArr = (this.form.get("ContactList") as FormArray)
 
 		if (formArr.length == 1) {
-			const message = "Вкажіть принаймні одну контактну особу"
+			const message = "Please provide at least one contact person"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
@@ -156,7 +156,7 @@ export class CreateCompanyComponent extends LifeHooksFactory {
 
 	public onSubmit() {
 		if (!this.form.valid) {
-			const message = "Форму заповнено не коректно"
+			const message = "The form was filled out incorrectly"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}

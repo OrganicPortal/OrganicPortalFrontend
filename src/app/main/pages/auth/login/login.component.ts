@@ -73,7 +73,7 @@ export class LoginComponent extends LifeHooksFactory {
 				filter(el => !!el),
 				switchMap(() => this._authListeners.authAuditorState$),
 				tap(() => {
-					const message = "Вхід успішно виконано"
+					const message = "Successfully signed in"
 					this._toastrService.onInitMessage(message)
 
 					this._router.navigate(["/interface/my-profile"])
@@ -102,7 +102,7 @@ export class LoginComponent extends LifeHooksFactory {
 
 	public onSubmit() {
 		if (!this.loginFg.valid) {
-			this._ngShortMessageService.onInitMessage("Форму заповнено не коректно", "close-circle")
+			this._ngShortMessageService.onInitMessage("The form was filled out incorrectly", "close-circle")
 			return
 		}
 

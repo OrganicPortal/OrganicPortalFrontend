@@ -15,7 +15,7 @@
 <ng-template #loginNotAuthUser>
 	<ngx-icon [name]="'key'"
 	          [ratio]="'1.1em'"></ngx-icon>
-	<span>Увійти</span>
+	<span>Sign In</span>
 </ng-template>
 
 <ng-template #menuForAuthUser>
@@ -29,7 +29,7 @@
 		   [routerLinkActive]="'active'"
 		   matRipple>
 			<ngx-icon [name]="'flag-2'"></ngx-icon>
-			Мої компанії
+			My companies
 		</a>
 		
 		<a [routerLink]="'/interface/my-profile'"
@@ -39,7 +39,7 @@
 		   customBasicLink
 		   matRipple>
 			<ngx-icon [name]="'settings'"></ngx-icon>
-			Обліковий запис
+			Account
 		</a>
 		
 		<a (click)="onLogout()"
@@ -47,7 +47,7 @@
 		   customBasicLink
 		   matRipple>
 			<ngx-icon [name]="'logout'"></ngx-icon>
-			Вихід
+			Sign Out
 		</a>
 	</div>
 </ng-template>
@@ -72,7 +72,7 @@
 					}}
 				</span>
 				<span class="company-name">
-					{{authAuditorState!.activeCompany?.CompanyName ?? 'Компанію не обрано'}}
+					{{authAuditorState!.activeCompany?.CompanyName ?? 'Company not selected'}}
 				</span>
 			</div>
 		</div>

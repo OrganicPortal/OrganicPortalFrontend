@@ -23,7 +23,7 @@ export const routes: RoutesExtended = [
 		path: "",
 		component: PersonalCompaniesComponent,
 		data: {
-			title: "Мої компанії",
+			title: "My companies",
 			icon: "flag-2"
 		},
 

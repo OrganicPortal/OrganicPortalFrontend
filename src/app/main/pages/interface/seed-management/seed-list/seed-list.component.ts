@@ -85,14 +85,14 @@ export class SeedListComponent extends LifeHooksFactory {
 	}
 
 	public onRemoveSeedInfo(seedId: number, companyId: number) {
-		const message = `Обрану одиницю продукції буде <span class="little-red-color font-bold">видалено</span>. Продовжити?`
+		const message = `✅ The selected product unit will be <span class="little-red-color font-bold">deleted</span>. Continue?`
 		const obs$ = this._seedManagementService
 			.onRemoveSeedFromCompany(seedId, companyId)
 			.pipe(
 				withLatestFrom(this.paginatorState$),
 				this.onGetRefreshListPipe(companyId),
 				tap(() => {
-					const message = "Дані успішно видалено"
+					const message = "Data successfully deleted"
 					this._ngShortMessageService.onInitMessage(message, "check-circle")
 				}),
 				takeUntil(this.requestHandler$),

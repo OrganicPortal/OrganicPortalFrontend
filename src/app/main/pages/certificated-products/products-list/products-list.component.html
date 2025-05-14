@@ -6,10 +6,10 @@
 <div class="fx-col-container" [@frameSideIn4]>
 	<ng-title [titleLevel]="'h2'">
 		<ngx-icon [name]="'cart-large-2'"></ngx-icon>
-		Сертифіковані товари
+		Certified products
 	</ng-title>
 	
-	<span class="desc-for-title">Товари сертифіковано з використанням блокчейн-платформи Solana</span>
+	<span class="desc-for-title">Products are certified using the Solana blockchain platform</span>
 </div>
 
 @if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
@@ -67,7 +67,7 @@
 																[name]="'box-minimalistic'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Сорт – <strong>{{ item?.Variety }}</strong>
+										Sort – <strong>{{ item?.Variety }}</strong>
 								</span>
 											</div>
 											
@@ -77,7 +77,7 @@
 																[name]="'waterdrops'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Тип продукту – <strong>{{ item?.SeedType }}</strong>
+										Product type – <strong>{{ item?.SeedType }}</strong>
 								</span>
 											</div>
 											
@@ -87,7 +87,7 @@
 																[name]="'fire-square'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Обробка продукту – <strong>{{ onFindTreatmentType(item?.TreatmentType!)?.name }}</strong>
+										Product processing – <strong>{{ onFindTreatmentType(item?.TreatmentType!)?.name }}</strong>
 								</span>
 											</div>
 										</div>
@@ -99,7 +99,7 @@
 																[name]="'clock-square'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Створено – <strong>{{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+										Created – <strong>{{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}</strong>
 								</span>
 											</div>
 										</div>
@@ -110,7 +110,7 @@
 								<div class="card-footer">
 									<a class="btn"
 									   [@frameSideIn4]
-									   [matTooltip]="'Сформувати QR-код'"
+									   [matTooltip]="'Generate QR-Code'"
 									   (click)="onGenerateQrCode(item.QrBase64, item.AccountPublicKey, item.HistoryKey)"
 									   customRaisedButton
 									   matRipple>
@@ -122,7 +122,7 @@
 									   [@frameSideIn4]
 									   [routerLink]="'/products/' + onEncodeUrl(item.AccountPublicKey) + '/' +
 									   onEncodeUrl(item.HistoryKey)"
-									   [matTooltip]="'Переглянути'"
+									   [matTooltip]="'View'"
 									   customRaisedButton
 									   matRipple>
 										<ngx-icon [name]="'eye'"
@@ -143,7 +143,7 @@
 				<ngx-icon [name]="'pen-new-round'"
 				          [ratio]="'1.5em'"></ngx-icon>
 				
-				<h3>Наразі записів немає. Тут відображатимуться <br> сертифіковані товари компаній</h3>
+				<h3>There are currently no entries. Certified products from <br> companies will be displayed here</h3>
 			</div>
 		}
 	</div>

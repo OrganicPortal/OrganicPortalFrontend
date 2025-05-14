@@ -84,7 +84,7 @@ export class CompaniesListComponent extends LifeHooksFactory {
 	public onArchiveCompany(companyId: number, companyName: string) {
 		this.requestHandler$.next()
 
-		const message = `Компанію <span class="little-red-color font-bold">${companyName}</span> буде заархівовано. Продовжити?`
+		const message = `The company <span class="little-red-color font-bold">${companyName}</span> will be archived. Continue?`
 		const obs$ = this._myCompaniesService
 			.onArchiveCompany(companyId)
 			.pipe(
@@ -124,7 +124,7 @@ export class CompaniesListComponent extends LifeHooksFactory {
 		if (!authAuditorState.activeCompany) {
 		}
 
-		const message = `Зробити компанію <span class="little-red-color font-bold">${company.CompanyName}</span> активною?`
+		const message = `Make the company <span class="little-red-color font-bold">${company.CompanyName}</span> active?`
 		const delayTime = 1000
 
 		const obs$ = of(true).pipe(
@@ -142,7 +142,7 @@ export class CompaniesListComponent extends LifeHooksFactory {
 			delay(250),
 
 			tap(() => {
-				const message = "Компанію успішно обрано"
+				const message = "The company has been successfully selected"
 				this._ngShortMessageService.onInitMessage(message, "check-circle")
 			})
 		)

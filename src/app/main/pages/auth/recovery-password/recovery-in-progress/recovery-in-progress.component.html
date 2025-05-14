@@ -11,16 +11,16 @@
 		          [ratio]="'3em'"></ngx-icon>
 		
 		<h2>
-			Введіть код з SMS
+			Enter the SMS code
 		</h2>
 		
 		<span class="title-desc">
-			Для завершення відновлення паролю, будь ласка, введіть код підтвердження, надісланий на ваш номер телефону.
+			To complete the password recovery, please enter the verification code sent to your phone number.
 		</span>
 	</div>
 	
 	<div class="code-content">
-		<span class="title-desc">Код з SMS:</span>
+		<span class="title-desc">SMS Code:</span>
 		<div class="code-container"
 		     [formArrayName]="'code'">
 			@for (item of inputControls; track item; let idx = $index) {
@@ -49,7 +49,7 @@
 				<ngx-icon [name]="'letter'"
 				          [ratio]="'1em'"></ngx-icon>
 				
-				Надіслати повторно
+				Resend code
 			</a>
 			
 			@if (!allowedRenewCode && !timerToRenew?.isView) {
@@ -64,7 +64,7 @@
 	<custom-input-field>
 		<ngx-icon [name]="'lock-password-unlocked'"
 		          [ratio]="'1em'"></ngx-icon>
-		<label for="password">Пароль</label>
+		<label for="password">Password</label>
 		
 		<div customInputSuffix>
 			<div class="input-suffix"
@@ -99,7 +99,7 @@
 		<ngx-icon [name]="'check-read'"
 		          [ratio]="'1.3em'"></ngx-icon>
 		
-		<span>Підтвердити</span>
+		<span>Confirm</span>
 	</button>
 </form>
 

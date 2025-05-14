@@ -21,7 +21,7 @@
 	</div>
 	
 	<div class="code-content">
-		<span class="title-desc">Код з SMS:</span>
+		<span class="title-desc">SMS code:</span>
 		<div class="code-container"
 		     [formArrayName]="'code'">
 			@for (item of inputControls; track item; let idx = $index) {
@@ -50,7 +50,7 @@
 				<ngx-icon [name]="'letter'"
 				          [ratio]="'1em'"></ngx-icon>
 				
-				Надіслати повторно
+				Resend code
 			</a>
 			
 			@if (!allowedRenewCode && !timerToRenew?.isView) {
@@ -70,7 +70,7 @@
 		<ngx-icon [name]="'check-read'"
 		          [ratio]="'1.3em'"></ngx-icon>
 		
-		<span>Підтвердити</span>
+		<span>Confirm</span>
 	</button>
 </form>
 

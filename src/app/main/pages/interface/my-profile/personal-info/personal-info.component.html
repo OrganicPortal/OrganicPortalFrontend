@@ -17,13 +17,13 @@
 			<div class="desc">
 				<div class="desc-data">
 					<ngx-icon [name]="'text-square-2'"></ngx-icon>
-					<span>Ідентифікатор кабінету: #{{ profileData?.Data?.Id }}</span>
+					<span>Office ID: #{{ profileData?.Data?.Id }}</span>
 				</div>
 				
 				<div class="desc-data">
 					<ngx-icon [name]="'clock-circle'"></ngx-icon>
 					<span class="clipboard-text-container fx-row allow-wrap">
-					<span>Обліковий запис створено:</span>
+					<span>Account created:</span>
 					<clipboard-text-container [isEnableCopyIcon]="true"
 					                          class="enable-bg"
 					                          [text]="profileData?.Data?.CreatedDate  ?? ''">
@@ -37,7 +37,7 @@
 				<div class="desc-data">
 					<ngx-icon [name]="'phone-calling'"></ngx-icon>
 					<span class="clipboard-text-container fx-row allow-wrap">
-					<span>Номер телефону:</span>
+					<span>Phone number:</span>
 					<clipboard-text-container [isEnableCopyIcon]="true"
 					                          class="enable-bg"
 					                          [text]="profileData?.Data?.Phone ?? ''">
@@ -52,7 +52,7 @@
 				        class="desc-data desc-link"
 				        customBasicLink>
 					<ngx-icon [name]="'key'"></ngx-icon>
-					Відновити пароль
+					Recover password
 				</button>
 			</div>
 			
@@ -64,7 +64,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="name">Ім'я</label>
+						<label for="name">Name</label>
 						
 						<input id="name"
 						       [formControlName]="'FirstName'"
@@ -76,7 +76,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="lastname">Прізвище</label>
+						<label for="lastname">Last name</label>
 						
 						<input id="lastname"
 						       [formControlName]="'LastName'"
@@ -88,7 +88,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="secondName">По батькові</label>
+						<label for="secondName">Middle name</label>
 						
 						<input id="secondName"
 						       [formControlName]="'MiddleName'"
@@ -105,7 +105,7 @@
 				        matRipple>
 					<ngx-icon [name]="'pen-new-square'"
 					          [ratio]="'1em'"></ngx-icon>
-					<span>Зберегти зміни</span>
+					<span>Save changes</span>
 				</button>
 			</form>
 		</div>

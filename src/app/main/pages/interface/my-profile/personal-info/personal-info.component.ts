@@ -134,19 +134,19 @@ export class PersonalInfoComponent extends LifeHooksFactory {
 
 	public onSubmit(userId?: number) {
 		if (!userId) {
-			const message = "Хибний ідентитфікатор користувача"
+			const message = "Invalid user identifier"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
 
 		if (!this.formGroup.dirty) {
-			const message = "Не виявлено змін у формі"
+			const message = "No changes detected in the form"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
 
 		if (!this.formGroup.valid) {
-			const message = "Форму заповнено не коректно"
+			const message = "The form was filled out incorrectly"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}

@@ -76,7 +76,7 @@ export class ProductInfoComponent extends LifeHooksFactory {
 	}
 
 	public onCopyRecord() {
-		const message = "Запис успішно скопійовано"
+		const message = "Entry copied successfully"
 		this._ngShortMessageService.onInitMessage(message, "check-circle")
 	}
 
@@ -97,11 +97,11 @@ export class ProductInfoComponent extends LifeHooksFactory {
 	}
 
 	public onGetCopyMessage(item: IHistoryItem) {
-		return `Назва: ${item.Name},
-		Сорт: ${item.Variety},
-		Дата створення: ${item.CreatedDate},
-		HistoryKey: ${item.HistoryKey},
-		AccountPublicKey: ${item.AccountPublicKey}`
+		return `Name: ${item.Name},
+		Sort: ${item.Variety},
+		Created date: ${item.CreatedDate},
+		History key: ${item.HistoryKey},
+		Account public key: ${item.AccountPublicKey}`
 	}
 
 	public onGetFirstHistoryItem(history: ISignedCertificatedInfoDTO) {
