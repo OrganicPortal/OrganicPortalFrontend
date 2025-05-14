@@ -80,7 +80,7 @@ export class NavbarComponent extends LifeHooksFactory {
 		},
 
 		{
-			title: "About organics",
+			title: "About",
 			icon: "book-bookmark",
 			isAuthRequired: false,
 			children: [

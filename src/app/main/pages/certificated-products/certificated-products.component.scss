@@ -1,4 +1,13 @@
 :host{
 	display: flex;
+	flex-direction: column;
+	
+	gap: .5rem;
 	flex: 1 1;
+	
+	.page-desc{
+		color: color-mix(in srgb, transparent, var(--text-color) 40%);
+		font-size: .8em;
+		font-weight: 500;
+	}
 }
