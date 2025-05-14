@@ -10,7 +10,7 @@
 			          [ratio]="'2em'"></ngx-icon>
 			
 			<ng-title>
-				<span class="text-center">Не вдалося знайти дані про запитуваний  <br> запис</span>
+				<span class="text-center">Unable to find data for the requested <br> record</span>
 			</ng-title>
 			
 			<a class="btn submit-btn"
@@ -20,7 +20,7 @@
 			   matRipple>
 				<ngx-icon [name]="'home-1'"
 				          [ratio]="'1.1em'"></ngx-icon>
-				<span>На головну</span>
+				<span>Home</span>
 			</a>
 		</div>
 	} @else {
@@ -100,7 +100,7 @@
 				<ng-title>
 					<ngx-icon [name]="'box'"
 					          [ratio]="'1.3em'"></ngx-icon>
-					Сертифіковані дані
+					Certified data
 				</ng-title>
 				
 				<div class="desc">
@@ -114,58 +114,58 @@
 					<ng-title>
 						<ngx-icon [name]="'database'"
 						          [ratio]="'1em'"></ngx-icon>
-						Відомості про продукцію
+						Product information
 					</ng-title>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Продукт: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Products: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.Name! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"> <strong><span class="field-name">Назва (Латинь): </span></strong>{{
+					<span class="field-value"> <strong><span class="field-name">Name (Latin): </span></strong>{{
 							dataSource?.reads?.SeedInfo?.ScientificName! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Тип насіння: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Seed type: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.SeedType! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Умови зберігання: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Storage conditions: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.StorageConditions! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Номер партії: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Batch number: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.BatchNumber! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Сорт: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Sort: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.Variety! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Обробка насіння: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Seed treatment: </span></strong> {{
 							onFindTreatmentType(dataSource?.reads?.SeedInfo?.TreatmentType!)?.name ?? '' }}</span>
 					</div>
 					
 					<div class="text-container">
 					<span
-									class="field-value"><strong><span class="field-name">Вага 1 тисячі насіннин (в грамах): </span></strong> {{ dataSource?.reads?.SeedInfo?.AverageWeightThousandSeeds! }}</span>
+									class="field-value"><strong><span class="field-name">Weight of 1 thousand seeds (in grams): </span></strong> {{ dataSource?.reads?.SeedInfo?.AverageWeightThousandSeeds! }}</span>
 					</div>
 					
 					<div class="text-container">
 					<span
-									class="field-value"><strong><span class="field-name">Виготовлено: </span></strong> {{
+									class="field-value"><strong><span class="field-name">Manufactured: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.HarvestDate! | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
 					</div>
 					
 					<div class="text-container">
 					<span
-									class="field-value"><strong><span class="field-name">Придатний до: </span></strong> {{
+									class="field-value"><strong><span class="field-name">Suitable for: </span></strong> {{
 							dataSource?.reads?.SeedInfo?.ExpiryDate! | datetime | date: 'dd.MM.yyyy HH:mm' }}</span>
 					</div>
 				</div>
@@ -175,21 +175,21 @@
 					<ng-title>
 						<ngx-icon [name]="'medal-star-square'"
 						          [ratio]="'1em'"></ngx-icon>
-						Відомості про виробника
+						Manufacturer information
 					</ng-title>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Компанія: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Company: </span></strong> {{
 							dataSource?.reads?.CompanyInfo?.Name! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Адреса: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Address: </span></strong> {{
 							dataSource?.reads?.CompanyInfo?.Address! }}</span>
 					</div>
 					
 					<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Дод. Інформація: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Additional Information: </span></strong> {{
 							dataSource?.reads?.CompanyInfo?.Description! }}</span>
 					</div>
 				</div>
@@ -199,18 +199,18 @@
 					<ng-title>
 						<ngx-icon [name]="'medal-star-square'"
 						          [ratio]="'1em'"></ngx-icon>
-						Застосовані сертифікати
+						Applied certificates
 					</ng-title>
 					
 					@for (item of dataSource?.reads?.CERTList; track item) {
 						<div class="text-container-2">
 							<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Сертифікат: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Certificate: </span></strong> {{
 							item?.Name }}</span>
 							</div>
 							
 							<div class="text-container">
-					<span class="field-value"><strong><span class="field-name">Номер: </span></strong> {{
+					<span class="field-value"><strong><span class="field-name">Number: </span></strong> {{
 							item?.Number }}</span>
 							</div>
 						</div>
@@ -225,7 +225,7 @@
 				<ng-title>
 					<ngx-icon [name]="'document-1'"
 					          [ratio]="'1.3em'"></ngx-icon>
-					Історія сертифікацій
+					Certification history
 				</ng-title>
 			</div>
 			
@@ -236,12 +236,12 @@
 						<table>
 							<thead>
 							<tr>
-								<th>Назва</th>
-								<th>Сорт</th>
-								<th>Дата створення</th>
-								<th>HistoryKey</th>
-								<th>AccountPublicKey</th>
-								<th>Дії</th>
+								<th>Name</th>
+								<th>Sort</th>
+								<th>Created Date</th>
+								<th>History Key</th>
+								<th>Account Public Key</th>
+								<th>Actions</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -258,7 +258,7 @@
 											   matRipple
 											   (click)="onGenerateQrCode(item.QrBase64, item.AccountPublicKey, item.HistoryKey)"
 											   class="scan-btn"
-											   [matTooltip]="'Сформувати QR-код'">
+											   [matTooltip]="'Generate QR-code'">
 												<ngx-icon [name]="'qr-code'"
 												          [ratio]="'1.5em'"></ngx-icon>
 											</a>
@@ -268,7 +268,7 @@
 											   [cdkCopyToClipboard]="onGetCopyMessage(item)"
 											   (click)="onCopyRecord()"
 											   class="scan-btn"
-											   [matTooltip]="'Скопіювати запис'">
+											   [matTooltip]="'Copy record'">
 												<ngx-icon [name]="'copy'"
 												          [ratio]="'1.5em'"></ngx-icon>
 											</a>

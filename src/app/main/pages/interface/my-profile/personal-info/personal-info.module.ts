@@ -17,7 +17,7 @@ export const routes: RoutesExtended = [
 		path: "",
 		component: PersonalInfoComponent,
 		data: {
-			title: "Особисті дані",
+			title: "Personal data",
 			icon: "text-field-focus"
 		}
 	}

@@ -10,6 +10,16 @@
 	box-shadow: var(--box-shadow-items);
 	--box-shadow-items: rgba(94, 122, 177, 0.2) 0px 2px 5px;
 	
+	.allow-text-wrap{
+		text-wrap: wrap !important;
+		white-space: wrap !important;
+	}
+	
+	.cert-button{
+		width: unset !important;
+		text-align: start;
+		line-height: 1.5em;
+	}
 	form {
 		display: flex;
 		flex: 1 1;

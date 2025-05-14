@@ -91,7 +91,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 					const seedId = el["seedId"]
 
 					if (!seedId || !Number.isInteger(Number(seedId))) {
-						const message = "Вказано хибний ідентифікатор насіння"
+						const message = "Invalid seed identifier provided"
 						this._ngShortMessageService.onInitMessage(message, "info-circle")
 						return of(undefined)
 					}
@@ -155,7 +155,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 					this.loaderState$.next(new LoaderModel(true, false))
 
 					if (el.auditorData.refresherState === "refresh-edit") {
-						const message = "Успішно відредаговано"
+						const message = "Successfully edited"
 						this._ngShortMessageService.onInitMessage(message, "check-circle")
 					}
 				}),
@@ -181,12 +181,12 @@ export class EditSeedComponent extends LifeHooksFactory {
 	}
 
 	public onRemoveSeedInfo() {
-		const message = `Обрану одиницю продукції буде <span class="little-red-color font-bold">видалено</span>. Продовжити?`
+		const message = `The selected product unit will be <span class="little-red-color font-bold">deleted</span>. Continue?`
 		const obs$ = this._seedManagementService
 			.onRemoveSeedFromCompany(this.selectedSeedId, this.selectedCompanyId)
 			.pipe(
 				tap(() => {
-					const message = "Дані успішно видалено"
+					const message = "Data successfully deleted"
 					this._ngShortMessageService.onInitMessage(message, "check-circle")
 
 					this.loaderState$.next(new LoaderModel(true, false))
@@ -227,7 +227,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 			return
 
 		if (isFormChanged) {
-			const message = "Збережіть зміни для виконання сертифікації."
+			const message = "Save the changes to proceed with certification"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
@@ -264,7 +264,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 
 	public onSubmit(seedData: ISeedBaseDTO, allowedCerts: AllowedCertModel[]) {
 		if (!this.form.valid) {
-			const message = "Форму заповнено не коректно"
+			const message = "The form was filled out incorrectly"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
@@ -272,7 +272,7 @@ export class EditSeedComponent extends LifeHooksFactory {
 		const selectedCerts = allowedCerts.filter(el => !!el.control.value)
 
 		if (selectedCerts.length === 0) {
-			const message = "Виберіть щонайменше один сертифікат"
+			const message = "Please select at least one certificate"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}

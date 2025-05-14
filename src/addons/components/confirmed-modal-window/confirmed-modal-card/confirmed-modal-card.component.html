@@ -5,8 +5,8 @@
         </div>
 
         <h3 [ngSwitch]="card.type" class="header-title">
-            <span *ngSwitchCase="'info'">Інформація</span>
-            <span *ngSwitchDefault>Підтвердіть дію</span>
+            <span *ngSwitchCase="'info'">Information</span>
+            <span *ngSwitchDefault>Confirm the action</span>
         </h3>
     </div>
 
@@ -32,14 +32,14 @@
 <form class="card-footer" (ngSubmit)="onConfirmWindow()">
     <button customBasicButton [type]="'submit'" class="confirm-button"
         matRipple #buttonEl>
-        <span>ОК</span>
+        <span>OK</span>
     </button>
 
     @if(card.isCloseBtn){
     <button customRaisedButton [type]="'button'"
         
         (click)="onCloseWindow()" matRipple>
-        <span>Відмінити</span>
+        <span>Cancel</span>
     </button>
     }
 </form>

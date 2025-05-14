@@ -24,7 +24,7 @@
 					          [ratio]="'2em'"></ngx-icon>
 					
 					<ng-title>
-						<span class="text-center">Не вдалося знайти дані про запитуваний  <br> запис</span>
+						<span class="text-center">Unable to find data for the requested <br> record</span>
 					</ng-title>
 					
 					<a class="btn submit-btn"
@@ -34,7 +34,7 @@
 					   matRipple>
 						<ngx-icon [name]="'home-1'"
 						          [ratio]="'1.1em'"></ngx-icon>
-						<span>На головну</span>
+						<span>Home</span>
 					</a>
 				</div>
 			} @else {
@@ -90,7 +90,7 @@
 				</div>
 				
 				<h3 class="header-title">
-					<span>Інформація про продукт</span>
+					<span>Product information</span>
 				</h3>
 			</div>
 		</div>
@@ -99,7 +99,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Назва культури –
+			Culture name –
 				<span class="font-bold little-red-color">{{ seedDataContent?.Name }}
 		</span>
 		</span>
@@ -108,7 +108,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Ім'я культури (Латинь) –
+			Culture name (Latin) –
 				<span class="font-bold little-red-color">{{ seedDataContent?.ScientificName }}
 		</span>
 		</span>
@@ -117,7 +117,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Сорт –
+			Sort –
 				<span class="font-bold little-red-color">{{ seedDataContent?.Variety }}
 		</span>
 		</span>
@@ -126,7 +126,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Тип насіння –
+			Seed type –
 				<span class="font-bold little-red-color">{{ seedDataContent?.SeedType }}
 		</span>
 		</span>
@@ -135,7 +135,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Номер партії –
+			Batch number –
 				<span class="font-bold little-red-color">{{ seedDataContent?.BatchNumber }}
 		</span>
 		</span>
@@ -144,7 +144,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Дата виготовлення –
+			Date of manufacture –
 				<span class="font-bold little-red-color">{{ seedDataContent?.HarvestDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
 		</span>
 		</span>
@@ -153,7 +153,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Термін придатності –
+			Expiration date –
 				<span class="font-bold little-red-color">{{ seedDataContent?.ExpiryDate | datetime | date: 'dd.MM.yyyy HH:mm' }}
 		</span>
 		</span>
@@ -162,7 +162,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Умови зберігання –
+			Storage conditions –
 				<span class="font-bold little-red-color">{{ seedDataContent?.StorageConditions }}
 		</span>
 		</span>
@@ -171,7 +171,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Вага 1 тис. насінин (в грамах) –
+			Weight of 1 thousand seeds (in grams) –
 				<span class="font-bold little-red-color">{{ seedDataContent?.AverageWeightThousandSeeds }}
 		</span>
 		</span>
@@ -180,7 +180,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Обробка насіння –
+			Seed treatment –
 				<span class="font-bold little-red-color">
 					{{
 						onFindTreatmentType(seedDataContent?.TreatmentType!)?.name
@@ -192,7 +192,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Виробник –
+			Producer –
 				<span class="font-bold little-red-color">
 					{{
 						dataSource?.CompanyInfo?.Name
@@ -204,7 +204,7 @@
 			<div class="text-container">
 				<ngx-icon [name]="'forward-2'"></ngx-icon>
 				<span class="text-block">
-			Адреса виробника –
+			Manufacturer's address –
 				<span class="font-bold little-red-color">
 					{{
 						dataSource?.CompanyInfo?.Address
@@ -216,14 +216,14 @@
 			<div class="certificates">
 				<ng-title>
 					<ngx-icon [name]="'diploma'"></ngx-icon>
-					Підписано сертифікатами
+					Signed with certificates
 				</ng-title>
 				@for (item of dataSource?.CERTList; track item) {
 					<div class="certs-info">
 						<div class="text-container">
 							<ngx-icon [name]="'forward-2'"></ngx-icon>
 							<span class="text-block">
-								Назва –
+								Name –
 									<span class="font-bold little-red-color">
 										{{
 											item.Name + '(№' + item.Number + ')'
@@ -242,7 +242,7 @@
 			   customRaisedButton>
 				<ngx-icon [name]="'home-1'"
 				          [ratio]="'1.3em'"></ngx-icon>
-				На головну
+				Home
 			</a>
 		</div>
 	</div>

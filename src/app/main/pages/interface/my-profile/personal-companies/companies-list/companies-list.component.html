@@ -23,7 +23,7 @@
 			   matRipple>
 				<ngx-icon [name]="'add-circle'"
 				          [ratio]="'1em'"></ngx-icon>
-				<span>Додати компанію</span>
+				<span>Add company</span>
 			</a>
 		</div>
 		
@@ -33,7 +33,7 @@
 				<div class="empty-data">
 					<ngx-icon [name]="'pen-new-round'"
 					          [ratio]="'1.5em'"></ngx-icon>
-					<h3>Записи відсутні. Створіть нову <br> компанію для перегляду більшого набору інформації</h3>
+					<h3>No records found. Create a new <br> company to view a larger set of information</h3>
 				</div>
 			} @else {
 				<ngx-grid>
@@ -53,7 +53,7 @@
 														[ratio]="'.9em'"></ngx-icon>
 										
 										<span>
-										Ідентифікатор – #{{ item?.CompanyId }}
+										Id – #{{ item?.CompanyId }}
 									</span>
 									</div>
 									
@@ -63,7 +63,7 @@
 														[ratio]="'.9em'"></ngx-icon>
 										
 										<span>
-										Засновано – {{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}
+										Founded – {{ item?.CreatedDate | datetime | date: 'dd.MM.yyyy' }}
 									</span>
 									</div>
 									
@@ -73,10 +73,10 @@
 														[ratio]="'.9em'"></ngx-icon>
 										
 										<span>
-										Архівовано –
+										Archived –
 										<span class="pin"
 										      [ngClass]="item?.CompanyArchivated ? 'pin-red' : 'pin-green'">
-											{{ item?.CompanyArchivated ? 'Так' : 'Ні' }}
+											{{ item?.CompanyArchivated ? 'Yes' : 'No' }}
 										</span>
 									</span>
 									</div>
@@ -87,16 +87,16 @@
 														[ratio]="'.9em'"></ngx-icon>
 										
 										<span>
-										Ваша роль – {{ AllowedRoles[item.Role] }}
+										Your role – {{ AllowedRoles[item.Role] }}
 									</span>
 									</div>
 								</div>
 							</div>
 							
 							<div class="card-footer">
-								@let editButtonTooltipMessage = item?.CompanyArchivated ? 'Переглянути' : 'Редагувати';
-								@let dropButtonTooltipMessage = 'Архівувати компанію';
-								@let activeButtonTooltipMessage = 'Зробити компанію активною';
+								@let editButtonTooltipMessage = item?.CompanyArchivated ? 'View' : 'Edit';
+								@let dropButtonTooltipMessage = 'Archive company';
+								@let activeButtonTooltipMessage = 'Make the company active';
 								
 								@if (!item.CompanyArchivated) {
 									<a class="btn drop-btn"

@@ -41,7 +41,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 					return throwError(() => err)
 
 				if (err?.status === 401) {
-					const message = "Час дії сесії вичерпано. Будь ласка, виконайте повторний вхід."
+					const message = "Your session has expired. Please sign in again."
 					this._ngShortMessageService.onInitMessage(message, "info-circle")
 
 					this._store.dispatch(LocalStorageActions.RemoveFromStorage({key: LOCAL_STORAGE_TOKEN_KEY}))
@@ -54,7 +54,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 				if (!req.url.includes("api"))
 					return of()
 
-				const message = err?.error?.Message ?? "Виникла невідома помилка під час відправки запиту"
+				const message = err?.error?.Message ?? "An unknown error occurred while sending the request."
 				this._ngShortMessageService.onInitMessage(message, "info-circle")
 
 				return throwError(() => err)

@@ -62,9 +62,9 @@ export const routes: RoutesExtended = [
 				canActivate: [UserGroupsGuardService],
 				data: {
 					allowToGoBack: true,
-					pageTitle: "Підтвердженя номера телефону",
+					pageTitle: "Phone Number Confirmation",
 					confirmationType: "registration",
-					pageDesc: "Для завершення реєстрації, будь ласка, введіть код підтвердження, надісланий на ваш номер телефону.",
+					pageDesc: "To complete the registration, please enter the verification code sent to your phone number.",
 					backUrl: RouterRedirects.registration,
 
 					canActivateGroups: [

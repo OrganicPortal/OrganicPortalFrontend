@@ -31,7 +31,7 @@
 						   matRipple>
 							
 							<ngx-icon [name]="'user-rounded'"></ngx-icon>
-							Особисті дані
+							Personal data
 						</a>
 						
 						<a class="link-frame"
@@ -40,7 +40,7 @@
 						   customRaisedButton
 						   matRipple>
 							<ngx-icon [name]="'flag-2'"></ngx-icon>
-							Мої компанії
+							My companies
 						</a>
 						
 						<a class="link-frame"
@@ -48,7 +48,7 @@
 						   customRaisedButton
 						   matRipple>
 							<ngx-icon [name]="'logout'"></ngx-icon>
-							Вихід
+							Sign Out
 						</a>
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 			   [routerLinkActive]="'active'"
 			   [routerLink]="'/interface/my-profile'">
 				<ngx-icon [name]="'user-rounded'"></ngx-icon>
-				Особисті дані
+				Personal data
 			</a>
 			
 			<a [routerLinkActive]="'active'"
@@ -70,14 +70,14 @@
 			   customRaisedButton
 			   matRipple>
 				<ngx-icon [name]="'flag-2'"></ngx-icon>
-				Мої компанії
+				My companies
 			</a>
 			
 			<a (click)="onLogout()"
 			   customRaisedButton
 			   matRipple>
 				<ngx-icon [name]="'logout'"></ngx-icon>
-				Вихід
+				Sign Out
 			</a>
 		</nav>
 	}

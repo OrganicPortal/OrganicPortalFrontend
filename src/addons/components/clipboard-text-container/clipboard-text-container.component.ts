@@ -39,7 +39,7 @@ export class ClipboardTextContainerComponent implements OnDestroy, AfterViewInit
 
 	@HostListener("click")
 	onAlertMessage() {
-		let shortMsg = "Текст успішно скопійовано"
+		let shortMsg = "Text successfully copied"
 		this._ngShortMessageService.onInitMessage(shortMsg, "check-circle")
 	}
 }

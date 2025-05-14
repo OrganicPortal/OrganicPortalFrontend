@@ -4,7 +4,7 @@
 
 <ng-title [titleLevel]="'h3'">
 	<ngx-icon [name]="'forward-2'"></ngx-icon>
-	Список продукції
+	Product list
 </ng-title>
 
 @if (loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded) {
@@ -27,7 +27,7 @@
 				<a [routerLink]="'/interface/seed-management/new'"
 				   customBasicButton>
 					<ngx-icon [name]="'add-circle'"></ngx-icon>
-					Додати продукцію
+					Add product
 				</a>
 			</div>
 		}
@@ -59,7 +59,7 @@
 																[name]="'box-minimalistic'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Сорт – <strong>{{ item?.Variety }}</strong>
+										Sort – <strong>{{ item?.Variety }}</strong>
 								</span>
 											</div>
 											
@@ -69,7 +69,7 @@
 																[name]="'fire-square'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										№ Партії – <strong>{{ item?.BatchNumber }}</strong>
+										№ Batch number – <strong>{{ item?.BatchNumber }}</strong>
 								</span>
 											</div>
 											
@@ -79,7 +79,7 @@
 																[name]="'folder-favourite-star'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Тип зберігання – <strong>{{ item?.StorageConditions }}</strong>
+										Storage type – <strong>{{ item?.StorageConditions }}</strong>
 								</span>
 											</div>
 										</div>
@@ -91,7 +91,7 @@
 																[name]="'clock-square'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Виготовлено – <strong>{{ item?.HarvestDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+										Manufactured – <strong>{{ item?.HarvestDate | datetime | date: 'dd.MM.yyyy' }}</strong>
 								</span>
 											</div>
 											
@@ -101,7 +101,7 @@
 																[name]="'clock-square'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Придатний до – <strong>{{ item?.ExpiryDate | datetime | date: 'dd.MM.yyyy' }}</strong>
+										Suitable for – <strong>{{ item?.ExpiryDate | datetime | date: 'dd.MM.yyyy' }}</strong>
 								</span>
 											</div>
 										</div>
@@ -113,7 +113,7 @@
 																[name]="'stars-1'"
 																[ratio]="'.9em'"></ngx-icon>
 												<span class="webkit-box-text-container">
-										Статус – <strong>{{ AllowedSeedStatuses[item?.Status!] }}</strong>
+										Status – <strong>{{ AllowedSeedStatuses[item?.Status!] }}</strong>
 								</span>
 											</div>
 										</div>
@@ -124,9 +124,9 @@
 									@let isArchivated = authAuditorState?.activeCompany?.CompanyArchivated;
 									@let isAllowedEditRecord = ((item.Status == 0 || item.Status == 3));
 									@let editableValidation = isAllowedEditRecord && !isArchivated;
-									@let editButtonTooltipMessage = editableValidation ? 'Редагувати' : 'Переглянути';
+									@let editButtonTooltipMessage = editableValidation ? 'Edit' : 'View';
 									
-									@let dropButtonTooltipMessage = 'Видалити';
+									@let dropButtonTooltipMessage = 'Delete';
 									
 									@if (!isArchivated) {
 										@if (item.Status == 0 || item.Status == 3) {
@@ -150,7 +150,7 @@
 									   matRipple>
 										<ngx-icon [name]="editableValidation ? 'pen' : 'eye'"
 										          [ratio]="'1.1em'"></ngx-icon>
-										{{ editableValidation ? 'Ред.' : '' }}
+										{{ editableValidation ? 'Edit' : '' }}
 									</a>
 								</div>
 							</div>
@@ -168,9 +168,9 @@
 				          [ratio]="'1.5em'"></ngx-icon>
 				
 				@if (!authAuditorState?.activeCompany?.CompanyArchivated) {
-					<h3>Записи відсутні. Створіть нову <br> продукцію для перегляду більшого набору інформації</h3>
+					<h3>No records. Create a new <br> product to view a larger set of information</h3>
 				} @else {
-					<h3>Записи відсутні. Для створення <br> продукції розархівуйте компанію</h3>
+					<h3>No records. To create <br> products, unarchive the company</h3>
 				}
 			</div>
 		}

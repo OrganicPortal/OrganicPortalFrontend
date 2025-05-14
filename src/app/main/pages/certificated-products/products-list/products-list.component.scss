@@ -7,6 +7,7 @@
 	
 	flex: 1 1;
 	flex-direction: column;
+	min-height: 300px;
 	
 	.distributor-name{
 		color: color-mix(in srgb, transparent, var(--text-color) 30%) !important;

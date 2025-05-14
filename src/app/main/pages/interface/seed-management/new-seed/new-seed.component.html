@@ -3,7 +3,7 @@
 
 <ng-title [titleLevel]="'h3'">
 	<ngx-icon [name]="'add-circle'" [ratio]="'1.3em'"></ngx-icon>
-	Створення продукту
+	Product creation
 </ng-title>
 
 @if(loaderState?.isLoaded && loaderState?.isError && !isFirstContentLoaded){
@@ -24,13 +24,13 @@
 			<div class="title">
 				<ngx-icon [name]="'info-circle'"
 				          [ratio]="'1.3em'"></ngx-icon>
-				<h3>Інформація про культуру</h3>
+				<h3>Information about culture</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="Name">Назва культури</label>
+					<label for="Name">Culture name</label>
 					
 					<input id="Name"
 					       [formControlName]="'Name'"
@@ -43,11 +43,10 @@
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="ScientificName">Узагальнене ім'я культури на латині</label>
+					<label for="ScientificName">The generalized name of the culture in Latin</label>
 					
 					<input id="ScientificName"
 					       [formControlName]="'ScientificName'"
-					       
 					       autocomplete="on"
 					       customInput
 					       type="text">
@@ -56,11 +55,10 @@
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="Variety">Сорт рослин</label>
+					<label for="Variety">Plant variety</label>
 					
 					<input id="Variety"
 					       [formControlName]="'Variety'"
-					       
 					       autocomplete="on"
 					       customInput
 					       type="text">
@@ -69,11 +67,10 @@
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="SeedType">Тип насіння (органічне, гібридне тощо)</label>
+					<label for="SeedType">Seed type (organic, hybrid, etc.)</label>
 					
 					<input id="SeedType"
 					       [formControlName]="'SeedType'"
-					       
 					       autocomplete="on"
 					       customInput
 					       type="text">
@@ -85,13 +82,13 @@
 			<div class="title">
 				<ngx-icon [name]="'notebook-bookmark'"
 				          [ratio]="'1.3em'"></ngx-icon>
-				<h3>Партія та терміни</h3>
+				<h3>Party and terms</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="BatchNumber">Номер партії</label>
+					<label for="BatchNumber">Batch number</label>
 					
 					<input id="BatchNumber"
 					       [formControlName]="'BatchNumber'"
@@ -103,7 +100,7 @@
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="HarvestDate">Дата виготовлення (збирання)</label>
+					<label for="HarvestDate">Date of manufacture (assembly)</label>
 					
 					<input id="HarvestDate"
 					       [formControlName]="'HarvestDate'"
@@ -115,7 +112,7 @@
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="ExpiryDate">Термін придатності</label>
+					<label for="ExpiryDate">Expiration date</label>
 					
 					<input id="ExpiryDate"
 					       [formControlName]="'ExpiryDate'"
@@ -130,17 +127,16 @@
 			<div class="title">
 				<ngx-icon [name]="'bug'"
 				          [ratio]="'1.3em'"></ngx-icon>
-				<h3>Характеристики насіння</h3>
+				<h3>Seed characteristics</h3>
 			</div>
 			<div class="fields-container fx-row fx-wrap">
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="StorageConditions">Умови зберігання насіння</label>
+					<label for="StorageConditions">Seed storage conditions</label>
 					
 					<input id="StorageConditions"
 					       [formControlName]="'StorageConditions'"
-					       
 					       autocomplete="on"
 					       customInput
 					       type="text">
@@ -149,11 +145,10 @@
 				<custom-input-field>
 					<ngx-icon [name]="'text-square-2'"
 					          [ratio]="'1em'"></ngx-icon>
-					<label for="AverageWeightThousandSeeds">Вага 1 тисячі насінин (в грамах)</label>
+					<label for="AverageWeightThousandSeeds">Weight of 1 thousand seeds (in grams)</label>
 					
 					<input id="AverageWeightThousandSeeds"
 					       [formControlName]="'AverageWeightThousandSeeds'"
-					       
 					       autocomplete="on"
 					       customInput
 					       type="text">
@@ -163,7 +158,7 @@
 					<ngx-icon [name]="'pin-list'"
 					          [ratio]="'1em'"></ngx-icon>
 					
-					<label>Обробка насіння</label>
+					<label>Seed treatment</label>
 					
 					<custom-selection-menu>
 						@for (item of allowedTreatmentTypes; track item) {
@@ -182,19 +177,19 @@
 			<div class="title">
 				<ngx-icon [name]="'diploma'"
 				          [ratio]="'1.3em'"></ngx-icon>
-				<h3>Сертифікація</h3>
+				<h3>Certification</h3>
 				<span class="red-checkmark">*</span>
 			</div>
 			
 			<div class="fields-container fx-row fx-wrap set-max-w">
 				<div class="selection-certs">
 					@for (item of allowedCerts; track item) {
-						<button class="fx-row selection-row"
+						<button class="fx-row selection-row cert-button"
 						        (click)="onSelectionCertHandler(item.control)"
 						        [type]="'button'">
 							<ng-checkbox [isAutoChangeValue]="false"
 							             [control]="item.control"></ng-checkbox>
-							<span>{{ item.certData.Name }} ({{ item.certData.Description }})</span>
+							<span class="allow-text-wrap">{{ item.certData.Name }} ({{ item.certData.Description }})</span>
 						</button>
 					}
 				</div>
@@ -206,7 +201,7 @@
 				<button [type]="'submit'"
 				        customBasicButton>
 					<ngx-icon [name]="'verified-check'"></ngx-icon>
-					Зберегти
+					Save
 				</button>
 			</div>
 		</div>

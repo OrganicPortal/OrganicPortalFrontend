@@ -74,7 +74,7 @@ export class RecoveryInitComponent extends LifeHooksFactory {
 
 	public onSubmit() {
 		if (!this.recoveryInitFg.valid) {
-			const message = "Форму заповнено не коректно"
+			const message = "The form was filled out incorrectly"
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}

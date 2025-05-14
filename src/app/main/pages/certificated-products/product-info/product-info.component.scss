@@ -24,6 +24,20 @@
 		text-align: center;
 	}
 	
+	.reflect-qr-container{
+		display: flex;
+		
+		border-radius: 5px;
+		box-shadow: var(--box-shadow-items);
+		
+		gap: .2rem;
+		--box-shadow-items: var(--shadow-color) 0px 2px 5px;
+		
+		.qr-sub-container{
+			box-shadow: unset !important;
+		}
+	}
+	
 	.large-gap {
 		gap: 1rem;
 	}

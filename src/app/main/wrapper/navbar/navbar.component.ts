@@ -57,14 +57,14 @@ export class NavbarComponent extends LifeHooksFactory {
 	public readonly menusCloseHandler$ = new Subject<void>()
 	public readonly navLinks: IHeaderLink[] = [
 		{
-			title: "Головна",
+			title: "Home",
 			href: "",
 			icon: "home-1",
 			children: [],
 			isAuthRequired: false
 		},
 		{
-			title: "Органічна карта",
+			title: "Organic map",
 			href: "organic-map",
 			icon: "map-point-rotate",
 			children: [],
@@ -72,7 +72,7 @@ export class NavbarComponent extends LifeHooksFactory {
 		},
 
 		{
-			title: "Продукція",
+			title: "Products",
 			href: "products",
 			icon: "cart-large-2",
 			isAuthRequired: false,
@@ -80,12 +80,12 @@ export class NavbarComponent extends LifeHooksFactory {
 		},
 
 		{
-			title: "Про органіку",
+			title: "About",
 			icon: "book-bookmark",
 			isAuthRequired: false,
 			children: [
 				{
-					title: "Органічні технології",
+					title: "Organic technologies",
 					href: "/organic/recommendations",
 					icon: "shield-star",
 					children: [],
@@ -93,14 +93,14 @@ export class NavbarComponent extends LifeHooksFactory {
 				},
 
 				{
-					title: "Історія розвитку",
+					title: "Development history",
 					href: "/organic/history-of-development",
 					icon: "history-2",
 					isAuthRequired: false
 				},
 
 				{
-					title: "Законодавство",
+					title: "Legislation",
 					href: "/organic/legislation",
 					icon: "medal-star-circle",
 					isAuthRequired: false

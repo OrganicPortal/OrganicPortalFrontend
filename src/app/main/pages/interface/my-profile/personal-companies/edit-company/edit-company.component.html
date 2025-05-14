@@ -10,7 +10,7 @@
 
 <ng-template #invalidCompanyId>
 	<error-loading-page
-					[message]="'Не вдалося отримати дані. \n Вказано некоректний ідентифікатор компанії'"></error-loading-page>
+					[message]="'Failed to retrieve data. \n Invalid company ID specified'"></error-loading-page>
 </ng-template>
 
 <ng-template #validCompanyId>
@@ -45,7 +45,7 @@
 			   matRipple>
 				<ngx-icon [name]="'alt-arrow-left'"
 				          [ratio]="'1em'"></ngx-icon>
-				<span>Назад</span>
+				<span>Back</span>
 			</a>
 		</div>
 		
@@ -62,7 +62,7 @@
 						<ngx-icon [name]="'document-add'"
 						          [ratio]="'1em'"></ngx-icon>
 						<span>
-					Загальна інформація про компанію
+					General information about the company
 					<span class="red-checkmark">*</span>
 				</span>
 					</h3>
@@ -72,7 +72,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="name">Назва установи</label>
+						<label for="name">Name of institution</label>
 						
 						<textarea id="name"
 						          [formControlName]="'Name'"
@@ -84,7 +84,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="registration-number">Номер в Держ. реєстрі</label>
+						<label for="registration-number">State Register Number</label>
 						
 						<textarea id="registration-number"
 						          [formControlName]="'RegistrationNumber'"
@@ -99,7 +99,7 @@
 						<ngx-icon [name]="'pin-list'"
 						          [ratio]="'1em'"></ngx-icon>
 						
-						<label>Юридичний статус</label>
+						<label>Legal status</label>
 						
 						<custom-selection-menu>
 							@for (item of legalTypeList; track item) {
@@ -116,7 +116,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="establishment-date">Дата заснування</label>
+						<label for="establishment-date">Date of foundation</label>
 						
 						<input id="establishment-date"
 						       [formControlName]="'EstablishmentDate'"
@@ -136,7 +136,7 @@
 						<ngx-icon [name]="'danger'"
 						          [ratio]="'1em'"></ngx-icon>
 						<span>
-					Деталі та опис
+					Details and description
 					<span class="red-checkmark">*</span>
 				</span>
 					</h3>
@@ -146,7 +146,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="description">Опис</label>
+						<label for="description">Description</label>
 						
 						<textarea id="description"
 						          [formControlName]="'Description'"
@@ -160,7 +160,7 @@
 					<custom-input-field>
 						<ngx-icon [name]="'text-square-2'"
 						          [ratio]="'1em'"></ngx-icon>
-						<label for="address">Адреса установи</label>
+						<label for="address">Institution address</label>
 						
 						<textarea id="address"
 						          [formControlName]="'Address'"
@@ -182,7 +182,7 @@
 						<ngx-icon [name]="'phone-calling-rounded'"
 						          [ratio]="'1em'"></ngx-icon>
 						<span>
-					Контактні відомості установи
+					Institution contact information
 					<span class="red-checkmark">*</span>
 						</span>
 					</h3>
@@ -195,7 +195,7 @@
 						        matRipple>
 							<ngx-icon [name]="'pen'"
 							          [ratio]="'1em'"></ngx-icon>
-							<span>Додати ще</span>
+							<span>Add more</span>
 						</button>
 					}
 				</div>
@@ -209,7 +209,7 @@
 								<ngx-icon [name]="'pin-list'"
 								          [ratio]="'1em'"></ngx-icon>
 								
-								<label>Тип контакту</label>
+								<label>Contact type</label>
 								
 								<custom-selection-menu>
 									@for (item2 of allowedContactTypes; track item2) {
@@ -226,7 +226,7 @@
 							<custom-input-field>
 								<ngx-icon [name]="'phone-calling'"
 								          [ratio]="'1em'"></ngx-icon>
-								<label [for]="'contact-' + idx">Номер телефону</label>
+								<label [for]="'contact-' + idx">Phone number</label>
 								
 								<input [id]="'contact-' + idx"
 								       [formControlName]="'Contact'"
@@ -239,7 +239,7 @@
 								<button customRaisedButton
 								        (click)="onRemoveContactFromForm(idx)"
 								        class="ratio-1-1 drop-field-btn"
-								        [matTooltip]="'Видалити'"
+								        [matTooltip]="'Delete'"
 								        [type]="'button'"
 								        [isRounded]="true"
 								        matRipple>
@@ -260,7 +260,7 @@
 					<h3 class="component-title">
 						<ngx-icon [name]="'palette-round'"
 						          [ratio]="'1em'"></ngx-icon>
-						Категорії аграрної діяльності
+						Categories of agricultural activity
 					</h3>
 				</div>
 				
@@ -285,14 +285,14 @@
 									[type]="'submit'"
 									customBasicButton>
 						<ngx-icon [name]="'verified-check'"></ngx-icon>
-						Зберегти
+						Save
 					</button>
 				}
 			</div>
 		</form>
 	} @else {
 		<error-loading-page
-						[message]="'Відсутні дані для перегляду'"></error-loading-page>
+						[message]="'No data to view.'"></error-loading-page>
 	}
 	
 	@if (!updateContentLoaderState?.isLoaded) {

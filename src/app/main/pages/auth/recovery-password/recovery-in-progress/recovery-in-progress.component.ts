@@ -219,7 +219,7 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 	 */
 	public onSendCode(isAllowedToRenew: boolean | null) {
 		if (!isAllowedToRenew) {
-			let message = `Спробуйте пізніше`
+			const message = `Try again later`
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}
@@ -237,7 +237,7 @@ export class RecoveryInProgressComponent extends LifeHooksFactory {
 	 */
 	public onSubmit() {
 		if (!this.confirmationFg.valid) {
-			let message = `Форму заповнено не коректно`
+			let message = `The form was filled out incorrectly`
 			this._ngShortMessageService.onInitMessage(message, "info-circle")
 			return
 		}

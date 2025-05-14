@@ -7,9 +7,9 @@ import {AllowedHttpContextTokens} from "../../../../../addons/services/http-inte
 @Injectable()
 export class SeedManagementService {
 	public readonly allowedTreatmentTypes: TreatmentTypeModel[] = [
-		new TreatmentTypeModel("Не вказано", "close-circle", AllowedTreatmentTypes.Uncnown),
-		new TreatmentTypeModel("Оброблено", "pills-3", AllowedTreatmentTypes.Treated),
-		new TreatmentTypeModel("Не оброблено", "quit-full-screen", AllowedTreatmentTypes.Untreated)
+		new TreatmentTypeModel("Not specified", "close-circle", AllowedTreatmentTypes.Uncnown),
+		new TreatmentTypeModel("Processed", "pills-3", AllowedTreatmentTypes.Treated),
+		new TreatmentTypeModel("Not processed", "quit-full-screen", AllowedTreatmentTypes.Untreated)
 	]
 
 	constructor(

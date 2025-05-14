@@ -82,7 +82,7 @@ export class RegistrationComponent extends LifeHooksFactory {
 
 	public onSubmit() {
 		if (this.registrationForm.invalid) {
-			this._ngShortMessageService.onInitMessage("Форму заповнено не коректно", "close-circle")
+			this._ngShortMessageService.onInitMessage("The form was filled out incorrectly", "close-circle")
 			return
 		}
 

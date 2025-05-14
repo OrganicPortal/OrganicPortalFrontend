@@ -58,23 +58,23 @@ import {textFramesSideIn} from "../../../../addons/animations/shared.animations"
 export class HomeComponent extends LifeHooksFactory {
 	public readonly opportunitiesInfo: OpportunitiesModel[] = [
 		new OpportunitiesModel(
-			"ПРИДАТНІСТЬ ДО ОРГАНІКИ",
-			"Наша система аналізує агрохімічні показники земельної ділянки і вказує наскільки придатна вона до органічного землевиробництва"
+			"Suitability for Organics",
+			"Our system analyzes the agrochemical indicators of the land plot and indicates how suitable it is for organic farming."
 		),
 
 		new OpportunitiesModel(
-			"ПРАВИЛА СЕРТИФІКАЦІЇ",
-			"Врахувавши ряд факторів, ми можемо підказати скільки коштів вам потрібно витратити для переходу до органічного землеробства"
+			"Certification Rules",
+			"Considering a number of factors, we can suggest how much money you need to spend to transition to organic farming."
 		),
 
 		new OpportunitiesModel(
-			"ЕКОНОМІЧНА ЕФЕКТИВНІСТЬ",
-			"Ми зібрали всю необхідну документацію для проходження сертифікації. Отримання сертифікату відкриває двері до нового ринку збуту"
+			"Economic Efficiency",
+			"We have gathered all the necessary documentation for certification. Obtaining the certificate opens the door to a new market."
 		),
 
 		new OpportunitiesModel(
-			"ПЕРЕРОБКА ТА ЗБУТ",
-			"Експерти нададуть інформацію про рекомендовані с/г культури, перехідний період, технології вирощування, заготівлі та переробки"
+			"Processing and Sales",
+			"Experts will provide information on recommended crops, the transition period, cultivation technologies, harvesting, and processing."
 		)
 	]
 
