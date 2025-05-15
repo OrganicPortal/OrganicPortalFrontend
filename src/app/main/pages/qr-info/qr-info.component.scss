@@ -2,7 +2,6 @@
 	display: flex;
 	position: fixed;
 	z-index: 99;
-	padding: 1rem;
 	top: 0;
 	left: 0;
 	overflow: auto;
@@ -11,24 +10,26 @@
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
-	
 	background-color: var(--color-palette-4);
 	border-radius: 5px;
 	
 	--border-color: color-mix(in srgb, transparent, var(--gray-2) 80%);
 	--shadow-color: rgba(94, 122, 177, 0.25);
 	--box-shadow-items: var(--shadow-color) 0px 2px 5px;
+	padding: 1rem;
 	
 	.container{
 		display: flex;
 		flex-direction: column;
+		box-sizing: border-box;
 		
 		justify-content: center;
 		padding: 1rem;
 		border-radius: 5px;
-		min-width: min(calc(75vw - 1.5rem), 400px);
-		max-width: min(calc(75vw - 1.5rem), 400px);
+		min-width: min(calc(95vw - 1.5rem), 400px);
+		max-width: min(calc(95vw - 1.5rem), 400px);
 		box-shadow: var(--box-shadow-items);
+		margin-bottom: 25px;
 	}
 	
 	.desc {
@@ -145,6 +146,7 @@
 	
 	.viewport-content {
 		display: flex;
+		box-sizing: border-box;
 		flex: 1 1;
 		
 		flex-direction: column;
